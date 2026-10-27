@@ -1,0 +1,126 @@
+number,full_name,gender,canton,party,re_elected,election_date,left_office_date
+1,Jonas Furrer,male,Zürich,freis.,yes,16 November 1848,25 July 1861
+2,Ulrich Ochsenbein,male,Bern,freis.,no,16 November 1848,6 December 1854
+3,Henri Druey,male,Waadt,freis.,yes,16 November 1848,29 March 1855
+4,Josef Munzinger,male,Solothurn,freis.,yes,16 November 1848,6 February 1855
+5,Stefano Franscini,male,Tessin,freis.,yes,16 November 1848,19 July 1857
+6,Friedrich Frey-Herosé,male,Aargau,freis.,yes,16 November 1848,31 December 1866
+7,Wilhelm Matthias Naeff,male,St. Gallen,freis.,yes,16 November 1848,31 December 1875
+8,Jakob Stämpfli,male,Bern,freis.,yes,6 December 1854,31 December 1863
+9,Constant Fornerod,male,Waadt,freis.,yes,11 July 1855,31 October 1867
+10,Josef Martin Knüsel,male,Luzern,freis.,yes,14 July 1855,31 December 1875
+11,Giovanni Battista Pioda,male,Tessin,freis.,yes,30 July 1857,26 January 1864
+12,Jakob Dubs,male,Zürich,freis.,yes,30 July 1861,28 May 1872
+13,Karl Schenk,male,Bern,freis.,yes,12 December 1863,18 July 1895
+14,Jean-Jacques Challet-Venel,male,Genf,freis.,no,12 July 1864,7 December 1872
+15,Emil Welti,male,Aargau,freis.,yes,8 December 1866,31 December 1891
+16,Victor Ruffy,male,Waadt,freis.,yes,6 December 1867,29 December 1869
+17,Paul Cérésole,male,Waadt,freis.,yes,1 February 1870,31 December 1875
+18,Johann Jakob Scherer,male,Zürich,freis.,yes,12 July 1872,23 December 1878
+19,Eugène Borel,male,Neuenburg,freis.,yes,7 December 1872,31 December 1875
+20,Joachim Heer,male,Glarus,freis.,yes,10 December 1875,31 December 1878
+21,Fridolin Anderwert,male,Thurgau,freis.,yes,10 December 1875,25 December 1880
+22,Bernhard Hammer,male,Solothurn,freis.,yes,10 December 1875,31 December 1890
+23,Numa Droz,male,Neuenburg,freis.,yes,18 December 1875,18 December 1892
+24,Simeon Bavier,male,Graubünden,freis.,yes,10 December 1878,5 January 1883
+25,Wilhelm Hertenstein,male,Zürich,freis.,yes,21 March 1879,27 November 1888
+26,Louis Ruchonnet,male,Waadt,freis.,yes,3 March 1881,14 September 1893
+27,Adolf Deucher,male,Thurgau,FDP,yes,10 April 1883,10 July 1912
+28,Walter Hauser,male,Zürich,FDP,yes,13 December 1888,22 October 1902
+29,Emil Frey,male,Basel-Landschaft,FDP,yes,11 December 1890,11 March 1897
+30,Josef Zemp,male,Luzern,kath.-kons.,yes,17 December 1891,17 June 1908
+31,Adrien Lachenal,male,Genf,FDP,yes,15 December 1892,31 December 1899
+32,Eugène Ruffy,male,Waadt,FDP,yes,14 December 1893,31 October 1899
+33,Eduard Müller,male,Bern,FDP,yes,16 August 1895,9 November 1919
+34,Ernst Brenner,male,Basel-Stadt,FDP,yes,25 March 1897,11 March 1911
+35,Robert Comtesse,male,Neuenburg,FDP,yes,14 December 1899,4 March 1912
+36,Marc Ruchet,male,Waadt,FDP,yes,14 December 1899,9 July 1912
+37,Ludwig Forrer,male,Zürich,FDP,yes,11 December 1902,7 December 1917
+38,Josef Anton Schobinger,male,Luzern,kath.-kons.,yes,17 June 1908,27 November 1911
+39,Arthur Hoffmann,male,St. Gallen,FDP,yes,4 April 1911,19 June 1917
+40,Giuseppe Motta,male,Tessin,SKVP,yes,14 December 1911,23 January 1940
+41,Louis Perrier,male,Neuenburg,FDP,yes,12 March 1912,16 May 1913
+42,Camille Decoppet,male,Waadt,FDP,yes,17 July 1912,7 November 1919
+43,Edmund Schulthess,male,Aargau,FDP,yes,17 July 1912,15 April 1935
+44,Felix Calonder,male,Graubünden,FDP,yes,12 June 1913,12 February 1920
+45,Gustave Ador,male,Genf,LP,yes,26 June 1917,31 December 1919
+46,Robert Haab,male,Zürich,FDP,yes,13 December 1917,31 December 1929
+47,Karl Scheurer,male,Bern,FDP,yes,11 December 1919,14 November 1929
+48,Ernest Chuard,male,Waadt,FDP,yes,11 December 1919,31 December 1928
+49,Jean-Marie Musy,male,Freiburg,SKVP,yes,11 December 1919,30 April 1934
+50,Heinrich Häberlin,male,Thurgau,FDP,yes,12 February 1920,12 March 1934
+51,Marcel Pilet-Golaz,male,Waadt,FDP,yes,13 December 1928,7 November 1944
+52,Rudolf Minger,male,Bern,BGB,yes,12 December 1929,31 December 1940
+53,Albert Meyer,male,Zürich,FDP,yes,12 December 1929,31 December 1938
+54,Johannes Baumann,male,Appenzell Ausserrhoden,FDP,yes,22 March 1934,31 December 1940
+55,Philipp Etter,male,Zug,SKVP,yes,28 March 1934,19 November 1959
+56,Hermann Obrecht,male,Solothurn,FDP,yes,4 April 1935,20 June 1940
+57,Ernst Wetter,male,Zürich,FDP,yes,15 December 1938,31 December 1943
+58,Enrico Celio,male,Tessin,SKVP,yes,22 February 1940,23 June 1950
+59,Walther Stampfli,male,Solothurn,FDP,yes,18 July 1940,18 November 1947
+60,Eduard von Steiger,male,Bern,BGB,yes,10 December 1940,9 November 1951
+61,Karl Kobelt,male,St. Gallen,FDP,yes,10 December 1940,5 November 1954
+62,Ernst Nobs,male,Zürich,SP,yes,15 December 1943,13 December 1951
+63,Max Petitpierre,male,Neuenburg,FDP,yes,14 December 1944,30 June 1961
+64,Rodolphe Rubattel,male,Waadt,FDP,yes,11 December 1947,1 November 1954
+65,Josef Escher,male,Wallis,SKVP,yes,14 September 1950,26 November 1954
+66,Markus Feldmann,male,Bern,BGB,yes,13 December 1951,3 November 1958
+67,Max Weber,male,Zürich,SP,yes,13 December 1951,8 December 1953
+68,Hans Streuli,male,Zürich,FDP,yes,22 December 1953,19 November 1959
+69,Thomas Holenstein,male,St. Gallen,KCVP,yes,16 December 1954,20 November 1959
+70,Paul Chaudet,male,Waadt,FDP,yes,16 December 1954,28 November 1966
+71,Giuseppe Lepori,male,Tessin,KCVP,yes,16 December 1954,24 November 1959
+72,Friedrich Traugott Wahlen,male,Bern,BGB,yes,11 December 1958,31 December 1965
+73,Jean Bourgknecht,male,Freiburg,KCVP,yes,17 December 1959,3 September 1962
+74,Willy Spühler,male,Zürich,SP,yes,17 December 1959,31 January 1970
+75,Ludwig von Moos,male,Obwalden,CVP,yes,17 December 1959,31 December 1971
+76,Hans-Peter Tschudi,male,Basel-Stadt,SP,yes,17 December 1959,31 December 1973
+77,Hans Schaffner,male,Aargau,FDP,yes,15 June 1961,31 December 1969
+78,Roger Bonvin,male,Wallis,CVP,yes,27 September 1962,31 December 1973
+79,Rudolf Gnägi,male,Bern,SVP,yes,8 December 1965,31 December 1979
+80,Nello Celio,male,Tessin,FDP,yes,15 December 1966,31 December 1973
+81,Ernst Brugger,male,Zürich,FDP,yes,10 December 1969,31 January 1978
+82,Pierre Graber,male,Neuenburg,SP,yes,10 December 1969,31 January 1978
+83,Kurt Furgler,male,St. Gallen,CVP,yes,8 December 1971,31 December 1986
+84,Willi Ritschard,male,Solothurn,SP,yes,5 December 1973,3 October 1983
+85,Hans Hürlimann,male,Zug,CVP,yes,5 December 1973,31 December 1982
+86,Georges-André Chevallaz,male,Waadt,FDP,yes,5 December 1973,31 December 1983
+87,Fritz Honegger,male,Zürich,FDP,yes,7 December 1977,31 December 1982
+88,Pierre Aubert,male,Neuenburg,SP,yes,7 December 1977,31 December 1987
+89,Leon Schlumpf,male,Graubünden,SVP,yes,5 December 1979,31 December 1987
+90,Alphons Egli,male,Luzern,CVP,yes,8 December 1982,31 December 1986
+91,Rudolf Friedrich,male,Zürich,FDP,yes,8 December 1982,20 October 1984
+92,Otto Stich,male,Solothurn,SP,yes,7 December 1983,31 October 1995
+93,Jean-Pascal Delamuraz,male,Waadt,FDP,yes,7 December 1983,30 March 1998
+94,Elisabeth Kopp,female,Zürich,FDP,yes,2 October 1984,12 January 1989
+95,Arnold Koller,male,Appenzell Innerrhoden,CVP,yes,10 December 1986,13 January 1999
+96,Flavio Cotti,male,Tessin,CVP,yes,10 December 1986,13 January 1999
+97,René Felber,male,Neuenburg,SP,yes,9 December 1987,31 March 1993
+98,Adolf Ogi,male,Bern,SVP,yes,9 December 1987,31 December 2000
+99,Kaspar Villiger,male,Luzern,FDP,yes,1 February 1989,31 December 2003
+100,Ruth Dreifuss,female,Genf,SP,yes,10 March 1993,31 December 2002
+101,Moritz Leuenberger,male,Zürich,SP,yes,27 September 1995,1 November 2010
+102,Pascal Couchepin,male,Wallis,FDP.Die Liberalen,yes,11 March 1998,31 October 2009
+103,Ruth Metzler-Arnold,female,Appenzell Innerrhoden,CVP,no,11 March 1999,31 December 2003
+104,Joseph Deiss,male,Freiburg,CVP,yes,11 March 1999,31 July 2006
+105,Samuel Schmid,male,Bern,"SVP
+BDP",yes,6 December 2000,31 December 2008
+106,Micheline Calmy-Rey,female,Genf,SP,yes,4 December 2002,31 December 2011
+107,Christoph Blocher,male,Zürich,SVP,no,10 December 2003,31 December 2007
+108,Hans-Rudolf Merz,male,Appenzell Ausserrhoden,FDP.Die Liberalen,yes,10 December 2003,1 November 2010
+109,Doris Leuthard,female,Aargau,CVP,yes,14 June 2006,31 December 2018
+110,Eveline Widmer-Schlumpf,female,Graubünden,"SVP
+BDP",yes,12 December 2007,31 December 2015
+111,Ueli Maurer,male,Zürich,SVP,yes,10 December 2008,31 December 2022
+112,Didier Burkhalter,male,Neuenburg,FDP.Die Liberalen,yes,16 September 2009,31 October 2017
+113,Simonetta Sommaruga,female,Bern,SP,yes,22 September 2010,31 December 2022
+114,Johann Schneider-Ammann,male,Bern,FDP.Die Liberalen,yes,22 September 2010,31 December 2018
+115,Alain Berset,male,Freiburg,SP,yes,14 December 2011,31 December 2023
+116,Guy Parmelin,male,Waadt,SVP,yes,9 December 2015,31 December 2026
+117,Ignazio Cassis,male,Tessin,FDP.Die Liberalen,yes,20 September 2017,
+118,Viola Amherd,female,Wallis,Die Mitte,yes,5 December 2018,31 March 2025
+119,Karin Keller-Sutter,female,St. Gallen,FDP.Die Liberalen,yes,5 December 2018,
+120,Albert Rösti,male,Bern,SVP,yes,7 December 2022,
+121,Elisabeth Baume-Schneider,female,Jura,SP,yes,7 December 2022,
+122,Beat Jans,male,Basel-Stadt,SP,yes,13 December 2023,
+123,Martin Pfister,male,Zug,Die Mitte,,12 March 2025,
