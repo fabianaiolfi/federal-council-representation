@@ -2,14 +2,23 @@
  * app.js — loads data/data.json, does the calculations (metrics.js) and
  * fills the page (index.html). All text comes from i18n.js.
  *
- * Flow:  loadData() -> computeModel() -> render*() functions
+ * Pattern (no framework needed at this size):
+ *   - `base`  : everything that never changes, computed once from the data
+ *   - `state` : what the user picked (successor gender per departing member)
+ *   - setup*(): build the page once
+ *   - update(): recompute the scenario from `state` and refresh the numbers
+ *               and bars. Called on start and on every change of `state`.
  */
 
 import { t, fmt, getLanguage } from "./i18n.js";
-import { overlap, toShares, bestPossible, inOfficeOn } from "./metrics.js";
+import { overlap, toShares, countByGender, inOfficeOn, withSuccessors } from "./metrics.js";
 
 const SEATS = 7; // constitutional size of the Federal Council (Art. 175 BV)
 const CATEGORIES = ["female", "male"]; // display order everywhere
+
+/** User choices: member number -> "today" | "female" | "male". */
+const state = { choices: {} };
+let base; // set in main()
 
 // Small helpers ------------------------------------------------------------------
 
@@ -36,6 +45,8 @@ function initials(name) {
   return (parts[0][0] + (parts.length > 1 ? parts[parts.length - 1][0] : "")).toUpperCase();
 }
 
+const prefersReducedMotion = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
 // Data & model ---------------------------------------------------------------------
 
 async function loadData() {
@@ -44,40 +55,48 @@ async function loadData() {
   return res.json();
 }
 
-/** Everything the page shows, calculated once from the raw data. */
-function computeModel(data, day) {
+/** The fixed part: current members, population shares, today's score. */
+function computeBase(data, day) {
   // Current members, ordered by seniority (earliest election first).
   const members = inOfficeOn(data.councillors, day).sort(
     (a, b) => a.electionDate.localeCompare(b.electionDate) || a.number - b.number
   );
 
-  const councilCounts = { female: 0, male: 0 };
-  for (const m of members) councilCounts[m.gender] += 1;
-
   const pop = data.population;
   const populationCounts = { female: pop.women, male: pop.men };
-
-  const p = toShares(councilCounts); // Council shares
-  const q = toShares(populationCounts); // population shares
+  const q = toShares(populationCounts);
 
   return {
     day,
     members,
-    councilCounts,
-    populationCounts,
+    // Members with a known leaving date: these seats can be "re-filled"
+    // in the scenario picker.
+    departures: members.filter((m) => m.leftOfficeDate),
     population: pop,
-    generated: data.generated,
-    p,
+    populationCounts,
     q,
-    score: overlap(p, q),
-    best: bestPossible(q, SEATS, "female", "male"),
+    todayScore: overlap(toShares(countByGender(members)), q),
+    generated: data.generated,
   };
 }
 
-// Rendering ----------------------------------------------------------------------
+/** The changing part: the Council after applying the user's choices. */
+function computeScenario(choices) {
+  const members = withSuccessors(base.members, choices);
+  const counts = countByGender(members);
+  const p = toShares(counts);
+  return {
+    counts,
+    p,
+    score: overlap(p, base.q),
+    isChanged: Object.values(choices).some((c) => c !== "today"),
+  };
+}
+
+// Setup: build the page once -----------------------------------------------------
 
 /** Fill every element that has a data-i18n="key" attribute. */
-function renderStaticText() {
+function setupStaticText() {
   document.documentElement.lang = getLanguage();
   document.title = t("pageTitle");
   document.querySelector('meta[name="description"]').content = t("pageDescription");
@@ -86,45 +105,10 @@ function renderStaticText() {
   }
 }
 
-/** A legend: coloured key + label for each category. */
-function renderLegend(listEl) {
-  listEl.replaceChildren(
-    ...CATEGORIES.map((c) => {
-      const li = el("li");
-      li.append(el("span", `key key-${c}`), document.createTextNode(t(c)));
-      return li;
-    })
-  );
-}
+function setupCouncil() {
+  $("council-subtitle").textContent = t("councilSubtitle", fmt.date(base.day));
 
-function renderScore(m) {
-  const score = fmt.pct(m.score);
-  const best = fmt.pct(m.best.score);
-
-  $("score-value").textContent = score;
-
-  // Meter: black fill up to the score, a tick at the best possible value.
-  $("meter-fill").style.width = `${m.score * 100}%`;
-  $("meter-tick").style.left = `${m.best.score * 100}%`;
-  $("meter-tick-label").textContent = t("scoreCeilingTick", best);
-  $("score-meter").setAttribute("aria-label", t("scoreMeterLabel", score, best));
-
-  $("score-ceiling").textContent = t(
-    "scoreCeiling",
-    best,
-    m.best.focusSeats,
-    SEATS - m.best.focusSeats,
-    SEATS
-  );
-}
-
-function renderCouncil(m) {
-  $("council-subtitle").textContent = t("councilSubtitle", fmt.date(m.day));
-  renderLegend($("council-legend"));
-
-  // One card per member. The coloured initials disc doubles as a unit chart:
-  // count the colours and you see the gender split at a glance.
-  const cards = m.members.map((c) => {
+  const cards = base.members.map((c) => {
     const li = el("li", "member");
     const avatar = el("span", `avatar avatar-${c.gender}`, initials(c.name));
     avatar.setAttribute("aria-hidden", "true");
@@ -136,147 +120,130 @@ function renderCouncil(m) {
       el("p", "member-meta", `${c.party} · ${c.canton}`),
       el("p", "member-meta", t("councilSince", gender, c.electionDate.slice(0, 4)))
     );
+    if (c.leftOfficeDate) {
+      body.append(el("p", "member-leaving", t("councilLeaving", fmt.dateShort(c.leftOfficeDate))));
+    }
     li.append(avatar, body);
     return li;
   });
   $("council-list").replaceChildren(...cards);
 
-  $("council-summary").textContent = t(
-    "councilSummary",
-    m.councilCounts.female,
-    m.councilCounts.male,
-    fmt.pct(m.p.female)
-  );
-
   // Safety net: if the CSV is not up to date (e.g. a successor is missing),
   // say so instead of silently comparing a 6-member Council.
   const warning = $("council-warning");
-  warning.hidden = m.members.length === SEATS;
-  if (!warning.hidden) warning.textContent = t("councilWarning", m.members.length);
-}
-
-function renderPopulation(m) {
-  $("population-subtitle").textContent = t("populationSubtitle", m.population.year);
-
-  const stats = CATEGORIES.map((c) => {
-    const box = el("div", "stat");
-    const label = el("p", "stat-label");
-    label.append(el("span", `key key-${c}`), document.createTextNode(t(c)));
-    box.append(
-      label,
-      el("p", "stat-value", fmt.pct(m.q[c])),
-      el("p", "stat-detail", t("populationPersons", fmt.int(m.populationCounts[c])))
-    );
-    return box;
-  });
-  $("population-stats").replaceChildren(...stats);
-
-  const total = m.populationCounts.female + m.populationCounts.male;
-  $("population-total").textContent = t("populationTotal", fmt.int(total));
+  warning.hidden = base.members.length === SEATS;
+  if (!warning.hidden) warning.textContent = t("councilWarning", base.members.length);
 }
 
 /**
- * Two aligned 100 % bars (Council vs population). Segments are sized with
- * flex-grow so the 2px gap between them never pushes the total past 100 %.
+ * Scenario picker: one radio group per departing member, styled as a
+ * segmented control. Radios keep it accessible (arrow keys, screen readers).
  */
-function renderComparison(m) {
-  renderLegend($("compare-legend"));
-
-  const rows = [
-    { label: t("compareCouncil"), shares: m.p, counts: m.councilCounts, unit: "seats" },
-    { label: t("comparePopulation"), shares: m.q, counts: m.populationCounts, unit: "people" },
+function setupScenarios() {
+  const options = [
+    { value: "today", label: t("scenarioToday") },
+    { value: "female", label: t("scenarioFemale") },
+    { value: "male", label: t("scenarioMale") },
   ];
 
-  const nodes = rows.map((row) => {
-    const wrap = el("div", "bar-row");
+  const groups = base.departures.map((m) => {
+    state.choices[m.number] = "today";
 
-    // Values above the bar, in black text: women left, men right.
-    const head = el("div", "bar-head");
-    head.append(el("span", "bar-name", row.label));
-    const values = el("span", "bar-values");
-    values.append(
-      el("span", null, `${t("female")} ${fmt.pct(row.shares.female)}`),
-      el("span", "sep", " · "),
-      el("span", null, `${t("male")} ${fmt.pct(row.shares.male)}`)
+    const fieldset = el("fieldset", "scenario");
+    fieldset.append(
+      el("legend", null, t("scenarioQuestion", m.name)),
+      el("p", "scenario-hint", t("councilLeaving", fmt.date(m.leftOfficeDate)))
     );
-    head.append(values);
+
+    const segmented = el("div", "segmented");
+    for (const o of options) {
+      const label = el("label");
+      const input = el("input");
+      input.type = "radio";
+      input.name = `successor-${m.number}`;
+      input.value = o.value;
+      input.checked = o.value === "today";
+      input.addEventListener("change", () => {
+        state.choices[m.number] = o.value;
+        update();
+      });
+      const text = el("span");
+      if (o.value !== "today") text.append(el("span", `key key-${o.value}`));
+      text.append(document.createTextNode(o.label));
+      label.append(input, text);
+      segmented.append(label);
+    }
+    fieldset.append(segmented);
+    return fieldset;
+  });
+  $("scenarios").replaceChildren(...groups);
+}
+
+/** A legend: coloured key + label for each category. */
+function setupLegend(listEl) {
+  listEl.replaceChildren(
+    ...CATEGORIES.map((c) => {
+      const li = el("li");
+      li.append(el("span", `key key-${c}`), document.createTextNode(t(c)));
+      return li;
+    })
+  );
+}
+
+/**
+ * Two aligned 100 % bars (Council vs population). The DOM is built once and
+ * only updated afterwards, so CSS can animate the segment widths.
+ * Segments are sized with flex-grow, so the 2px gap between them never
+ * pushes the total past 100 %.
+ */
+function setupBars() {
+  setupLegend($("compare-legend"));
+
+  const rows = ["council", "population"].map((key) => {
+    const row = el("div", "bar-row");
+    row.dataset.row = key;
+
+    const head = el("div", "bar-head");
+    head.append(el("span", "bar-name"), el("span", "bar-values"));
 
     const bar = el("div", "bar");
     for (const c of CATEGORIES) {
-      if (row.shares[c] === 0) continue;
       const seg = el("div", `seg seg-${c}`);
-      seg.style.flexGrow = row.shares[c];
+      seg.dataset.category = c;
       seg.tabIndex = 0;
-
-      // Tooltip content: value first, then what it is.
-      const total = row.counts.female + row.counts.male;
-      const detail =
-        row.unit === "seats"
-          ? t("tooltipOf", row.counts[c], total)
-          : t("populationPersons", fmt.int(row.counts[c]));
-      seg.dataset.value = fmt.pct(row.shares[c]);
-      seg.dataset.label = `${t(c)} · ${row.label}`;
-      seg.dataset.detail = detail;
-      seg.setAttribute("aria-label", `${seg.dataset.label}: ${seg.dataset.value}, ${detail}`);
       bar.append(seg);
     }
-
-    wrap.append(head, bar);
-    return wrap;
+    row.append(head, bar);
+    return row;
   });
-  $("compare-bars").replaceChildren(...nodes);
-
-  // Text summary of the gap (in percentage points) and in seats.
-  const diff = (m.p.female - m.q.female) * 100;
-  const direction = Math.abs(diff) < 0.05 ? 0 : Math.sign(diff);
-  $("compare-gap").textContent = t("compareGap", fmt.dec(Math.abs(diff)), direction);
-  $("compare-seats").textContent = t(
-    "compareSeats",
-    fmt.dec(m.q.female * SEATS),
-    SEATS,
-    m.councilCounts.female
-  );
+  $("compare-bars").replaceChildren(...rows);
 }
 
-function renderMethod(m) {
-  const tbody = document.querySelector("#method-table tbody");
-  const tfoot = document.querySelector("#method-table tfoot");
+/** Fill one bar row with shares, counts and tooltip texts. */
+function updateBarRow(key, name, shares, detailFor) {
+  const row = document.querySelector(`.bar-row[data-row="${key}"]`);
+  row.querySelector(".bar-name").textContent = name;
+  row.querySelector(".bar-values").textContent = CATEGORIES.map(
+    (c) => `${t(c)} ${fmt.pct(shares[c])}`
+  ).join(" · ");
 
-  tbody.replaceChildren(
-    ...CATEGORIES.map((c) => {
-      const tr = el("tr");
-      const th = el("th");
-      th.scope = "row";
-      th.append(el("span", `key key-${c}`), document.createTextNode(t(c)));
-      const lower = Math.min(m.p[c], m.q[c]);
-      tr.append(
-        th,
-        el("td", m.p[c] === lower ? "is-min" : null, fmt.pct(m.p[c])),
-        el("td", m.q[c] === lower ? "is-min" : null, fmt.pct(m.q[c])),
-        el("td", null, fmt.pct(lower))
-      );
-      return tr;
-    })
-  );
-
-  const total = el("tr");
-  const th = el("th", null, t("methodTotal"));
-  th.scope = "row";
-  th.colSpan = 3;
-  total.append(th, el("td", null, fmt.pct(m.score)));
-  tfoot.replaceChildren(total);
-
-  $("method-seats").textContent = t("methodSeats", SEATS, fmt.pct(1 / SEATS));
+  for (const seg of row.querySelectorAll(".seg")) {
+    const c = seg.dataset.category;
+    seg.hidden = shares[c] === 0;
+    seg.style.flexGrow = shares[c];
+    seg.dataset.value = fmt.pct(shares[c]);
+    seg.dataset.label = `${t(c)} · ${name}`;
+    seg.dataset.detail = detailFor(c);
+    seg.setAttribute("aria-label", `${seg.dataset.label}: ${seg.dataset.value}, ${seg.dataset.detail}`);
+  }
 }
 
-function renderFooter(m) {
+function setupFooter() {
   const link = $("source-population");
-  link.textContent = t("sourcePopulation", m.population.table);
-  link.href = m.population.url;
-  $("data-generated").textContent = t("dataGenerated", fmt.date(m.generated));
+  link.textContent = t("sourcePopulation", base.population.table);
+  link.href = base.population.url;
+  $("data-generated").textContent = t("dataGenerated", fmt.date(base.generated));
 }
-
-// Tooltip ------------------------------------------------------------------------
 
 /** One shared tooltip for all bar segments; works on hover and keyboard focus. */
 function setupTooltip() {
@@ -315,20 +282,81 @@ function setupTooltip() {
   window.addEventListener("scroll", hide, { passive: true });
 }
 
+// Update: runs on start and whenever the scenario changes -------------------------
+
+let shownScore = null; // the value currently displayed (mid-animation too)
+let scoreFrame = 0;
+
+/** Count the big number from its current value to `to` (0..1). */
+function animateScore(to) {
+  const node = $("score-value");
+  cancelAnimationFrame(scoreFrame);
+  const from = shownScore ?? to;
+  if (from === to || prefersReducedMotion()) {
+    shownScore = to;
+    node.textContent = fmt.pct(to);
+    return;
+  }
+  const start = performance.now();
+  const duration = 500; // ms
+  const step = (now) => {
+    const k = Math.min(1, (now - start) / duration);
+    const eased = 1 - Math.pow(1 - k, 3); // ease-out
+    shownScore = from + (to - from) * eased;
+    node.textContent = fmt.pct(shownScore);
+    if (k < 1) scoreFrame = requestAnimationFrame(step);
+  };
+  scoreFrame = requestAnimationFrame(step);
+}
+
+function update() {
+  const s = computeScenario(state.choices);
+
+  // Big number + change versus today
+  animateScore(s.score);
+  // (The line stays in the layout when empty, so the bars below don't jump.)
+  const delta = $("score-delta");
+  delta.textContent = "";
+  if (s.isChanged) {
+    const diff = (s.score - base.todayScore) * 100;
+    const direction = Math.abs(diff) < 0.05 ? 0 : Math.sign(diff);
+    delta.textContent = t("scoreDelta", fmt.dec(Math.abs(diff)), direction);
+  }
+
+  // Bars
+  const seats = s.counts.female + s.counts.male;
+  updateBarRow(
+    "council",
+    t(s.isChanged ? "compareCouncilScenario" : "compareCouncilToday"),
+    s.p,
+    (c) => t("tooltipOf", s.counts[c], seats)
+  );
+  updateBarRow(
+    "population",
+    t("comparePopulation", base.population.year),
+    base.q,
+    (c) => t("tooltipPersons", fmt.int(base.populationCounts[c]))
+  );
+
+  // Screen readers: announce the final result once (not every animation frame)
+  $("score-status").textContent = `${t("scoreLabel")}: ${fmt.pct(s.score)}${
+    s.isChanged ? `, ${delta.textContent}` : ""
+  }`;
+}
+
 // Start --------------------------------------------------------------------------
 
 async function main() {
-  renderStaticText();
+  setupStaticText();
   try {
     const data = await loadData();
-    const model = computeModel(data, todayIso());
-    renderScore(model);
-    renderCouncil(model);
-    renderPopulation(model);
-    renderComparison(model);
-    renderMethod(model);
-    renderFooter(model);
+    base = computeBase(data, todayIso());
+    setupCouncil();
+    setupScenarios();
+    setupBars();
+    setupFooter();
     setupTooltip();
+    update();
   } catch (err) {
     console.error(err);
     const box = $("load-error");

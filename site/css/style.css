@@ -14,7 +14,8 @@
   --ink: #0b0b0b;          /* primary text */
   --ink-2: #52514e;        /* secondary text */
   --ink-3: #6f6e69;        /* muted labels */
-  --line: #e6e5e0;         /* hairlines, meter track */
+  --line: #e6e5e0;         /* hairlines */
+  --wash: #f3f3f1;         /* hover background */
 
   --female: #eb6834;       /* data colour 1 */
   --male: #2a78d6;         /* data colour 2 */
@@ -22,6 +23,7 @@
   --font: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   --max: 56rem;            /* content width */
   --gutter: clamp(1.25rem, 5vw, 2.5rem);
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 /* Base --------------------------------------------------------------------------- */
@@ -33,7 +35,6 @@
 
 html {
   -webkit-text-size-adjust: 100%;
-  scroll-behavior: smooth;
 }
 
 body {
@@ -71,11 +72,21 @@ p {
   margin: 0;
 }
 
+/* Text only for screen readers */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
 .page {
   max-width: var(--max);
   margin: 0 auto;
   padding-inline: var(--gutter);
-  padding-block: clamp(2.5rem, 8vw, 5rem) 3rem;
+  padding-bottom: 3rem;
   padding-top: max(clamp(2.5rem, 8vw, 5rem), env(safe-area-inset-top));
 }
 
@@ -98,86 +109,9 @@ h1 {
   text-wrap: balance;
 }
 
-.lead {
-  margin-top: 1.25rem;
-  font-size: clamp(1.0625rem, 2.2vw, 1.25rem);
-  color: var(--ink-2);
-  max-width: 40rem;
-}
-
-/* Headline score ------------------------------------------------------------------- */
-.score {
-  margin-top: clamp(3rem, 9vw, 5rem);
-  padding-block: clamp(2rem, 6vw, 3rem);
-  border-block: 1px solid var(--ink);
-}
-
-.score-label {
-  font-weight: 600;
-}
-
-.score-value {
-  font-size: clamp(4.5rem, 19vw, 9rem);
-  font-weight: 700;
-  line-height: 1;
-  letter-spacing: -0.04em;
-  margin-block: 0.5rem 1.5rem;
-}
-
-/* Meter: 0–100 %, black fill = score, tick = best possible with 7 seats */
-.meter {
-  padding-bottom: 1.75rem; /* room for the tick label */
-  margin-bottom: 1.25rem;
-}
-
-.meter-track {
-  position: relative;
-  height: 0.5rem;
-  background: var(--line);
-  border-radius: 999px;
-}
-
-.meter-fill {
-  height: 100%;
-  width: 0;
-  background: var(--ink);
-  border-radius: 999px;
-  transition: width 0.8s ease-out;
-}
-
-.meter-tick {
-  position: absolute;
-  top: -0.375rem;
-  bottom: -0.375rem;
-  width: 2px;
-  margin-left: -1px;
-  background: var(--ink);
-}
-
-.meter-tick-label {
-  position: absolute;
-  top: calc(100% + 0.35rem);
-  right: 0;
-  white-space: nowrap;
-  font-size: 0.8125rem;
-  color: var(--ink-2);
-}
-
-.score-explain,
-.score-ceiling {
-  color: var(--ink-2);
-  max-width: 38rem;
-}
-
-.score-link {
-  display: inline-block;
-  margin-top: 1rem;
-  font-weight: 600;
-}
-
 /* Sections ------------------------------------------------------------------------- */
 .block {
-  margin-top: clamp(3.5rem, 10vw, 6rem);
+  margin-top: clamp(3rem, 8vw, 4.5rem);
 }
 
 h2 {
@@ -192,36 +126,15 @@ h2 {
   font-size: 0.9375rem;
 }
 
-.summary {
-  margin-top: 1.25rem;
-  font-size: 1.125rem;
-}
-
 .warning,
 .load-error {
   margin-top: 1.25rem;
   padding: 0.75rem 1rem;
   border-left: 3px solid var(--ink);
-  background: #f5f5f3;
+  background: var(--wash);
 }
 
-/* Legend & colour keys ---------------------------------------------------------------- */
-.legend {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem 1.25rem;
-  list-style: none;
-  padding: 0;
-  margin: 1.25rem 0 0;
-  font-size: 0.9375rem;
-  color: var(--ink-2);
-}
-
-.legend li {
-  display: flex;
-  align-items: center;
-}
-
+/* Colour keys & legend --------------------------------------------------------------- */
 .key {
   display: inline-block;
   flex: none;
@@ -233,6 +146,22 @@ h2 {
 
 .key-female { background: var(--female); }
 .key-male { background: var(--male); }
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.25rem;
+  list-style: none;
+  padding: 0;
+  margin: 2rem 0 0;
+  font-size: 0.9375rem;
+  color: var(--ink-2);
+}
+
+.legend li {
+  display: flex;
+  align-items: center;
+}
 
 /* Federal Council cards --------------------------------------------------------------- */
 .council {
@@ -290,41 +219,125 @@ h2 {
   margin-top: 0.2rem;
 }
 
-/* Population ------------------------------------------------------------------------- */
-.stats {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 1rem clamp(1rem, 5vw, 3rem);
-  margin-top: 1.5rem;
+/* Small outlined badge, e.g. "Rücktritt per 31. Dezember 2026" */
+.member-leaving {
+  display: inline-block;
+  margin-top: 0.5rem;
+  padding: 0.05rem 0.55rem;
+  border: 1px solid var(--ink);
+  border-radius: 999px;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  white-space: nowrap;
 }
 
-.stat {
-  padding-top: 1rem;
+/* Scenario picker: radio buttons styled as a segmented control --------------------- */
+.scenario {
+  border: 0;
+  padding: 0;
+  margin: 1.5rem 0 0;
+  min-width: 0;
+}
+
+.scenario legend {
+  padding: 0;
+  font-weight: 600;
+  font-size: 1.125rem;
+}
+
+.scenario-hint {
+  margin-top: 0.1rem;
+  font-size: 0.9375rem;
+  color: var(--ink-3);
+}
+
+.segmented {
+  display: inline-flex;
+  max-width: 100%;
+  margin-top: 0.875rem;
+  padding: 3px;
+  gap: 2px;
+  border: 1px solid var(--ink);
+  border-radius: 999px;
+}
+
+.segmented label {
+  position: relative;
+  flex: 1 1 auto;
+  cursor: pointer;
+}
+
+/* The real radio sits invisibly on top of its label, so it stays clickable
+   and keyboard-accessible (arrow keys move between options). */
+.segmented input {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.segmented label > span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem 1.1rem;
+  border-radius: 999px;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  white-space: nowrap;
+  transition: background-color 0.15s, color 0.15s;
+}
+
+.segmented label:hover > span {
+  background: var(--wash);
+}
+
+.segmented input:checked + span {
+  background: var(--ink);
+  color: #fff;
+}
+
+.segmented input:focus-visible + span {
+  outline: 2px solid var(--ink);
+  outline-offset: 3px;
+}
+
+/* Score -------------------------------------------------------------------------------- */
+.score {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
   border-top: 1px solid var(--ink);
 }
 
-.stat-label {
-  display: flex;
-  align-items: center;
+.score-label {
   font-weight: 600;
 }
 
-.stat-value {
-  font-size: clamp(2.5rem, 10vw, 4rem);
+.score-value {
+  font-size: clamp(4rem, 17vw, 8rem);
   font-weight: 700;
-  line-height: 1.1;
-  letter-spacing: -0.03em;
-  margin-top: 0.25rem;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  margin-top: 0.5rem;
+  font-variant-numeric: tabular-nums; /* no jitter while the number counts */
 }
 
-.stat-detail {
-  color: var(--ink-2);
+.score-delta {
+  min-height: 1.6em;        /* reserve the line, so nothing jumps when it appears */
+  margin-top: 0.75rem;
+  font-size: 1.125rem;
+  font-weight: 600;
+}
+
+.score-caption {
   font-size: 0.9375rem;
+  color: var(--ink-3);
 }
 
 /* Comparison bars --------------------------------------------------------------------- */
 .bars {
-  margin-top: 1.5rem;
+  margin-top: 1.25rem;
   display: grid;
   gap: 1.75rem;
 }
@@ -347,10 +360,6 @@ h2 {
   font-variant-numeric: tabular-nums;
 }
 
-.bar-values .sep {
-  color: var(--ink-3);
-}
-
 .bar {
   display: flex;
   gap: 2px;                 /* white gap between segments */
@@ -361,12 +370,11 @@ h2 {
   flex-basis: 0;            /* width comes from flex-grow = share */
   min-width: 2px;
   cursor: default;
-  transition: opacity 0.15s;
+  transition: flex-grow 0.6s var(--ease), opacity 0.15s;
 }
 
 .seg:first-child { border-radius: 4px 0 0 4px; }
 .seg:last-child { border-radius: 0 4px 4px 0; }
-.seg:only-child { border-radius: 4px; }
 
 .seg-female { background: var(--female); }
 .seg-male { background: var(--male); }
@@ -401,89 +409,9 @@ h2 {
   color: var(--ink-3);
 }
 
-/* Method ------------------------------------------------------------------------------- */
-.method p {
-  max-width: 40rem;
-  margin-top: 1rem;
-}
-
-.method h2 + p {
-  margin-top: 1.25rem;
-}
-
-.formula {
-  font-size: clamp(1.25rem, 4vw, 1.625rem);
-  font-weight: 600;
-  padding-block: 0.75rem;
-}
-
-.method .formula-legend {
-  margin-top: 0;
-  font-size: 0.9375rem;
-  color: var(--ink-2);
-}
-
-.table-wrap {
-  overflow-x: auto;
-  margin-top: 1.75rem;
-}
-
-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-variant-numeric: tabular-nums;
-}
-
-caption {
-  text-align: left;
-  font-size: 0.9375rem;
-  color: var(--ink-3);
-  padding-bottom: 0.5rem;
-}
-
-th,
-td {
-  padding: 0.6rem 0.75rem 0.6rem 0;
-  border-bottom: 1px solid var(--line);
-  text-align: right;
-  white-space: nowrap;
-}
-
-th:first-child {
-  text-align: left;
-}
-
-thead th {
-  white-space: normal;      /* long headers may wrap on phones */
-  vertical-align: bottom;
-  font-size: 0.875rem;
-  font-weight: 600;
-  color: var(--ink-2);
-  border-bottom-color: var(--ink);
-}
-
-tbody th {
-  font-weight: 400;
-}
-
-tbody th .key {
-  vertical-align: -0.05em;
-}
-
-td.is-min {
-  font-weight: 700;         /* the value that counts towards the sum */
-}
-
-tfoot th,
-tfoot td {
-  font-weight: 700;
-  border-top: 1px solid var(--ink);
-  border-bottom: none;
-}
-
 /* Footer ------------------------------------------------------------------------------- */
 .footer {
-  margin-top: clamp(4rem, 12vw, 7rem);
+  margin-top: clamp(4rem, 12vw, 6rem);
   padding-top: 1.5rem;
   border-top: 1px solid var(--line);
   font-size: 0.875rem;
@@ -510,10 +438,20 @@ tfoot td {
   .member {
     padding: 0.875rem;
   }
+
+  .segmented {
+    display: flex;          /* full width, options share the space */
+  }
+
+  .segmented label > span {
+    padding-inline: 0.6rem;
+  }
 }
 
 /* Motion ---------------------------------------------------------------------------------- */
 @media (prefers-reduced-motion: reduce) {
-  html { scroll-behavior: auto; }
-  .meter-fill { transition: none; }
+  .seg,
+  .segmented label > span {
+    transition: none;
+  }
 }

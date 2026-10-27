@@ -34,29 +34,16 @@ export function toShares(counts) {
   return shares;
 }
 
-/**
- * Best score a body with `seats` seats can reach against population shares q
- * (two categories only: `focus` and `other`).
- *
- * With 7 seats the Council's shares move in steps of 1/7 ≈ 14.3 %, so it can
- * never match a 50.3 / 49.7 population exactly. Trying every possible split
- * gives the realistic ceiling against which the actual score can be read.
- *
- * Returns { score, focusSeats } for the best split.
- */
-export function bestPossible(q, seats, focus, other) {
-  let best = { score: -1, focusSeats: 0 };
-  for (let k = 0; k <= seats; k++) {
-    const p = { [focus]: k / seats, [other]: (seats - k) / seats };
-    const score = overlap(p, q);
-    if (score > best.score) best = { score, focusSeats: k };
-  }
-  return best;
+/** Count members per gender: [{gender:"male"}, …] -> { female: 2, male: 5 }. */
+export function countByGender(members) {
+  const counts = { female: 0, male: 0 };
+  for (const m of members) counts[m.gender] += 1;
+  return counts;
 }
 
 /**
  * Members in office on a given day: elected on or before that day and not yet
- * left (no leaving date, or leaving date later than the day).
+ * left (no leaving date, or leaving date on or after the day).
  * Dates are ISO strings ("2025-03-12"), which compare correctly as text.
  */
 export function inOfficeOn(councillors, isoDay) {
@@ -66,4 +53,17 @@ export function inOfficeOn(councillors, isoDay) {
       c.electionDate <= isoDay &&
       (!c.leftOfficeDate || c.leftOfficeDate >= isoDay)
   );
+}
+
+/**
+ * Scenario: replace departing members by successors of a chosen gender.
+ *
+ * `choices` maps a member's number to "today" (no change), "female" or
+ * "male", e.g. { 116: "female" }. Returns a new list; the input is unchanged.
+ */
+export function withSuccessors(members, choices) {
+  return members.map((m) => {
+    const choice = choices[m.number];
+    return choice && choice !== "today" ? { ...m, gender: choice, successor: true } : m;
+  });
 }
