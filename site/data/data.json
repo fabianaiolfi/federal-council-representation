@@ -1,0 +1,1121 @@
+{
+  "generated": "2026-10-27T09:19:55+00:00",
+  "population": {
+    "year": 2025,
+    "women": 4586802,
+    "men": 4540323,
+    "source": "Bundesamt für Statistik (BFS), STATPOP",
+    "table": "px-x-0102030000_101",
+    "tableTitle": "Ständige Wohnbevölkerung nach Geschlecht und Alter, 1860-2025",
+    "url": "https://www.pxweb.bfs.admin.ch/pxweb/de/px-x-0102030000_101/-/px-x-0102030000_101.px/"
+  },
+  "councillors": [
+    {
+      "number": 1,
+      "name": "Jonas Furrer",
+      "gender": "male",
+      "canton": "Zürich",
+      "party": "freis.",
+      "electionDate": "1848-11-16",
+      "leftOfficeDate": "1861-07-25"
+    },
+    {
+      "number": 2,
+      "name": "Ulrich Ochsenbein",
+      "gender": "male",
+      "canton": "Bern",
+      "party": "freis.",
+      "electionDate": "1848-11-16",
+      "leftOfficeDate": "1854-12-06"
+    },
+    {
+      "number": 3,
+      "name": "Henri Druey",
+      "gender": "male",
+      "canton": "Waadt",
+      "party": "freis.",
+      "electionDate": "1848-11-16",
+      "leftOfficeDate": "1855-03-29"
+    },
+    {
+      "number": 4,
+      "name": "Josef Munzinger",
+      "gender": "male",
+      "canton": "Solothurn",
+      "party": "freis.",
+      "electionDate": "1848-11-16",
+      "leftOfficeDate": "1855-02-06"
+    },
+    {
+      "number": 5,
+      "name": "Stefano Franscini",
+      "gender": "male",
+      "canton": "Tessin",
+      "party": "freis.",
+      "electionDate": "1848-11-16",
+      "leftOfficeDate": "1857-07-19"
+    },
+    {
+      "number": 6,
+      "name": "Friedrich Frey-Herosé",
+      "gender": "male",
+      "canton": "Aargau",
+      "party": "freis.",
+      "electionDate": "1848-11-16",
+      "leftOfficeDate": "1866-12-31"
+    },
+    {
+      "number": 7,
+      "name": "Wilhelm Matthias Naeff",
+      "gender": "male",
+      "canton": "St. Gallen",
+      "party": "freis.",
+      "electionDate": "1848-11-16",
+      "leftOfficeDate": "1875-12-31"
+    },
+    {
+      "number": 8,
+      "name": "Jakob Stämpfli",
+      "gender": "male",
+      "canton": "Bern",
+      "party": "freis.",
+      "electionDate": "1854-12-06",
+      "leftOfficeDate": "1863-12-31"
+    },
+    {
+      "number": 9,
+      "name": "Constant Fornerod",
+      "gender": "male",
+      "canton": "Waadt",
+      "party": "freis.",
+      "electionDate": "1855-07-11",
+      "leftOfficeDate": "1867-10-31"
+    },
+    {
+      "number": 10,
+      "name": "Josef Martin Knüsel",
+      "gender": "male",
+      "canton": "Luzern",
+      "party": "freis.",
+      "electionDate": "1855-07-14",
+      "leftOfficeDate": "1875-12-31"
+    },
+    {
+      "number": 11,
+      "name": "Giovanni Battista Pioda",
+      "gender": "male",
+      "canton": "Tessin",
+      "party": "freis.",
+      "electionDate": "1857-07-30",
+      "leftOfficeDate": "1864-01-26"
+    },
+    {
+      "number": 12,
+      "name": "Jakob Dubs",
+      "gender": "male",
+      "canton": "Zürich",
+      "party": "freis.",
+      "electionDate": "1861-07-30",
+      "leftOfficeDate": "1872-05-28"
+    },
+    {
+      "number": 13,
+      "name": "Karl Schenk",
+      "gender": "male",
+      "canton": "Bern",
+      "party": "freis.",
+      "electionDate": "1863-12-12",
+      "leftOfficeDate": "1895-07-18"
+    },
+    {
+      "number": 14,
+      "name": "Jean-Jacques Challet-Venel",
+      "gender": "male",
+      "canton": "Genf",
+      "party": "freis.",
+      "electionDate": "1864-07-12",
+      "leftOfficeDate": "1872-12-07"
+    },
+    {
+      "number": 15,
+      "name": "Emil Welti",
+      "gender": "male",
+      "canton": "Aargau",
+      "party": "freis.",
+      "electionDate": "1866-12-08",
+      "leftOfficeDate": "1891-12-31"
+    },
+    {
+      "number": 16,
+      "name": "Victor Ruffy",
+      "gender": "male",
+      "canton": "Waadt",
+      "party": "freis.",
+      "electionDate": "1867-12-06",
+      "leftOfficeDate": "1869-12-29"
+    },
+    {
+      "number": 17,
+      "name": "Paul Cérésole",
+      "gender": "male",
+      "canton": "Waadt",
+      "party": "freis.",
+      "electionDate": "1870-02-01",
+      "leftOfficeDate": "1875-12-31"
+    },
+    {
+      "number": 18,
+      "name": "Johann Jakob Scherer",
+      "gender": "male",
+      "canton": "Zürich",
+      "party": "freis.",
+      "electionDate": "1872-07-12",
+      "leftOfficeDate": "1878-12-23"
+    },
+    {
+      "number": 19,
+      "name": "Eugène Borel",
+      "gender": "male",
+      "canton": "Neuenburg",
+      "party": "freis.",
+      "electionDate": "1872-12-07",
+      "leftOfficeDate": "1875-12-31"
+    },
+    {
+      "number": 20,
+      "name": "Joachim Heer",
+      "gender": "male",
+      "canton": "Glarus",
+      "party": "freis.",
+      "electionDate": "1875-12-10",
+      "leftOfficeDate": "1878-12-31"
+    },
+    {
+      "number": 21,
+      "name": "Fridolin Anderwert",
+      "gender": "male",
+      "canton": "Thurgau",
+      "party": "freis.",
+      "electionDate": "1875-12-10",
+      "leftOfficeDate": "1880-12-25"
+    },
+    {
+      "number": 22,
+      "name": "Bernhard Hammer",
+      "gender": "male",
+      "canton": "Solothurn",
+      "party": "freis.",
+      "electionDate": "1875-12-10",
+      "leftOfficeDate": "1890-12-31"
+    },
+    {
+      "number": 23,
+      "name": "Numa Droz",
+      "gender": "male",
+      "canton": "Neuenburg",
+      "party": "freis.",
+      "electionDate": "1875-12-18",
+      "leftOfficeDate": "1892-12-18"
+    },
+    {
+      "number": 24,
+      "name": "Simeon Bavier",
+      "gender": "male",
+      "canton": "Graubünden",
+      "party": "freis.",
+      "electionDate": "1878-12-10",
+      "leftOfficeDate": "1883-01-05"
+    },
+    {
+      "number": 25,
+      "name": "Wilhelm Hertenstein",
+      "gender": "male",
+      "canton": "Zürich",
+      "party": "freis.",
+      "electionDate": "1879-03-21",
+      "leftOfficeDate": "1888-11-27"
+    },
+    {
+      "number": 26,
+      "name": "Louis Ruchonnet",
+      "gender": "male",
+      "canton": "Waadt",
+      "party": "freis.",
+      "electionDate": "1881-03-03",
+      "leftOfficeDate": "1893-09-14"
+    },
+    {
+      "number": 27,
+      "name": "Adolf Deucher",
+      "gender": "male",
+      "canton": "Thurgau",
+      "party": "FDP",
+      "electionDate": "1883-04-10",
+      "leftOfficeDate": "1912-07-10"
+    },
+    {
+      "number": 28,
+      "name": "Walter Hauser",
+      "gender": "male",
+      "canton": "Zürich",
+      "party": "FDP",
+      "electionDate": "1888-12-13",
+      "leftOfficeDate": "1902-10-22"
+    },
+    {
+      "number": 29,
+      "name": "Emil Frey",
+      "gender": "male",
+      "canton": "Basel-Landschaft",
+      "party": "FDP",
+      "electionDate": "1890-12-11",
+      "leftOfficeDate": "1897-03-11"
+    },
+    {
+      "number": 30,
+      "name": "Josef Zemp",
+      "gender": "male",
+      "canton": "Luzern",
+      "party": "kath.-kons.",
+      "electionDate": "1891-12-17",
+      "leftOfficeDate": "1908-06-17"
+    },
+    {
+      "number": 31,
+      "name": "Adrien Lachenal",
+      "gender": "male",
+      "canton": "Genf",
+      "party": "FDP",
+      "electionDate": "1892-12-15",
+      "leftOfficeDate": "1899-12-31"
+    },
+    {
+      "number": 32,
+      "name": "Eugène Ruffy",
+      "gender": "male",
+      "canton": "Waadt",
+      "party": "FDP",
+      "electionDate": "1893-12-14",
+      "leftOfficeDate": "1899-10-31"
+    },
+    {
+      "number": 33,
+      "name": "Eduard Müller",
+      "gender": "male",
+      "canton": "Bern",
+      "party": "FDP",
+      "electionDate": "1895-08-16",
+      "leftOfficeDate": "1919-11-09"
+    },
+    {
+      "number": 34,
+      "name": "Ernst Brenner",
+      "gender": "male",
+      "canton": "Basel-Stadt",
+      "party": "FDP",
+      "electionDate": "1897-03-25",
+      "leftOfficeDate": "1911-03-11"
+    },
+    {
+      "number": 35,
+      "name": "Robert Comtesse",
+      "gender": "male",
+      "canton": "Neuenburg",
+      "party": "FDP",
+      "electionDate": "1899-12-14",
+      "leftOfficeDate": "1912-03-04"
+    },
+    {
+      "number": 36,
+      "name": "Marc Ruchet",
+      "gender": "male",
+      "canton": "Waadt",
+      "party": "FDP",
+      "electionDate": "1899-12-14",
+      "leftOfficeDate": "1912-07-09"
+    },
+    {
+      "number": 37,
+      "name": "Ludwig Forrer",
+      "gender": "male",
+      "canton": "Zürich",
+      "party": "FDP",
+      "electionDate": "1902-12-11",
+      "leftOfficeDate": "1917-12-07"
+    },
+    {
+      "number": 38,
+      "name": "Josef Anton Schobinger",
+      "gender": "male",
+      "canton": "Luzern",
+      "party": "kath.-kons.",
+      "electionDate": "1908-06-17",
+      "leftOfficeDate": "1911-11-27"
+    },
+    {
+      "number": 39,
+      "name": "Arthur Hoffmann",
+      "gender": "male",
+      "canton": "St. Gallen",
+      "party": "FDP",
+      "electionDate": "1911-04-04",
+      "leftOfficeDate": "1917-06-19"
+    },
+    {
+      "number": 40,
+      "name": "Giuseppe Motta",
+      "gender": "male",
+      "canton": "Tessin",
+      "party": "SKVP",
+      "electionDate": "1911-12-14",
+      "leftOfficeDate": "1940-01-23"
+    },
+    {
+      "number": 41,
+      "name": "Louis Perrier",
+      "gender": "male",
+      "canton": "Neuenburg",
+      "party": "FDP",
+      "electionDate": "1912-03-12",
+      "leftOfficeDate": "1913-05-16"
+    },
+    {
+      "number": 42,
+      "name": "Camille Decoppet",
+      "gender": "male",
+      "canton": "Waadt",
+      "party": "FDP",
+      "electionDate": "1912-07-17",
+      "leftOfficeDate": "1919-11-07"
+    },
+    {
+      "number": 43,
+      "name": "Edmund Schulthess",
+      "gender": "male",
+      "canton": "Aargau",
+      "party": "FDP",
+      "electionDate": "1912-07-17",
+      "leftOfficeDate": "1935-04-15"
+    },
+    {
+      "number": 44,
+      "name": "Felix Calonder",
+      "gender": "male",
+      "canton": "Graubünden",
+      "party": "FDP",
+      "electionDate": "1913-06-12",
+      "leftOfficeDate": "1920-02-12"
+    },
+    {
+      "number": 45,
+      "name": "Gustave Ador",
+      "gender": "male",
+      "canton": "Genf",
+      "party": "LP",
+      "electionDate": "1917-06-26",
+      "leftOfficeDate": "1919-12-31"
+    },
+    {
+      "number": 46,
+      "name": "Robert Haab",
+      "gender": "male",
+      "canton": "Zürich",
+      "party": "FDP",
+      "electionDate": "1917-12-13",
+      "leftOfficeDate": "1929-12-31"
+    },
+    {
+      "number": 47,
+      "name": "Karl Scheurer",
+      "gender": "male",
+      "canton": "Bern",
+      "party": "FDP",
+      "electionDate": "1919-12-11",
+      "leftOfficeDate": "1929-11-14"
+    },
+    {
+      "number": 48,
+      "name": "Ernest Chuard",
+      "gender": "male",
+      "canton": "Waadt",
+      "party": "FDP",
+      "electionDate": "1919-12-11",
+      "leftOfficeDate": "1928-12-31"
+    },
+    {
+      "number": 49,
+      "name": "Jean-Marie Musy",
+      "gender": "male",
+      "canton": "Freiburg",
+      "party": "SKVP",
+      "electionDate": "1919-12-11",
+      "leftOfficeDate": "1934-04-30"
+    },
+    {
+      "number": 50,
+      "name": "Heinrich Häberlin",
+      "gender": "male",
+      "canton": "Thurgau",
+      "party": "FDP",
+      "electionDate": "1920-02-12",
+      "leftOfficeDate": "1934-03-12"
+    },
+    {
+      "number": 51,
+      "name": "Marcel Pilet-Golaz",
+      "gender": "male",
+      "canton": "Waadt",
+      "party": "FDP",
+      "electionDate": "1928-12-13",
+      "leftOfficeDate": "1944-11-07"
+    },
+    {
+      "number": 52,
+      "name": "Rudolf Minger",
+      "gender": "male",
+      "canton": "Bern",
+      "party": "BGB",
+      "electionDate": "1929-12-12",
+      "leftOfficeDate": "1940-12-31"
+    },
+    {
+      "number": 53,
+      "name": "Albert Meyer",
+      "gender": "male",
+      "canton": "Zürich",
+      "party": "FDP",
+      "electionDate": "1929-12-12",
+      "leftOfficeDate": "1938-12-31"
+    },
+    {
+      "number": 54,
+      "name": "Johannes Baumann",
+      "gender": "male",
+      "canton": "Appenzell Ausserrhoden",
+      "party": "FDP",
+      "electionDate": "1934-03-22",
+      "leftOfficeDate": "1940-12-31"
+    },
+    {
+      "number": 55,
+      "name": "Philipp Etter",
+      "gender": "male",
+      "canton": "Zug",
+      "party": "SKVP",
+      "electionDate": "1934-03-28",
+      "leftOfficeDate": "1959-11-19"
+    },
+    {
+      "number": 56,
+      "name": "Hermann Obrecht",
+      "gender": "male",
+      "canton": "Solothurn",
+      "party": "FDP",
+      "electionDate": "1935-04-04",
+      "leftOfficeDate": "1940-06-20"
+    },
+    {
+      "number": 57,
+      "name": "Ernst Wetter",
+      "gender": "male",
+      "canton": "Zürich",
+      "party": "FDP",
+      "electionDate": "1938-12-15",
+      "leftOfficeDate": "1943-12-31"
+    },
+    {
+      "number": 58,
+      "name": "Enrico Celio",
+      "gender": "male",
+      "canton": "Tessin",
+      "party": "SKVP",
+      "electionDate": "1940-02-22",
+      "leftOfficeDate": "1950-06-23"
+    },
+    {
+      "number": 59,
+      "name": "Walther Stampfli",
+      "gender": "male",
+      "canton": "Solothurn",
+      "party": "FDP",
+      "electionDate": "1940-07-18",
+      "leftOfficeDate": "1947-11-18"
+    },
+    {
+      "number": 60,
+      "name": "Eduard von Steiger",
+      "gender": "male",
+      "canton": "Bern",
+      "party": "BGB",
+      "electionDate": "1940-12-10",
+      "leftOfficeDate": "1951-11-09"
+    },
+    {
+      "number": 61,
+      "name": "Karl Kobelt",
+      "gender": "male",
+      "canton": "St. Gallen",
+      "party": "FDP",
+      "electionDate": "1940-12-10",
+      "leftOfficeDate": "1954-11-05"
+    },
+    {
+      "number": 62,
+      "name": "Ernst Nobs",
+      "gender": "male",
+      "canton": "Zürich",
+      "party": "SP",
+      "electionDate": "1943-12-15",
+      "leftOfficeDate": "1951-12-13"
+    },
+    {
+      "number": 63,
+      "name": "Max Petitpierre",
+      "gender": "male",
+      "canton": "Neuenburg",
+      "party": "FDP",
+      "electionDate": "1944-12-14",
+      "leftOfficeDate": "1961-06-30"
+    },
+    {
+      "number": 64,
+      "name": "Rodolphe Rubattel",
+      "gender": "male",
+      "canton": "Waadt",
+      "party": "FDP",
+      "electionDate": "1947-12-11",
+      "leftOfficeDate": "1954-11-01"
+    },
+    {
+      "number": 65,
+      "name": "Josef Escher",
+      "gender": "male",
+      "canton": "Wallis",
+      "party": "SKVP",
+      "electionDate": "1950-09-14",
+      "leftOfficeDate": "1954-11-26"
+    },
+    {
+      "number": 66,
+      "name": "Markus Feldmann",
+      "gender": "male",
+      "canton": "Bern",
+      "party": "BGB",
+      "electionDate": "1951-12-13",
+      "leftOfficeDate": "1958-11-03"
+    },
+    {
+      "number": 67,
+      "name": "Max Weber",
+      "gender": "male",
+      "canton": "Zürich",
+      "party": "SP",
+      "electionDate": "1951-12-13",
+      "leftOfficeDate": "1953-12-08"
+    },
+    {
+      "number": 68,
+      "name": "Hans Streuli",
+      "gender": "male",
+      "canton": "Zürich",
+      "party": "FDP",
+      "electionDate": "1953-12-22",
+      "leftOfficeDate": "1959-11-19"
+    },
+    {
+      "number": 69,
+      "name": "Thomas Holenstein",
+      "gender": "male",
+      "canton": "St. Gallen",
+      "party": "KCVP",
+      "electionDate": "1954-12-16",
+      "leftOfficeDate": "1959-11-20"
+    },
+    {
+      "number": 70,
+      "name": "Paul Chaudet",
+      "gender": "male",
+      "canton": "Waadt",
+      "party": "FDP",
+      "electionDate": "1954-12-16",
+      "leftOfficeDate": "1966-11-28"
+    },
+    {
+      "number": 71,
+      "name": "Giuseppe Lepori",
+      "gender": "male",
+      "canton": "Tessin",
+      "party": "KCVP",
+      "electionDate": "1954-12-16",
+      "leftOfficeDate": "1959-11-24"
+    },
+    {
+      "number": 72,
+      "name": "Friedrich Traugott Wahlen",
+      "gender": "male",
+      "canton": "Bern",
+      "party": "BGB",
+      "electionDate": "1958-12-11",
+      "leftOfficeDate": "1965-12-31"
+    },
+    {
+      "number": 73,
+      "name": "Jean Bourgknecht",
+      "gender": "male",
+      "canton": "Freiburg",
+      "party": "KCVP",
+      "electionDate": "1959-12-17",
+      "leftOfficeDate": "1962-09-03"
+    },
+    {
+      "number": 74,
+      "name": "Willy Spühler",
+      "gender": "male",
+      "canton": "Zürich",
+      "party": "SP",
+      "electionDate": "1959-12-17",
+      "leftOfficeDate": "1970-01-31"
+    },
+    {
+      "number": 75,
+      "name": "Ludwig von Moos",
+      "gender": "male",
+      "canton": "Obwalden",
+      "party": "CVP",
+      "electionDate": "1959-12-17",
+      "leftOfficeDate": "1971-12-31"
+    },
+    {
+      "number": 76,
+      "name": "Hans-Peter Tschudi",
+      "gender": "male",
+      "canton": "Basel-Stadt",
+      "party": "SP",
+      "electionDate": "1959-12-17",
+      "leftOfficeDate": "1973-12-31"
+    },
+    {
+      "number": 77,
+      "name": "Hans Schaffner",
+      "gender": "male",
+      "canton": "Aargau",
+      "party": "FDP",
+      "electionDate": "1961-06-15",
+      "leftOfficeDate": "1969-12-31"
+    },
+    {
+      "number": 78,
+      "name": "Roger Bonvin",
+      "gender": "male",
+      "canton": "Wallis",
+      "party": "CVP",
+      "electionDate": "1962-09-27",
+      "leftOfficeDate": "1973-12-31"
+    },
+    {
+      "number": 79,
+      "name": "Rudolf Gnägi",
+      "gender": "male",
+      "canton": "Bern",
+      "party": "SVP",
+      "electionDate": "1965-12-08",
+      "leftOfficeDate": "1979-12-31"
+    },
+    {
+      "number": 80,
+      "name": "Nello Celio",
+      "gender": "male",
+      "canton": "Tessin",
+      "party": "FDP",
+      "electionDate": "1966-12-15",
+      "leftOfficeDate": "1973-12-31"
+    },
+    {
+      "number": 81,
+      "name": "Ernst Brugger",
+      "gender": "male",
+      "canton": "Zürich",
+      "party": "FDP",
+      "electionDate": "1969-12-10",
+      "leftOfficeDate": "1978-01-31"
+    },
+    {
+      "number": 82,
+      "name": "Pierre Graber",
+      "gender": "male",
+      "canton": "Neuenburg",
+      "party": "SP",
+      "electionDate": "1969-12-10",
+      "leftOfficeDate": "1978-01-31"
+    },
+    {
+      "number": 83,
+      "name": "Kurt Furgler",
+      "gender": "male",
+      "canton": "St. Gallen",
+      "party": "CVP",
+      "electionDate": "1971-12-08",
+      "leftOfficeDate": "1986-12-31"
+    },
+    {
+      "number": 84,
+      "name": "Willi Ritschard",
+      "gender": "male",
+      "canton": "Solothurn",
+      "party": "SP",
+      "electionDate": "1973-12-05",
+      "leftOfficeDate": "1983-10-03"
+    },
+    {
+      "number": 85,
+      "name": "Hans Hürlimann",
+      "gender": "male",
+      "canton": "Zug",
+      "party": "CVP",
+      "electionDate": "1973-12-05",
+      "leftOfficeDate": "1982-12-31"
+    },
+    {
+      "number": 86,
+      "name": "Georges-André Chevallaz",
+      "gender": "male",
+      "canton": "Waadt",
+      "party": "FDP",
+      "electionDate": "1973-12-05",
+      "leftOfficeDate": "1983-12-31"
+    },
+    {
+      "number": 87,
+      "name": "Fritz Honegger",
+      "gender": "male",
+      "canton": "Zürich",
+      "party": "FDP",
+      "electionDate": "1977-12-07",
+      "leftOfficeDate": "1982-12-31"
+    },
+    {
+      "number": 88,
+      "name": "Pierre Aubert",
+      "gender": "male",
+      "canton": "Neuenburg",
+      "party": "SP",
+      "electionDate": "1977-12-07",
+      "leftOfficeDate": "1987-12-31"
+    },
+    {
+      "number": 89,
+      "name": "Leon Schlumpf",
+      "gender": "male",
+      "canton": "Graubünden",
+      "party": "SVP",
+      "electionDate": "1979-12-05",
+      "leftOfficeDate": "1987-12-31"
+    },
+    {
+      "number": 90,
+      "name": "Alphons Egli",
+      "gender": "male",
+      "canton": "Luzern",
+      "party": "CVP",
+      "electionDate": "1982-12-08",
+      "leftOfficeDate": "1986-12-31"
+    },
+    {
+      "number": 91,
+      "name": "Rudolf Friedrich",
+      "gender": "male",
+      "canton": "Zürich",
+      "party": "FDP",
+      "electionDate": "1982-12-08",
+      "leftOfficeDate": "1984-10-20"
+    },
+    {
+      "number": 92,
+      "name": "Otto Stich",
+      "gender": "male",
+      "canton": "Solothurn",
+      "party": "SP",
+      "electionDate": "1983-12-07",
+      "leftOfficeDate": "1995-10-31"
+    },
+    {
+      "number": 93,
+      "name": "Jean-Pascal Delamuraz",
+      "gender": "male",
+      "canton": "Waadt",
+      "party": "FDP",
+      "electionDate": "1983-12-07",
+      "leftOfficeDate": "1998-03-30"
+    },
+    {
+      "number": 94,
+      "name": "Elisabeth Kopp",
+      "gender": "female",
+      "canton": "Zürich",
+      "party": "FDP",
+      "electionDate": "1984-10-02",
+      "leftOfficeDate": "1989-01-12"
+    },
+    {
+      "number": 95,
+      "name": "Arnold Koller",
+      "gender": "male",
+      "canton": "Appenzell Innerrhoden",
+      "party": "CVP",
+      "electionDate": "1986-12-10",
+      "leftOfficeDate": "1999-01-13"
+    },
+    {
+      "number": 96,
+      "name": "Flavio Cotti",
+      "gender": "male",
+      "canton": "Tessin",
+      "party": "CVP",
+      "electionDate": "1986-12-10",
+      "leftOfficeDate": "1999-01-13"
+    },
+    {
+      "number": 97,
+      "name": "René Felber",
+      "gender": "male",
+      "canton": "Neuenburg",
+      "party": "SP",
+      "electionDate": "1987-12-09",
+      "leftOfficeDate": "1993-03-31"
+    },
+    {
+      "number": 98,
+      "name": "Adolf Ogi",
+      "gender": "male",
+      "canton": "Bern",
+      "party": "SVP",
+      "electionDate": "1987-12-09",
+      "leftOfficeDate": "2000-12-31"
+    },
+    {
+      "number": 99,
+      "name": "Kaspar Villiger",
+      "gender": "male",
+      "canton": "Luzern",
+      "party": "FDP",
+      "electionDate": "1989-02-01",
+      "leftOfficeDate": "2003-12-31"
+    },
+    {
+      "number": 100,
+      "name": "Ruth Dreifuss",
+      "gender": "female",
+      "canton": "Genf",
+      "party": "SP",
+      "electionDate": "1993-03-10",
+      "leftOfficeDate": "2002-12-31"
+    },
+    {
+      "number": 101,
+      "name": "Moritz Leuenberger",
+      "gender": "male",
+      "canton": "Zürich",
+      "party": "SP",
+      "electionDate": "1995-09-27",
+      "leftOfficeDate": "2010-11-01"
+    },
+    {
+      "number": 102,
+      "name": "Pascal Couchepin",
+      "gender": "male",
+      "canton": "Wallis",
+      "party": "FDP.Die Liberalen",
+      "electionDate": "1998-03-11",
+      "leftOfficeDate": "2009-10-31"
+    },
+    {
+      "number": 103,
+      "name": "Ruth Metzler-Arnold",
+      "gender": "female",
+      "canton": "Appenzell Innerrhoden",
+      "party": "CVP",
+      "electionDate": "1999-03-11",
+      "leftOfficeDate": "2003-12-31"
+    },
+    {
+      "number": 104,
+      "name": "Joseph Deiss",
+      "gender": "male",
+      "canton": "Freiburg",
+      "party": "CVP",
+      "electionDate": "1999-03-11",
+      "leftOfficeDate": "2006-07-31"
+    },
+    {
+      "number": 105,
+      "name": "Samuel Schmid",
+      "gender": "male",
+      "canton": "Bern",
+      "party": "SVP / BDP",
+      "electionDate": "2000-12-06",
+      "leftOfficeDate": "2008-12-31"
+    },
+    {
+      "number": 106,
+      "name": "Micheline Calmy-Rey",
+      "gender": "female",
+      "canton": "Genf",
+      "party": "SP",
+      "electionDate": "2002-12-04",
+      "leftOfficeDate": "2011-12-31"
+    },
+    {
+      "number": 107,
+      "name": "Christoph Blocher",
+      "gender": "male",
+      "canton": "Zürich",
+      "party": "SVP",
+      "electionDate": "2003-12-10",
+      "leftOfficeDate": "2007-12-31"
+    },
+    {
+      "number": 108,
+      "name": "Hans-Rudolf Merz",
+      "gender": "male",
+      "canton": "Appenzell Ausserrhoden",
+      "party": "FDP.Die Liberalen",
+      "electionDate": "2003-12-10",
+      "leftOfficeDate": "2010-11-01"
+    },
+    {
+      "number": 109,
+      "name": "Doris Leuthard",
+      "gender": "female",
+      "canton": "Aargau",
+      "party": "CVP",
+      "electionDate": "2006-06-14",
+      "leftOfficeDate": "2018-12-31"
+    },
+    {
+      "number": 110,
+      "name": "Eveline Widmer-Schlumpf",
+      "gender": "female",
+      "canton": "Graubünden",
+      "party": "SVP / BDP",
+      "electionDate": "2007-12-12",
+      "leftOfficeDate": "2015-12-31"
+    },
+    {
+      "number": 111,
+      "name": "Ueli Maurer",
+      "gender": "male",
+      "canton": "Zürich",
+      "party": "SVP",
+      "electionDate": "2008-12-10",
+      "leftOfficeDate": "2022-12-31"
+    },
+    {
+      "number": 112,
+      "name": "Didier Burkhalter",
+      "gender": "male",
+      "canton": "Neuenburg",
+      "party": "FDP.Die Liberalen",
+      "electionDate": "2009-09-16",
+      "leftOfficeDate": "2017-10-31"
+    },
+    {
+      "number": 113,
+      "name": "Simonetta Sommaruga",
+      "gender": "female",
+      "canton": "Bern",
+      "party": "SP",
+      "electionDate": "2010-09-22",
+      "leftOfficeDate": "2022-12-31"
+    },
+    {
+      "number": 114,
+      "name": "Johann Schneider-Ammann",
+      "gender": "male",
+      "canton": "Bern",
+      "party": "FDP.Die Liberalen",
+      "electionDate": "2010-09-22",
+      "leftOfficeDate": "2018-12-31"
+    },
+    {
+      "number": 115,
+      "name": "Alain Berset",
+      "gender": "male",
+      "canton": "Freiburg",
+      "party": "SP",
+      "electionDate": "2011-12-14",
+      "leftOfficeDate": "2023-12-31"
+    },
+    {
+      "number": 116,
+      "name": "Guy Parmelin",
+      "gender": "male",
+      "canton": "Waadt",
+      "party": "SVP",
+      "electionDate": "2015-12-09",
+      "leftOfficeDate": "2026-12-31"
+    },
+    {
+      "number": 117,
+      "name": "Ignazio Cassis",
+      "gender": "male",
+      "canton": "Tessin",
+      "party": "FDP.Die Liberalen",
+      "electionDate": "2017-09-20",
+      "leftOfficeDate": null
+    },
+    {
+      "number": 118,
+      "name": "Viola Amherd",
+      "gender": "female",
+      "canton": "Wallis",
+      "party": "Die Mitte",
+      "electionDate": "2018-12-05",
+      "leftOfficeDate": "2025-03-31"
+    },
+    {
+      "number": 119,
+      "name": "Karin Keller-Sutter",
+      "gender": "female",
+      "canton": "St. Gallen",
+      "party": "FDP.Die Liberalen",
+      "electionDate": "2018-12-05",
+      "leftOfficeDate": null
+    },
+    {
+      "number": 120,
+      "name": "Albert Rösti",
+      "gender": "male",
+      "canton": "Bern",
+      "party": "SVP",
+      "electionDate": "2022-12-07",
+      "leftOfficeDate": null
+    },
+    {
+      "number": 121,
+      "name": "Elisabeth Baume-Schneider",
+      "gender": "female",
+      "canton": "Jura",
+      "party": "SP",
+      "electionDate": "2022-12-07",
+      "leftOfficeDate": null
+    },
+    {
+      "number": 122,
+      "name": "Beat Jans",
+      "gender": "male",
+      "canton": "Basel-Stadt",
+      "party": "SP",
+      "electionDate": "2023-12-13",
+      "leftOfficeDate": null
+    },
+    {
+      "number": 123,
+      "name": "Martin Pfister",
+      "gender": "male",
+      "canton": "Zug",
+      "party": "Die Mitte",
+      "electionDate": "2025-03-12",
+      "leftOfficeDate": null
+    }
+  ]
+}

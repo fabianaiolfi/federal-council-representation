@@ -1,0 +1,519 @@
+/*
+  style.css — white background, black text, two data colours.
+
+  The two colours only ever mark data (women / men) and were checked for
+  colour-blind separation and 3:1 contrast against white. Text is always
+  black or grey, never coloured.
+*/
+
+/* Design tokens ------------------------------------------------------------------ */
+:root {
+  color-scheme: light;
+
+  --bg: #ffffff;
+  --ink: #0b0b0b;          /* primary text */
+  --ink-2: #52514e;        /* secondary text */
+  --ink-3: #6f6e69;        /* muted labels */
+  --line: #e6e5e0;         /* hairlines, meter track */
+
+  --female: #eb6834;       /* data colour 1 */
+  --male: #2a78d6;         /* data colour 2 */
+
+  --font: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --max: 56rem;            /* content width */
+  --gutter: clamp(1.25rem, 5vw, 2.5rem);
+}
+
+/* Base --------------------------------------------------------------------------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font);
+  font-size: 1.0625rem;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+a {
+  color: inherit;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+}
+
+a:hover {
+  text-decoration-thickness: 2px;
+}
+
+:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 3px;
+}
+
+h1,
+h2,
+p {
+  margin: 0;
+}
+
+.page {
+  max-width: var(--max);
+  margin: 0 auto;
+  padding-inline: var(--gutter);
+  padding-block: clamp(2.5rem, 8vw, 5rem) 3rem;
+  padding-top: max(clamp(2.5rem, 8vw, 5rem), env(safe-area-inset-top));
+}
+
+/* Header --------------------------------------------------------------------------- */
+.eyebrow {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-bottom: 1rem;
+}
+
+h1 {
+  font-size: clamp(2rem, 6vw, 3.25rem);
+  line-height: 1.08;
+  letter-spacing: -0.025em;
+  font-weight: 700;
+  max-width: 18ch;
+  text-wrap: balance;
+}
+
+.lead {
+  margin-top: 1.25rem;
+  font-size: clamp(1.0625rem, 2.2vw, 1.25rem);
+  color: var(--ink-2);
+  max-width: 40rem;
+}
+
+/* Headline score ------------------------------------------------------------------- */
+.score {
+  margin-top: clamp(3rem, 9vw, 5rem);
+  padding-block: clamp(2rem, 6vw, 3rem);
+  border-block: 1px solid var(--ink);
+}
+
+.score-label {
+  font-weight: 600;
+}
+
+.score-value {
+  font-size: clamp(4.5rem, 19vw, 9rem);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  margin-block: 0.5rem 1.5rem;
+}
+
+/* Meter: 0–100 %, black fill = score, tick = best possible with 7 seats */
+.meter {
+  padding-bottom: 1.75rem; /* room for the tick label */
+  margin-bottom: 1.25rem;
+}
+
+.meter-track {
+  position: relative;
+  height: 0.5rem;
+  background: var(--line);
+  border-radius: 999px;
+}
+
+.meter-fill {
+  height: 100%;
+  width: 0;
+  background: var(--ink);
+  border-radius: 999px;
+  transition: width 0.8s ease-out;
+}
+
+.meter-tick {
+  position: absolute;
+  top: -0.375rem;
+  bottom: -0.375rem;
+  width: 2px;
+  margin-left: -1px;
+  background: var(--ink);
+}
+
+.meter-tick-label {
+  position: absolute;
+  top: calc(100% + 0.35rem);
+  right: 0;
+  white-space: nowrap;
+  font-size: 0.8125rem;
+  color: var(--ink-2);
+}
+
+.score-explain,
+.score-ceiling {
+  color: var(--ink-2);
+  max-width: 38rem;
+}
+
+.score-link {
+  display: inline-block;
+  margin-top: 1rem;
+  font-weight: 600;
+}
+
+/* Sections ------------------------------------------------------------------------- */
+.block {
+  margin-top: clamp(3.5rem, 10vw, 6rem);
+}
+
+h2 {
+  font-size: clamp(1.5rem, 4vw, 2rem);
+  line-height: 1.2;
+  letter-spacing: -0.015em;
+}
+
+.subtitle {
+  margin-top: 0.35rem;
+  color: var(--ink-3);
+  font-size: 0.9375rem;
+}
+
+.summary {
+  margin-top: 1.25rem;
+  font-size: 1.125rem;
+}
+
+.warning,
+.load-error {
+  margin-top: 1.25rem;
+  padding: 0.75rem 1rem;
+  border-left: 3px solid var(--ink);
+  background: #f5f5f3;
+}
+
+/* Legend & colour keys ---------------------------------------------------------------- */
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.25rem;
+  list-style: none;
+  padding: 0;
+  margin: 1.25rem 0 0;
+  font-size: 0.9375rem;
+  color: var(--ink-2);
+}
+
+.legend li {
+  display: flex;
+  align-items: center;
+}
+
+.key {
+  display: inline-block;
+  flex: none;
+  width: 0.75rem;
+  height: 0.75rem;
+  border-radius: 2px;
+  margin-right: 0.45rem;
+}
+
+.key-female { background: var(--female); }
+.key-male { background: var(--male); }
+
+/* Federal Council cards --------------------------------------------------------------- */
+.council {
+  list-style: none;
+  padding: 0;
+  margin: 1.5rem 0 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 15rem), 1fr));
+  /* Hairline grid: the list draws the top/left edge, each card its right/bottom */
+  border-top: 1px solid var(--line);
+  border-left: 1px solid var(--line);
+}
+
+.member {
+  display: flex;
+  gap: 0.875rem;
+  align-items: flex-start;
+  padding: 1.125rem 1rem;
+  border-right: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+.avatar {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  color: #fff;
+  font-size: 1.125rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.avatar-female { background: var(--female); }
+.avatar-male { background: var(--male); }
+
+.member-body {
+  min-width: 0;
+}
+
+.member-name {
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.member-meta {
+  font-size: 0.875rem;
+  color: var(--ink-2);
+  line-height: 1.45;
+}
+
+.member-name + .member-meta {
+  margin-top: 0.2rem;
+}
+
+/* Population ------------------------------------------------------------------------- */
+.stats {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem clamp(1rem, 5vw, 3rem);
+  margin-top: 1.5rem;
+}
+
+.stat {
+  padding-top: 1rem;
+  border-top: 1px solid var(--ink);
+}
+
+.stat-label {
+  display: flex;
+  align-items: center;
+  font-weight: 600;
+}
+
+.stat-value {
+  font-size: clamp(2.5rem, 10vw, 4rem);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  margin-top: 0.25rem;
+}
+
+.stat-detail {
+  color: var(--ink-2);
+  font-size: 0.9375rem;
+}
+
+/* Comparison bars --------------------------------------------------------------------- */
+.bars {
+  margin-top: 1.5rem;
+  display: grid;
+  gap: 1.75rem;
+}
+
+.bar-head {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.25rem 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.bar-name {
+  font-weight: 600;
+}
+
+.bar-values {
+  color: var(--ink-2);
+  font-size: 0.9375rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.bar-values .sep {
+  color: var(--ink-3);
+}
+
+.bar {
+  display: flex;
+  gap: 2px;                 /* white gap between segments */
+  height: 1.5rem;           /* 24px */
+}
+
+.seg {
+  flex-basis: 0;            /* width comes from flex-grow = share */
+  min-width: 2px;
+  cursor: default;
+  transition: opacity 0.15s;
+}
+
+.seg:first-child { border-radius: 4px 0 0 4px; }
+.seg:last-child { border-radius: 0 4px 4px 0; }
+.seg:only-child { border-radius: 4px; }
+
+.seg-female { background: var(--female); }
+.seg-male { background: var(--male); }
+
+.bar:hover .seg:not(:hover) {
+  opacity: 0.55;            /* the hovered segment stands out */
+}
+
+/* Tooltip ------------------------------------------------------------------------------ */
+.tooltip {
+  position: fixed;
+  z-index: 10;
+  pointer-events: none;
+  display: grid;
+  gap: 0.1rem;
+  padding: 0.6rem 0.75rem;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  font-size: 0.875rem;
+  color: var(--ink-2);
+  max-width: 16rem;
+}
+
+.tooltip strong {
+  font-size: 1.125rem;
+  color: var(--ink);
+}
+
+.tooltip-detail {
+  color: var(--ink-3);
+}
+
+/* Method ------------------------------------------------------------------------------- */
+.method p {
+  max-width: 40rem;
+  margin-top: 1rem;
+}
+
+.method h2 + p {
+  margin-top: 1.25rem;
+}
+
+.formula {
+  font-size: clamp(1.25rem, 4vw, 1.625rem);
+  font-weight: 600;
+  padding-block: 0.75rem;
+}
+
+.method .formula-legend {
+  margin-top: 0;
+  font-size: 0.9375rem;
+  color: var(--ink-2);
+}
+
+.table-wrap {
+  overflow-x: auto;
+  margin-top: 1.75rem;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-variant-numeric: tabular-nums;
+}
+
+caption {
+  text-align: left;
+  font-size: 0.9375rem;
+  color: var(--ink-3);
+  padding-bottom: 0.5rem;
+}
+
+th,
+td {
+  padding: 0.6rem 0.75rem 0.6rem 0;
+  border-bottom: 1px solid var(--line);
+  text-align: right;
+  white-space: nowrap;
+}
+
+th:first-child {
+  text-align: left;
+}
+
+thead th {
+  white-space: normal;      /* long headers may wrap on phones */
+  vertical-align: bottom;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--ink-2);
+  border-bottom-color: var(--ink);
+}
+
+tbody th {
+  font-weight: 400;
+}
+
+tbody th .key {
+  vertical-align: -0.05em;
+}
+
+td.is-min {
+  font-weight: 700;         /* the value that counts towards the sum */
+}
+
+tfoot th,
+tfoot td {
+  font-weight: 700;
+  border-top: 1px solid var(--ink);
+  border-bottom: none;
+}
+
+/* Footer ------------------------------------------------------------------------------- */
+.footer {
+  margin-top: clamp(4rem, 12vw, 7rem);
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--line);
+  font-size: 0.875rem;
+  color: var(--ink-3);
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.footer-title {
+  font-size: 0.875rem;
+  letter-spacing: 0;
+  color: var(--ink-2);
+}
+
+.footer ul {
+  list-style: none;
+  padding: 0;
+  margin: 0.5rem 0 0;
+  display: grid;
+  gap: 0.25rem;
+}
+
+/* Small screens --------------------------------------------------------------------------- */
+@media (max-width: 30rem) {
+  .member {
+    padding: 0.875rem;
+  }
+}
+
+/* Motion ---------------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .meter-fill { transition: none; }
+}

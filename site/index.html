@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<!--
+  Federal Council representation — single-page app.
+
+  The HTML only holds the page structure. All visible text comes from
+  js/i18n.js (elements with a data-i18n="key" attribute are filled in by
+  js/app.js), and all numbers are calculated from data/data.json.
+-->
+<html lang="de-CH">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Bundesrat und Bevölkerung</title>
+  <meta name="description" content="">
+  <meta name="theme-color" content="#ffffff">
+  <!-- Favicon: a small two-colour disc, inline so no extra file is needed -->
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 2a14 14 0 0 0 0 28z' fill='%23eb6834'/%3E%3Cpath d='M16 2a14 14 0 0 1 0 28z' fill='%232a78d6'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="css/style.css">
+
+  <!--
+    Google Analytics (later iteration): paste the gtag.js snippet here.
+  -->
+
+  <script type="module" src="js/app.js"></script>
+</head>
+<body>
+  <main class="page">
+
+    <!-- Header ---------------------------------------------------------------->
+    <header class="intro">
+      <p class="eyebrow" data-i18n="eyebrow"></p>
+      <h1 data-i18n="title"></h1>
+      <p class="lead" data-i18n="lead"></p>
+    </header>
+
+    <!-- Headline number ------------------------------------------------------->
+    <section class="score" aria-labelledby="score-label">
+      <p class="score-label" id="score-label" data-i18n="scoreLabel"></p>
+      <p class="score-value" id="score-value">–</p>
+      <div class="meter" id="score-meter" role="img">
+        <div class="meter-track">
+          <div class="meter-fill" id="meter-fill"></div>
+          <div class="meter-tick" id="meter-tick">
+            <span class="meter-tick-label" id="meter-tick-label"></span>
+          </div>
+        </div>
+      </div>
+      <p class="score-explain" data-i18n="scoreExplain"></p>
+      <p class="score-ceiling" id="score-ceiling"></p>
+      <a class="score-link" href="#methode" data-i18n="scoreMethodLink"></a>
+    </section>
+
+    <p class="load-error" id="load-error" role="alert" hidden></p>
+
+    <!-- 1. Federal Council ---------------------------------------------------->
+    <section class="block" aria-labelledby="council-title">
+      <h2 id="council-title" data-i18n="councilTitle"></h2>
+      <p class="subtitle" id="council-subtitle"></p>
+      <ul class="legend" id="council-legend"></ul>
+      <ol class="council" id="council-list"></ol>
+      <p class="summary" id="council-summary"></p>
+      <p class="warning" id="council-warning" hidden></p>
+    </section>
+
+    <!-- 2. Population --------------------------------------------------------->
+    <section class="block" aria-labelledby="population-title">
+      <h2 id="population-title" data-i18n="populationTitle"></h2>
+      <p class="subtitle" id="population-subtitle"></p>
+      <div class="stats" id="population-stats"></div>
+      <p class="summary" id="population-total"></p>
+    </section>
+
+    <!-- 3. Comparison --------------------------------------------------------->
+    <section class="block" aria-labelledby="compare-title">
+      <h2 id="compare-title" data-i18n="compareTitle"></h2>
+      <p class="subtitle" data-i18n="compareSubtitle"></p>
+      <ul class="legend" id="compare-legend"></ul>
+      <div class="bars" id="compare-bars"></div>
+      <p class="summary" id="compare-gap"></p>
+      <p class="summary" id="compare-seats"></p>
+    </section>
+
+    <!-- 4. Method ------------------------------------------------------------->
+    <section class="block method" id="methode" aria-labelledby="method-title">
+      <h2 id="method-title" data-i18n="methodTitle"></h2>
+      <p data-i18n="methodIntro"></p>
+      <p class="formula" data-i18n="methodFormula"></p>
+      <p class="formula-legend" data-i18n="methodFormulaLegend"></p>
+      <div class="table-wrap">
+        <table id="method-table">
+          <caption data-i18n="methodTableCaption"></caption>
+          <thead>
+            <tr>
+              <th scope="col" data-i18n="methodColGroup"></th>
+              <th scope="col" data-i18n="methodColCouncil"></th>
+              <th scope="col" data-i18n="methodColPopulation"></th>
+              <th scope="col" data-i18n="methodColMin"></th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+          <tfoot></tfoot>
+        </table>
+      </div>
+      <p data-i18n="methodTvd"></p>
+      <p id="method-seats"></p>
+      <p data-i18n="methodBinary"></p>
+    </section>
+
+    <!-- Footer ---------------------------------------------------------------->
+    <footer class="footer">
+      <h2 class="footer-title" data-i18n="sourcesTitle"></h2>
+      <ul>
+        <li><a id="source-population" href="#" rel="noopener"></a></li>
+        <li data-i18n="sourceCouncil"></li>
+        <li id="data-generated"></li>
+      </ul>
+    </footer>
+  </main>
+
+  <!-- One shared tooltip for the comparison bars -->
+  <div class="tooltip" id="tooltip" role="tooltip" hidden></div>
+
+  <noscript>
+    <p class="page">Diese Seite benötigt JavaScript.</p>
+  </noscript>
+</body>
+</html>
