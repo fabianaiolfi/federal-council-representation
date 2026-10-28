@@ -1,7 +1,7 @@
 /**
- * council.js — turns the list of councillors into the successive
- * compositions of the Federal Council, and finds the matching population
- * year for each. Pure data logic, no DOM code.
+ * council.js — turns the list of councillors into every version of the
+ * Federal Council, and finds the matching population year for each.
+ * Pure data logic, no DOM code.
  *
  * Dates are ISO strings ("2025-03-12"), which compare correctly as text.
  */
@@ -41,15 +41,18 @@ export function inOfficeOn(councillors, day) {
 }
 
 /**
- * All complete compositions of the Council since 1848, oldest first:
- *   [{ start, end, members }, …]   (end = null if still in office)
+ * Every version of the Council since 1848, oldest first: a new version
+ * starts whenever the membership changes.
+ *
+ *   [{ start, end, members }, …]   (end = null if still in office;
+ *                                   members ordered by seniority)
  *
  * The membership can only change on an election day or on the day after
  * someone left, so it is enough to look at those days. Short gaps with an
  * empty seat (between a departure and the successor taking office) are
- * not counted as compositions of their own.
+ * not counted as versions of their own.
  */
-export function buildCompositions(councillors) {
+export function buildVersions(councillors) {
   const changeDays = new Set();
   for (const c of councillors) {
     if (c.electionDate) changeDays.add(c.electionDate);
@@ -58,7 +61,7 @@ export function buildCompositions(councillors) {
 
   const periods = [];
   for (const day of [...changeDays].sort()) {
-    const members = inOfficeOn(councillors, day);
+    const members = inOfficeOn(councillors, day); // already by seniority
     const key = members.map((m) => m.number).sort((a, b) => a - b).join(",");
     const last = periods[periods.length - 1];
     if (last && last.key === key) continue; // nobody changed

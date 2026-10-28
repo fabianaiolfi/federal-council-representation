@@ -21,11 +21,11 @@ const strings = {
     eyebrow: "Deskriptive Repräsentation",
     title: "Wie gut bildet der Bundesrat die Bevölkerung ab?",
 
-    // Navigator (browse through all compositions since 1848)
-    navLabel: "Bundesräte seit 1848",
-    navPrev: "Vorheriger Bundesrat",
-    navNext: "Nächster Bundesrat",
-    navSlider: "Bundesrat auswählen",
+    // Navigation through every version of the Council since 1848
+    navLabel: "Zusammensetzung des Bundesrats seit 1848",
+    navPrev: "Vorherige Zusammensetzung",
+    navNext: "Nächste Zusammensetzung",
+    navSlider: "Zusammensetzung auswählen",
     periodCurrent: (startYear) => `${startYear} – heute`,
     periodYears: (startYear, endYear) => `${startYear} – ${endYear}`,
     periodMonths: (startMonth, endMonth, year) =>
@@ -35,11 +35,8 @@ const strings = {
     councilTitle: "Der Bundesrat",
     councilSince: (date) => `Im Amt seit ${date}`,
     councilFromTo: (from, to) => `Im Amt vom ${from} bis ${to}`,
-    memberSince: (gender, year) => `${gender} · im Amt seit ${year}`,
-    memberTenure: (gender, from, to) =>
-      from === to ? `${gender} · im Amt ${from}` : `${gender} · im Amt ${from}–${to}`,
+    councilOneDay: (date) => `Im Amt am ${date}`,
     memberLeaving: (date) => `Rücktritt per ${date}`,
-    memberNew: "Neu",
     councilWarning:
       "Hinweis: Für heute ist kein vollständiger Bundesrat erfasst. Die Daten sind möglicherweise nicht aktuell.",
 
@@ -75,12 +72,13 @@ const strings = {
     loadError:
       "Die Daten konnten nicht geladen werden. Wird die Seite über einen " +
       "lokalen Webserver geöffnet? (siehe README)",
+    renderError:
+      "Beim Anzeigen ist ein Fehler aufgetreten. Bitte die Seite ohne Cache " +
+      "neu laden (Cmd + Shift + R bzw. Ctrl + Shift + R).",
 
     // Category labels
     female: "Frauen",
     male: "Männer",
-    femaleSingular: "Frau",
-    maleSingular: "Mann",
   },
 };
 
@@ -123,9 +121,4 @@ export const fmt = {
   /** "2026-10-27" -> "Oktober" */
   month: (iso) =>
     new Intl.DateTimeFormat(lang, { month: "long" }).format(new Date(`${iso.slice(0, 10)}T12:00:00`)),
-  /** "2026-10-27" -> "27.10.2026" (for tight spaces) */
-  dateShort: (iso) =>
-    new Intl.DateTimeFormat(lang, { day: "2-digit", month: "2-digit", year: "numeric" }).format(
-      new Date(`${iso.slice(0, 10)}T12:00:00`)
-    ),
 };

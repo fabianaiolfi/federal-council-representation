@@ -6,9 +6,10 @@ The interface is in Swiss High German.
 
 The page has three parts:
 
-1. **Der Bundesrat:** the seven members of the Council. A navigator bar
-   (← → buttons and a slider) lets you browse every composition since 1848.
-   The bar stays at the top of the screen while you scroll.
+1. **Der Bundesrat:** one panel with the seven members (by seniority) and a
+   timeline. The ← → buttons, the slider or the ← → keys step through every
+   version of the Council since 1848 (94 so far). The panel head stays at the
+   top of the screen while you scroll through the members.
 2. **Der Vergleich:** the gender match as one number, plus bars comparing
    the Council with the population **of the year it took office** (BFS data
    since 1860). For the Council in office today, you can pick whether a woman
@@ -28,13 +29,13 @@ macOS).
    cd path/to/federal-council-representation
    ```
 
-2. Start a local web server for the `site` folder:
+2. Start the local web server:
 
    ```bash
-   python3 -m http.server 8000 -d site
+   python3 scripts/serve.py
    ```
 
-   You should see `Serving HTTP on :: port 8000 …`.
+   You should see `Serving …/site at http://localhost:8000`.
 
 3. Open <http://localhost:8000> in your browser.
 
@@ -42,15 +43,17 @@ macOS).
 
 Notes:
 
+- `scripts/serve.py` is Python's built-in web server
+  (`python3 -m http.server 8000 -d site`) plus one header that stops the
+  browser from reusing old copies of files. With the plain built-in server,
+  the browser can mix freshly edited files with old cached ones after a code
+  change. The page then shows "Beim Anzeigen ist ein Fehler aufgetreten";
+  a hard reload (`Cmd + Shift + R`) fixes it.
 - Opening `site/index.html` by double-clicking **does not work**. The page loads
   its data with `fetch()`, which browsers block for `file://` pages. The page
-  then shows an error message.
+  then shows "Die Daten konnten nicht geladen werden".
 - If port 8000 is already in use, pick another one, e.g.
-  `python3 -m http.server 8080 -d site` → <http://localhost:8080>.
-- In VS Code you can also use the *Live Server* extension: right-click
-  `site/index.html` → *Open with Live Server*.
-- After editing files, reload the page. If you still see the old version, do
-  a hard reload (`Cmd + Shift + R`).
+  `python3 scripts/serve.py 8080` → <http://localhost:8080>.
 
 ## Update the data
 
@@ -68,32 +71,34 @@ Run it again whenever
 - the CSV changes (new councillor, someone leaves), or
 - BFS publishes a new year (usually in late summer).
 
-## How the compositions are derived
+## How the versions are derived
 
-`site/js/council.js` turns the CSV into the successive compositions of the
-Council:
+`site/js/council.js` turns the CSV into every version of the Council:
 
-- The membership can only change on an election day or on the day after
-  someone left, so only those days are checked.
+- A new version starts whenever someone leaves or joins. The membership can
+  only change on an election day or on the day after someone left, so only
+  those days are checked.
 - The CSV has the day someone was *elected*, not the day they took office.
   Successors are usually elected weeks before their predecessor leaves.
   Rule: a newly elected member takes a seat once one is free (if more than
   7 people qualify on a day, the 7 most senior are in office).
 - Short gaps with an empty seat (between a departure and the successor
-  taking office) are skipped. Only full 7-member compositions are shown.
-- Each composition is compared with the population of the **year it took
+  taking office) are skipped. Only full 7-member versions are shown.
+- Members are listed by seniority (earliest election first).
+- Each version is compared with the population of the **year it took
   office**. For years without BFS data, the nearest year is used (1860 for
-  the Councils of 1848–1859, the latest year for the most recent ones). The
-  bar label always shows the year actually used.
+  1848–1859, the latest year for the most recent versions). The bar label
+  always shows the year actually used.
 
-The app works out which composition is **current** from the visitor's date:
+The app works out which version is **current** from the visitor's date:
 
 - A member with a `left_office_date` **in the future** stays in the current
-  composition with a "Rücktritt per …" badge, and the successor picker
-  appears for them.
-- Once that date has passed, the member drops out. If no complete
-  composition is in office (because the successor hasn't been added to the
-  CSV yet), the page shows a notice. Add the successor and rerun the script.
+  version with a "Rücktritt per …" badge, and the successor picker appears
+  for them.
+- Once that date has passed, the member drops out. If today has an empty
+  seat (e.g. the successor hasn't been added to the CSV yet), the page shows
+  the latest complete version and a notice. Add the successor and rerun the
+  script.
 
 ## The measure
 
@@ -118,18 +123,19 @@ data/
   all_federal_councillors.csv   source data: every councillor since 1848
 scripts/
   build_data.py                 builds site/data/data.json (CSV + BFS API)
+  serve.py                      local web server without browser caching
 site/                           the web app (static files; deploy this folder)
   index.html                    page structure
   css/style.css                 all styling (design tokens at the top)
   js/app.js                     loads data, builds the page, browsing + scenario
-  js/council.js                 compositions over time, population year lookup
+  js/council.js                 versions of the Council, population year lookup
   js/metrics.js                 the score calculation (no DOM code)
   js/i18n.js                    all visible text + number/date formatting
   data/data.json                generated by build_data.py
 ```
 
 No framework is used. `app.js` follows a simple pattern: the page is built
-once (`setup…()` functions). A small `state` object holds which composition
+once (`setup…()` functions). A small `state` object holds which version
 is shown and the scenario choice. A single `update()` function redraws the
 cards, score and bars whenever `state` changes.
 

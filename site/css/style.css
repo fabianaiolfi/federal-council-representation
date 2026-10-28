@@ -1,5 +1,6 @@
 /*
-  style.css — white background, black text, two data colours.
+  style.css — white background, black text, two data colours, square
+  corners everywhere (no border-radius).
 
   The two colours only ever mark data (women / men) and were checked for
   colour-blind separation and 3:1 contrast against white. Text is always
@@ -49,6 +50,12 @@ body {
 
 [hidden] {
   display: none !important;
+}
+
+/* Browsers round some form controls by default (e.g. Safari buttons) */
+button,
+input {
+  border-radius: 0;
 }
 
 a {
@@ -140,7 +147,6 @@ h2 {
   flex: none;
   width: 0.75rem;
   height: 0.75rem;
-  border-radius: 2px;
   margin-right: 0.45rem;
 }
 
@@ -163,16 +169,22 @@ h2 {
   align-items: center;
 }
 
-/* Federal Council cards --------------------------------------------------------------- */
+/* Federal Council panel: navigation head + the 7 seats, one element ------------- */
+.council-panel {
+  margin-top: 1.5rem;
+  border: 1px solid var(--ink);
+  /* "clip" (unlike "hidden") keeps the sticky head working */
+  overflow: clip;
+}
+
 .council {
   list-style: none;
   padding: 0;
-  margin: 1.5rem 0 0;
+  /* Hairline grid: each card draws its right/bottom edge; the negative
+     margins push the outermost edges under the panel border. */
+  margin: 0 -1px -1px 0;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(min(100%, 15rem), 1fr));
-  /* Hairline grid: the list draws the top/left edge, each card its right/bottom */
-  border-top: 1px solid var(--line);
-  border-left: 1px solid var(--line);
 }
 
 .member {
@@ -190,7 +202,6 @@ h2 {
   place-items: center;
   width: 3rem;
   height: 3rem;
-  border-radius: 50%;
   color: #fff;
   font-size: 1.125rem;
   font-weight: 700;
@@ -219,50 +230,44 @@ h2 {
   margin-top: 0.2rem;
 }
 
-/* Small pill badges: "Neu" (filled), "Rücktritt per …" (outlined) */
-.member-badges {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.375rem;
-  margin-top: 0.5rem;
-}
-
-.badge {
-  padding: 0.05rem 0.55rem;
-  border: 1px solid var(--ink);
-  border-radius: 999px;
-  font-size: 0.8125rem;
-  font-weight: 600;
-  white-space: nowrap;
-}
-
-.badge-new {
-  background: var(--ink);
-  color: #fff;
-}
-
-/* Cards fade in when the shown composition changes */
-.member {
-  animation: appear 0.3s ease-out;
-}
-
-@keyframes appear {
-  from { opacity: 0; }
-}
-
-/* Navigator (sticky) ------------------------------------------------------------------ */
-.navigator {
+/* Panel head: period, dates, buttons, slider. Sticks to the top while
+   scrolling through the seats. */
+.panel-head {
   position: sticky;
   top: env(safe-area-inset-top, 0px);
   z-index: 5;
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr) auto auto;
-  align-items: center;
-  gap: 0.75rem;
-  margin-top: clamp(2rem, 6vw, 3rem);
-  padding-block: 0.75rem;
+  padding: 1rem 1rem 0.5rem;
   background: var(--bg);
   border-bottom: 1px solid var(--line);
+}
+
+.panel-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.panel-period {
+  flex: 1;
+  min-width: 0;
+  font-weight: 700;
+  font-size: clamp(1.25rem, 3.5vw, 1.5rem);
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  font-variant-numeric: tabular-nums;
+}
+
+.panel-dates {
+  flex: 1;
+  min-width: 0;
+  margin-top: 0.15rem;
+  font-size: 0.875rem;
+  color: var(--ink-3);
+}
+
+.nav-buttons {
+  display: flex;
+  gap: 0.375rem;
 }
 
 .nav-btn {
@@ -272,7 +277,6 @@ h2 {
   height: 2.75rem;
   padding: 0;
   border: 1px solid var(--ink);
-  border-radius: 50%;
   background: var(--bg);
   color: var(--ink);
   cursor: pointer;
@@ -285,8 +289,8 @@ h2 {
   fill: none;
   stroke: currentColor;
   stroke-width: 2;
-  stroke-linecap: round;
-  stroke-linejoin: round;
+  stroke-linecap: square;
+  stroke-linejoin: miter;
 }
 
 .nav-btn:hover:not(:disabled) {
@@ -300,26 +304,12 @@ h2 {
   cursor: default;
 }
 
-.nav-center {
-  min-width: 0;
-}
-
-.nav-period {
-  font-weight: 700;
-  font-size: 1.125rem;
-  line-height: 1.3;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  font-variant-numeric: tabular-nums;
-}
-
-/* Slider: thin black track, round black thumb */
+/* Slider: thin black track, square black thumb (1rem wide) */
 .nav-range {
   display: block;
   width: 100%;
   height: 1.5rem;
-  margin: 0;
+  margin: 0.75rem 0 0;
   background: transparent;
   cursor: pointer;
   -webkit-appearance: none;
@@ -329,13 +319,11 @@ h2 {
 .nav-range::-webkit-slider-runnable-track {
   height: 2px;
   background: var(--ink);
-  border-radius: 2px;
 }
 
 .nav-range::-moz-range-track {
   height: 2px;
   background: var(--ink);
-  border-radius: 2px;
 }
 
 .nav-range::-webkit-slider-thumb {
@@ -344,16 +332,15 @@ h2 {
   height: 1rem;
   margin-top: calc(-0.5rem + 1px);
   border: 2px solid var(--bg);
-  border-radius: 50%;
   background: var(--ink);
   box-shadow: 0 0 0 1px var(--ink);
 }
 
 .nav-range::-moz-range-thumb {
+  border-radius: 0; /* Firefox rounds the thumb by default */
   width: 1rem;
   height: 1rem;
   border: 2px solid var(--bg);
-  border-radius: 50%;
   background: var(--ink);
   box-shadow: 0 0 0 1px var(--ink);
 }
@@ -362,17 +349,39 @@ h2 {
   outline-offset: 2px;
 }
 
-/* Score in the bar: only shown while the big number is off screen */
-.nav-score {
-  display: none;
-  min-width: 4.5ch;
-  text-align: right;
-  font-weight: 700;
-  font-size: 1.25rem;
+/* Year labels under the slider. --at (0..1) is set in app.js; the thumb's
+   centre travels from 0.5rem to (100% - 0.5rem), so the labels do too. */
+.nav-ticks {
+  position: relative;
+  height: 1.25rem;
+  font-size: 0.75rem;
+  color: var(--ink-3);
   font-variant-numeric: tabular-nums;
 }
 
-.navigator.show-score .nav-score {
+.tick {
+  position: absolute;
+  top: 0;
+  left: calc(0.5rem + (100% - 1rem) * var(--at));
+  transform: translateX(-50%);
+  white-space: nowrap;
+}
+
+.tick-start {
+  left: 0;
+  transform: none;
+}
+
+/* Score in the head: only shown while the big number is off screen */
+.nav-score {
+  display: none;
+  font-weight: 700;
+  font-size: 1.25rem;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.panel-head.show-score .nav-score {
   display: block;
 }
 
@@ -403,7 +412,6 @@ h2 {
   padding: 3px;
   gap: 2px;
   border: 1px solid var(--ink);
-  border-radius: 999px;
 }
 
 .segmented label {
@@ -427,7 +435,6 @@ h2 {
   align-items: center;
   justify-content: center;
   padding: 0.5rem 1.1rem;
-  border-radius: 999px;
   font-size: 0.9375rem;
   font-weight: 500;
   white-space: nowrap;
@@ -518,8 +525,6 @@ h2 {
   transition: flex-grow 0.6s var(--ease), opacity 0.15s;
 }
 
-.seg:first-child { border-radius: 4px 0 0 4px; }
-.seg:last-child { border-radius: 0 4px 4px 0; }
 
 .seg-female { background: var(--female); }
 .seg-male { background: var(--male); }
@@ -538,7 +543,6 @@ h2 {
   padding: 0.6rem 0.75rem;
   background: var(--bg);
   border: 1px solid var(--line);
-  border-radius: 6px;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
   font-size: 0.875rem;
   color: var(--ink-2);
@@ -599,9 +603,5 @@ h2 {
   .segmented label > span,
   .nav-btn {
     transition: none;
-  }
-
-  .member {
-    animation: none;
   }
 }

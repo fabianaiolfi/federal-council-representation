@@ -4,22 +4,22 @@
  *
  * Pattern (no framework needed at this size):
  *   - `base`  : everything that never changes, computed once from the data
- *               (all compositions of the Council since 1848 with their scores)
- *   - `state` : what the user picked — which composition is shown, and the
+ *               (every version of the Council since 1848 with its score)
+ *   - `state` : what the user picked — which version is shown, and the
  *               successor gender per departing member (scenario)
  *   - setup*(): build the page once
- *   - update(): show the composition/scenario described by `state`.
+ *   - update(): show the version/scenario described by `state`.
  *               Called on start and on every change of `state`.
  */
 
 import { t, fmt, getLanguage } from "./i18n.js";
 import { overlap, toShares, countByGender } from "./metrics.js";
-import { buildCompositions, populationFor, withSuccessors } from "./council.js";
+import { buildVersions, populationFor, withSuccessors } from "./council.js";
 
 const CATEGORIES = ["female", "male"]; // display order everywhere
 
 const state = {
-  index: 0, // which composition is shown (0 = 1848)
+  index: 0, // which version is shown (0 = 1848)
   choices: {}, // scenario: member number -> "today" | "female" | "male"
 };
 let base; // set in main()
@@ -69,27 +69,27 @@ function measure(members, pop) {
 }
 
 /**
- * The fixed part: every composition since 1848 (up to today), each with
- * the population of the year it took office and its score.
+ * The fixed part: every version of the Council since 1848 (up to today),
+ * each with the population of the year it took office and its score.
  */
 function computeBase(data, today) {
-  const compositions = buildCompositions(data.councillors)
+  const versions = buildVersions(data.councillors)
     .filter((c) => c.start <= today)
     .map((c) => {
       const pop = populationFor(data.population.years, Number(c.start.slice(0, 4)));
       return { ...c, pop, ...measure(c.members, pop) };
     });
 
-  // The composition in office today (-1 if today has an empty seat,
+  // The version in office today (-1 if today has an empty seat,
   // e.g. a successor is missing in the CSV).
-  const currentIndex = compositions.findIndex(
+  const currentIndex = versions.findIndex(
     (c) => c.start <= today && (!c.end || c.end >= today)
   );
-  const current = compositions[currentIndex];
+  const current = versions[currentIndex];
 
   return {
     today,
-    compositions,
+    versions,
     currentIndex,
     // Current members with a known leaving date: these seats can be
     // "re-filled" in the scenario picker.
@@ -102,7 +102,7 @@ function computeBase(data, today) {
 /** Everything that is shown for the current `state`. */
 function computeView() {
   const i = state.index;
-  const c = base.compositions[i];
+  const c = base.versions[i];
   const isCurrent = i === base.currentIndex;
   const isScenario = isCurrent && Object.values(state.choices).some((x) => x !== "today");
 
@@ -110,11 +110,10 @@ function computeView() {
   const shown = isScenario ? { ...c, ...measure(withSuccessors(c.members, state.choices), c.pop) } : c;
 
   // The change shown under the big number: versus today in a scenario,
-  // otherwise versus the previous composition.
-  const reference = isScenario ? c : base.compositions[i - 1];
+  // otherwise versus the previous version.
+  const reference = isScenario ? c : base.versions[i - 1];
   return {
-    composition: c,
-    previous: base.compositions[i - 1],
+    version: c,
     isCurrent,
     isScenario,
     ...shown,
@@ -123,7 +122,7 @@ function computeView() {
   };
 }
 
-/** Short label for a composition's time in office: "2019 – 2022", "2025 – heute". */
+/** Short label for a version's time in office: "2019 – 2022", "2025 – heute". */
 function periodLabel(c, isCurrent) {
   const from = c.start.slice(0, 4);
   if (isCurrent) return t("periodCurrent", from);
@@ -146,32 +145,81 @@ function setupStaticText() {
   }
 }
 
-/** Previous/next buttons and slider; all of them just change state.index. */
+/**
+ * Navigation in the panel head: previous/next buttons, the slider, and the
+ * ← → keys anywhere on the page. All of them just change state.index.
+ */
 function setupNavigator() {
-  const nav = $("navigator");
+  const panel = $("council-panel");
+  const head = $("panel-head");
   const range = $("nav-range");
-  nav.setAttribute("aria-label", t("navLabel"));
+  const last = base.versions.length - 1;
+  panel.setAttribute("role", "region");
+  panel.setAttribute("aria-label", t("navLabel"));
   $("nav-prev").setAttribute("aria-label", t("navPrev"));
   $("nav-next").setAttribute("aria-label", t("navNext"));
   range.setAttribute("aria-label", t("navSlider"));
-  range.max = base.compositions.length - 1;
+  range.max = last;
 
   const go = (index) => {
-    state.index = Math.min(Math.max(index, 0), base.compositions.length - 1);
+    const next = Math.min(Math.max(index, 0), last);
+    if (next === state.index) return;
+    state.index = next;
     update();
   };
   $("nav-prev").addEventListener("click", () => go(state.index - 1));
   $("nav-next").addEventListener("click", () => go(state.index + 1));
   range.addEventListener("input", () => go(Number(range.value)));
 
-  nav.hidden = false;
+  // Arrow keys step through the versions, unless the focus is in a form
+  // control that uses the arrow keys itself (slider, radio buttons).
+  document.addEventListener("keydown", (e) => {
+    if (e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) return;
+    const target = e.target instanceof Element ? e.target : null;
+    if (target?.closest("input, select, textarea, [contenteditable]")) return;
+    if (e.key === "ArrowLeft") go(state.index - 1);
+    else if (e.key === "ArrowRight") go(state.index + 1);
+    else return;
+    e.preventDefault();
+  });
 
-  // Show the score in the bar only while the big number is off screen.
-  // The negative top margin excludes the area covered by the sticky bar.
+  setupTicks(last);
+  panel.hidden = false;
+
+  // Show the score in the panel head only while the big number is off
+  // screen. The negative top margin excludes the area covered by the head
+  // when it sticks to the top.
   new IntersectionObserver(
-    ([entry]) => nav.classList.toggle("show-score", !entry.isIntersecting),
-    { rootMargin: `-${nav.offsetHeight}px 0px 0px 0px` }
+    ([entry]) => head.classList.toggle("show-score", !entry.isIntersecting),
+    { rootMargin: `-${head.offsetHeight}px 0px 0px 0px` }
   ).observe($("score-value"));
+}
+
+/**
+ * Year labels under the slider. The slider moves in versions, not years,
+ * so each label sits at the version that was in office on 1 January.
+ */
+function setupTicks(last) {
+  const indexInOffice = (year) => {
+    const day = `${year}-01-01`;
+    let found = 0;
+    base.versions.forEach((v, i) => {
+      if (v.start <= day) found = i;
+    });
+    return found;
+  };
+  const ticks = [
+    { label: base.versions[0].start.slice(0, 4), index: 0, edge: "start" },
+    ...[1900, 1950, 2000].map((y) => ({ label: String(y), index: indexInOffice(y) })),
+  ];
+  $("nav-ticks").replaceChildren(
+    ...ticks.map((tick) => {
+      const span = el("span", tick.edge ? `tick tick-${tick.edge}` : "tick", tick.label);
+      // The CSS turns --at (0..1) into a position that follows the thumb.
+      span.style.setProperty("--at", tick.index / last);
+      return span;
+    })
+  );
 }
 
 /**
@@ -305,67 +353,45 @@ function setupTooltip() {
 // Update: runs on start and whenever `state` changes ---------------------------------
 
 function updateNavigator(v) {
-  const label = periodLabel(v.composition, v.isCurrent);
+  const label = periodLabel(v.version, v.isCurrent);
   $("nav-period").textContent = label;
   const range = $("nav-range");
   range.value = state.index;
   range.setAttribute("aria-valuetext", label);
   $("nav-prev").disabled = state.index === 0;
-  $("nav-next").disabled = state.index === base.compositions.length - 1;
+  $("nav-next").disabled = state.index === base.versions.length - 1;
 }
 
-/** Member cards of the shown composition. */
+/** One card per member: initials, name, party and canton. */
+function memberCard(m) {
+  const li = el("li", "member");
+  const avatar = el("span", `avatar avatar-${m.gender}`, initials(m.name));
+  avatar.setAttribute("aria-hidden", "true");
+
+  const body = el("div", "member-body");
+  body.append(
+    el("p", "member-name", m.name),
+    el("p", "member-meta", `${m.party} · ${m.canton}`)
+  );
+
+  li.append(avatar, body);
+  return li;
+}
+
+/** The members of the shown version, by seniority. */
 function updateCouncil(v) {
-  const c = v.composition;
+  const c = v.version;
   $("council-subtitle").textContent = v.isCurrent
     ? t("councilSince", fmt.date(c.start))
-    : t("councilFromTo", fmt.date(c.start), fmt.date(c.end));
+    : c.start === c.end
+      ? t("councilOneDay", fmt.date(c.start))
+      : t("councilFromTo", fmt.date(c.start), fmt.date(c.end));
 
-  // Members who were not in the previous composition get a "Neu" badge.
-  const previousMembers = new Set(v.previous ? v.previous.members.map((m) => m.number) : []);
+  $("council-list").replaceChildren(...c.members.map(memberCard));
 
-  const cards = c.members.map((m) => {
-    const li = el("li", "member");
-    const avatar = el("span", `avatar avatar-${m.gender}`, initials(m.name));
-    avatar.setAttribute("aria-hidden", "true");
-
-    const body = el("div", "member-body");
-    const gender = t(m.gender === "female" ? "femaleSingular" : "maleSingular");
-    const from = m.electionDate.slice(0, 4);
-    const hasLeft = m.leftOfficeDate && m.leftOfficeDate < base.today;
-    body.append(
-      el("p", "member-name", m.name),
-      el("p", "member-meta", `${m.party} · ${m.canton}`),
-      el(
-        "p",
-        "member-meta",
-        hasLeft
-          ? t("memberTenure", gender, from, m.leftOfficeDate.slice(0, 4))
-          : t("memberSince", gender, from)
-      )
-    );
-
-    const badges = [];
-    if (v.previous && !previousMembers.has(m.number)) {
-      badges.push(el("span", "badge badge-new", t("memberNew")));
-    }
-    if (v.isCurrent && m.leftOfficeDate) {
-      badges.push(el("span", "badge", t("memberLeaving", fmt.dateShort(m.leftOfficeDate))));
-    }
-    if (badges.length) {
-      const row = el("p", "member-badges");
-      row.append(...badges);
-      body.append(row);
-    }
-
-    li.append(avatar, body);
-    return li;
-  });
-  $("council-list").replaceChildren(...cards);
-
-  // Safety net: if the CSV is not up to date (e.g. a successor is missing),
-  // say so when the latest composition is shown.
-  const isLatest = state.index === base.compositions.length - 1;
+  // Safety net: if today has an empty seat, the CSV may be out of date
+  // (e.g. a successor is missing). Shown with the latest version.
+  const isLatest = state.index === base.versions.length - 1;
   const warning = $("council-warning");
   warning.hidden = !(isLatest && base.currentIndex === -1);
   warning.textContent = t("councilWarning");
@@ -439,7 +465,7 @@ function updateComparison(v) {
     "council",
     v.isScenario
       ? t("compareCouncilScenario")
-      : t("compareCouncil", periodLabel(v.composition, v.isCurrent)),
+      : t("compareCouncil", periodLabel(v.version, v.isCurrent)),
     v.p,
     (c) => t("tooltipOf", v.counts[c], seats)
   );
@@ -465,13 +491,28 @@ function update() {
 
 // Start --------------------------------------------------------------------------
 
+/** Show an error box instead of the content. */
+function showError(key, err) {
+  console.error(err);
+  const box = $("load-error");
+  box.textContent = t(key);
+  box.hidden = false;
+}
+
 async function main() {
   setupStaticText();
+
+  let data;
   try {
-    const data = await loadData();
+    data = await loadData();
+  } catch (err) {
+    return showError("loadError", err); // e.g. opened via file:// or no server
+  }
+
+  try {
     base = computeBase(data, todayIso());
     // Start with today's Council (or the latest one if today has a gap).
-    state.index = base.currentIndex >= 0 ? base.currentIndex : base.compositions.length - 1;
+    state.index = base.currentIndex >= 0 ? base.currentIndex : base.versions.length - 1;
     setupNavigator();
     setupScenarios();
     setupBars();
@@ -479,10 +520,7 @@ async function main() {
     setupTooltip();
     update();
   } catch (err) {
-    console.error(err);
-    const box = $("load-error");
-    box.textContent = t("loadError");
-    box.hidden = false;
+    return showError("renderError", err); // e.g. old cached files mixed with new ones
   }
 }
 
