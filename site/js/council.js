@@ -1,7 +1,6 @@
 /**
  * council.js — turns the list of councillors into every version of the
- * Federal Council, and finds the matching population year for each.
- * Pure data logic, no DOM code.
+ * Federal Council. Pure data logic, no DOM code.
  *
  * Dates are ISO strings ("2025-03-12"), which compare correctly as text.
  */
@@ -72,19 +71,6 @@ export function buildVersions(councillors) {
   return periods
     .filter((p) => p.members.length === SEATS)
     .map(({ start, end, members }) => ({ start, end, members }));
-}
-
-/**
- * Population figures for a given year. If BFS has no data for that year
- * (before 1860, or a year not yet published), the nearest available year
- * is used. Returns { year, women, men } — `year` is the year actually used.
- */
-export function populationFor(yearsData, year) {
-  const available = Object.keys(yearsData).map(Number).sort((a, b) => a - b);
-  const first = available[0];
-  const last = available[available.length - 1];
-  const used = Math.min(Math.max(year, first), last);
-  return { year: used, ...yearsData[String(used)] };
 }
 
 /**

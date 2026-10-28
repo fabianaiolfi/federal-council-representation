@@ -33,10 +33,3 @@ export function toShares(counts) {
   for (const [c, n] of Object.entries(counts)) shares[c] = total ? n / total : 0;
   return shares;
 }
-
-/** Count members per gender: [{gender:"male"}, …] -> { female: 2, male: 5 }. */
-export function countByGender(members) {
-  const counts = { female: 0, male: 0 };
-  for (const m of members) counts[m.gender] += 1;
-  return counts;
-}

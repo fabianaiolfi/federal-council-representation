@@ -46,7 +46,10 @@ const strings = {
     scenarioToday: "Heute",
     scenarioFemale: "Eine Frau",
     scenarioMale: "Ein Mann",
-    scoreLabel: "Übereinstimmung nach Geschlecht",
+    scenarioScope: "Die Auswahl verändert nur den Vergleich nach Geschlecht.",
+    overallLabel: "Übereinstimmung insgesamt",
+    overallCaption: (names) =>
+      `Durchschnitt aus ${names.length > 1 ? `${names.slice(0, -1).join(", ")} und ${names.at(-1)}` : names[0]}`,
     scoreCaption: "100 % = gleiche Zusammensetzung wie die Bevölkerung",
     // reference: "today" (scenario) or "previous" (browsing)
     scoreDelta: (pp, direction, reference) => {
@@ -57,15 +60,33 @@ const strings = {
     },
     compareCouncil: (period) => `Bundesrat ${period}`,
     compareCouncilScenario: "Bundesrat nach der Ersatzwahl",
-    comparePopulation: (year) => `Bevölkerung ${year}`,
+
+    // The four comparisons
+    compareGender: "Geschlecht",
+    compareParty: "Partei",
+    compareLanguage: "Sprache",
+    compareAge: "Alter",
+    populationYear: (year) => `Bevölkerung ${year}`,
+    populationAdults: (year) => `Bevölkerung ab 20 Jahren, ${year}`,
+    partyElection: (year) => `Nationalratswahl ${year}`,
+    partyMitte: "Mitte/CVP",
+    partyOther: "Übrige",
+    noDataParty: (year) => `Keine Daten: Die Parteistärken der BFS beginnen mit der Nationalratswahl ${year}.`,
+    language_de: "Deutsch",
+    language_fr: "Französisch",
+    language_it: "Italienisch",
+    language_rm: "Rätoromanisch",
+    language_other: "Andere Sprachen",
+    ageRange: (min, max) => `${min}–${max} Jahre`,
+    ageFrom: (min) => `${min} Jahre und älter`,
     tooltipOf: (n, total) => `${n} von ${total} Sitzen`,
     tooltipPersons: (n) => `${n} Personen`,
 
     // Footer
     sourcesTitle: "Quellen",
-    sourcePopulation: (table) =>
-      `Bevölkerung: Bundesamt für Statistik (BFS), STAT-TAB, Tabelle ${table}`,
-    sourceCouncil: "Bundesrat: eigene Zusammenstellung (all_federal_councillors.csv)",
+    sourceBfs: (title, table) => `Bundesamt für Statistik (BFS): ${title} (${table})`,
+    sourceCouncil:
+      "Bundesrat: eigene Zusammenstellung (all_federal_councillors.csv); Geburtsdaten und Sprachen: Wikidata",
     sourcePortraits: "Porträts: Wikimedia Commons (Bildnachweise unten)",
     dataGenerated: (date) => `Daten aufbereitet am ${date}`,
     creditsTitle: "Bildnachweise",

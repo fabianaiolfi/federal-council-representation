@@ -4,7 +4,8 @@
  *
  * Pattern (no framework needed at this size):
  *   - `base`  : everything that never changes, computed once from the data
- *               (every version of the Council since 1848 with its score)
+ *               (every version of the Council since 1848 with the result
+ *               of each comparison, see comparisons.js)
  *   - `state` : what the user picked — which version is shown, and the
  *               successor gender per departing member (scenario)
  *   - setup*(): build the page once
@@ -13,10 +14,9 @@
  */
 
 import { t, fmt, getLanguage } from "./i18n.js";
-import { overlap, toShares, countByGender } from "./metrics.js";
-import { buildVersions, populationFor, withSuccessors } from "./council.js";
-
-const CATEGORIES = ["female", "male"]; // display order everywhere
+import { overlap, toShares } from "./metrics.js";
+import { buildVersions, withSuccessors } from "./council.js";
+import { buildComparisons } from "./comparisons.js";
 
 const state = {
   index: 0, // which version is shown (0 = 1848)
@@ -59,25 +59,43 @@ async function loadData() {
   return res.json();
 }
 
-/** Shares and score of a list of members against one population year. */
-function measure(members, pop) {
-  const counts = countByGender(members);
+/** Pick the values of the given categories: ({a: 1, b: 2, c: 3}, ["a", "c"]) -> {a: 1, c: 3}. */
+function only(values, categories) {
+  return Object.fromEntries(categories.map((c) => [c, values[c] ?? 0]));
+}
+
+/**
+ * One comparison for one set of members on one day: categories, Council
+ * counts and shares (p), population shares (q) and the overlap score.
+ * `available: false` if the BFS has no data for that time.
+ */
+function evaluate(cmp, members, day) {
+  const categories = cmp.categories(members, day);
+  const pop = cmp.population(day, categories);
+  if (!pop) return { key: cmp.key, available: false };
+  const counts = only(cmp.council(members, day), categories);
   const p = toShares(counts);
-  const populationCounts = { female: pop.women, male: pop.men };
-  const q = toShares(populationCounts);
-  return { counts, p, populationCounts, q, score: overlap(p, q) };
+  const q = toShares(only(pop.values, categories));
+  return { key: cmp.key, available: true, categories, counts, p, q, pop, score: overlap(p, q) };
+}
+
+/** Overall score: the average of all comparisons that have data. */
+function average(results) {
+  const scores = results.filter((r) => r.available).map((r) => r.score);
+  return scores.length ? scores.reduce((a, b) => a + b, 0) / scores.length : null;
 }
 
 /**
  * The fixed part: every version of the Council since 1848 (up to today),
- * each with the population of the year it took office and its score.
+ * each with the result of every comparison and their average.
  */
 function computeBase(data, today) {
+  const comparisons = buildComparisons(data);
   const versions = buildVersions(data.councillors)
     .filter((c) => c.start <= today)
     .map((c) => {
-      const pop = populationFor(data.population.years, Number(c.start.slice(0, 4)));
-      return { ...c, pop, ...measure(c.members, pop) };
+      const results = comparisons.map((cmp) => evaluate(cmp, c.members, c.start));
+      return { ...c, results, overall: average(results) };
     });
 
   // The version in office today (-1 if today has an empty seat,
@@ -89,13 +107,14 @@ function computeBase(data, today) {
 
   return {
     today,
+    comparisons,
     versions,
     currentIndex,
     // Current members with a known leaving date: these seats can be
     // "re-filled" in the scenario picker.
     departures: current ? current.members.filter((m) => m.leftOfficeDate) : [],
     councillors: data.councillors, // for the picture credits
-    population: data.population,
+    sources: [data.gender, data.language, data.party],
     generated: data.generated,
   };
 }
@@ -107,18 +126,32 @@ function computeView() {
   const isCurrent = i === base.currentIndex;
   const isScenario = isCurrent && Object.values(state.choices).some((x) => x !== "today");
 
-  // Scenario: same population year, members with successors swapped in.
-  const shown = isScenario ? { ...c, ...measure(withSuccessors(c.members, state.choices), c.pop) } : c;
+  // Scenario: only the successor's gender is chosen, so only the gender
+  // comparison is recalculated (same population year, successors swapped in).
+  const results = isScenario
+    ? c.results.map((r) =>
+        r.key === "gender"
+          ? evaluate(base.comparisons[0], withSuccessors(c.members, state.choices), c.start)
+          : r
+      )
+    : c.results;
 
-  // The change shown under the big number: versus today in a scenario,
+  // The change shown under each number: versus today in a scenario,
   // otherwise versus the previous version.
   const reference = isScenario ? c : base.versions[i - 1];
+  const diff = (a, b) => (a == null || b == null ? null : a - b);
   return {
     version: c,
     isCurrent,
     isScenario,
-    ...shown,
-    delta: reference ? shown.score - reference.score : null,
+    overall: average(results),
+    overallDelta: reference ? diff(average(results), reference.overall) : null,
+    results: results.map((r, k) => ({
+      ...r,
+      delta: reference && r.available && reference.results[k].available
+        ? r.score - reference.results[k].score
+        : null,
+    })),
     deltaReference: isScenario ? "today" : "previous",
   };
 }
@@ -261,56 +294,59 @@ function setupScenarios() {
       label.append(input, text);
       segmented.append(label);
     }
-    fieldset.append(segmented);
+    fieldset.append(segmented, el("p", "scenario-hint", t("scenarioScope")));
     return fieldset;
   });
   $("scenarios").replaceChildren(...groups);
 }
 
-/** A legend: coloured key + label for each category. */
-function setupLegend(listEl) {
-  listEl.replaceChildren(
-    ...CATEGORIES.map((c) => {
-      const li = el("li");
-      li.append(el("span", `key key-${c}`), document.createTextNode(t(c)));
-      return li;
-    })
-  );
+/**
+ * One section per comparison: title and score, change, note (no data),
+ * legend and two aligned 100 % bars (Council vs population). Built once;
+ * update() fills them in.
+ */
+function setupComparisons() {
+  const sections = base.comparisons.map((cmp) => {
+    const section = el("section", "comparison");
+    section.dataset.key = cmp.key;
+
+    const head = el("div", "comparison-head");
+    head.append(el("h3", null, cmp.title), el("p", "comparison-score"));
+    const bars = el("div", "bars");
+    bars.append(barRow("council"), barRow("population"));
+    section.append(
+      head,
+      el("p", "comparison-delta"),
+      el("p", "comparison-note"),
+      el("ul", "legend"),
+      bars
+    );
+    return section;
+  });
+  $("comparisons").replaceChildren(...sections);
 }
 
-/**
- * Two aligned 100 % bars (Council vs population). The DOM is built once and
- * only updated afterwards, so CSS can animate the segment widths.
- * Segments are sized with flex-grow, so the 2px gap between them never
- * pushes the total past 100 %.
- */
-function setupBars() {
-  setupLegend($("compare-legend"));
-
-  const rows = ["council", "population"].map((key) => {
-    const row = el("div", "bar-row");
-    row.dataset.row = key;
-
-    const head = el("div", "bar-head");
-    head.append(el("span", "bar-name"), el("span", "bar-values"));
-
-    const bar = el("div", "bar");
-    for (const c of CATEGORIES) {
-      const seg = el("div", `seg seg-${c}`);
-      seg.dataset.category = c;
-      seg.tabIndex = 0;
-      bar.append(seg);
-    }
-    row.append(head, bar);
-    return row;
-  });
-  $("compare-bars").replaceChildren(...rows);
+/** An empty bar row: name and values above, the bar below. */
+function barRow(key) {
+  const row = el("div", "bar-row");
+  row.dataset.row = key;
+  const head = el("div", "bar-head");
+  head.append(el("span", "bar-name"), el("span", "bar-values"));
+  row.append(head, el("div", "bar"));
+  return row;
 }
 
 function setupFooter() {
-  const link = $("source-population");
-  link.textContent = t("sourcePopulation", base.population.table);
-  link.href = base.population.url;
+  // One line per BFS table, linking to the table
+  const items = base.sources.map((source) => {
+    const li = el("li");
+    const link = el("a", null, t("sourceBfs", source.tableTitle, source.table));
+    link.href = source.url;
+    link.rel = "noopener";
+    li.append(link);
+    return li;
+  });
+  $("sources-bfs").replaceWith(...items);
   $("data-generated").textContent = t("dataGenerated", fmt.date(base.generated));
   setupCredits();
 }
@@ -363,7 +399,7 @@ function setupTooltip() {
   }
   const hide = () => (tip.hidden = true);
 
-  const bars = $("compare-bars");
+  const bars = $("comparisons");
   bars.addEventListener("pointermove", (e) => {
     const seg = e.target.closest(".seg");
     seg ? show(seg, e.clientX, e.clientY) : hide();
@@ -443,90 +479,142 @@ function updateCouncil(v) {
   warning.textContent = t("councilWarning");
 }
 
-/** Fill one bar row with shares, counts and tooltip texts. */
-function updateBarRow(key, name, shares, detailFor) {
-  const row = document.querySelector(`.bar-row[data-row="${key}"]`);
+/**
+ * Fill one bar row: name, values, and one segment per category. Segments
+ * are reused when the categories stay the same, so CSS can animate their
+ * widths; flex-grow = share, so the 2px gaps never push past 100 %.
+ */
+function updateBarRow(row, cmp, name, shares, detailFor) {
   row.querySelector(".bar-name").textContent = name;
-  row.querySelector(".bar-values").textContent = CATEGORIES.map(
-    (c) => `${t(c)} ${fmt.pct(shares[c])}`
-  ).join(" · ");
+  row.querySelector(".bar-values").textContent = Object.keys(shares)
+    .filter((c) => shares[c] > 0)
+    .map((c) => `${cmp.label(c)} ${fmt.pct(shares[c])}`)
+    .join(" · ");
 
-  for (const seg of row.querySelectorAll(".seg")) {
+  const bar = row.querySelector(".bar");
+  const keys = Object.keys(shares);
+  if ([...bar.children].map((s) => s.dataset.category).join() !== keys.join()) {
+    bar.replaceChildren(
+      ...keys.map((c) => {
+        const seg = el("div", "seg");
+        seg.dataset.category = c;
+        seg.tabIndex = 0;
+        seg.style.background = cmp.color(c);
+        return seg;
+      })
+    );
+  }
+  for (const seg of bar.children) {
     const c = seg.dataset.category;
     seg.hidden = shares[c] === 0;
     seg.style.flexGrow = shares[c];
     seg.dataset.value = fmt.pct(shares[c]);
-    seg.dataset.label = `${t(c)} · ${name}`;
+    seg.dataset.label = `${cmp.label(c)} · ${name}`;
     seg.dataset.detail = detailFor(c);
-    seg.setAttribute("aria-label", `${seg.dataset.label}: ${seg.dataset.value}, ${seg.dataset.detail}`);
+    seg.setAttribute("aria-label", `${seg.dataset.label}: ${seg.dataset.value} ${seg.dataset.detail}`);
   }
 }
 
-let shownScore = null; // the value currently displayed (mid-animation too)
-let scoreFrame = 0;
+/** Legend: coloured key + label for each category. */
+function updateLegend(list, cmp, categories) {
+  list.replaceChildren(
+    ...categories.map((c) => {
+      const li = el("li");
+      const key = el("span", "key");
+      key.style.background = cmp.color(c);
+      li.append(key, document.createTextNode(cmp.label(c)));
+      return li;
+    })
+  );
+}
 
-/** Count the big number (and the one in the navigator) to `to` (0..1). */
-function animateScore(to) {
+/** "+14.3 Prozentpunkte gegenüber vorher" (empty if there is nothing to compare). */
+function deltaText(delta, reference) {
+  if (delta === null) return "";
+  const pp = delta * 100;
+  const direction = Math.abs(pp) < 0.05 ? 0 : Math.sign(pp);
+  return t("scoreDelta", fmt.dec(Math.abs(pp)), direction, reference);
+}
+
+/**
+ * Animate numbers from their current value to a new one (0..1). Each
+ * counter keeps its own state, so several numbers can move at once.
+ */
+function counter(...nodes) {
+  let shown = null; // the value currently displayed (mid-animation too)
+  let frame = 0;
   const paint = (value) => {
-    $("score-value").textContent = fmt.pct(value);
-    $("nav-score").textContent = fmt.pct(value);
+    for (const n of nodes) n.textContent = value === null ? "–" : fmt.pct(value);
   };
-  cancelAnimationFrame(scoreFrame);
-  const from = shownScore ?? to;
-  if (from === to || prefersReducedMotion()) {
-    shownScore = to;
-    paint(to);
-    return;
-  }
-  const duration = 450; // ms
-  let start = null;
-  const step = (now) => {
-    // Measure time with the frame timestamps only (the first frame is the
-    // start); mixing them with performance.now() can give negative progress.
-    start ??= now;
-    const k = Math.min(1, (now - start) / duration);
-    const eased = 1 - Math.pow(1 - k, 3); // ease-out
-    shownScore = from + (to - from) * eased;
-    paint(shownScore);
-    if (k < 1) scoreFrame = requestAnimationFrame(step);
+  return (to) => {
+    cancelAnimationFrame(frame);
+    const from = shown;
+    if (from === null || to === null || from === to || prefersReducedMotion()) {
+      shown = to;
+      paint(to);
+      return;
+    }
+    const duration = 450; // ms
+    let start = null;
+    const step = (now) => {
+      // Measure time with the frame timestamps only (the first frame is the
+      // start); mixing them with performance.now() can give negative progress.
+      start ??= now;
+      const k = Math.min(1, (now - start) / duration);
+      const eased = 1 - Math.pow(1 - k, 3); // ease-out
+      shown = from + (to - from) * eased;
+      paint(shown);
+      if (k < 1) frame = requestAnimationFrame(step);
+    };
+    frame = requestAnimationFrame(step);
   };
-  scoreFrame = requestAnimationFrame(step);
 }
+const counters = {}; // created on first use: "overall", "gender", …
 
-function updateComparison(v) {
+function updateComparisons(v) {
   // Scenario picker only makes sense for the Council in office today.
   $("scenarios").hidden = !v.isCurrent;
 
-  // Big number + change (the line stays in the layout when empty, so the
-  // bars below don't jump).
-  animateScore(v.score);
-  const delta = $("score-delta");
-  delta.textContent = "";
-  if (v.delta !== null) {
-    const pp = v.delta * 100;
-    const direction = Math.abs(pp) < 0.05 ? 0 : Math.sign(pp);
-    delta.textContent = t("scoreDelta", fmt.dec(Math.abs(pp)), direction, v.deltaReference);
+  // Overall score (the line under it stays in the layout when empty, so
+  // nothing below jumps)
+  counters.overall ??= counter($("score-value"), $("nav-score"));
+  counters.overall(v.overall);
+  $("score-delta").textContent = deltaText(v.overallDelta, v.deltaReference);
+  const included = v.results.filter((r) => r.available).map((r) =>
+    base.comparisons.find((c) => c.key === r.key).title
+  );
+  $("score-caption").textContent = t("overallCaption", included);
+
+  // One section per comparison
+  const councilName = v.isScenario
+    ? t("compareCouncilScenario")
+    : t("compareCouncil", periodLabel(v.version, v.isCurrent));
+  for (const [k, r] of v.results.entries()) {
+    const cmp = base.comparisons[k];
+    const section = document.querySelector(`.comparison[data-key="${cmp.key}"]`);
+    counters[cmp.key] ??= counter(section.querySelector(".comparison-score"));
+    counters[cmp.key](r.available ? r.score : null);
+    section.querySelector(".comparison-delta").textContent = deltaText(r.delta, v.deltaReference);
+    section.querySelector(".comparison-note").textContent = r.available ? "" : cmp.noData();
+    section.classList.toggle("is-unavailable", !r.available);
+    if (!r.available) continue;
+
+    updateLegend(section.querySelector(".legend"), cmp, r.categories);
+    const seats = Object.values(r.counts).reduce((a, b) => a + b, 0);
+    const [councilRow, populationRow] = section.querySelectorAll(".bar-row");
+    updateBarRow(councilRow, cmp, councilName, only(r.p, r.categories), (c) =>
+      t("tooltipOf", r.counts[c], seats)
+    );
+    updateBarRow(populationRow, cmp, r.pop.label, only(r.q, r.categories), (c) =>
+      r.pop.persons ? t("tooltipPersons", fmt.int(r.pop.persons[c])) : ""
+    );
   }
 
-  // Bars
-  const seats = v.counts.female + v.counts.male;
-  updateBarRow(
-    "council",
-    v.isScenario
-      ? t("compareCouncilScenario")
-      : t("compareCouncil", periodLabel(v.version, v.isCurrent)),
-    v.p,
-    (c) => t("tooltipOf", v.counts[c], seats)
-  );
-  updateBarRow(
-    "population",
-    t("comparePopulation", v.pop.year),
-    v.q,
-    (c) => t("tooltipPersons", fmt.int(v.populationCounts[c]))
-  );
-
   // Screen readers: announce the final result once (not every animation frame)
-  $("score-status").textContent = [`${t("scoreLabel")}: ${fmt.pct(v.score)}`, delta.textContent]
+  $("score-status").textContent = [
+    `${t("overallLabel")}: ${v.overall === null ? "–" : fmt.pct(v.overall)}`,
+    $("score-delta").textContent,
+  ]
     .filter(Boolean)
     .join(", ");
 }
@@ -535,7 +623,7 @@ function update() {
   const v = computeView();
   updateNavigator(v);
   updateCouncil(v);
-  updateComparison(v);
+  updateComparisons(v);
 }
 
 // Start --------------------------------------------------------------------------
@@ -564,7 +652,7 @@ async function main() {
     state.index = base.currentIndex >= 0 ? base.currentIndex : base.versions.length - 1;
     setupNavigator();
     setupScenarios();
-    setupBars();
+    setupComparisons();
     setupFooter();
     setupTooltip();
     update();

@@ -67,7 +67,8 @@
       <p class="warning" id="council-warning" hidden></p>
     </section>
 
-    <!-- 2. Comparison: score, scenario picker, bars --------------------------->
+    <!-- 2. Comparison: scenario picker, overall score, one section per
+         comparison (gender, party, language, age; built by app.js) ------->
     <section class="block" aria-labelledby="compare-title">
       <h2 id="compare-title" data-i18n="compareTitle"></h2>
 
@@ -77,22 +78,22 @@
       <!-- The visible number is animated, so it is hidden from screen readers;
            #score-status announces the final value instead. -->
       <div class="score" id="score">
-        <p class="score-label" data-i18n="scoreLabel"></p>
+        <p class="score-label" data-i18n="overallLabel"></p>
         <p class="score-value" id="score-value" aria-hidden="true">–</p>
         <p class="score-delta" id="score-delta" aria-hidden="true"></p>
+        <p class="score-caption" id="score-caption"></p>
         <p class="score-caption" data-i18n="scoreCaption"></p>
         <p class="visually-hidden" id="score-status" aria-live="polite"></p>
       </div>
 
-      <ul class="legend" id="compare-legend"></ul>
-      <div class="bars" id="compare-bars"></div>
+      <div class="comparisons" id="comparisons"></div>
     </section>
 
     <!-- Footer ---------------------------------------------------------------->
     <footer class="footer">
       <h2 class="footer-title" data-i18n="sourcesTitle"></h2>
       <ul>
-        <li><a id="source-population" href="#" rel="noopener"></a></li>
+        <li id="sources-bfs"></li>
         <li data-i18n="sourceCouncil"></li>
         <li data-i18n="sourcePortraits"></li>
         <li id="data-generated"></li>
