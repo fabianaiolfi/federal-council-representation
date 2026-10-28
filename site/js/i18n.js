@@ -66,7 +66,10 @@ const strings = {
     sourcePopulation: (table) =>
       `Bevölkerung: Bundesamt für Statistik (BFS), STAT-TAB, Tabelle ${table}`,
     sourceCouncil: "Bundesrat: eigene Zusammenstellung (all_federal_councillors.csv)",
+    sourcePortraits: "Porträts: Wikimedia Commons (Bildnachweise unten)",
     dataGenerated: (date) => `Daten aufbereitet am ${date}`,
+    creditsTitle: "Bildnachweise",
+    creditAuthorUnknown: "Urheber unbekannt",
 
     // Errors
     loadError:

@@ -211,6 +211,18 @@ h2 {
 .avatar-female { background: var(--female); }
 .avatar-male { background: var(--male); }
 
+/* Portrait photo, shown as it is. The box is portrait-shaped (3:4) so
+   photos need little cropping; faces are usually in the upper part. */
+.portrait {
+  flex: none;
+  display: block;
+  width: 3rem;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+  object-position: center 20%;
+  background: var(--wash); /* while loading */
+}
+
 .member-body {
   min-width: 0;
 }
@@ -580,6 +592,21 @@ h2 {
   margin: 0.5rem 0 0;
   display: grid;
   gap: 0.25rem;
+}
+
+/* Picture credits: collapsed by default */
+.credits {
+  margin-top: 1rem;
+}
+
+.credits summary {
+  cursor: pointer;
+  color: var(--ink-2);
+}
+
+.credits ul {
+  margin-top: 0.75rem;
+  font-size: 0.8125rem;
 }
 
 /* Small screens --------------------------------------------------------------------------- */

@@ -16,6 +16,9 @@ It combines two sources:
    so each historical Council can be compared with the population of
    its own time.
 
+3. data/portraits.json (optional), written by scripts/fetch_portraits.py:
+   image path, author and licence of each councillor's portrait.
+
 Usage
     python3 scripts/build_data.py
 
@@ -41,6 +44,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 CSV_PATH = ROOT / "data" / "all_federal_councillors.csv"
+PORTRAITS_PATH = ROOT / "data" / "portraits.json"
 OUT_PATH = ROOT / "site" / "data" / "data.json"
 
 BFS_TABLE = "px-x-0102030000_101"
@@ -105,6 +109,24 @@ def load_councillors() -> list[dict]:
                 "leftOfficeDate": parse_date(row["left_office_date"]),
             })
     return councillors
+
+
+def add_portraits(councillors: list[dict]) -> int:
+    """Attach portrait + credits from data/portraits.json, if it exists."""
+    if not PORTRAITS_PATH.exists():
+        return 0
+    portraits = json.loads(PORTRAITS_PATH.read_text(encoding="utf-8"))
+    for c in councillors:
+        p = portraits.get(str(c["number"]))
+        if p:
+            c["portrait"] = {
+                "image": p["image"],
+                "source": p["source"],
+                "author": p["author"],
+                "license": p["license"],
+                "licenseUrl": p["licenseUrl"],
+            }
+    return sum(1 for c in councillors if "portrait" in c)
 
 
 # --- 2. Population by sex (BFS) -------------------------------------------------
@@ -172,6 +194,7 @@ def get_population_by_sex() -> dict:
 def main() -> None:
     councillors = load_councillors()
     print(f"Read {len(councillors)} councillors from {CSV_PATH.relative_to(ROOT)}")
+    print(f"Added {add_portraits(councillors)} portraits from {PORTRAITS_PATH.relative_to(ROOT)}")
 
     population = get_population_by_sex()
     years = population["years"]

@@ -94,6 +94,7 @@ function computeBase(data, today) {
     // Current members with a known leaving date: these seats can be
     // "re-filled" in the scenario picker.
     departures: current ? current.members.filter((m) => m.leftOfficeDate) : [],
+    councillors: data.councillors, // for the picture credits
     population: data.population,
     generated: data.generated,
   };
@@ -311,6 +312,34 @@ function setupFooter() {
   link.textContent = t("sourcePopulation", base.population.table);
   link.href = base.population.url;
   $("data-generated").textContent = t("dataGenerated", fmt.date(base.generated));
+  setupCredits();
+}
+
+/**
+ * Picture credits: author and licence of every portrait (required by
+ * several of the licences), in a collapsed list in the footer.
+ */
+function setupCredits() {
+  const people = base.councillors.filter((c) => c.portrait);
+  const items = people.map((c) => {
+    const p = c.portrait;
+    const li = el("li");
+    const file = el("a", null, c.name);
+    file.href = p.source;
+    file.rel = "noopener";
+    li.append(file, document.createTextNode(`: ${p.author || t("creditAuthorUnknown")}, `));
+    if (p.licenseUrl) {
+      const license = el("a", null, p.license);
+      license.href = p.licenseUrl;
+      license.rel = "noopener";
+      li.append(license);
+    } else {
+      li.append(document.createTextNode(p.license || "–"));
+    }
+    return li;
+  });
+  $("credits-list").replaceChildren(...items);
+  $("credits").hidden = people.length === 0;
 }
 
 /** One shared tooltip for all bar segments; works on hover and keyboard focus. */
@@ -362,11 +391,28 @@ function updateNavigator(v) {
   $("nav-next").disabled = state.index === base.versions.length - 1;
 }
 
-/** One card per member: initials, name, party and canton. */
-function memberCard(m) {
-  const li = el("li", "member");
+/** Coloured square with initials; used when there is no portrait. */
+function initialsAvatar(m) {
   const avatar = el("span", `avatar avatar-${m.gender}`, initials(m.name));
   avatar.setAttribute("aria-hidden", "true");
+  return avatar;
+}
+
+/** Portrait photo, falling back to the initials if the image can't load. */
+function portrait(m) {
+  if (!m.portrait) return initialsAvatar(m);
+  const img = el("img", "portrait");
+  img.src = m.portrait.image;
+  img.alt = ""; // decorative: the name is right next to it
+  img.decoding = "async";
+  img.addEventListener("error", () => img.replaceWith(initialsAvatar(m)));
+  return img;
+}
+
+/** One card per member: portrait, name, party and canton. */
+function memberCard(m) {
+  const li = el("li", "member");
+  const avatar = portrait(m);
 
   const body = el("div", "member-body");
   body.append(
@@ -432,9 +478,12 @@ function animateScore(to) {
     paint(to);
     return;
   }
-  const start = performance.now();
   const duration = 450; // ms
+  let start = null;
   const step = (now) => {
+    // Measure time with the frame timestamps only (the first frame is the
+    // start); mixing them with performance.now() can give negative progress.
+    start ??= now;
     const k = Math.min(1, (now - start) / duration);
     const eased = 1 - Math.pow(1 - k, 3); // ease-out
     shownScore = from + (to - from) * eased;
