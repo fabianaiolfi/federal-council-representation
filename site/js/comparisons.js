@@ -7,7 +7,9 @@
  *   - label(c), color(c):       how a category is named and drawn
  *   - council(members, day):    how many members fall into each category
  *   - population(day, cats):    the BFS figures that apply on that day,
- *                               or null if the BFS has no data for that time
+ *                               or null if the BFS has no data for that time;
+ *                               optionally `breakdown`: what a grouped
+ *                               category contains (shown on hover only)
  * The score is the same overlap coefficient for all of them (metrics.js).
  * No DOM code here.
  *
@@ -102,11 +104,15 @@ export function buildComparisons(data) {
         const year = electionOn(day);
         if (!year) return null;
         const values = {};
+        const others = []; // the parties grouped as "Übrige", for the hover
         for (const [party, share] of Object.entries(data.party.elections[year])) {
           const key = categories.includes(party) ? party : OTHER;
           values[key] = (values[key] ?? 0) + share;
+          if (key === OTHER) {
+            others.push({ label: party === OTHER ? t("partyFurther") : party, weight: share });
+          }
         }
-        return { label: t("partyElection", year), values };
+        return { label: t("partyElection", year), values, breakdown: { [OTHER]: others } };
       },
       noData: () => t("noDataParty", Object.keys(data.party.elections)[0]),
     },
@@ -121,7 +127,21 @@ export function buildComparisons(data) {
         // Since 2010 people can name several main languages (shares add up
         // to more than 100 %); the score uses the relative shares.
         const year = pickYear(data.language.years, Number(day.slice(0, 4)));
-        return { label: t("populationYear", year), values: data.language.years[year] };
+        // Which languages make up "Andere Sprachen" (BFS detail table, since
+        // 2010, people aged 15+), for the hover
+        const detail = data.language.other.years[year];
+        const breakdown = detail && {
+          other: Object.entries(detail).map(([name, people]) => ({
+            label: name === "Andere Sprachen" ? t("languageFurther") : name,
+            weight: people,
+          })),
+        };
+        return {
+          label: t("populationYear", year),
+          values: data.language.years[year],
+          breakdown,
+          breakdownNote: detail && t("languageBreakdownNote"),
+        };
       },
     },
     {
@@ -138,7 +158,7 @@ export function buildComparisons(data) {
       population(day) {
         const year = pickYear(data.age.years, Number(day.slice(0, 4)));
         const values = data.age.years[year];
-        return { label: t("populationAdults", year), values, persons: values };
+        return { label: t("populationAdults", year, ageGroups[0].min), values, persons: values };
       },
     },
   ];

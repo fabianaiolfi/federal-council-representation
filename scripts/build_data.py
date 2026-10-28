@@ -16,9 +16,10 @@ Sources:
    comparison. Each comparison uses the population of the time:
    - Gender and age: STAT-TAB PxWeb table px-x-0102030000_101
      "Ständige Wohnbevölkerung nach Geschlecht und Alter", every year
-     since 1860. Age is grouped as 20-39, 40-64 and 65+ (adults only).
+     since 1860. Age is grouped as 18-39, 40-64 and 65+ (adults only).
    - Language: table T 01.08.01.01 "Hauptsprachen seit 1910"
-     (censuses until 2000, yearly since 2010).
+     (censuses until 2000, yearly since 2010). Which languages make up
+     "other languages": table T 01.08.01.02 (since 2010).
    - Party: table T 17.02.02.03.01 "Nationalratswahlen: Stärke der
      Parteien" (every National Council election since 1919).
    The two tables are Excel files, downloaded through the BFS asset API by
@@ -67,12 +68,13 @@ PX_TABLE_URL = f"https://www.pxweb.bfs.admin.ch/pxweb/de/{PX_TABLE}/-/{PX_TABLE}
 # Language and party: Excel tables, looked up by their BFS table number
 BFS_ASSETS_API = "https://dam-api.bfs.admin.ch/hub/api/dam/assets"
 LANGUAGE_TABLE = "je-d-01.08.01.01"  # Hauptsprachen seit 1910
+LANGUAGE_DETAIL_TABLE = "je-d-01.08.01.02"  # Hauptsprachen nach Kanton (since 2010)
 PARTY_TABLE = "je-d-17.02.02.03.01"  # Nationalratswahlen: Stärke der Parteien
 
-# Age groups compared (adults: the Council's members are always adults).
-# These are the BFS's usual broad age groups for the adult population.
+# Age groups compared. Only adults are compared, from 18: the voting age and
+# the minimum age for the Federal Council since 1991 (before: 20).
 AGE_GROUPS = [
-    {"key": "20-39", "min": 20, "max": 39},
+    {"key": "18-39", "min": 18, "max": 39},
     {"key": "40-64", "min": 40, "max": 64},
     {"key": "65+", "min": 65, "max": None},
 ]
@@ -146,9 +148,14 @@ def parse_date(text: str) -> str | None:
     return datetime.strptime(text, "%d %B %Y").date().isoformat()
 
 
-def xlsx_rows(content: bytes) -> list[list]:
+def xlsx_sheet_count(content: bytes) -> int:
+    names = zipfile.ZipFile(io.BytesIO(content)).namelist()
+    return sum(1 for n in names if re.fullmatch(r"xl/worksheets/sheet\d+\.xml", n))
+
+
+def xlsx_rows(content: bytes, sheet_number: int = 1) -> list[list]:
     """
-    Read the first sheet of an Excel file into a list of rows, using only the
+    Read one sheet of an Excel file into a list of rows, using only the
     standard library (an .xlsx file is a zip archive of XML files).
     Each row is a list of cell values (str, or None for empty cells).
     """
@@ -166,7 +173,7 @@ def xlsx_rows(content: bytes) -> list[list]:
         return n - 1
 
     rows = []
-    sheet = ET.fromstring(z.read("xl/worksheets/sheet1.xml"))
+    sheet = ET.fromstring(z.read(f"xl/worksheets/sheet{sheet_number}.xml"))
     for row in sheet.iter(f"{{{ns['m']}}}row"):
         cells = {}
         for c in row.findall("m:c", ns):
@@ -387,6 +394,34 @@ def get_languages() -> dict:
     return {**info, "years": years}  # {"1910": {"de": 69.1, "fr": 21.1, …}, …}
 
 
+def get_other_languages() -> dict:
+    """
+    Which languages make up "other languages" (non-national main languages),
+    in number of people aged 15+, for every year since 2010. One sheet per
+    year; the "Total" row is Switzerland as a whole. Only used to show what
+    "Andere Sprachen" contains.
+    """
+    content, info = bfs_table(LANGUAGE_DETAIL_TABLE)
+    national = ("Deutsch", "Französisch", "Italienisch", "Rätoromanisch", "Total")
+    years = {}
+    for n in range(1, xlsx_sheet_count(content) + 1):
+        rows = xlsx_rows(content, n)
+        year = re.search(r"(\d{4})\s*$", (rows[0][0] or "").strip())
+        header = next((r for r in rows if any(v and str(v).startswith("Deutsch") for v in r)), None)
+        total = next((r for r in rows if r and (r[0] or "").strip() == "Total"), None)
+        if not (year and header and total):
+            continue
+        counts = {}
+        for i, name in enumerate(header):
+            name = (name or "").strip()
+            if name and not name.startswith(national):
+                value = to_number(total[i] if i < len(total) else None)
+                if value:
+                    counts[name] = round(value)
+        years[year.group(1)] = counts
+    return {**info, "years": dict(sorted(years.items()))}  # {"2024": {"Englisch": 552364, …}}
+
+
 # --- 4. Party (BFS, Excel) ------------------------------------------------------
 
 def get_parties() -> dict:
@@ -423,7 +458,9 @@ def main() -> None:
     gender, age = get_gender_and_age()
     print(f"Gender and age: {len(gender['years'])} years ({min(gender['years'])}-{max(gender['years'])})")
     language = get_languages()
-    print(f"Language: {len(language['years'])} years ({min(language['years'])}-{max(language['years'])})")
+    language["other"] = get_other_languages()
+    print(f"Language: {len(language['years'])} years ({min(language['years'])}-{max(language['years'])}), "
+          f"other languages in detail: {len(language['other']['years'])} years")
     party = get_parties()
     print(f"Party: {len(party['elections'])} elections ({min(party['elections'])}-{max(party['elections'])})")
 

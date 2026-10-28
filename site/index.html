@@ -34,38 +34,39 @@
 
     <p class="load-error" id="load-error" role="alert" hidden></p>
 
-    <!-- 1. Federal Council: one panel = timeline navigation + the 7 seats.
-         The panel head sticks to the top while scrolling through the seats
-         and shows the score once the big number is out of view. ----------->
-    <section class="block" aria-labelledby="council-title">
-      <h2 id="council-title" data-i18n="councilTitle"></h2>
+    <!-- 1. Federal Council: one panel = timeline navigation (head) + the 7
+         members. --------------------------------------------------------->
+    <h2 class="block" id="council-title" data-i18n="councilTitle"></h2>
 
-      <div class="council-panel" id="council-panel" hidden>
-        <div class="panel-head" id="panel-head">
-          <div class="panel-row">
-            <p class="panel-period" id="nav-period" aria-live="polite"></p>
-            <div class="nav-buttons">
-              <button class="nav-btn" id="nav-prev" type="button">
-                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
-              </button>
-              <button class="nav-btn" id="nav-next" type="button">
-                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
-              </button>
-            </div>
-          </div>
-          <div class="panel-row">
-            <p class="panel-dates" id="council-subtitle"></p>
-            <p class="nav-score" id="nav-score" aria-hidden="true"></p>
-          </div>
-          <input class="nav-range" id="nav-range" type="range" min="0" step="1">
-          <div class="nav-ticks" id="nav-ticks" aria-hidden="true"></div>
+    <!-- The panel head is a direct child of <main> (a sticky element only
+         sticks within its parent), so it stays at the top of the screen
+         while scrolling through the whole page. It shows the overall score
+         once the big number is out of view. -->
+    <div class="panel-head" id="panel-head" hidden>
+      <div class="panel-row">
+        <p class="panel-period" id="nav-period" aria-live="polite"></p>
+        <div class="nav-buttons">
+          <button class="nav-btn" id="nav-prev" type="button">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
+          </button>
+          <button class="nav-btn" id="nav-next" type="button">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
+          </button>
         </div>
-
-        <ol class="council" id="council-list"></ol>
       </div>
+      <div class="panel-row">
+        <p class="panel-dates" id="council-subtitle"></p>
+        <p class="nav-score" id="nav-score" aria-hidden="true"></p>
+      </div>
+      <input class="nav-range" id="nav-range" type="range" min="0" step="1">
+      <div class="nav-ticks" id="nav-ticks" aria-hidden="true"></div>
+    </div>
 
-      <p class="warning" id="council-warning" hidden></p>
+    <section class="council-panel" id="council-panel" aria-labelledby="council-title" hidden>
+      <ol class="council" id="council-list"></ol>
     </section>
+
+    <p class="warning" id="council-warning" hidden></p>
 
     <!-- 2. Comparison: scenario picker, overall score, one section per
          comparison (gender, party, language, age; built by app.js) ------->

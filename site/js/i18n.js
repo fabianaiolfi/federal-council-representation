@@ -41,7 +41,7 @@ const strings = {
       "Hinweis: Für heute ist kein vollständiger Bundesrat erfasst. Die Daten sind möglicherweise nicht aktuell.",
 
     // Comparison
-    compareTitle: "Der Vergleich",
+    compareTitle: "Der Bundesrat im Vergleich mit der Schweizer Bevölkerung",
     scenarioQuestion: (name) => `Wer folgt auf ${name}?`,
     scenarioToday: "Heute",
     scenarioFemale: "Eine Frau",
@@ -51,13 +51,11 @@ const strings = {
     overallCaption: (names) =>
       `Durchschnitt aus ${names.length > 1 ? `${names.slice(0, -1).join(", ")} und ${names.at(-1)}` : names[0]}`,
     scoreCaption: "100 % = gleiche Zusammensetzung wie die Bevölkerung",
-    // reference: "today" (scenario) or "previous" (browsing)
-    scoreDelta: (pp, direction, reference) => {
-      const ref = reference === "today" ? "heute" : "vorher";
-      return direction === 0
-        ? `Unverändert gegenüber ${ref}`
-        : `${direction > 0 ? "+" : "−"}${pp} Prozentpunkte gegenüber ${ref}`;
-    },
+    // Change caused by the successor scenario
+    scoreDelta: (pp, direction) =>
+      direction === 0
+        ? "Unverändert gegenüber heute"
+        : `${direction > 0 ? "+" : "−"}${pp} Prozentpunkte gegenüber heute`,
     compareCouncil: (period) => `Bundesrat ${period}`,
     compareCouncilScenario: "Bundesrat nach der Ersatzwahl",
 
@@ -67,16 +65,19 @@ const strings = {
     compareLanguage: "Sprache",
     compareAge: "Alter",
     populationYear: (year) => `Bevölkerung ${year}`,
-    populationAdults: (year) => `Bevölkerung ab 20 Jahren, ${year}`,
+    populationAdults: (year, minAge) => `Bevölkerung ab ${minAge} Jahren, ${year}`,
     partyElection: (year) => `Nationalratswahl ${year}`,
     partyMitte: "Mitte/CVP",
-    partyOther: "Übrige",
+    partyOther: "Übrige Parteien",
+    partyFurther: "Weitere",
     noDataParty: (year) => `Keine Daten: Die Parteistärken der BFS beginnen mit der Nationalratswahl ${year}.`,
     language_de: "Deutsch",
     language_fr: "Französisch",
     language_it: "Italienisch",
     language_rm: "Rätoromanisch",
     language_other: "Andere Sprachen",
+    languageFurther: "Weitere Sprachen",
+    languageBreakdownNote: "Aufteilung gemäss Bevölkerung ab 15 Jahren",
     ageRange: (min, max) => `${min}–${max} Jahre`,
     ageFrom: (min) => `${min} Jahre und älter`,
     tooltipOf: (n, total) => `${n} von ${total} Sitzen`,

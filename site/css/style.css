@@ -182,8 +182,8 @@ h2 {
 
 /* Federal Council panel: navigation head + the 7 seats, one element ------------- */
 .council-panel {
-  margin-top: 1.5rem;
   border: 1px solid var(--ink);
+  border-top: none; /* the panel head above draws the top edge */
   /* "clip" (unlike "hidden") keeps the sticky head working */
   overflow: clip;
 }
@@ -253,15 +253,17 @@ h2 {
   margin-top: 0.2rem;
 }
 
-/* Panel head: period, dates, buttons, slider. Sticks to the top while
-   scrolling through the seats. */
+/* Panel head: period, dates, buttons, slider. Sticks to the top of the
+   screen while scrolling through the whole page. */
 .panel-head {
   position: sticky;
   top: env(safe-area-inset-top, 0px);
   z-index: 5;
+  margin-top: 1.5rem;
   padding: 1rem 1rem 0.5rem;
   background: var(--bg);
-  border-bottom: 1px solid var(--line);
+  border: 1px solid var(--ink);
+  border-bottom-color: var(--line);
 }
 
 .panel-row {
@@ -503,7 +505,6 @@ h2 {
 }
 
 .score-delta {
-  min-height: 1.6em;        /* reserve the line, so nothing jumps when it appears */
   margin-top: 0.75rem;
   font-size: 1.125rem;
   font-weight: 600;
@@ -544,7 +545,6 @@ h2 {
 }
 
 .comparison-delta {
-  min-height: 1.5em;        /* reserve the line, so nothing jumps */
   margin-top: 0.25rem;
   font-size: 0.9375rem;
   font-weight: 600;
@@ -626,7 +626,7 @@ h2 {
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
   font-size: 0.875rem;
   color: var(--ink-2);
-  max-width: 16rem;
+  max-width: 20rem;
 }
 
 .tooltip strong {
@@ -636,6 +636,29 @@ h2 {
 
 .tooltip-detail {
   color: var(--ink-3);
+}
+
+.tooltip-detail:empty,
+.score-delta:empty,
+.comparison-delta:empty {
+  display: none;
+}
+
+/* What a grouped segment contains ("Übrige Parteien", "Andere Sprachen") */
+.tooltip-breakdown {
+  list-style: none;
+  margin: 0.4rem 0 0.2rem;
+  padding: 0.4rem 0 0;
+  border-top: 1px solid var(--line);
+  display: grid;
+  gap: 0.1rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.tooltip-breakdown li {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
 }
 
 /* Footer ------------------------------------------------------------------------------- */

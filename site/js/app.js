@@ -88,21 +88,25 @@ function average(results) {
 /**
  * The fixed part: every version of the Council since 1848 (up to today),
  * each with the result of every comparison and their average.
+ *
+ * Each version is measured on one day (`day`): past versions on the day
+ * they took office, the Council in office as of today (so ages are today's
+ * ages and the latest population figures apply).
  */
 function computeBase(data, today) {
   const comparisons = buildComparisons(data);
+  const isInOffice = (c) => c.start <= today && (!c.end || c.end >= today);
   const versions = buildVersions(data.councillors)
     .filter((c) => c.start <= today)
     .map((c) => {
-      const results = comparisons.map((cmp) => evaluate(cmp, c.members, c.start));
-      return { ...c, results, overall: average(results) };
+      const day = isInOffice(c) ? today : c.start;
+      const results = comparisons.map((cmp) => evaluate(cmp, c.members, day));
+      return { ...c, day, results, overall: average(results) };
     });
 
   // The version in office today (-1 if today has an empty seat,
   // e.g. a successor is missing in the CSV).
-  const currentIndex = versions.findIndex(
-    (c) => c.start <= today && (!c.end || c.end >= today)
-  );
+  const currentIndex = versions.findIndex(isInOffice);
   const current = versions[currentIndex];
 
   return {
@@ -114,7 +118,7 @@ function computeBase(data, today) {
     // "re-filled" in the scenario picker.
     departures: current ? current.members.filter((m) => m.leftOfficeDate) : [],
     councillors: data.councillors, // for the picture credits
-    sources: [data.gender, data.language, data.party],
+    sources: [data.gender, data.language, data.language.other, data.party],
     generated: data.generated,
   };
 }
@@ -131,28 +135,23 @@ function computeView() {
   const results = isScenario
     ? c.results.map((r) =>
         r.key === "gender"
-          ? evaluate(base.comparisons[0], withSuccessors(c.members, state.choices), c.start)
+          ? evaluate(base.comparisons[0], withSuccessors(c.members, state.choices), c.day)
           : r
       )
     : c.results;
 
-  // The change shown under each number: versus today in a scenario,
-  // otherwise versus the previous version.
-  const reference = isScenario ? c : base.versions[i - 1];
-  const diff = (a, b) => (a == null || b == null ? null : a - b);
+  // In a scenario, the change versus today is shown under the overall
+  // score and under the gender score (the only one the scenario changes).
   return {
     version: c,
     isCurrent,
     isScenario,
     overall: average(results),
-    overallDelta: reference ? diff(average(results), reference.overall) : null,
+    overallDelta: isScenario ? average(results) - c.overall : null,
     results: results.map((r, k) => ({
       ...r,
-      delta: reference && r.available && reference.results[k].available
-        ? r.score - reference.results[k].score
-        : null,
+      delta: isScenario && r.key === "gender" ? r.score - c.results[k].score : null,
     })),
-    deltaReference: isScenario ? "today" : "previous",
   };
 }
 
@@ -188,8 +187,8 @@ function setupNavigator() {
   const head = $("panel-head");
   const range = $("nav-range");
   const last = base.versions.length - 1;
-  panel.setAttribute("role", "region");
-  panel.setAttribute("aria-label", t("navLabel"));
+  head.setAttribute("role", "region");
+  head.setAttribute("aria-label", t("navLabel"));
   $("nav-prev").setAttribute("aria-label", t("navPrev"));
   $("nav-next").setAttribute("aria-label", t("navNext"));
   range.setAttribute("aria-label", t("navSlider"));
@@ -218,6 +217,7 @@ function setupNavigator() {
   });
 
   setupTicks(last);
+  head.hidden = false;
   panel.hidden = false;
 
   // Show the score in the panel head only while the big number is off
@@ -388,6 +388,17 @@ function setupTooltip() {
       el("span", null, seg.dataset.label),
       el("span", "tooltip-detail", seg.dataset.detail)
     );
+    const breakdown = breakdowns.get(seg);
+    if (breakdown) {
+      const list = el("ul", "tooltip-breakdown");
+      for (const item of breakdown.items) {
+        const li = el("li");
+        li.append(el("span", null, item.label), el("span", null, fmt.pct(item.share)));
+        list.append(li);
+      }
+      tip.append(list);
+      if (breakdown.note) tip.append(el("span", "tooltip-detail", breakdown.note));
+    }
     tip.hidden = false;
     // Keep the tooltip inside the viewport.
     const pad = 12;
@@ -484,7 +495,7 @@ function updateCouncil(v) {
  * are reused when the categories stay the same, so CSS can animate their
  * widths; flex-grow = share, so the 2px gaps never push past 100 %.
  */
-function updateBarRow(row, cmp, name, shares, detailFor) {
+function updateBarRow(row, cmp, name, shares, detailFor, breakdownFor = () => null) {
   row.querySelector(".bar-name").textContent = name;
   row.querySelector(".bar-values").textContent = Object.keys(shares)
     .filter((c) => shares[c] > 0)
@@ -512,7 +523,28 @@ function updateBarRow(row, cmp, name, shares, detailFor) {
     seg.dataset.label = `${cmp.label(c)} · ${name}`;
     seg.dataset.detail = detailFor(c);
     seg.setAttribute("aria-label", `${seg.dataset.label}: ${seg.dataset.value} ${seg.dataset.detail}`);
+    breakdowns.set(seg, breakdownFor(c));
   }
+}
+
+// What a grouped segment ("Übrige Parteien", "Andere Sprachen") contains,
+// shown in its tooltip: segment -> { items: [{label, share}], note } or null
+const breakdowns = new WeakMap();
+
+/**
+ * Split a grouped category's share among its members, in proportion to
+ * their weights (votes, people), largest first. The parts add up exactly
+ * to the share shown for the category.
+ */
+function splitShare(share, items, note) {
+  if (!items?.length) return null;
+  const total = items.reduce((a, x) => a + x.weight, 0);
+  return {
+    items: items
+      .map((x) => ({ label: x.label, share: (share * x.weight) / total }))
+      .sort((a, b) => b.share - a.share),
+    note,
+  };
 }
 
 /** Legend: coloured key + label for each category. */
@@ -528,12 +560,12 @@ function updateLegend(list, cmp, categories) {
   );
 }
 
-/** "+14.3 Prozentpunkte gegenüber vorher" (empty if there is nothing to compare). */
-function deltaText(delta, reference) {
+/** "+14.3 Prozentpunkte gegenüber heute" (empty if there is nothing to compare). */
+function deltaText(delta) {
   if (delta === null) return "";
   const pp = delta * 100;
   const direction = Math.abs(pp) < 0.05 ? 0 : Math.sign(pp);
-  return t("scoreDelta", fmt.dec(Math.abs(pp)), direction, reference);
+  return t("scoreDelta", fmt.dec(Math.abs(pp)), direction);
 }
 
 /**
@@ -579,7 +611,7 @@ function updateComparisons(v) {
   // nothing below jumps)
   counters.overall ??= counter($("score-value"), $("nav-score"));
   counters.overall(v.overall);
-  $("score-delta").textContent = deltaText(v.overallDelta, v.deltaReference);
+  $("score-delta").textContent = deltaText(v.overallDelta);
   const included = v.results.filter((r) => r.available).map((r) =>
     base.comparisons.find((c) => c.key === r.key).title
   );
@@ -594,7 +626,7 @@ function updateComparisons(v) {
     const section = document.querySelector(`.comparison[data-key="${cmp.key}"]`);
     counters[cmp.key] ??= counter(section.querySelector(".comparison-score"));
     counters[cmp.key](r.available ? r.score : null);
-    section.querySelector(".comparison-delta").textContent = deltaText(r.delta, v.deltaReference);
+    section.querySelector(".comparison-delta").textContent = deltaText(r.delta);
     section.querySelector(".comparison-note").textContent = r.available ? "" : cmp.noData();
     section.classList.toggle("is-unavailable", !r.available);
     if (!r.available) continue;
@@ -605,8 +637,13 @@ function updateComparisons(v) {
     updateBarRow(councilRow, cmp, councilName, only(r.p, r.categories), (c) =>
       t("tooltipOf", r.counts[c], seats)
     );
-    updateBarRow(populationRow, cmp, r.pop.label, only(r.q, r.categories), (c) =>
-      r.pop.persons ? t("tooltipPersons", fmt.int(r.pop.persons[c])) : ""
+    updateBarRow(
+      populationRow,
+      cmp,
+      r.pop.label,
+      only(r.q, r.categories),
+      (c) => (r.pop.persons ? t("tooltipPersons", fmt.int(r.pop.persons[c])) : ""),
+      (c) => splitShare(r.q[c], r.pop.breakdown?.[c], r.pop.breakdownNote)
     );
   }
 

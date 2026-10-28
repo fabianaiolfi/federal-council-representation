@@ -10,7 +10,7 @@ The page has three parts:
    party, canton; by seniority) and a
    timeline. The ← → buttons, the slider or the ← → keys step through every
    version of the Council since 1848 (94 so far). The panel head stays at the
-   top of the screen while you scroll through the members.
+   top of the screen while you scroll through the whole page.
 2. **Der Vergleich:** how closely the Council matches the population by
    **gender, party, language and age**. The overall score at the top is the
    average of the four; below it, each comparison has its own score and two
@@ -148,17 +148,18 @@ with 2025 figures (50.3 % women), the best achievable score is 93.1 %
 ## Comparisons and data
 
 The population side always comes from the Federal Statistical Office (BFS),
-for the time of the version shown. The rule for which year is used: the
-latest year with data **up to** the year the version took office; before the
-first year with data, the first year (the bar label always shows the year
-used).
+for the time of the version shown. Past versions are measured on the day
+they took office; the Council in office is measured **as of today** (today's
+ages, latest population figures). The rule for which year is used: the latest
+year with data **up to** that day; before the first year with data, the
+first year (the bar label always shows the year used).
 
 | Comparison | Council side | Population side (BFS) | Data since |
 |---|---|---|---|
 | Gender | `gender` in the CSV | Permanent resident population by sex, STAT-TAB `px-x-0102030000_101` | 1860, yearly |
 | Party | `party` in the CSV, mapped to the BFS party names | Party strength (share of the vote) in the National Council election, table T 17.02.02.03.01 | 1919, every election |
 | Language | Main language (Wikidata, see below) | Main languages of the permanent resident population, table T 01.08.01.01 | 1910; censuses until 2000, yearly since 2010 |
-| Age | Age on the day the version took office (birth date from Wikidata) | Permanent resident population aged 20+, same table as gender | 1860, yearly |
+| Age | Age on the day the version took office; today's age for the Council in office (birth dates from Wikidata) | Permanent resident population aged 18+, same table as gender | 1860, yearly |
 
 Details and choices:
 
@@ -178,8 +179,14 @@ Details and choices:
   `LANGUAGE_CORRECTIONS` in `build_data.py` (so far: Pascal Couchepin, French).
   The population includes "other languages"; since 2010 people can name
   several main languages, so the shares are rescaled to 100 %.
-- **Age:** groups 20–39, 40–64 and 65+ (`AGE_GROUPS` in `build_data.py`);
-  the population is compared from age 20, since Council members are adults.
+- **Hover details:** hovering "Übrige Parteien" lists the parties it
+  contains (from the same election table). Hovering "Andere Sprachen" lists
+  the languages it contains, from BFS table T 01.08.01.02 "Hauptsprachen
+  nach Grossregion und Kanton" (since 2010; people aged 15+), scaled to the
+  share shown.
+- **Age:** groups 18–39, 40–64 and 65+ (`AGE_GROUPS` in `build_data.py`);
+  the population is compared from age 18, the voting age and the minimum
+  age for the Federal Council since 1991.
 - **Colours:** orange and blue only mark gender; party, language and age use
   neutral greys, so the page keeps its two colours.
 - **Successor scenario:** only the successor's gender can be chosen, so it
@@ -228,7 +235,9 @@ cards, score and bars whenever `state` changes.
 
 - Population by sex and age: Federal Statistical Office (BFS), STAT-TAB table
   [px-x-0102030000_101](https://www.pxweb.bfs.admin.ch/pxweb/de/px-x-0102030000_101/-/px-x-0102030000_101.px/)
-- Main languages: BFS, table T 01.08.01.01 "Hauptsprachen seit 1910"
+- Main languages: BFS, table T 01.08.01.01 "Hauptsprachen seit 1910"; for
+  the breakdown of other languages, table T 01.08.01.02 "Hauptsprachen nach
+  Grossregion und Kanton"
 - Party strength: BFS, table T 17.02.02.03.01 "Nationalratswahlen: Stärke
   der Parteien"
 - Federal Council: `data/all_federal_councillors.csv`
