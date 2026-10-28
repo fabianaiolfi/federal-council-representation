@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-28T21:23:10+00:00",
+ "generated": "2026-10-28T21:32:06+00:00",
  "gender": {
   "source": "Bundesamt für Statistik (BFS)",
   "table": "px-x-0102030000_101",
@@ -5283,7 +5283,7 @@
    "party": "SVP",
    "language": "fr",
    "birthDate": "1979-03-15",
-   "canton": "Geneva"
+   "canton": "Genf"
   },
   {
    "id": 5,

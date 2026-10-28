@@ -650,20 +650,19 @@ function updateComparisons(v) {
 
     updateLegend(section.querySelector(".legend"), cmp, r.categories);
     const [councilRow, populationRow] = section.querySelectorAll(".bar-row");
-    // Council bar: hovering a part lists the members in it, with their age
-    // on the day this version is measured (as in the age comparison)
+    // Council bar: hovering a part lists the members in it. In the age
+    // comparison with their age on the day this version is measured.
+    const memberLabel = (m) => {
+      const name = m.isNew && !m.fromList ? t("newShort") : lastName(m.name);
+      return cmp.key === "age" ? `${name} (${ageOn(m.birthDate, v.version.day)})` : name;
+    };
     updateBarRow(
       councilRow,
       cmp,
       councilName,
       only(r.p, r.categories),
       () => "",
-      (c) => ({
-        names: r.groups[c].map(
-          (m) =>
-            `${m.isNew && !m.fromList ? t("newShort") : lastName(m.name)} (${ageOn(m.birthDate, v.version.day)})`
-        ),
-      })
+      (c) => ({ names: r.groups[c].map(memberLabel) })
     );
     updateBarRow(
       populationRow,

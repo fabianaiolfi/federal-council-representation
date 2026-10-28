@@ -241,8 +241,9 @@ Details and choices:
   languages light grey. Age is ordered, so it uses one hue (light to dark
   blue). For every bar, the order of its colours was checked for colour-blind
   separation.
-- **Hover on the Council bars:** lists the members in that part of the bar,
-  with their age on the day the version is measured, e.g. "Parmelin (66)".
+- **Hover on the Council bars:** lists the members in that part of the bar
+  by last name; in the age comparison with their age on the day the version
+  is measured, e.g. "Parmelin (66)".
 
 ## Project structure
 
