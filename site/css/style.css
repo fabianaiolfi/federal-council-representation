@@ -507,6 +507,130 @@ h2 {
   color: var(--ink-3);
 }
 
+/* The three ways to replace a member */
+.modes {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 1.5rem;
+  border: 1px solid var(--ink);
+}
+
+.mode-button {
+  flex: 1 1 auto;
+  padding: 0.6rem 0.9rem;
+  border: 0;
+  border-right: 1px solid var(--ink);
+  background: var(--bg);
+  color: var(--ink);
+  font: inherit;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.15s, color 0.15s;
+}
+
+.mode-button:last-child {
+  border-right: 0;
+}
+
+.mode-button:hover {
+  background: var(--wash);
+}
+
+.mode-button[aria-pressed="true"] {
+  background: var(--ink);
+  color: #fff;
+}
+
+/* Narrow screens: the three modes stacked */
+@media (max-width: 36rem) {
+  .modes {
+    flex-direction: column;
+  }
+
+  .mode-button {
+    border-right: 0;
+    border-bottom: 1px solid var(--ink);
+  }
+
+  .mode-button:last-child {
+    border-bottom: 0;
+  }
+}
+
+.editor-fields > .link-button {
+  justify-self: start;
+}
+
+/* "Aus Liste wählen": one row per person */
+.person-list {
+  max-height: 22rem;
+  overflow-y: auto;
+  border-top: 1px solid var(--line);
+}
+
+.person {
+  position: relative;
+  display: block;
+  cursor: pointer;
+}
+
+.person input {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.person-text {
+  display: grid;
+  gap: 0.1rem;
+  padding: 0.6rem 0.75rem;
+  border-bottom: 1px solid var(--line);
+  border-left: 3px solid transparent;
+}
+
+.person:hover .person-text {
+  background: var(--wash);
+}
+
+.person input:checked + .person-text {
+  border-left-color: var(--ink);
+  background: var(--wash);
+}
+
+.person input:focus-visible + .person-text {
+  outline: 2px solid var(--ink);
+  outline-offset: -2px;
+}
+
+.person-name {
+  font-weight: 600;
+}
+
+.person-meta {
+  font-size: 0.875rem;
+  color: var(--ink-2);
+}
+
+/* "Bestmögliche Person": the profile found */
+.best-profile {
+  padding: 0.875rem 1rem;
+  background: var(--wash);
+}
+
+.best-variant {
+  font-size: 0.875rem;
+  color: var(--ink-2);
+}
+
+.best-text {
+  margin-top: 0.15rem;
+  font-size: 1.125rem;
+  font-weight: 600;
+}
+
 /* Options as "chips": radio buttons styled as small toggles */
 .chips {
   display: flex;
@@ -842,7 +966,8 @@ h2 {
 @media (prefers-reduced-motion: reduce) {
   .seg,
   .nav-btn,
-  .chip > span {
+  .chip > span,
+  .mode-button {
     transition: none;
   }
 }

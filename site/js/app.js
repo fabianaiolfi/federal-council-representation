@@ -21,7 +21,10 @@ import { buildComparisons, ageOn, partyOn } from "./comparisons.js";
 const state = {
   index: 0, // which version is shown (0 = 1848)
   // Members replaced by the user, per version:
-  //   { [version index]: { [member number]: { gender, party, language, age } } }
+  //   { [version index]: { [member number]: choice } }
+  // choice = { mode, gender, party, language, age, name?, personId?, variant? }
+  //   mode: "custom" (put together by the user), "list" (a person from
+  //   data/candidates.csv) or "best" (a profile that maximises the score)
   replacements: {},
   editing: null, // number of the member whose replacement is being edited
 };
@@ -128,6 +131,8 @@ function computeBase(data, today) {
     versions,
     currentIndex,
     councillors: data.councillors, // for the picture credits
+    candidates: data.candidates ?? [], // people for "Aus Liste wählen"
+    ageGroups: data.age.groups,
     sources: [data.gender, data.language, data.language.other, data.party],
     generated: data.generated,
   };
@@ -142,8 +147,9 @@ function newMember(m, choice, day) {
   return {
     ...m,
     isNew: true,
+    fromList: Boolean(choice.name), // a named person from the list
     replaces: m,
-    name: t(choice.gender === "female" ? "newFemale" : "newMale"),
+    name: choice.name ?? t(choice.gender === "female" ? "newFemale" : "newMale"),
     gender: choice.gender,
     language: choice.language,
     parties: choice.party ? [{ party: choice.party, from: null }] : m.parties,
@@ -452,7 +458,9 @@ function memberCard(m) {
   const actions = el("p", "member-actions");
 
   if (m.isNew) {
-    const avatar = el("span", `avatar avatar-${m.gender} avatar-new`, t("newShort"));
+    const avatar = m.fromList
+      ? initialsAvatar(m)
+      : el("span", `avatar avatar-${m.gender} avatar-new`, t("newShort"));
     avatar.setAttribute("aria-hidden", "true");
     const party = base.comparisons.find((c) => c.key === "party");
     const language = base.comparisons.find((c) => c.key === "language");
@@ -652,7 +660,8 @@ function updateComparisons(v) {
       () => "",
       (c) => ({
         names: r.groups[c].map(
-          (m) => `${m.isNew ? t("newShort") : lastName(m.name)} (${ageOn(m.birthDate, v.version.day)})`
+          (m) =>
+            `${m.isNew && !m.fromList ? t("newShort") : lastName(m.name)} (${ageOn(m.birthDate, v.version.day)})`
         ),
       })
     );
@@ -715,19 +724,20 @@ function openEditor(number) {
   const party = base.comparisons.find((x) => x.key === "party");
   const changes = (state.replacements[state.index] ??= {});
   changes[number] ??= {
+    mode: "custom",
     gender: m.gender,
     party: party.choices(c.day) ? partyOn(m, c.day) : null,
     language: m.language,
     age: ageOn(m.birthDate, c.day),
   };
   state.editing = number;
-  buildEditor(m, changes[number], c.day);
+  renderEditor();
   update();
 
   const editor = $("editor");
   editor.hidden = false;
   editor.scrollIntoView({ block: "nearest", behavior: prefersReducedMotion() ? "auto" : "smooth" });
-  editor.querySelector("input:checked, input")?.focus({ preventScroll: true });
+  editor.querySelector('.mode-button[aria-pressed="true"]')?.focus({ preventScroll: true });
 }
 
 function closeEditor({ refocus = true } = {}) {
@@ -762,6 +772,7 @@ function chipField(cmp, choice, day) {
     input.checked = choice[cmp.key] === option;
     input.addEventListener("change", () => {
       choice[cmp.key] = option;
+      makeCustom(choice);
       update();
     });
     const text = el("span");
@@ -792,6 +803,7 @@ function ageField(choice) {
   range.addEventListener("input", () => {
     choice.age = Number(range.value);
     value.textContent = t("ageYears", choice.age);
+    makeCustom(choice);
     update();
   });
   const head = el("div", "editor-age-head");
@@ -800,15 +812,215 @@ function ageField(choice) {
   return field;
 }
 
-/** Build the editor for replacing member `m` (controls are built once). */
-function buildEditor(m, choice, day) {
-  const title = el("h3", "editor-title", t("editorTitle", m.name));
-  title.id = "editor-title";
+/** The choice being edited (the profile of the new person). */
+function currentChoice() {
+  return state.replacements[state.index][state.editing];
+}
 
+/** Once the user changes a field, the person is their own creation. */
+function makeCustom(choice) {
+  if (choice.mode === "custom") return;
+  choice.mode = "custom";
+  delete choice.name;
+  delete choice.personId;
+  delete choice.variant;
+  for (const button of $("editor").querySelectorAll(".mode-button")) {
+    button.setAttribute("aria-pressed", String(button.dataset.mode === "custom"));
+  }
+}
+
+/**
+ * The three ways to replace a member. Clicking "Bestmögliche Person" again
+ * shows the next of the equally good profiles.
+ */
+function modeSwitch(choice) {
+  const group = el("div", "modes");
+  group.setAttribute("role", "group");
+  group.setAttribute("aria-label", t("modeLabel"));
+  for (const mode of ["custom", "list", "best"]) {
+    const button = el("button", "mode-button", t(`mode_${mode}`));
+    button.type = "button";
+    button.dataset.mode = mode;
+    button.setAttribute("aria-pressed", String(choice.mode === mode));
+    button.addEventListener("click", () => setMode(mode));
+    group.append(button);
+  }
+  return group;
+}
+
+function setMode(mode) {
+  const choice = currentChoice();
+  if (mode === "best") {
+    // First click: the first best profile; every further click: the next one
+    applyBest(choice, choice.mode === "best" ? choice.variant + 1 : 0);
+  } else if (mode === "custom") {
+    makeCustom(choice);
+  } else {
+    choice.mode = "list"; // the profile stays until a person is picked
+  }
+  renderEditor();
+  update();
+  $("editor").querySelector(`.mode-button[data-mode="${mode}"]`)?.focus();
+}
+
+/**
+ * Every profile for this seat (gender × party × language × age group) that
+ * gives the highest overall score, with the other members as they are
+ * (including the user's other replacements). Ages: the middle of each group.
+ */
+function bestProfiles() {
+  const c = base.versions[state.index];
+  const day = c.day;
+  const changes = state.replacements[state.index] ?? {};
+  const seat = c.members.find((m) => m.number === state.editing);
+  const others = c.members.filter((m) => m !== seat).map((m) =>
+    changes[m.number] ? newMember(m, changes[m.number], day) : m
+  );
+
+  const byKey = Object.fromEntries(base.comparisons.map((cmp) => [cmp.key, cmp]));
+  const ages = base.ageGroups.map((g) => (g.max === null ? g.min + 5 : Math.round((g.min + g.max) / 2)));
+  const parties = byKey.party.choices(day) ?? [null]; // before 1919: keep the party
+
+  let best = -Infinity;
+  let profiles = [];
+  for (const gender of byKey.gender.choices(day))
+    for (const party of parties)
+      for (const language of byKey.language.choices(day))
+        for (const age of ages) {
+          const profile = { gender, party, language, age };
+          const members = [...others, newMember(seat, profile, day)];
+          const score = average(base.comparisons.map((cmp) => evaluate(cmp, members, day)));
+          if (score > best + 1e-9) {
+            best = score;
+            profiles = [profile];
+          } else if (Math.abs(score - best) <= 1e-9) {
+            profiles.push(profile);
+          }
+        }
+  return profiles;
+}
+
+function applyBest(choice, variant) {
+  const profiles = bestProfiles();
+  const k = variant % profiles.length;
+  delete choice.name;
+  delete choice.personId;
+  Object.assign(choice, profiles[k], { mode: "best", variant: k, variants: profiles.length });
+}
+
+/** "Frau · GRÜNE · Andere Sprache · 29 Jahre" */
+function profileText(choice) {
+  const byKey = Object.fromEntries(base.comparisons.map((cmp) => [cmp.key, cmp]));
+  return [
+    byKey.gender.choiceLabel(choice.gender),
+    choice.party && byKey.party.choiceLabel(choice.party),
+    byKey.language.choiceLabel(choice.language),
+    t("ageYears", choice.age),
+  ]
+    .filter(Boolean)
+    .join(" · ");
+}
+
+/** Mode "Selbst zusammenstellen": the four fields. */
+function customPanel(choice, day) {
   const fields = el("div", "editor-fields");
   for (const cmp of base.comparisons) {
     fields.append(cmp.key === "age" ? ageField(choice) : chipField(cmp, choice, day));
   }
+  return fields;
+}
+
+/** Mode "Aus Liste wählen": the people from data/candidates.csv. */
+function listPanel(choice, day) {
+  const panel = el("div", "editor-fields");
+  if (!base.candidates.length) {
+    panel.append(el("p", "editor-note", t("listEmpty")));
+    return panel;
+  }
+  // Only people who would have been adults at that time
+  const people = base.candidates.filter((p) => ageOn(p.birthDate, day) >= 18);
+  if (!people.length) {
+    panel.append(el("p", "editor-note", t("listNoneEligible")));
+    return panel;
+  }
+  const party = base.comparisons.find((cmp) => cmp.key === "party");
+  const language = base.comparisons.find((cmp) => cmp.key === "language");
+  const hasParties = Boolean(party.choices(day));
+
+  const fieldset = el("fieldset", "editor-field");
+  fieldset.append(el("legend", "visually-hidden", t("mode_list")));
+  const list = el("div", "person-list");
+  for (const person of people) {
+    const age = ageOn(person.birthDate, day);
+    const row = el("label", "person");
+    const input = el("input");
+    input.type = "radio";
+    input.name = "editor-person";
+    input.value = person.id;
+    input.checked = choice.personId === person.id;
+    input.addEventListener("change", () => {
+      Object.assign(choice, {
+        mode: "list",
+        personId: person.id,
+        name: person.name,
+        gender: person.gender,
+        party: hasParties ? person.party : null,
+        language: person.language,
+        age,
+      });
+      delete choice.variant;
+      update();
+    });
+    const text = el("span", "person-text");
+    text.append(
+      el("span", "person-name", person.name),
+      el("span", "person-meta", [
+        party.choiceLabel(person.party),
+        language.choiceLabel(person.language),
+        t("ageYears", age),
+        person.canton,
+      ].filter(Boolean).join(" · "))
+    );
+    row.append(input, text);
+    list.append(row);
+  }
+  fieldset.append(list);
+  panel.append(fieldset);
+  return panel;
+}
+
+/** Mode "Bestmögliche Person": the current best profile and its number. */
+function bestPanel(choice) {
+  const panel = el("div", "editor-fields");
+  panel.append(el("p", "editor-note", t("bestIntro")));
+  const profile = el("div", "best-profile");
+  profile.append(
+    el("p", "best-variant", t("bestVariant", choice.variant + 1, choice.variants)),
+    el("p", "best-text", profileText(choice))
+  );
+  panel.append(profile);
+  if (choice.variants > 1) {
+    const next = el("button", "link-button", t("bestNext"));
+    next.type = "button";
+    next.addEventListener("click", () => setMode("best"));
+    panel.append(next);
+  }
+  return panel;
+}
+
+/** (Re)build the editor for the member being replaced, in the current mode. */
+function renderEditor() {
+  const c = base.versions[state.index];
+  const m = c.members.find((x) => x.number === state.editing);
+  const choice = currentChoice();
+
+  const title = el("h3", "editor-title", t("editorTitle", m.name));
+  title.id = "editor-title";
+
+  const panel =
+    choice.mode === "list" ? listPanel(choice, c.day)
+    : choice.mode === "best" ? bestPanel(choice)
+    : customPanel(choice, c.day);
 
   // Live result: overall score and each comparison, versus the real Council
   const result = el("div", "editor-result");
@@ -827,7 +1039,7 @@ function buildEditor(m, choice, day) {
   const actions = el("div", "editor-actions");
   actions.append(done);
 
-  $("editor").replaceChildren(title, fields, result, actions);
+  $("editor").replaceChildren(title, modeSwitch(choice), panel, result, actions);
 }
 
 /** "+3.6" / "−2.1" / "±0.0" (percentage points). */

@@ -13,14 +13,27 @@ The page has three parts:
    top of the screen while you scroll through the whole page.
 
    **"Was wäre, wenn …?"** Every member has an "Ersetzen" button. It opens
-   an editor ("Wer ersetzt …?") where you put together a new person: gender,
-   party (the parties with at least 1 % in that period's National Council
-   election), language and age. The new person starts with the replaced
-   member's profile; every change updates the editor's live result (overall
-   score and the four comparisons, with the difference to the real Council)
-   and all bars on the page. You can replace several members; changes stay
-   with the version they were made in and can be undone one by one or all
-   at once. Nothing is saved: reloading the page shows the real Councils.
+   an editor ("Wer ersetzt …?") with three ways to choose the new person:
+
+   - **Selbst zusammenstellen:** set gender, party (the parties with at
+     least 1 % in that period's National Council election), language and
+     age yourself. Starts with the replaced member's profile.
+   - **Aus Liste wählen:** pick a person from `data/candidates.csv` (see
+     "People for the list" below). Their age is calculated for the version
+     shown; only people who would have been 18 or older are offered.
+   - **Bestmögliche Person:** the app tries every combination of gender,
+     party, language and age group for this seat (with the other members as
+     they are) and shows a profile with the highest overall score. If
+     several profiles are equally good, clicking again shows the next one
+     ("Variante 2 von 3"). Ages are the middle of the age group.
+
+   The modes share one profile: after picking a person or a best profile,
+   "Selbst zusammenstellen" shows it and lets you adjust it. Every change
+   updates the editor's live result (overall score and the four
+   comparisons, with the difference to the real Council) and all bars on the
+   page. You can replace several members; changes stay with the version
+   they were made in and can be undone one by one or all at once. Nothing is
+   saved: reloading the page shows the real Councils.
 2. **Der Bundesrat im Vergleich mit der Schweizer Bevölkerung:** how closely
    the Council matches the population by **gender, party, language and
    age**. The overall score at the top is the average of the four; below it,
@@ -82,6 +95,29 @@ Run it again whenever
 
 - the CSV changes (new councillor, someone leaves), or
 - BFS publishes a new year (usually in late summer).
+
+## People for the list ("Aus Liste wählen")
+
+Add people to `data/candidates.csv` and run `python3 scripts/build_data.py`.
+One row per person:
+
+```csv
+name,gender,party,language,birth_date,canton
+Vorname Nachname,female,GRÜNE,fr,1980-05-17,Genf
+```
+
+| Column | Values |
+|---|---|
+| `name` | Full name, shown on the card and in the tooltips |
+| `gender` | `female` or `male` |
+| `party` | As in the BFS election statistics: `SP`, `Mitte`, `FDP`, `SVP`, `GRÜNE`, `GLP`, `EVP`, `EDU`, … (historic names like `CVP` or `BGB` are converted) |
+| `language` | `de`, `fr`, `it`, `rm` or `other` (or `Deutsch`, `Französisch`, …) |
+| `birth_date` | `YYYY-MM-DD`, or just `YYYY` if only the year is known (then 1 July is assumed) |
+| `canton` | Optional, shown in the list |
+
+The script stops with a message pointing to the line if a value is missing
+or unknown. While the file has no rows, the page says "Noch keine Personen
+hinterlegt."
 
 ## Birth dates, languages and portraits (Wikidata)
 
@@ -213,6 +249,7 @@ Details and choices:
 ```
 data/
   all_federal_councillors.csv   source data: every councillor since 1848
+  candidates.csv                people for "Aus Liste wählen" (you fill this in)
   wikidata.json                 written by fetch_wikidata.py
 scripts/
   build_data.py                 builds site/data/data.json (CSV + BFS API)

@@ -56,6 +56,16 @@ const strings = {
         ? "unverändert gegenüber dem tatsächlichen Bundesrat"
         : `${points} Prozentpunkte gegenüber dem tatsächlichen Bundesrat`,
     editorDone: "Fertig",
+    modeLabel: "Wie möchten Sie ersetzen?",
+    mode_custom: "Selbst zusammenstellen",
+    mode_list: "Aus Liste wählen",
+    mode_best: "Bestmögliche Person",
+    listEmpty: "Noch keine Personen hinterlegt.",
+    listNoneEligible: "Niemand auf der Liste war zu dieser Zeit mindestens 18 Jahre alt.",
+    bestIntro: "Eine Person, welche die Übereinstimmung insgesamt so stark wie möglich erhöht.",
+    bestVariant: (k, n) =>
+      n === 1 ? "Die einzige bestmögliche Person für diesen Sitz" : `Variante ${k} von ${n}`,
+    bestNext: "Nächste Variante",
     councilWarning:
       "Hinweis: Für heute ist kein vollständiger Bundesrat erfasst. Die Daten sind möglicherweise nicht aktuell.",
 

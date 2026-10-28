@@ -12,6 +12,12 @@ Sources:
 2. data/wikidata.json, written by scripts/fetch_wikidata.py:
    birth date, languages and portrait of each councillor.
 
+   data/candidates.csv (optional): people the user can pick from when
+   replacing a councillor ("Aus Liste wählen"). Columns: name, gender
+   (female/male), party (e.g. SP, Mitte, FDP, SVP, GRÜNE, GLP), language
+   (de/fr/it/rm/other, or Deutsch, Französisch, …), birth_date (YYYY-MM-DD,
+   or just YYYY), canton (optional).
+
 3. Federal Statistical Office (FSO / BFS), the population side of every
    comparison. Each comparison uses the population of the time:
    - Gender and age: STAT-TAB PxWeb table px-x-0102030000_101
@@ -53,6 +59,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 CSV_PATH = ROOT / "data" / "all_federal_councillors.csv"
 WIKIDATA_PATH = ROOT / "data" / "wikidata.json"
+CANDIDATES_PATH = ROOT / "data" / "candidates.csv"
 OUT_PATH = ROOT / "site" / "data" / "data.json"
 
 USER_AGENT = (
@@ -279,6 +286,47 @@ def add_wikidata(councillors: list[dict]) -> None:
         sys.exit(f"No birth date for: {', '.join(missing)}. Run scripts/fetch_wikidata.py first.")
 
 
+def load_candidates() -> list[dict]:
+    """
+    People offered in "Aus Liste wählen" (data/candidates.csv). Party and
+    language are converted to the names the comparisons use; rows with
+    missing or unknown values stop the script with a message.
+    """
+    if not CANDIDATES_PATH.exists():
+        return []
+    languages = {**LANGUAGE_CODES, "Andere": "other", "Andere Sprache": "other",
+                 **{code: code for code in ("de", "fr", "it", "rm", "other")}}
+    candidates = []
+    with CANDIDATES_PATH.open(encoding="utf-8", newline="") as f:
+        for line, row in enumerate(csv.DictReader(f), start=2):
+            row = {k: (v or "").strip() for k, v in row.items()}
+            if not any(row.values()):
+                continue  # empty line
+            where = f"{CANDIDATES_PATH.relative_to(ROOT)}, line {line}"
+            if row["gender"] not in ("female", "male"):
+                sys.exit(f"{where}: gender must be 'female' or 'male'.")
+            if row["language"] not in languages:
+                sys.exit(f"{where}: unknown language '{row['language']}' (use de, fr, it, rm or other).")
+            birth = row["birth_date"]
+            if re.fullmatch(r"\d{4}", birth):
+                birth = f"{birth}-07-01"  # only the year is known: assume mid-year
+            elif not re.fullmatch(r"\d{4}-\d{2}-\d{2}", birth):
+                sys.exit(f"{where}: birth_date must be YYYY-MM-DD or YYYY.")
+            if not row["name"] or not row["party"]:
+                sys.exit(f"{where}: name and party are required.")
+            candidates.append({
+                "id": len(candidates) + 1,
+                "name": row["name"],
+                "gender": row["gender"],
+                # historic names (e.g. "CVP") -> party line; others as given
+                "party": PARTY_TO_BFS.get(row["party"], row["party"]),
+                "language": languages[row["language"]],
+                "birthDate": birth,
+                "canton": row.get("canton", ""),
+            })
+    return candidates
+
+
 # --- 2. Gender and age (BFS, PxWeb) --------------------------------------------
 
 def get_gender_and_age() -> tuple[dict, dict]:
@@ -454,6 +502,8 @@ def main() -> None:
     councillors = load_councillors()
     add_wikidata(councillors)
     print(f"Read {len(councillors)} councillors (+ birth dates, languages, portraits)")
+    candidates = load_candidates()
+    print(f"Read {len(candidates)} people for 'Aus Liste wählen' from {CANDIDATES_PATH.relative_to(ROOT)}")
 
     gender, age = get_gender_and_age()
     print(f"Gender and age: {len(gender['years'])} years ({min(gender['years'])}-{max(gender['years'])})")
@@ -471,6 +521,7 @@ def main() -> None:
         "language": language,
         "party": party,
         "councillors": councillors,
+        "candidates": candidates,
     }
     OUT_PATH.parent.mkdir(parents=True, exist_ok=True)
     OUT_PATH.write_text(json.dumps(output, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")

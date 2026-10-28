@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-28T17:38:58+00:00",
+ "generated": "2026-10-28T21:23:10+00:00",
  "gender": {
   "source": "Bundesamt für Statistik (BFS)",
   "table": "px-x-0102030000_101",
@@ -5246,6 +5246,80 @@
     "license": "Attribution",
     "licenseUrl": null
    }
+  }
+ ],
+ "candidates": [
+  {
+   "id": 1,
+   "name": "Thomas Aeschi",
+   "gender": "male",
+   "party": "SVP",
+   "language": "de",
+   "birthDate": "1979-01-13",
+   "canton": "Zug"
+  },
+  {
+   "id": 2,
+   "name": "Jean-Pierre Gallati",
+   "gender": "male",
+   "party": "SVP",
+   "language": "de",
+   "birthDate": "1966-08-24",
+   "canton": "Aargau"
+  },
+  {
+   "id": 3,
+   "name": "Pierre Alain Schnegg",
+   "gender": "male",
+   "party": "SVP",
+   "language": "fr",
+   "birthDate": "1962-12-13",
+   "canton": "Bern"
+  },
+  {
+   "id": 4,
+   "name": "Céline Amaudruz",
+   "gender": "female",
+   "party": "SVP",
+   "language": "fr",
+   "birthDate": "1979-03-15",
+   "canton": "Geneva"
+  },
+  {
+   "id": 5,
+   "name": "Franz Ruppen",
+   "gender": "male",
+   "party": "SVP",
+   "language": "de",
+   "birthDate": "1971-02-24",
+   "canton": "Wallis"
+  },
+  {
+   "id": 6,
+   "name": "Rémy Wyssmann",
+   "gender": "male",
+   "party": "SVP",
+   "language": "de",
+   "birthDate": "1967-06-20",
+   "canton": "Solothurn"
+  },
+  {
+   "id": 7,
+   "name": "Michael Graber",
+   "gender": "male",
+   "party": "SVP",
+   "language": "de",
+   "birthDate": "1981-06-03",
+   "canton": "Wallis"
+  },
+  {
+   "id": 8,
+   "name": "Marco Chiesa",
+   "gender": "male",
+   "party": "SVP",
+   "language": "it",
+   "birthDate": "1974-10-10",
+   "canton": "Tessin"
   }
  ]
 }
