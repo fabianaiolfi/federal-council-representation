@@ -11,12 +11,11 @@ The page has three parts:
    timeline. The ← → buttons, the slider or the ← → keys step through every
    version of the Council since 1848 (94 so far). The panel head stays at the
    top of the screen while you scroll through the whole page.
-2. **Der Vergleich:** how closely the Council matches the population by
-   **gender, party, language and age**. The overall score at the top is the
-   average of the four; below it, each comparison has its own score and two
-   bars (Council vs population). Everything updates with every step in the
-   panel above. For the Council in office today, you can pick whether a
-   woman or a man succeeds a departing member (affects the gender comparison).
+2. **Der Bundesrat im Vergleich mit der Schweizer Bevölkerung:** how closely
+   the Council matches the population by **gender, party, language and
+   age**. The overall score at the top is the average of the four; below it,
+   each comparison has its own score and two bars (Council vs population).
+   Everything updates with every step in the panel above.
 3. **Quellen:** data sources and picture credits for the portraits.
 
 ## Run the app locally
@@ -120,8 +119,7 @@ require this).
 The app works out which version is **current** from the visitor's date:
 
 - A member with a `left_office_date` **in the future** stays in the current
-  version with a "Rücktritt per …" badge, and the successor picker appears
-  for them.
+  version until that day.
 - Once that date has passed, the member drops out. If today has an empty
   seat (e.g. the successor hasn't been added to the CSV yet), the page shows
   the latest complete version and a notice. Add the successor and rerun the
@@ -187,10 +185,16 @@ Details and choices:
 - **Age:** groups 18–39, 40–64 and 65+ (`AGE_GROUPS` in `build_data.py`);
   the population is compared from age 18, the voting age and the minimum
   age for the Federal Council since 1991.
-- **Colours:** orange and blue only mark gender; party, language and age use
-  neutral greys, so the page keeps its two colours.
-- **Successor scenario:** only the successor's gender can be chosen, so it
-  changes the gender comparison (and the overall score) only.
+- **Colours:** all comparisons use one categorical palette (custom
+  properties at the top of `style.css`). Parties are shown left to right in
+  their usual colours where possible: SP red, Mitte amber, FDP blue, SVP
+  green, other parties with a seat (BDP) violet, "Übrige Parteien" light grey.
+  Languages: German blue, French orange, Italian aqua, Romansh amber, other
+  languages light grey. Age is ordered, so it uses one hue (light to dark
+  blue). For every bar, the order of its colours was checked for colour-blind
+  separation.
+- **Hover on the Council bars:** lists the members in that part of the bar,
+  with their age on the day the version is measured, e.g. "Parmelin (66)".
 
 ## Project structure
 
@@ -205,7 +209,7 @@ scripts/
 site/                           the web app (static files; deploy this folder)
   index.html                    page structure
   css/style.css                 all styling (design tokens at the top)
-  js/app.js                     loads data, builds the page, browsing + scenario
+  js/app.js                     loads data, builds the page, browsing
   js/council.js                 versions of the Council
   js/comparisons.js             the four comparisons (categories, BFS data)
   js/metrics.js                 the score calculation (no DOM code)
@@ -216,7 +220,7 @@ site/                           the web app (static files; deploy this folder)
 
 No framework is used. `app.js` follows a simple pattern: the page is built
 once (`setup…()` functions). A small `state` object holds which version
-is shown and the scenario choice. A single `update()` function redraws the
+is shown. A single `update()` function redraws the
 cards, score and bars whenever `state` changes.
 
 ## Next iterations

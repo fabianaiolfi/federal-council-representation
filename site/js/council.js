@@ -72,16 +72,3 @@ export function buildVersions(councillors) {
     .filter((p) => p.members.length === SEATS)
     .map(({ start, end, members }) => ({ start, end, members }));
 }
-
-/**
- * Scenario: replace departing members by successors of a chosen gender.
- *
- * `choices` maps a member's number to "today" (no change), "female" or
- * "male", e.g. { 116: "female" }. Returns a new list; the input is unchanged.
- */
-export function withSuccessors(members, choices) {
-  return members.map((m) => {
-    const choice = choices[m.number];
-    return choice && choice !== "today" ? { ...m, gender: choice, successor: true } : m;
-  });
-}

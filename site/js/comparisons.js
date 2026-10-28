@@ -5,7 +5,7 @@
  * Each comparison describes
  *   - categories(members, day): its categories, in display order
  *   - label(c), color(c):       how a category is named and drawn
- *   - council(members, day):    how many members fall into each category
+ *   - categoryOf(member, day):  which category a Council member falls into
  *   - population(day, cats):    the BFS figures that apply on that day,
  *                               or null if the BFS has no data for that time;
  *                               optionally `breakdown`: what a grouped
@@ -43,25 +43,27 @@ export function partyOn(member, day) {
   return party;
 }
 
-/** Count members per category: (members, m => m.gender) -> { female: 2, male: 5 }. */
-function countBy(members, keyOf) {
-  const counts = {};
-  for (const m of members) counts[keyOf(m)] = (counts[keyOf(m)] ?? 0) + 1;
-  return counts;
-}
-
-// Neutral greys for categories (orange and blue are reserved for gender).
-const GREY = (n) => `var(--grey-${n})`;
+// Colours come from one palette (CSS custom properties in style.css). Within
+// each bar, the order of the colours was checked for colour-blind separation.
+const COLOR = (name) => `var(--${name})`;
 
 // --- The four comparisons ----------------------------------------------------------
 
 export function buildComparisons(data) {
-  // Parties always shown; any other party with a seat is added, all
-  // remaining parties are grouped as "Übrige" (they have no seat, so
-  // grouping them does not change the score).
-  const MAIN_PARTIES = ["FDP", "Mitte", "SP", "SVP"];
+  // Parties always shown, from left to right; any other party with a seat
+  // is added, all remaining parties are grouped as "Übrige" (they have no
+  // seat, so grouping them does not change the score). Colours follow the
+  // usual party colours where the palette allows (Mitte: amber, since its
+  // orange would be too close to SP's red).
+  const MAIN_PARTIES = ["SP", "Mitte", "FDP", "SVP"];
   const OTHER = "Übrige";
-  const partyColors = { FDP: GREY(1), Mitte: GREY(2), SP: GREY(3), SVP: GREY(4), [OTHER]: GREY(6) };
+  const partyColors = {
+    SP: COLOR("red"),
+    Mitte: COLOR("amber"),
+    FDP: COLOR("blue"),
+    SVP: COLOR("green"),
+    [OTHER]: COLOR("other"),
+  };
 
   // National Council elections are held in October: an election counts
   // for Councils that took office from 1 November of that year.
@@ -81,7 +83,7 @@ export function buildComparisons(data) {
       categories: () => ["female", "male"],
       label: (c) => t(c),
       color: (c) => `var(--${c})`,
-      council: (members) => countBy(members, (m) => m.gender),
+      categoryOf: (m) => m.gender,
       population(day) {
         const year = pickYear(data.gender.years, Number(day.slice(0, 4)));
         const values = data.gender.years[year];
@@ -98,8 +100,8 @@ export function buildComparisons(data) {
         return [...MAIN_PARTIES, ...extra, OTHER];
       },
       label: (c) => (c === "Mitte" ? t("partyMitte") : c === OTHER ? t("partyOther") : c),
-      color: (c) => partyColors[c] ?? GREY(5),
-      council: (members, day) => countBy(members, (m) => partyOn(m, day)),
+      color: (c) => partyColors[c] ?? COLOR("violet"), // e.g. BDP (2008–2015)
+      categoryOf: (m, day) => partyOn(m, day),
       population(day, categories) {
         const year = electionOn(day);
         if (!year) return null;
@@ -121,8 +123,9 @@ export function buildComparisons(data) {
       title: t("compareLanguage"),
       categories: () => ["de", "fr", "it", "rm", "other"],
       label: (c) => t(`language_${c}`),
-      color: (c) => ({ de: GREY(1), fr: GREY(2), it: GREY(3), rm: GREY(4), other: GREY(6) })[c],
-      council: (members) => countBy(members, (m) => m.language),
+      color: (c) =>
+        COLOR({ de: "blue", fr: "orange", it: "aqua", rm: "amber", other: "other" }[c]),
+      categoryOf: (m) => m.language,
       population(day) {
         // Since 2010 people can name several main languages (shares add up
         // to more than 100 %); the score uses the relative shares.
@@ -152,9 +155,10 @@ export function buildComparisons(data) {
         const g = ageGroups.find((x) => x.key === c);
         return g.max === null ? t("ageFrom", g.min) : t("ageRange", g.min, g.max);
       },
-      // Ordered groups: light (young) to dark (old)
-      color: (c) => GREY([5, 3, 1][ageGroups.findIndex((g) => g.key === c)] ?? 4),
-      council: (members, day) => countBy(members, (m) => ageGroupOf(ageOn(m.birthDate, day))),
+      // Ordered groups: one hue, light (young) to dark (old)
+      color: (c) =>
+        COLOR(["blue-light", "blue-mid", "blue-dark"][ageGroups.findIndex((g) => g.key === c)]),
+      categoryOf: (m, day) => ageGroupOf(ageOn(m.birthDate, day)),
       population(day) {
         const year = pickYear(data.age.years, Number(day.slice(0, 4)));
         const values = data.age.years[year];

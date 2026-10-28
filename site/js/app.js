@@ -6,21 +6,19 @@
  *   - `base`  : everything that never changes, computed once from the data
  *               (every version of the Council since 1848 with the result
  *               of each comparison, see comparisons.js)
- *   - `state` : what the user picked — which version is shown, and the
- *               successor gender per departing member (scenario)
+ *   - `state` : what the user picked — which version is shown
  *   - setup*(): build the page once
- *   - update(): show the version/scenario described by `state`.
+ *   - update(): show the version described by `state`.
  *               Called on start and on every change of `state`.
  */
 
 import { t, fmt, getLanguage } from "./i18n.js";
 import { overlap, toShares } from "./metrics.js";
-import { buildVersions, withSuccessors } from "./council.js";
-import { buildComparisons } from "./comparisons.js";
+import { buildVersions } from "./council.js";
+import { buildComparisons, ageOn } from "./comparisons.js";
 
 const state = {
   index: 0, // which version is shown (0 = 1848)
-  choices: {}, // scenario: member number -> "today" | "female" | "male"
 };
 let base; // set in main()
 
@@ -49,6 +47,16 @@ function initials(name) {
   return (parts[0][0] + (parts.length > 1 ? parts[parts.length - 1][0] : "")).toUpperCase();
 }
 
+/** "Ludwig von Moos" -> "von Moos", "Karin Keller-Sutter" -> "Keller-Sutter". */
+function lastName(name) {
+  const parts = name.split(/\s+/);
+  const last = parts.length - 1;
+  // keep a lowercase particle ("von", "de") that belongs to the last name
+  return last > 0 && /^[a-zäöü]/.test(parts[last - 1])
+    ? `${parts[last - 1]} ${parts[last]}`
+    : parts[last];
+}
+
 const prefersReducedMotion = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 // Data & model ---------------------------------------------------------------------
@@ -65,18 +73,19 @@ function only(values, categories) {
 }
 
 /**
- * One comparison for one set of members on one day: categories, Council
- * counts and shares (p), population shares (q) and the overlap score.
- * `available: false` if the BFS has no data for that time.
+ * One comparison for one set of members on one day: categories, the
+ * members in each category, Council shares (p), population shares (q) and
+ * the overlap score. `available: false` if the BFS has no data for that time.
  */
 function evaluate(cmp, members, day) {
   const categories = cmp.categories(members, day);
   const pop = cmp.population(day, categories);
   if (!pop) return { key: cmp.key, available: false };
-  const counts = only(cmp.council(members, day), categories);
-  const p = toShares(counts);
+  const groups = Object.fromEntries(categories.map((c) => [c, []]));
+  for (const m of members) groups[cmp.categoryOf(m, day)].push(m);
+  const p = toShares(Object.fromEntries(categories.map((c) => [c, groups[c].length])));
   const q = toShares(only(pop.values, categories));
-  return { key: cmp.key, available: true, categories, counts, p, q, pop, score: overlap(p, q) };
+  return { key: cmp.key, available: true, categories, groups, p, q, pop, score: overlap(p, q) };
 }
 
 /** Overall score: the average of all comparisons that have data. */
@@ -107,16 +116,12 @@ function computeBase(data, today) {
   // The version in office today (-1 if today has an empty seat,
   // e.g. a successor is missing in the CSV).
   const currentIndex = versions.findIndex(isInOffice);
-  const current = versions[currentIndex];
 
   return {
     today,
     comparisons,
     versions,
     currentIndex,
-    // Current members with a known leaving date: these seats can be
-    // "re-filled" in the scenario picker.
-    departures: current ? current.members.filter((m) => m.leftOfficeDate) : [],
     councillors: data.councillors, // for the picture credits
     sources: [data.gender, data.language, data.language.other, data.party],
     generated: data.generated,
@@ -125,33 +130,12 @@ function computeBase(data, today) {
 
 /** Everything that is shown for the current `state`. */
 function computeView() {
-  const i = state.index;
-  const c = base.versions[i];
-  const isCurrent = i === base.currentIndex;
-  const isScenario = isCurrent && Object.values(state.choices).some((x) => x !== "today");
-
-  // Scenario: only the successor's gender is chosen, so only the gender
-  // comparison is recalculated (same population year, successors swapped in).
-  const results = isScenario
-    ? c.results.map((r) =>
-        r.key === "gender"
-          ? evaluate(base.comparisons[0], withSuccessors(c.members, state.choices), c.day)
-          : r
-      )
-    : c.results;
-
-  // In a scenario, the change versus today is shown under the overall
-  // score and under the gender score (the only one the scenario changes).
+  const c = base.versions[state.index];
   return {
     version: c,
-    isCurrent,
-    isScenario,
-    overall: average(results),
-    overallDelta: isScenario ? average(results) - c.overall : null,
-    results: results.map((r, k) => ({
-      ...r,
-      delta: isScenario && r.key === "gender" ? r.score - c.results[k].score : null,
-    })),
+    isCurrent: state.index === base.currentIndex,
+    overall: c.overall,
+    results: c.results,
   };
 }
 
@@ -257,50 +241,6 @@ function setupTicks(last) {
 }
 
 /**
- * Scenario picker: one radio group per departing member, styled as a
- * segmented control. Radios keep it accessible (arrow keys, screen readers).
- */
-function setupScenarios() {
-  const options = [
-    { value: "today", label: t("scenarioToday") },
-    { value: "female", label: t("scenarioFemale") },
-    { value: "male", label: t("scenarioMale") },
-  ];
-
-  const groups = base.departures.map((m) => {
-    state.choices[m.number] = "today";
-
-    const fieldset = el("fieldset", "scenario");
-    fieldset.append(
-      el("legend", null, t("scenarioQuestion", m.name)),
-      el("p", "scenario-hint", t("memberLeaving", fmt.date(m.leftOfficeDate)))
-    );
-
-    const segmented = el("div", "segmented");
-    for (const o of options) {
-      const label = el("label");
-      const input = el("input");
-      input.type = "radio";
-      input.name = `successor-${m.number}`;
-      input.value = o.value;
-      input.checked = o.value === "today";
-      input.addEventListener("change", () => {
-        state.choices[m.number] = o.value;
-        update();
-      });
-      const text = el("span");
-      if (o.value !== "today") text.append(el("span", `key key-${o.value}`));
-      text.append(document.createTextNode(o.label));
-      label.append(input, text);
-      segmented.append(label);
-    }
-    fieldset.append(segmented, el("p", "scenario-hint", t("scenarioScope")));
-    return fieldset;
-  });
-  $("scenarios").replaceChildren(...groups);
-}
-
-/**
  * One section per comparison: title and score, change, note (no data),
  * legend and two aligned 100 % bars (Council vs population). Built once;
  * update() fills them in.
@@ -316,7 +256,6 @@ function setupComparisons() {
     bars.append(barRow("council"), barRow("population"));
     section.append(
       head,
-      el("p", "comparison-delta"),
       el("p", "comparison-note"),
       el("ul", "legend"),
       bars
@@ -389,7 +328,11 @@ function setupTooltip() {
       el("span", "tooltip-detail", seg.dataset.detail)
     );
     const breakdown = breakdowns.get(seg);
-    if (breakdown) {
+    if (breakdown?.names) {
+      // Council bar: the members of this group, in one line
+      tip.append(el("span", "tooltip-names", breakdown.names.join(" · ")));
+    } else if (breakdown) {
+      // Grouped population share: one line per part, with its share
       const list = el("ul", "tooltip-breakdown");
       for (const item of breakdown.items) {
         const li = el("li");
@@ -527,8 +470,9 @@ function updateBarRow(row, cmp, name, shares, detailFor, breakdownFor = () => nu
   }
 }
 
-// What a grouped segment ("Übrige Parteien", "Andere Sprachen") contains,
-// shown in its tooltip: segment -> { items: [{label, share}], note } or null
+// Shown in a segment's tooltip: the Council members of that group
+// ({ names }), or what a grouped population share contains
+// ({ items: [{label, share}], note }); null for nothing
 const breakdowns = new WeakMap();
 
 /**
@@ -558,14 +502,6 @@ function updateLegend(list, cmp, categories) {
       return li;
     })
   );
-}
-
-/** "+14.3 Prozentpunkte gegenüber heute" (empty if there is nothing to compare). */
-function deltaText(delta) {
-  if (delta === null) return "";
-  const pp = delta * 100;
-  const direction = Math.abs(pp) < 0.05 ? 0 : Math.sign(pp);
-  return t("scoreDelta", fmt.dec(Math.abs(pp)), direction);
 }
 
 /**
@@ -604,38 +540,38 @@ function counter(...nodes) {
 const counters = {}; // created on first use: "overall", "gender", …
 
 function updateComparisons(v) {
-  // Scenario picker only makes sense for the Council in office today.
-  $("scenarios").hidden = !v.isCurrent;
-
-  // Overall score (the line under it stays in the layout when empty, so
-  // nothing below jumps)
+  // Overall score
   counters.overall ??= counter($("score-value"), $("nav-score"));
   counters.overall(v.overall);
-  $("score-delta").textContent = deltaText(v.overallDelta);
   const included = v.results.filter((r) => r.available).map((r) =>
     base.comparisons.find((c) => c.key === r.key).title
   );
   $("score-caption").textContent = t("overallCaption", included);
 
   // One section per comparison
-  const councilName = v.isScenario
-    ? t("compareCouncilScenario")
-    : t("compareCouncil", periodLabel(v.version, v.isCurrent));
+  const councilName = t("compareCouncil", periodLabel(v.version, v.isCurrent));
   for (const [k, r] of v.results.entries()) {
     const cmp = base.comparisons[k];
     const section = document.querySelector(`.comparison[data-key="${cmp.key}"]`);
     counters[cmp.key] ??= counter(section.querySelector(".comparison-score"));
     counters[cmp.key](r.available ? r.score : null);
-    section.querySelector(".comparison-delta").textContent = deltaText(r.delta);
     section.querySelector(".comparison-note").textContent = r.available ? "" : cmp.noData();
     section.classList.toggle("is-unavailable", !r.available);
     if (!r.available) continue;
 
     updateLegend(section.querySelector(".legend"), cmp, r.categories);
-    const seats = Object.values(r.counts).reduce((a, b) => a + b, 0);
     const [councilRow, populationRow] = section.querySelectorAll(".bar-row");
-    updateBarRow(councilRow, cmp, councilName, only(r.p, r.categories), (c) =>
-      t("tooltipOf", r.counts[c], seats)
+    // Council bar: hovering a part lists the members in it, with their age
+    // on the day this version is measured (as in the age comparison)
+    updateBarRow(
+      councilRow,
+      cmp,
+      councilName,
+      only(r.p, r.categories),
+      () => "",
+      (c) => ({
+        names: r.groups[c].map((m) => `${lastName(m.name)} (${ageOn(m.birthDate, v.version.day)})`),
+      })
     );
     updateBarRow(
       populationRow,
@@ -648,12 +584,7 @@ function updateComparisons(v) {
   }
 
   // Screen readers: announce the final result once (not every animation frame)
-  $("score-status").textContent = [
-    `${t("overallLabel")}: ${v.overall === null ? "–" : fmt.pct(v.overall)}`,
-    $("score-delta").textContent,
-  ]
-    .filter(Boolean)
-    .join(", ");
+  $("score-status").textContent = `${t("overallLabel")}: ${v.overall === null ? "–" : fmt.pct(v.overall)}`;
 }
 
 function update() {
@@ -688,7 +619,6 @@ async function main() {
     // Start with today's Council (or the latest one if today has a gap).
     state.index = base.currentIndex >= 0 ? base.currentIndex : base.versions.length - 1;
     setupNavigator();
-    setupScenarios();
     setupComparisons();
     setupFooter();
     setupTooltip();

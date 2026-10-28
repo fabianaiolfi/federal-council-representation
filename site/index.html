@@ -68,20 +68,16 @@
 
     <p class="warning" id="council-warning" hidden></p>
 
-    <!-- 2. Comparison: scenario picker, overall score, one section per
-         comparison (gender, party, language, age; built by app.js) ------->
+    <!-- 2. Comparison: overall score, one section per comparison
+         (gender, party, language, age; built by app.js) ----------------->
     <section class="block" aria-labelledby="compare-title">
       <h2 id="compare-title" data-i18n="compareTitle"></h2>
-
-      <!-- One radio group per departing member (filled in by app.js) -->
-      <div id="scenarios"></div>
 
       <!-- The visible number is animated, so it is hidden from screen readers;
            #score-status announces the final value instead. -->
       <div class="score" id="score">
         <p class="score-label" data-i18n="overallLabel"></p>
         <p class="score-value" id="score-value" aria-hidden="true">–</p>
-        <p class="score-delta" id="score-delta" aria-hidden="true"></p>
         <p class="score-caption" id="score-caption"></p>
         <p class="score-caption" data-i18n="scoreCaption"></p>
         <p class="visually-hidden" id="score-status" aria-live="polite"></p>

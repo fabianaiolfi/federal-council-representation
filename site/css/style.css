@@ -1,13 +1,12 @@
 /*
-  style.css — white background, black text, two data colours, square
-  corners everywhere (no border-radius).
+  style.css — white background, black text, square corners everywhere
+  (no border-radius).
 
-  Orange and blue only mark gender. Comparisons with more categories
-  (party, language, age) use neutral greys, so the page keeps two colours.
-
-  The two colours only ever mark data (women / men) and were checked for
-  colour-blind separation and 3:1 contrast against white. Text is always
-  black or grey, never coloured.
+  Colour only ever marks data, never text. All comparisons draw from one
+  categorical palette (below). For each bar, the order of its colours was
+  checked for colour-blind separation; where a colour is lighter than 3:1
+  against white, the legend, the values above the bar and the tooltip carry
+  the information as well.
 */
 
 /* Design tokens ------------------------------------------------------------------ */
@@ -21,16 +20,23 @@
   --line: #e6e5e0;         /* hairlines */
   --wash: #f3f3f1;         /* hover background */
 
-  --female: #eb6834;       /* data colour 1 */
-  --male: #2a78d6;         /* data colour 2 */
+  /* Categorical palette for all comparisons */
+  --blue: #2a78d6;
+  --orange: #eb6834;
+  --aqua: #1baf7a;
+  --amber: #eda100;
+  --green: #008300;
+  --violet: #6250d6;
+  --red: #e34948;
+  --other: #c3c2b7;        /* grouped rest: "Übrige Parteien", "Andere Sprachen" */
 
-  /* Greys for categories, dark to light */
-  --grey-1: #1f1f1f;
-  --grey-2: #4d4d4b;
-  --grey-3: #7a7975;
-  --grey-4: #a6a5a0;
-  --grey-5: #cfcec9;
-  --grey-6: #e9e8e4;
+  /* Ordered categories (age): one hue, light to dark */
+  --blue-light: #86b6ef;
+  --blue-mid: #3987e5;
+  --blue-dark: #184f95;
+
+  --female: var(--orange);
+  --male: var(--blue);
 
   --font: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   --max: 56rem;            /* content width */
@@ -160,9 +166,6 @@ h2 {
   height: 0.75rem;
   margin-right: 0.45rem;
 }
-
-.key-female { background: var(--female); }
-.key-male { background: var(--male); }
 
 .legend {
   display: flex;
@@ -410,80 +413,6 @@ h2 {
   display: block;
 }
 
-/* Scenario picker: radio buttons styled as a segmented control --------------------- */
-.scenario {
-  border: 0;
-  padding: 0;
-  margin: 1.5rem 0 0;
-  min-width: 0;
-}
-
-.scenario legend {
-  padding: 0;
-  font-weight: 600;
-  font-size: 1.125rem;
-}
-
-.scenario-hint {
-  margin-top: 0.1rem;
-  font-size: 0.9375rem;
-  color: var(--ink-3);
-}
-
-.segmented + .scenario-hint {
-  margin-top: 0.5rem;
-}
-
-.segmented {
-  display: inline-flex;
-  max-width: 100%;
-  margin-top: 0.875rem;
-  padding: 3px;
-  gap: 2px;
-  border: 1px solid var(--ink);
-}
-
-.segmented label {
-  position: relative;
-  flex: 1 1 auto;
-  cursor: pointer;
-}
-
-/* The real radio sits invisibly on top of its label, so it stays clickable
-   and keyboard-accessible (arrow keys move between options). */
-.segmented input {
-  position: absolute;
-  inset: 0;
-  margin: 0;
-  opacity: 0;
-  cursor: pointer;
-}
-
-.segmented label > span {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0.5rem 1.1rem;
-  font-size: 0.9375rem;
-  font-weight: 500;
-  white-space: nowrap;
-  transition: background-color 0.15s, color 0.15s;
-}
-
-.segmented label:hover > span {
-  background: var(--wash);
-}
-
-.segmented input:checked + span {
-  background: var(--ink);
-  color: #fff;
-}
-
-.segmented input:focus-visible + span {
-  outline: 2px solid var(--ink);
-  outline-offset: 3px;
-}
-
 /* Score -------------------------------------------------------------------------------- */
 .score {
   margin-top: 2rem;
@@ -502,12 +431,6 @@ h2 {
   letter-spacing: -0.04em;
   margin-top: 0.5rem;
   font-variant-numeric: tabular-nums; /* no jitter while the number counts */
-}
-
-.score-delta {
-  margin-top: 0.75rem;
-  font-size: 1.125rem;
-  font-weight: 600;
 }
 
 .score-caption {
@@ -542,13 +465,6 @@ h2 {
   letter-spacing: -0.02em;
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
-}
-
-.comparison-delta {
-  margin-top: 0.25rem;
-  font-size: 0.9375rem;
-  font-weight: 600;
-  text-align: right;
 }
 
 .comparison-note {
@@ -638,10 +554,16 @@ h2 {
   color: var(--ink-3);
 }
 
-.tooltip-detail:empty,
-.score-delta:empty,
-.comparison-delta:empty {
+.tooltip-detail:empty {
   display: none;
+}
+
+/* Names of the Council members in a segment, in one line */
+.tooltip-names {
+  margin-top: 0.3rem;
+  padding-top: 0.4rem;
+  border-top: 1px solid var(--line);
+  color: var(--ink);
 }
 
 /* What a grouped segment contains ("Übrige Parteien", "Andere Sprachen") */
@@ -705,20 +627,11 @@ h2 {
   .member {
     padding: 0.875rem;
   }
-
-  .segmented {
-    display: flex;          /* full width, options share the space */
-  }
-
-  .segmented label > span {
-    padding-inline: 0.6rem;
-  }
 }
 
 /* Motion ---------------------------------------------------------------------------------- */
 @media (prefers-reduced-motion: reduce) {
   .seg,
-  .segmented label > span,
   .nav-btn {
     transition: none;
   }

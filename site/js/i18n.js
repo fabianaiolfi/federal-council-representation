@@ -36,28 +36,16 @@ const strings = {
     councilSince: (date) => `Im Amt seit ${date}`,
     councilFromTo: (from, to) => `Im Amt vom ${from} bis ${to}`,
     councilOneDay: (date) => `Im Amt am ${date}`,
-    memberLeaving: (date) => `Rücktritt per ${date}`,
     councilWarning:
       "Hinweis: Für heute ist kein vollständiger Bundesrat erfasst. Die Daten sind möglicherweise nicht aktuell.",
 
     // Comparison
     compareTitle: "Der Bundesrat im Vergleich mit der Schweizer Bevölkerung",
-    scenarioQuestion: (name) => `Wer folgt auf ${name}?`,
-    scenarioToday: "Heute",
-    scenarioFemale: "Eine Frau",
-    scenarioMale: "Ein Mann",
-    scenarioScope: "Die Auswahl verändert nur den Vergleich nach Geschlecht.",
     overallLabel: "Übereinstimmung insgesamt",
     overallCaption: (names) =>
       `Durchschnitt aus ${names.length > 1 ? `${names.slice(0, -1).join(", ")} und ${names.at(-1)}` : names[0]}`,
     scoreCaption: "100 % = gleiche Zusammensetzung wie die Bevölkerung",
-    // Change caused by the successor scenario
-    scoreDelta: (pp, direction) =>
-      direction === 0
-        ? "Unverändert gegenüber heute"
-        : `${direction > 0 ? "+" : "−"}${pp} Prozentpunkte gegenüber heute`,
     compareCouncil: (period) => `Bundesrat ${period}`,
-    compareCouncilScenario: "Bundesrat nach der Ersatzwahl",
 
     // The four comparisons
     compareGender: "Geschlecht",
@@ -80,7 +68,6 @@ const strings = {
     languageBreakdownNote: "Aufteilung gemäss Bevölkerung ab 15 Jahren",
     ageRange: (min, max) => `${min}–${max} Jahre`,
     ageFrom: (min) => `${min} Jahre und älter`,
-    tooltipOf: (n, total) => `${n} von ${total} Sitzen`,
     tooltipPersons: (n) => `${n} Personen`,
 
     // Footer
