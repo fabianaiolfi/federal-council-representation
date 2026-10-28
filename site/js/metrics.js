@@ -40,30 +40,3 @@ export function countByGender(members) {
   for (const m of members) counts[m.gender] += 1;
   return counts;
 }
-
-/**
- * Members in office on a given day: elected on or before that day and not yet
- * left (no leaving date, or leaving date on or after the day).
- * Dates are ISO strings ("2025-03-12"), which compare correctly as text.
- */
-export function inOfficeOn(councillors, isoDay) {
-  return councillors.filter(
-    (c) =>
-      c.electionDate &&
-      c.electionDate <= isoDay &&
-      (!c.leftOfficeDate || c.leftOfficeDate >= isoDay)
-  );
-}
-
-/**
- * Scenario: replace departing members by successors of a chosen gender.
- *
- * `choices` maps a member's number to "today" (no change), "female" or
- * "male", e.g. { 116: "female" }. Returns a new list; the input is unchanged.
- */
-export function withSuccessors(members, choices) {
-  return members.map((m) => {
-    const choice = choices[m.number];
-    return choice && choice !== "today" ? { ...m, gender: choice, successor: true } : m;
-  });
-}

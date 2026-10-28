@@ -34,6 +34,23 @@
 
     <p class="load-error" id="load-error" role="alert" hidden></p>
 
+    <!-- Navigator: browse all compositions since 1848. Sticks to the top of
+         the screen while scrolling, and shows the score once the big number
+         has scrolled out of view. -->
+    <nav class="navigator" id="navigator" hidden>
+      <button class="nav-btn" id="nav-prev" type="button">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
+      </button>
+      <div class="nav-center">
+        <p class="nav-period" id="nav-period" aria-live="polite"></p>
+        <input class="nav-range" id="nav-range" type="range" min="0" step="1">
+      </div>
+      <button class="nav-btn" id="nav-next" type="button">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
+      </button>
+      <p class="nav-score" id="nav-score" aria-hidden="true"></p>
+    </nav>
+
     <!-- 1. Federal Council ---------------------------------------------------->
     <section class="block" aria-labelledby="council-title">
       <h2 id="council-title" data-i18n="councilTitle"></h2>
@@ -51,7 +68,7 @@
 
       <!-- The visible number is animated, so it is hidden from screen readers;
            #score-status announces the final value instead. -->
-      <div class="score">
+      <div class="score" id="score">
         <p class="score-label" data-i18n="scoreLabel"></p>
         <p class="score-value" id="score-value" aria-hidden="true">–</p>
         <p class="score-delta" id="score-delta" aria-hidden="true"></p>

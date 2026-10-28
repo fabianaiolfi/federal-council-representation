@@ -1,23 +1,27 @@
 /**
- * app.js — loads data/data.json, does the calculations (metrics.js) and
- * fills the page (index.html). All text comes from i18n.js.
+ * app.js — loads data/data.json, does the calculations and fills the page
+ * (index.html). All text comes from i18n.js.
  *
  * Pattern (no framework needed at this size):
  *   - `base`  : everything that never changes, computed once from the data
- *   - `state` : what the user picked (successor gender per departing member)
+ *               (all compositions of the Council since 1848 with their scores)
+ *   - `state` : what the user picked — which composition is shown, and the
+ *               successor gender per departing member (scenario)
  *   - setup*(): build the page once
- *   - update(): recompute the scenario from `state` and refresh the numbers
- *               and bars. Called on start and on every change of `state`.
+ *   - update(): show the composition/scenario described by `state`.
+ *               Called on start and on every change of `state`.
  */
 
 import { t, fmt, getLanguage } from "./i18n.js";
-import { overlap, toShares, countByGender, inOfficeOn, withSuccessors } from "./metrics.js";
+import { overlap, toShares, countByGender } from "./metrics.js";
+import { buildCompositions, populationFor, withSuccessors } from "./council.js";
 
-const SEATS = 7; // constitutional size of the Federal Council (Art. 175 BV)
 const CATEGORIES = ["female", "male"]; // display order everywhere
 
-/** User choices: member number -> "today" | "female" | "male". */
-const state = { choices: {} };
+const state = {
+  index: 0, // which composition is shown (0 = 1848)
+  choices: {}, // scenario: member number -> "today" | "female" | "male"
+};
 let base; // set in main()
 
 // Small helpers ------------------------------------------------------------------
@@ -55,42 +59,79 @@ async function loadData() {
   return res.json();
 }
 
-/** The fixed part: current members, population shares, today's score. */
-function computeBase(data, day) {
-  // Current members, ordered by seniority (earliest election first).
-  const members = inOfficeOn(data.councillors, day).sort(
-    (a, b) => a.electionDate.localeCompare(b.electionDate) || a.number - b.number
-  );
-
-  const pop = data.population;
+/** Shares and score of a list of members against one population year. */
+function measure(members, pop) {
+  const counts = countByGender(members);
+  const p = toShares(counts);
   const populationCounts = { female: pop.women, male: pop.men };
   const q = toShares(populationCounts);
+  return { counts, p, populationCounts, q, score: overlap(p, q) };
+}
+
+/**
+ * The fixed part: every composition since 1848 (up to today), each with
+ * the population of the year it took office and its score.
+ */
+function computeBase(data, today) {
+  const compositions = buildCompositions(data.councillors)
+    .filter((c) => c.start <= today)
+    .map((c) => {
+      const pop = populationFor(data.population.years, Number(c.start.slice(0, 4)));
+      return { ...c, pop, ...measure(c.members, pop) };
+    });
+
+  // The composition in office today (-1 if today has an empty seat,
+  // e.g. a successor is missing in the CSV).
+  const currentIndex = compositions.findIndex(
+    (c) => c.start <= today && (!c.end || c.end >= today)
+  );
+  const current = compositions[currentIndex];
 
   return {
-    day,
-    members,
-    // Members with a known leaving date: these seats can be "re-filled"
-    // in the scenario picker.
-    departures: members.filter((m) => m.leftOfficeDate),
-    population: pop,
-    populationCounts,
-    q,
-    todayScore: overlap(toShares(countByGender(members)), q),
+    today,
+    compositions,
+    currentIndex,
+    // Current members with a known leaving date: these seats can be
+    // "re-filled" in the scenario picker.
+    departures: current ? current.members.filter((m) => m.leftOfficeDate) : [],
+    population: data.population,
     generated: data.generated,
   };
 }
 
-/** The changing part: the Council after applying the user's choices. */
-function computeScenario(choices) {
-  const members = withSuccessors(base.members, choices);
-  const counts = countByGender(members);
-  const p = toShares(counts);
+/** Everything that is shown for the current `state`. */
+function computeView() {
+  const i = state.index;
+  const c = base.compositions[i];
+  const isCurrent = i === base.currentIndex;
+  const isScenario = isCurrent && Object.values(state.choices).some((x) => x !== "today");
+
+  // Scenario: same population year, members with successors swapped in.
+  const shown = isScenario ? { ...c, ...measure(withSuccessors(c.members, state.choices), c.pop) } : c;
+
+  // The change shown under the big number: versus today in a scenario,
+  // otherwise versus the previous composition.
+  const reference = isScenario ? c : base.compositions[i - 1];
   return {
-    counts,
-    p,
-    score: overlap(p, base.q),
-    isChanged: Object.values(choices).some((c) => c !== "today"),
+    composition: c,
+    previous: base.compositions[i - 1],
+    isCurrent,
+    isScenario,
+    ...shown,
+    delta: reference ? shown.score - reference.score : null,
+    deltaReference: isScenario ? "today" : "previous",
   };
+}
+
+/** Short label for a composition's time in office: "2019 – 2022", "2025 – heute". */
+function periodLabel(c, isCurrent) {
+  const from = c.start.slice(0, 4);
+  if (isCurrent) return t("periodCurrent", from);
+  const to = c.end.slice(0, 4);
+  if (from !== to) return t("periodYears", from, to);
+  // Within one year: "2023" for a full calendar year, else "März – Juli 1912"
+  if (c.start.endsWith("-01-01") && c.end.endsWith("-12-31")) return from;
+  return t("periodMonths", fmt.month(c.start), fmt.month(c.end), from);
 }
 
 // Setup: build the page once -----------------------------------------------------
@@ -105,34 +146,32 @@ function setupStaticText() {
   }
 }
 
-function setupCouncil() {
-  $("council-subtitle").textContent = t("councilSubtitle", fmt.date(base.day));
+/** Previous/next buttons and slider; all of them just change state.index. */
+function setupNavigator() {
+  const nav = $("navigator");
+  const range = $("nav-range");
+  nav.setAttribute("aria-label", t("navLabel"));
+  $("nav-prev").setAttribute("aria-label", t("navPrev"));
+  $("nav-next").setAttribute("aria-label", t("navNext"));
+  range.setAttribute("aria-label", t("navSlider"));
+  range.max = base.compositions.length - 1;
 
-  const cards = base.members.map((c) => {
-    const li = el("li", "member");
-    const avatar = el("span", `avatar avatar-${c.gender}`, initials(c.name));
-    avatar.setAttribute("aria-hidden", "true");
+  const go = (index) => {
+    state.index = Math.min(Math.max(index, 0), base.compositions.length - 1);
+    update();
+  };
+  $("nav-prev").addEventListener("click", () => go(state.index - 1));
+  $("nav-next").addEventListener("click", () => go(state.index + 1));
+  range.addEventListener("input", () => go(Number(range.value)));
 
-    const body = el("div", "member-body");
-    const gender = t(c.gender === "female" ? "femaleSingular" : "maleSingular");
-    body.append(
-      el("p", "member-name", c.name),
-      el("p", "member-meta", `${c.party} · ${c.canton}`),
-      el("p", "member-meta", t("councilSince", gender, c.electionDate.slice(0, 4)))
-    );
-    if (c.leftOfficeDate) {
-      body.append(el("p", "member-leaving", t("councilLeaving", fmt.dateShort(c.leftOfficeDate))));
-    }
-    li.append(avatar, body);
-    return li;
-  });
-  $("council-list").replaceChildren(...cards);
+  nav.hidden = false;
 
-  // Safety net: if the CSV is not up to date (e.g. a successor is missing),
-  // say so instead of silently comparing a 6-member Council.
-  const warning = $("council-warning");
-  warning.hidden = base.members.length === SEATS;
-  if (!warning.hidden) warning.textContent = t("councilWarning", base.members.length);
+  // Show the score in the bar only while the big number is off screen.
+  // The negative top margin excludes the area covered by the sticky bar.
+  new IntersectionObserver(
+    ([entry]) => nav.classList.toggle("show-score", !entry.isIntersecting),
+    { rootMargin: `-${nav.offsetHeight}px 0px 0px 0px` }
+  ).observe($("score-value"));
 }
 
 /**
@@ -152,7 +191,7 @@ function setupScenarios() {
     const fieldset = el("fieldset", "scenario");
     fieldset.append(
       el("legend", null, t("scenarioQuestion", m.name)),
-      el("p", "scenario-hint", t("councilLeaving", fmt.date(m.leftOfficeDate)))
+      el("p", "scenario-hint", t("memberLeaving", fmt.date(m.leftOfficeDate)))
     );
 
     const segmented = el("div", "segmented");
@@ -219,25 +258,6 @@ function setupBars() {
   $("compare-bars").replaceChildren(...rows);
 }
 
-/** Fill one bar row with shares, counts and tooltip texts. */
-function updateBarRow(key, name, shares, detailFor) {
-  const row = document.querySelector(`.bar-row[data-row="${key}"]`);
-  row.querySelector(".bar-name").textContent = name;
-  row.querySelector(".bar-values").textContent = CATEGORIES.map(
-    (c) => `${t(c)} ${fmt.pct(shares[c])}`
-  ).join(" · ");
-
-  for (const seg of row.querySelectorAll(".seg")) {
-    const c = seg.dataset.category;
-    seg.hidden = shares[c] === 0;
-    seg.style.flexGrow = shares[c];
-    seg.dataset.value = fmt.pct(shares[c]);
-    seg.dataset.label = `${t(c)} · ${name}`;
-    seg.dataset.detail = detailFor(c);
-    seg.setAttribute("aria-label", `${seg.dataset.label}: ${seg.dataset.value}, ${seg.dataset.detail}`);
-  }
-}
-
 function setupFooter() {
   const link = $("source-population");
   link.textContent = t("sourcePopulation", base.population.table);
@@ -282,66 +302,165 @@ function setupTooltip() {
   window.addEventListener("scroll", hide, { passive: true });
 }
 
-// Update: runs on start and whenever the scenario changes -------------------------
+// Update: runs on start and whenever `state` changes ---------------------------------
+
+function updateNavigator(v) {
+  const label = periodLabel(v.composition, v.isCurrent);
+  $("nav-period").textContent = label;
+  const range = $("nav-range");
+  range.value = state.index;
+  range.setAttribute("aria-valuetext", label);
+  $("nav-prev").disabled = state.index === 0;
+  $("nav-next").disabled = state.index === base.compositions.length - 1;
+}
+
+/** Member cards of the shown composition. */
+function updateCouncil(v) {
+  const c = v.composition;
+  $("council-subtitle").textContent = v.isCurrent
+    ? t("councilSince", fmt.date(c.start))
+    : t("councilFromTo", fmt.date(c.start), fmt.date(c.end));
+
+  // Members who were not in the previous composition get a "Neu" badge.
+  const previousMembers = new Set(v.previous ? v.previous.members.map((m) => m.number) : []);
+
+  const cards = c.members.map((m) => {
+    const li = el("li", "member");
+    const avatar = el("span", `avatar avatar-${m.gender}`, initials(m.name));
+    avatar.setAttribute("aria-hidden", "true");
+
+    const body = el("div", "member-body");
+    const gender = t(m.gender === "female" ? "femaleSingular" : "maleSingular");
+    const from = m.electionDate.slice(0, 4);
+    const hasLeft = m.leftOfficeDate && m.leftOfficeDate < base.today;
+    body.append(
+      el("p", "member-name", m.name),
+      el("p", "member-meta", `${m.party} · ${m.canton}`),
+      el(
+        "p",
+        "member-meta",
+        hasLeft
+          ? t("memberTenure", gender, from, m.leftOfficeDate.slice(0, 4))
+          : t("memberSince", gender, from)
+      )
+    );
+
+    const badges = [];
+    if (v.previous && !previousMembers.has(m.number)) {
+      badges.push(el("span", "badge badge-new", t("memberNew")));
+    }
+    if (v.isCurrent && m.leftOfficeDate) {
+      badges.push(el("span", "badge", t("memberLeaving", fmt.dateShort(m.leftOfficeDate))));
+    }
+    if (badges.length) {
+      const row = el("p", "member-badges");
+      row.append(...badges);
+      body.append(row);
+    }
+
+    li.append(avatar, body);
+    return li;
+  });
+  $("council-list").replaceChildren(...cards);
+
+  // Safety net: if the CSV is not up to date (e.g. a successor is missing),
+  // say so when the latest composition is shown.
+  const isLatest = state.index === base.compositions.length - 1;
+  const warning = $("council-warning");
+  warning.hidden = !(isLatest && base.currentIndex === -1);
+  warning.textContent = t("councilWarning");
+}
+
+/** Fill one bar row with shares, counts and tooltip texts. */
+function updateBarRow(key, name, shares, detailFor) {
+  const row = document.querySelector(`.bar-row[data-row="${key}"]`);
+  row.querySelector(".bar-name").textContent = name;
+  row.querySelector(".bar-values").textContent = CATEGORIES.map(
+    (c) => `${t(c)} ${fmt.pct(shares[c])}`
+  ).join(" · ");
+
+  for (const seg of row.querySelectorAll(".seg")) {
+    const c = seg.dataset.category;
+    seg.hidden = shares[c] === 0;
+    seg.style.flexGrow = shares[c];
+    seg.dataset.value = fmt.pct(shares[c]);
+    seg.dataset.label = `${t(c)} · ${name}`;
+    seg.dataset.detail = detailFor(c);
+    seg.setAttribute("aria-label", `${seg.dataset.label}: ${seg.dataset.value}, ${seg.dataset.detail}`);
+  }
+}
 
 let shownScore = null; // the value currently displayed (mid-animation too)
 let scoreFrame = 0;
 
-/** Count the big number from its current value to `to` (0..1). */
+/** Count the big number (and the one in the navigator) to `to` (0..1). */
 function animateScore(to) {
-  const node = $("score-value");
+  const paint = (value) => {
+    $("score-value").textContent = fmt.pct(value);
+    $("nav-score").textContent = fmt.pct(value);
+  };
   cancelAnimationFrame(scoreFrame);
   const from = shownScore ?? to;
   if (from === to || prefersReducedMotion()) {
     shownScore = to;
-    node.textContent = fmt.pct(to);
+    paint(to);
     return;
   }
   const start = performance.now();
-  const duration = 500; // ms
+  const duration = 450; // ms
   const step = (now) => {
     const k = Math.min(1, (now - start) / duration);
     const eased = 1 - Math.pow(1 - k, 3); // ease-out
     shownScore = from + (to - from) * eased;
-    node.textContent = fmt.pct(shownScore);
+    paint(shownScore);
     if (k < 1) scoreFrame = requestAnimationFrame(step);
   };
   scoreFrame = requestAnimationFrame(step);
 }
 
-function update() {
-  const s = computeScenario(state.choices);
+function updateComparison(v) {
+  // Scenario picker only makes sense for the Council in office today.
+  $("scenarios").hidden = !v.isCurrent;
 
-  // Big number + change versus today
-  animateScore(s.score);
-  // (The line stays in the layout when empty, so the bars below don't jump.)
+  // Big number + change (the line stays in the layout when empty, so the
+  // bars below don't jump).
+  animateScore(v.score);
   const delta = $("score-delta");
   delta.textContent = "";
-  if (s.isChanged) {
-    const diff = (s.score - base.todayScore) * 100;
-    const direction = Math.abs(diff) < 0.05 ? 0 : Math.sign(diff);
-    delta.textContent = t("scoreDelta", fmt.dec(Math.abs(diff)), direction);
+  if (v.delta !== null) {
+    const pp = v.delta * 100;
+    const direction = Math.abs(pp) < 0.05 ? 0 : Math.sign(pp);
+    delta.textContent = t("scoreDelta", fmt.dec(Math.abs(pp)), direction, v.deltaReference);
   }
 
   // Bars
-  const seats = s.counts.female + s.counts.male;
+  const seats = v.counts.female + v.counts.male;
   updateBarRow(
     "council",
-    t(s.isChanged ? "compareCouncilScenario" : "compareCouncilToday"),
-    s.p,
-    (c) => t("tooltipOf", s.counts[c], seats)
+    v.isScenario
+      ? t("compareCouncilScenario")
+      : t("compareCouncil", periodLabel(v.composition, v.isCurrent)),
+    v.p,
+    (c) => t("tooltipOf", v.counts[c], seats)
   );
   updateBarRow(
     "population",
-    t("comparePopulation", base.population.year),
-    base.q,
-    (c) => t("tooltipPersons", fmt.int(base.populationCounts[c]))
+    t("comparePopulation", v.pop.year),
+    v.q,
+    (c) => t("tooltipPersons", fmt.int(v.populationCounts[c]))
   );
 
   // Screen readers: announce the final result once (not every animation frame)
-  $("score-status").textContent = `${t("scoreLabel")}: ${fmt.pct(s.score)}${
-    s.isChanged ? `, ${delta.textContent}` : ""
-  }`;
+  $("score-status").textContent = [`${t("scoreLabel")}: ${fmt.pct(v.score)}`, delta.textContent]
+    .filter(Boolean)
+    .join(", ");
+}
+
+function update() {
+  const v = computeView();
+  updateNavigator(v);
+  updateCouncil(v);
+  updateComparison(v);
 }
 
 // Start --------------------------------------------------------------------------
@@ -351,7 +470,9 @@ async function main() {
   try {
     const data = await loadData();
     base = computeBase(data, todayIso());
-    setupCouncil();
+    // Start with today's Council (or the latest one if today has a gap).
+    state.index = base.currentIndex >= 0 ? base.currentIndex : base.compositions.length - 1;
+    setupNavigator();
     setupScenarios();
     setupBars();
     setupFooter();

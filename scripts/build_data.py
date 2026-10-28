@@ -6,24 +6,24 @@ It combines two sources:
 
 1. data/all_federal_councillors.csv
    Every Federal Councillor since 1848 (name, gender, canton, party, dates).
-   All councillors are exported; the web app itself decides who is "current"
-   based on the visitor's date (so a councillor with a future
-   `left_office_date` drops out automatically on that day).
+   All councillors are exported; the web app itself works out the
+   successive compositions of the Council and which one is current.
 
 2. Federal Statistical Office (FSO / BFS), STAT-TAB PxWeb API
    Table px-x-0102030000_101
    "Ständige Wohnbevölkerung nach Geschlecht und Alter, 1860-..."
-   We take the total over all ages for women and men in one year.
+   We take the total over all ages for women and men, for every year,
+   so each historical Council can be compared with the population of
+   its own time.
 
 Usage
-    python3 scripts/build_data.py           # latest year available at BFS
-    python3 scripts/build_data.py 2020      # a specific year
+    python3 scripts/build_data.py
 
 Only the Python standard library is used, so no `pip install` is needed.
 This is a Python port of the R script swiss_gender_share.R: variables are
 detected by their content (labels), not by hard-coded codes, so the script
 keeps working if BFS renumbers codes. Note that the year codes in this table
-are indices ("0" = 1860, "165" = 2025), which is why years are matched on
+are indices ("0" = 1860, "165" = 2025), which is why years are read from
 their labels.
 """
 
@@ -34,7 +34,7 @@ import json
 import re
 import sys
 import urllib.request
-from datetime import date, datetime, timezone
+from datetime import datetime, timezone
 from pathlib import Path
 
 # --- paths & constants ---------------------------------------------------------
@@ -109,8 +109,8 @@ def load_councillors() -> list[dict]:
 
 # --- 2. Population by sex (BFS) -------------------------------------------------
 
-def get_population_by_sex(year: int | None = None) -> dict:
-    """Return the permanent resident population by sex for one year."""
+def get_population_by_sex() -> dict:
+    """Return the permanent resident population by sex for every year."""
     meta = http_json(BFS_API_URL)
     variables = meta["variables"]
 
@@ -124,19 +124,10 @@ def get_population_by_sex(year: int | None = None) -> dict:
     year_var = next(v for v in variables if is_year_var(v))
     sex_var = next(v for v in variables if is_sex_var(v))
 
-    # Resolve the year: labels are "1860" ... "2025", codes are indices.
-    available = {int(t): code for code, t in zip(year_var["values"], year_var["valueTexts"])}
-    if year is None:
-        year = max(available)
-    if year not in available:
-        sys.exit(f"Year {year} not available. Available: {min(available)}-{max(available)}.")
-
-    # Query: chosen year, all sexes, "total" for every other variable (age).
+    # Query: all years, all sexes, "total" for every other variable (age).
     query = []
     for v in variables:
-        if v["code"] == year_var["code"]:
-            values = [available[year]]
-        elif v["code"] == sex_var["code"]:
+        if v["code"] in (year_var["code"], sex_var["code"]):
             values = v["values"]
         else:
             totals = [c for c, t in zip(v["values"], v["valueTexts"]) if RE_TOTAL.search(t.lower())]
@@ -146,45 +137,48 @@ def get_population_by_sex(year: int | None = None) -> dict:
     res = http_json(BFS_API_URL, {"query": query, "response": {"format": "json"}})
 
     # Each data row: key = [year code, sex code, age code], values = [population]
-    sex_pos = [c["code"] for c in res["columns"]].index(sex_var["code"])
+    columns = [c["code"] for c in res["columns"]]
+    year_pos = columns.index(year_var["code"])
+    sex_pos = columns.index(sex_var["code"])
+    year_label = dict(zip(year_var["values"], year_var["valueTexts"]))
     sex_label = dict(zip(sex_var["values"], sex_var["valueTexts"]))
-    women = men = None
+
+    years: dict[str, dict] = {}
     for row in res["data"]:
+        year = year_label[row["key"][year_pos]]
         label = sex_label[row["key"][sex_pos]].lower()
         value = int(row["values"][0])
         if RE_WOMEN.search(label):
-            women = value
+            years.setdefault(year, {})["women"] = value
         elif RE_MEN.search(label):
-            men = value
-    if women is None or men is None:
+            years.setdefault(year, {})["men"] = value
+
+    # Keep only complete years, in chronological order.
+    years = {y: years[y] for y in sorted(years) if {"women", "men"} <= years[y].keys()}
+    if not years:
         sys.exit("Could not find values for women and men in the BFS response.")
 
     return {
-        "year": year,
-        "women": women,
-        "men": men,
-        "source": "Bundesamt für Statistik (BFS), STATPOP",
+        "source": "Bundesamt für Statistik (BFS)",
         "table": BFS_TABLE,
         "tableTitle": meta.get("title", ""),
         "url": BFS_TABLE_URL,
+        "years": years,  # {"1860": {"women": …, "men": …}, …}
     }
 
 
 # --- main ------------------------------------------------------------------------
 
 def main() -> None:
-    year = int(sys.argv[1]) if len(sys.argv) > 1 else None
-
     councillors = load_councillors()
     print(f"Read {len(councillors)} councillors from {CSV_PATH.relative_to(ROOT)}")
 
-    population = get_population_by_sex(year)
-    total = population["women"] + population["men"]
-    print(
-        f"BFS {population['year']}: women {population['women']:,} "
-        f"({100 * population['women'] / total:.2f} %), "
-        f"men {population['men']:,} ({100 * population['men'] / total:.2f} %)"
-    )
+    population = get_population_by_sex()
+    years = population["years"]
+    first, last = min(years), max(years)
+    w, m = years[last]["women"], years[last]["men"]
+    print(f"BFS population by sex: {len(years)} years ({first}-{last})")
+    print(f"  {last}: women {w:,} ({100 * w / (w + m):.2f} %), men {m:,} ({100 * m / (w + m):.2f} %)")
 
     output = {
         "generated": datetime.now(timezone.utc).isoformat(timespec="seconds"),

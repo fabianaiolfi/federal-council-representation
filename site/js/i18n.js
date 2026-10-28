@@ -21,13 +21,27 @@ const strings = {
     eyebrow: "Deskriptive Repräsentation",
     title: "Wie gut bildet der Bundesrat die Bevölkerung ab?",
 
+    // Navigator (browse through all compositions since 1848)
+    navLabel: "Bundesräte seit 1848",
+    navPrev: "Vorheriger Bundesrat",
+    navNext: "Nächster Bundesrat",
+    navSlider: "Bundesrat auswählen",
+    periodCurrent: (startYear) => `${startYear} – heute`,
+    periodYears: (startYear, endYear) => `${startYear} – ${endYear}`,
+    periodMonths: (startMonth, endMonth, year) =>
+      startMonth === endMonth ? `${startMonth} ${year}` : `${startMonth} – ${endMonth} ${year}`,
+
     // Federal Council
     councilTitle: "Der Bundesrat",
-    councilSubtitle: (date) => `Stand ${date} · nach Amtsalter geordnet`,
-    councilSince: (gender, year) => `${gender} · im Amt seit ${year}`,
-    councilLeaving: (date) => `Rücktritt per ${date}`,
-    councilWarning: (n) =>
-      `Hinweis: Für heute sind ${n} statt 7 Mitglieder erfasst. Die Daten sind möglicherweise nicht aktuell.`,
+    councilSince: (date) => `Im Amt seit ${date}`,
+    councilFromTo: (from, to) => `Im Amt vom ${from} bis ${to}`,
+    memberSince: (gender, year) => `${gender} · im Amt seit ${year}`,
+    memberTenure: (gender, from, to) =>
+      from === to ? `${gender} · im Amt ${from}` : `${gender} · im Amt ${from}–${to}`,
+    memberLeaving: (date) => `Rücktritt per ${date}`,
+    memberNew: "Neu",
+    councilWarning:
+      "Hinweis: Für heute ist kein vollständiger Bundesrat erfasst. Die Daten sind möglicherweise nicht aktuell.",
 
     // Comparison
     compareTitle: "Der Vergleich",
@@ -37,11 +51,14 @@ const strings = {
     scenarioMale: "Ein Mann",
     scoreLabel: "Übereinstimmung nach Geschlecht",
     scoreCaption: "100 % = gleiche Zusammensetzung wie die Bevölkerung",
-    scoreDelta: (pp, direction) =>
-      direction === 0
-        ? "Unverändert gegenüber heute"
-        : `${direction > 0 ? "+" : "−"}${pp} Prozentpunkte gegenüber heute`,
-    compareCouncilToday: "Bundesrat heute",
+    // reference: "today" (scenario) or "previous" (browsing)
+    scoreDelta: (pp, direction, reference) => {
+      const ref = reference === "today" ? "heute" : "vorher";
+      return direction === 0
+        ? `Unverändert gegenüber ${ref}`
+        : `${direction > 0 ? "+" : "−"}${pp} Prozentpunkte gegenüber ${ref}`;
+    },
+    compareCouncil: (period) => `Bundesrat ${period}`,
     compareCouncilScenario: "Bundesrat nach der Ersatzwahl",
     comparePopulation: (year) => `Bevölkerung ${year}`,
     tooltipOf: (n, total) => `${n} von ${total} Sitzen`,
@@ -103,6 +120,9 @@ export const fmt = {
     new Intl.DateTimeFormat(lang, { day: "numeric", month: "long", year: "numeric" }).format(
       new Date(`${iso.slice(0, 10)}T12:00:00`)
     ),
+  /** "2026-10-27" -> "Oktober" */
+  month: (iso) =>
+    new Intl.DateTimeFormat(lang, { month: "long" }).format(new Date(`${iso.slice(0, 10)}T12:00:00`)),
   /** "2026-10-27" -> "27.10.2026" (for tight spaces) */
   dateShort: (iso) =>
     new Intl.DateTimeFormat(lang, { day: "2-digit", month: "2-digit", year: "numeric" }).format(
