@@ -11,6 +11,16 @@ The page has three parts:
    timeline. The ← → buttons, the slider or the ← → keys step through every
    version of the Council since 1848 (94 so far). The panel head stays at the
    top of the screen while you scroll through the whole page.
+
+   **"Was wäre, wenn …?"** Every member has an "Ersetzen" button. It opens
+   an editor ("Wer ersetzt …?") where you put together a new person: gender,
+   party (the parties with at least 1 % in that period's National Council
+   election), language and age. The new person starts with the replaced
+   member's profile; every change updates the editor's live result (overall
+   score and the four comparisons, with the difference to the real Council)
+   and all bars on the page. You can replace several members; changes stay
+   with the version they were made in and can be undone one by one or all
+   at once. Nothing is saved: reloading the page shows the real Councils.
 2. **Der Bundesrat im Vergleich mit der Schweizer Bevölkerung:** how closely
    the Council matches the population by **gender, party, language and
    age**. The overall score at the top is the average of the four; below it,
@@ -168,9 +178,10 @@ Details and choices:
   party names are mapped to today's party lines (`PARTY_TO_BFS` in
   `build_data.py`), e.g. freis. → FDP, kath.-kons./KCVP/CVP → Mitte, BGB →
   SVP. Samuel Schmid and Eveline Widmer-Schlumpf count as SVP until BDP
-  Schweiz was founded (1 Nov 2008), then as BDP. The bars show FDP, Mitte, SP,
-  SVP, any other party with a seat, and "Übrige" (all other parties; they
-  have no seat, so grouping them doesn't change the score).
+  Schweiz was founded (1 Nov 2008), then as BDP. The bars show SP, Mitte,
+  FDP, SVP (left to right), any other party with a seat, and "Übrige
+  Parteien" (all other parties; they have no seat, so grouping them doesn't
+  change the score).
 - **Language:** a councillor's main language is their native language on
   Wikidata; else the only national language they are listed as speaking;
   else the majority language of their canton. Hand-checked corrections are in
@@ -188,7 +199,8 @@ Details and choices:
 - **Colours:** all comparisons use one categorical palette (custom
   properties at the top of `style.css`). Parties are shown left to right in
   their usual colours where possible: SP red, Mitte amber, FDP blue, SVP
-  green, other parties with a seat (BDP) violet, "Übrige Parteien" light grey.
+  green; other parties with a seat follow in this order: GRÜNE aqua, GLP
+  violet, BDP and any other party magenta; "Übrige Parteien" light grey.
   Languages: German blue, French orange, Italian aqua, Romansh amber, other
   languages light grey. Age is ordered, so it uses one hue (light to dark
   blue). For every bar, the order of its colours was checked for colour-blind

@@ -36,6 +36,26 @@ const strings = {
     councilSince: (date) => `Im Amt seit ${date}`,
     councilFromTo: (from, to) => `Im Amt vom ${from} bis ${to}`,
     councilOneDay: (date) => `Im Amt am ${date}`,
+    // Replacing a member
+    replaceHint:
+      "Was wäre, wenn …? Ersetzen Sie ein Mitglied und sehen Sie, wie sich die Übereinstimmung verändert.",
+    replaceButton: "Ersetzen",
+    editButton: "Bearbeiten",
+    undoButton: "Rückgängig",
+    replacedCount: (n) => (n === 1 ? "1 Mitglied ersetzt" : `${n} Mitglieder ersetzt`),
+    resetAll: "Alle zurücksetzen",
+    newFemale: "Neue Bundesrätin",
+    newMale: "Neuer Bundesrat",
+    newShort: "Neu",
+    insteadOf: (name) => `anstelle von ${name}`,
+    ageYears: (n) => `${n} Jahre`,
+    editorTitle: (name) => `Wer ersetzt ${name}?`,
+    editorNoParty: "Keine Parteidaten vor 1919",
+    editorDelta: (points, unchanged) =>
+      unchanged
+        ? "unverändert gegenüber dem tatsächlichen Bundesrat"
+        : `${points} Prozentpunkte gegenüber dem tatsächlichen Bundesrat`,
+    editorDone: "Fertig",
     councilWarning:
       "Hinweis: Für heute ist kein vollständiger Bundesrat erfasst. Die Daten sind möglicherweise nicht aktuell.",
 
@@ -46,6 +66,7 @@ const strings = {
       `Durchschnitt aus ${names.length > 1 ? `${names.slice(0, -1).join(", ")} und ${names.at(-1)}` : names[0]}`,
     scoreCaption: "100 % = gleiche Zusammensetzung wie die Bevölkerung",
     compareCouncil: (period) => `Bundesrat ${period}`,
+    compareCouncilModified: (period) => `Bundesrat ${period} mit Ihren Änderungen`,
 
     // The four comparisons
     compareGender: "Geschlecht",
@@ -64,6 +85,7 @@ const strings = {
     language_it: "Italienisch",
     language_rm: "Rätoromanisch",
     language_other: "Andere Sprachen",
+    languageOtherSingular: "Andere Sprache",
     languageFurther: "Weitere Sprachen",
     languageBreakdownNote: "Aufteilung gemäss Bevölkerung ab 15 Jahren",
     ageRange: (min, max) => `${min}–${max} Jahre`,
@@ -91,6 +113,8 @@ const strings = {
     // Category labels
     female: "Frauen",
     male: "Männer",
+    femaleSingular: "Frau",
+    maleSingular: "Mann",
   },
 };
 

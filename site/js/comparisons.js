@@ -6,6 +6,8 @@
  *   - categories(members, day): its categories, in display order
  *   - label(c), color(c):       how a category is named and drawn
  *   - categoryOf(member, day):  which category a Council member falls into
+ *   - choices(day), choiceLabel(c): the options offered when the user
+ *                               creates a new member (age: a number instead)
  *   - population(day, cats):    the BFS figures that apply on that day,
  *                               or null if the BFS has no data for that time;
  *                               optionally `breakdown`: what a grouped
@@ -57,13 +59,20 @@ export function buildComparisons(data) {
   // orange would be too close to SP's red).
   const MAIN_PARTIES = ["SP", "Mitte", "FDP", "SVP"];
   const OTHER = "Übrige";
+  // Other parties with a seat (historic, or added by the user) follow the
+  // main four in this order, each in its own colour; any further party is
+  // magenta. Checked for colour-blind separation in this order.
+  const EXTRA_PARTIES = ["GRÜNE", "GLP", "BDP"];
   const partyColors = {
     SP: COLOR("red"),
     Mitte: COLOR("amber"),
     FDP: COLOR("blue"),
     SVP: COLOR("green"),
+    GRÜNE: COLOR("aqua"),
+    GLP: COLOR("violet"),
     [OTHER]: COLOR("other"),
   };
+  const extraRank = (p) => (EXTRA_PARTIES.includes(p) ? EXTRA_PARTIES.indexOf(p) : EXTRA_PARTIES.length);
 
   // National Council elections are held in October: an election counts
   // for Councils that took office from 1 November of that year.
@@ -84,6 +93,8 @@ export function buildComparisons(data) {
       label: (c) => t(c),
       color: (c) => `var(--${c})`,
       categoryOf: (m) => m.gender,
+      choices: () => ["female", "male"],
+      choiceLabel: (c) => t(`${c}Singular`),
       population(day) {
         const year = pickYear(data.gender.years, Number(day.slice(0, 4)));
         const values = data.gender.years[year];
@@ -94,14 +105,25 @@ export function buildComparisons(data) {
       key: "party",
       title: t("compareParty"),
       categories(members, day) {
-        const extra = [...new Set(members.map((m) => partyOn(m, day)))].filter(
-          (p) => !MAIN_PARTIES.includes(p)
-        );
+        const extra = [...new Set(members.map((m) => partyOn(m, day)))]
+          .filter((p) => !MAIN_PARTIES.includes(p))
+          .sort((a, b) => extraRank(a) - extraRank(b) || a.localeCompare(b));
         return [...MAIN_PARTIES, ...extra, OTHER];
       },
       label: (c) => (c === "Mitte" ? t("partyMitte") : c === OTHER ? t("partyOther") : c),
-      color: (c) => partyColors[c] ?? COLOR("violet"), // e.g. BDP (2008–2015)
+      color: (c) => partyColors[c] ?? COLOR("magenta"), // e.g. BDP (2008–2015)
       categoryOf: (m, day) => partyOn(m, day),
+      // Parties with at least 1 % in the election that applies, largest first
+      // (null before 1919: no party data)
+      choices(day) {
+        const year = electionOn(day);
+        if (!year) return null;
+        return Object.entries(data.party.elections[year])
+          .filter(([party, share]) => party !== OTHER && share >= 1)
+          .sort((a, b) => b[1] - a[1])
+          .map(([party]) => party);
+      },
+      choiceLabel: (c) => (c === "Mitte" ? t("partyMitte") : c),
       population(day, categories) {
         const year = electionOn(day);
         if (!year) return null;
@@ -126,6 +148,8 @@ export function buildComparisons(data) {
       color: (c) =>
         COLOR({ de: "blue", fr: "orange", it: "aqua", rm: "amber", other: "other" }[c]),
       categoryOf: (m) => m.language,
+      choices: () => ["de", "fr", "it", "rm", "other"],
+      choiceLabel: (c) => (c === "other" ? t("languageOtherSingular") : t(`language_${c}`)),
       population(day) {
         // Since 2010 people can name several main languages (shares add up
         // to more than 100 %); the score uses the relative shares.

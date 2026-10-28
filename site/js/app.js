@@ -6,7 +6,8 @@
  *   - `base`  : everything that never changes, computed once from the data
  *               (every version of the Council since 1848 with the result
  *               of each comparison, see comparisons.js)
- *   - `state` : what the user picked — which version is shown
+ *   - `state` : what the user picked — which version is shown, and which
+ *               members they replaced with a person of their own
  *   - setup*(): build the page once
  *   - update(): show the version described by `state`.
  *               Called on start and on every change of `state`.
@@ -15,10 +16,14 @@
 import { t, fmt, getLanguage } from "./i18n.js";
 import { overlap, toShares } from "./metrics.js";
 import { buildVersions } from "./council.js";
-import { buildComparisons, ageOn } from "./comparisons.js";
+import { buildComparisons, ageOn, partyOn } from "./comparisons.js";
 
 const state = {
   index: 0, // which version is shown (0 = 1848)
+  // Members replaced by the user, per version:
+  //   { [version index]: { [member number]: { gender, party, language, age } } }
+  replacements: {},
+  editing: null, // number of the member whose replacement is being edited
 };
 let base; // set in main()
 
@@ -128,14 +133,42 @@ function computeBase(data, today) {
   };
 }
 
+/**
+ * A person created by the user, standing in for member `m`. They keep m's
+ * place in the seniority order; their birth date is derived from the chosen
+ * age on the day the version is measured.
+ */
+function newMember(m, choice, day) {
+  return {
+    ...m,
+    isNew: true,
+    replaces: m,
+    name: t(choice.gender === "female" ? "newFemale" : "newMale"),
+    gender: choice.gender,
+    language: choice.language,
+    parties: choice.party ? [{ party: choice.party, from: null }] : m.parties,
+    age: choice.age,
+    birthDate: `${String(Number(day.slice(0, 4)) - choice.age).padStart(4, "0")}${day.slice(4)}`,
+    portrait: null,
+  };
+}
+
 /** Everything that is shown for the current `state`. */
 function computeView() {
   const c = base.versions[state.index];
+  const changes = state.replacements[state.index] ?? {};
+  const isModified = Object.keys(changes).length > 0;
+  const members = c.members.map((m) => (changes[m.number] ? newMember(m, changes[m.number], c.day) : m));
+  const results = isModified
+    ? base.comparisons.map((cmp) => evaluate(cmp, members, c.day))
+    : c.results;
   return {
-    version: c,
+    version: c, // the real Council (its results are the reference for changes)
     isCurrent: state.index === base.currentIndex,
-    overall: c.overall,
-    results: c.results,
+    isModified,
+    members,
+    overall: average(results),
+    results,
   };
 }
 
@@ -182,6 +215,7 @@ function setupNavigator() {
     const next = Math.min(Math.max(index, 0), last);
     if (next === state.index) return;
     state.index = next;
+    closeEditor({ refocus: false });
     update();
   };
   $("nav-prev").addEventListener("click", () => go(state.index - 1));
@@ -399,18 +433,52 @@ function portrait(m) {
   return img;
 }
 
-/** One card per member: portrait, name, party and canton. */
+/** A small text button that triggers an action on a member's card. */
+function cardButton(action, number, text) {
+  const button = el("button", "link-button", text);
+  button.type = "button";
+  button.dataset.action = action;
+  button.dataset.number = number;
+  return button;
+}
+
+/**
+ * One card per member: portrait, name, party and canton, and a button to
+ * replace them. A person created by the user shows their chosen profile.
+ */
 function memberCard(m) {
-  const li = el("li", "member");
-  const avatar = portrait(m);
-
+  const li = el("li", m.isNew ? "member is-new" : "member");
   const body = el("div", "member-body");
-  body.append(
-    el("p", "member-name", m.name),
-    el("p", "member-meta", `${m.party} · ${m.canton}`)
-  );
+  const actions = el("p", "member-actions");
 
-  li.append(avatar, body);
+  if (m.isNew) {
+    const avatar = el("span", `avatar avatar-${m.gender} avatar-new`, t("newShort"));
+    avatar.setAttribute("aria-hidden", "true");
+    const party = base.comparisons.find((c) => c.key === "party");
+    const language = base.comparisons.find((c) => c.key === "language");
+    body.append(
+      el("p", "member-name", m.name),
+      el("p", "member-meta", [
+        party.choiceLabel(m.parties[0].party),
+        language.choiceLabel(m.language),
+        t("ageYears", m.age),
+      ].join(" · ")),
+      el("p", "member-meta", t("insteadOf", m.replaces.name))
+    );
+    actions.append(
+      cardButton("edit", m.number, t("editButton")),
+      cardButton("undo", m.number, t("undoButton"))
+    );
+    li.append(avatar, body);
+  } else {
+    body.append(
+      el("p", "member-name", m.name),
+      el("p", "member-meta", `${m.party} · ${m.canton}`)
+    );
+    actions.append(cardButton("replace", m.number, t("replaceButton")));
+    li.append(portrait(m), body);
+  }
+  body.append(actions);
   return li;
 }
 
@@ -423,7 +491,19 @@ function updateCouncil(v) {
       ? t("councilOneDay", fmt.date(c.start))
       : t("councilFromTo", fmt.date(c.start), fmt.date(c.end));
 
-  $("council-list").replaceChildren(...c.members.map(memberCard));
+  $("council-list").replaceChildren(...v.members.map(memberCard));
+
+  // Below the cards: an invitation to try it, or what has been changed
+  const foot = $("panel-foot");
+  const replaced = v.members.filter((m) => m.isNew).length;
+  if (replaced) {
+    const reset = el("button", "link-button", t("resetAll"));
+    reset.type = "button";
+    reset.dataset.action = "reset";
+    foot.replaceChildren(el("span", null, t("replacedCount", replaced)), reset);
+  } else {
+    foot.replaceChildren(el("span", null, t("replaceHint")));
+  }
 
   // Safety net: if today has an empty seat, the CSV may be out of date
   // (e.g. a successor is missing). Shown with the latest version.
@@ -549,7 +629,8 @@ function updateComparisons(v) {
   $("score-caption").textContent = t("overallCaption", included);
 
   // One section per comparison
-  const councilName = t("compareCouncil", periodLabel(v.version, v.isCurrent));
+  const period = periodLabel(v.version, v.isCurrent);
+  const councilName = t(v.isModified ? "compareCouncilModified" : "compareCouncil", period);
   for (const [k, r] of v.results.entries()) {
     const cmp = base.comparisons[k];
     const section = document.querySelector(`.comparison[data-key="${cmp.key}"]`);
@@ -570,7 +651,9 @@ function updateComparisons(v) {
       only(r.p, r.categories),
       () => "",
       (c) => ({
-        names: r.groups[c].map((m) => `${lastName(m.name)} (${ageOn(m.birthDate, v.version.day)})`),
+        names: r.groups[c].map(
+          (m) => `${m.isNew ? t("newShort") : lastName(m.name)} (${ageOn(m.birthDate, v.version.day)})`
+        ),
       })
     );
     updateBarRow(
@@ -587,11 +670,197 @@ function updateComparisons(v) {
   $("score-status").textContent = `${t("overallLabel")}: ${v.overall === null ? "–" : fmt.pct(v.overall)}`;
 }
 
+// Replacing a member ------------------------------------------------------------
+
+/**
+ * Buttons on the cards and below them: replace, edit, undo, reset all.
+ * One listener for the whole panel, since the cards are rebuilt often.
+ */
+function setupReplacements() {
+  $("council-panel").addEventListener("click", (e) => {
+    const button = e.target.closest("button[data-action]");
+    if (!button) return;
+    const number = Number(button.dataset.number);
+    const changes = (state.replacements[state.index] ??= {});
+    switch (button.dataset.action) {
+      case "replace":
+      case "edit":
+        openEditor(number);
+        break;
+      case "undo":
+        delete changes[number];
+        if (state.editing === number) closeEditor({ refocus: false });
+        update();
+        break;
+      case "reset":
+        state.replacements[state.index] = {};
+        closeEditor({ refocus: false });
+        update();
+        break;
+    }
+  });
+  $("editor").addEventListener("keydown", (e) => {
+    if (e.key === "Escape") closeEditor();
+  });
+}
+
+/**
+ * Open the editor for member `number`. The new person starts with the
+ * replaced member's profile, so nothing changes until the user picks
+ * something different.
+ */
+function openEditor(number) {
+  const c = base.versions[state.index];
+  const m = c.members.find((x) => x.number === number);
+  const party = base.comparisons.find((x) => x.key === "party");
+  const changes = (state.replacements[state.index] ??= {});
+  changes[number] ??= {
+    gender: m.gender,
+    party: party.choices(c.day) ? partyOn(m, c.day) : null,
+    language: m.language,
+    age: ageOn(m.birthDate, c.day),
+  };
+  state.editing = number;
+  buildEditor(m, changes[number], c.day);
+  update();
+
+  const editor = $("editor");
+  editor.hidden = false;
+  editor.scrollIntoView({ block: "nearest", behavior: prefersReducedMotion() ? "auto" : "smooth" });
+  editor.querySelector("input:checked, input")?.focus({ preventScroll: true });
+}
+
+function closeEditor({ refocus = true } = {}) {
+  const number = state.editing;
+  if (number === null) return;
+  state.editing = null;
+  $("editor").hidden = true;
+  // Back to the card's "Bearbeiten" button (or "Ersetzen" after an undo)
+  if (refocus) document.querySelector(`#council-list button[data-number="${number}"]`)?.focus();
+}
+
+/** One group of options (gender, party, language) as radio "chips". */
+function chipField(cmp, choice, day) {
+  const fieldset = el("fieldset", "editor-field");
+  fieldset.append(el("legend", null, cmp.title));
+  let options = cmp.choices(day);
+  if (!options) {
+    fieldset.append(el("p", "editor-note", t("editorNoParty")));
+    return fieldset;
+  }
+  // The replaced member's own party may be missing from the list (e.g. a
+  // party that no longer runs); offer it anyway.
+  if (!options.includes(choice[cmp.key])) options = [choice[cmp.key], ...options];
+
+  const chips = el("div", "chips");
+  for (const option of options) {
+    const label = el("label", "chip");
+    const input = el("input");
+    input.type = "radio";
+    input.name = `editor-${cmp.key}`;
+    input.value = option;
+    input.checked = choice[cmp.key] === option;
+    input.addEventListener("change", () => {
+      choice[cmp.key] = option;
+      update();
+    });
+    const text = el("span");
+    const key = el("span", "key");
+    key.style.background = cmp.color(option);
+    text.append(key, document.createTextNode(cmp.choiceLabel(option)));
+    label.append(input, text);
+    chips.append(label);
+  }
+  fieldset.append(chips);
+  return fieldset;
+}
+
+/** Age: a slider from 18 (minimum age for the Federal Council) to 90. */
+function ageField(choice) {
+  const field = el("div", "editor-field");
+  const id = "editor-age";
+  const label = el("label", "editor-label", t("compareAge"));
+  label.htmlFor = id;
+  const value = el("output", "editor-age-value", t("ageYears", choice.age));
+  value.htmlFor = id;
+  const range = el("input", "range");
+  range.type = "range";
+  range.id = id;
+  range.min = 18;
+  range.max = 90;
+  range.value = choice.age;
+  range.addEventListener("input", () => {
+    choice.age = Number(range.value);
+    value.textContent = t("ageYears", choice.age);
+    update();
+  });
+  const head = el("div", "editor-age-head");
+  head.append(label, value);
+  field.append(head, range);
+  return field;
+}
+
+/** Build the editor for replacing member `m` (controls are built once). */
+function buildEditor(m, choice, day) {
+  const title = el("h3", "editor-title", t("editorTitle", m.name));
+  title.id = "editor-title";
+
+  const fields = el("div", "editor-fields");
+  for (const cmp of base.comparisons) {
+    fields.append(cmp.key === "age" ? ageField(choice) : chipField(cmp, choice, day));
+  }
+
+  // Live result: overall score and each comparison, versus the real Council
+  const result = el("div", "editor-result");
+  result.setAttribute("aria-live", "polite");
+  const score = el("p", "editor-score");
+  score.id = "editor-score";
+  const delta = el("p", "editor-delta");
+  delta.id = "editor-delta";
+  const list = el("ul", "editor-scores");
+  list.id = "editor-scores";
+  result.append(el("p", "editor-result-label", t("overallLabel")), score, delta, list);
+
+  const done = el("button", "button", t("editorDone"));
+  done.type = "button";
+  done.addEventListener("click", () => closeEditor());
+  const actions = el("div", "editor-actions");
+  actions.append(done);
+
+  $("editor").replaceChildren(title, fields, result, actions);
+}
+
+/** "+3.6" / "−2.1" / "±0.0" (percentage points). */
+function signedPoints(delta) {
+  const pp = delta * 100;
+  if (Math.abs(pp) < 0.05) return `±${fmt.dec(0)}`;
+  return `${pp > 0 ? "+" : "−"}${fmt.dec(Math.abs(pp))}`;
+}
+
+/** Fill the editor's live result. */
+function updateEditor(v) {
+  if (state.editing === null) return;
+  const diff = v.overall - v.version.overall;
+  $("editor-score").textContent = fmt.pct(v.overall);
+  $("editor-delta").textContent = t("editorDelta", signedPoints(diff), Math.abs(diff) < 0.0005);
+  $("editor-scores").replaceChildren(
+    ...v.results.map((r, k) => {
+      const cmp = base.comparisons[k];
+      const before = v.version.results[k];
+      const text = r.available
+        ? `${cmp.title} ${fmt.pct(r.score)} (${signedPoints(r.score - before.score)})`
+        : `${cmp.title} –`;
+      return el("li", null, text);
+    })
+  );
+}
+
 function update() {
   const v = computeView();
   updateNavigator(v);
   updateCouncil(v);
   updateComparisons(v);
+  updateEditor(v);
 }
 
 // Start --------------------------------------------------------------------------
@@ -620,6 +889,7 @@ async function main() {
     state.index = base.currentIndex >= 0 ? base.currentIndex : base.versions.length - 1;
     setupNavigator();
     setupComparisons();
+    setupReplacements();
     setupFooter();
     setupTooltip();
     update();
