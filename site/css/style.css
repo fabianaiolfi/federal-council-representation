@@ -571,20 +571,193 @@ h2 {
   color: #fff;
 }
 
-/* Narrow screens: the three modes stacked */
+/* Narrow screens: the three modes stacked (the two views stay side by side) */
 @media (max-width: 36rem) {
-  .modes {
+  .modes:not(.view-switch) {
     flex-direction: column;
   }
 
-  .mode-button {
+  .modes:not(.view-switch) .mode-button {
     border-right: 0;
     border-bottom: 1px solid var(--ink);
   }
 
-  .mode-button:last-child {
+  .modes:not(.view-switch) .mode-button:last-child {
     border-bottom: 0;
   }
+}
+
+/* Switch between "Ausgewählter Bundesrat" and "Verlauf seit 1848" */
+.view-switch {
+  margin: 1.25rem 0 0;
+}
+
+.view-switch .mode-button {
+  flex: 1 1 0;
+}
+
+/* History view ------------------------------------------------------------------------ */
+.history {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--ink);
+}
+
+.history .legend {
+  margin-top: 1rem;
+}
+
+/* Legend key for a line: a short stroke */
+.key-line {
+  display: inline-block;
+  flex: none;
+  width: 1rem;
+  height: 2px;
+  margin-right: 0.45rem;
+}
+
+.key-line-strong {
+  height: 3px;
+}
+
+.chart {
+  position: relative;
+  margin-top: 1rem;
+}
+
+.chart-svg {
+  display: block;
+  max-width: 100%;
+  overflow: visible;
+}
+
+.chart-grid {
+  stroke: var(--line);
+  stroke-width: 1;
+}
+
+.chart-axis {
+  stroke: var(--ink-3);
+  stroke-width: 1;
+}
+
+.chart-label {
+  fill: var(--ink-3);
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+}
+
+.chart-band {
+  fill: var(--wash);
+}
+
+.chart-band-hover {
+  fill: rgba(11, 11, 11, 0.05);
+}
+
+.chart-line {
+  fill: none;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+
+.chart-dot {
+  stroke: var(--bg);
+  stroke-width: 2;
+}
+
+/* Catches the pointer over the plot area; clicking selects a Council */
+.chart-hit {
+  fill: transparent;
+  cursor: pointer;
+}
+
+.chart-tooltip {
+  position: absolute;
+  z-index: 4;
+  pointer-events: none;
+  min-width: 12rem;
+  padding: 0.6rem 0.75rem;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  font-size: 0.875rem;
+  color: var(--ink-2);
+}
+
+.chart-tooltip-title {
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.chart-tooltip-rows {
+  display: grid;
+  gap: 0.15rem;
+  margin: 0.4rem 0 0;
+  padding: 0;
+  list-style: none;
+  font-variant-numeric: tabular-nums;
+}
+
+.chart-tooltip-rows li {
+  display: grid;
+  grid-template-columns: auto 7ch 1fr; /* line key, value ("100.0 %"), label */
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.chart-tooltip-rows strong {
+  color: var(--ink);
+  text-align: right;
+}
+
+.chart-tooltip-rows .key-line {
+  margin-right: 0;
+}
+
+/* "Werte als Tabelle" */
+.history-table {
+  margin-top: 1.25rem;
+  font-size: 0.875rem;
+}
+
+.history-table summary {
+  cursor: pointer;
+  color: var(--ink-2);
+}
+
+.table-wrap {
+  max-height: 24rem;
+  margin-top: 0.75rem;
+  overflow: auto;
+}
+
+.history-table table {
+  width: 100%;
+  border-collapse: collapse;
+  font-variant-numeric: tabular-nums;
+}
+
+.history-table th,
+.history-table td {
+  padding: 0.4rem 0.75rem 0.4rem 0;
+  border-bottom: 1px solid var(--line);
+  text-align: right;
+  white-space: nowrap;
+}
+
+.history-table th:first-child {
+  text-align: left;
+  font-weight: 400;
+}
+
+.history-table thead th {
+  position: sticky;
+  top: 0;
+  background: var(--bg);
+  font-weight: 600;
+  color: var(--ink);
+  border-bottom-color: var(--ink);
 }
 
 .editor-fields > .link-button {

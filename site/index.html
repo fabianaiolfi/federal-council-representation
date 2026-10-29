@@ -75,11 +75,19 @@
 
     <p class="warning" id="council-warning" hidden></p>
 
-    <!-- 2. Comparison: overall score, one section per comparison
-         (gender, party, language, age; built by app.js) ----------------->
+    <!-- 2. Comparison: two views, switched by the buttons below the title:
+         - the selected Council: overall score, one section per comparison
+           (gender, party, language, age; built by app.js)
+         - the history: a step line chart of all scores since 1848 ------->
     <section class="block" aria-labelledby="compare-title">
       <h2 id="compare-title" data-i18n="compareTitle"></h2>
 
+      <div class="modes view-switch" id="view-switch" role="group">
+        <button class="mode-button" type="button" data-view="current" aria-pressed="true" data-i18n="viewCurrent"></button>
+        <button class="mode-button" type="button" data-view="history" aria-pressed="false" data-i18n="viewHistory"></button>
+      </div>
+
+      <div id="view-current">
       <!-- The visible number is animated, so it is hidden from screen readers;
            #score-status announces the final value instead. -->
       <div class="score" id="score">
@@ -103,6 +111,20 @@
       </div>
 
       <div class="comparisons" id="comparisons"></div>
+      </div>
+
+      <div class="history" id="view-history" hidden>
+        <p class="score-label" data-i18n="historyTitle"></p>
+        <p class="score-caption" data-i18n="historyHint"></p>
+        <ul class="legend" id="history-legend"></ul>
+        <div class="chart" id="history-chart"></div>
+        <details class="history-table">
+          <summary data-i18n="historyTable"></summary>
+          <div class="table-wrap">
+            <table id="history-table"></table>
+          </div>
+        </details>
+      </div>
     </section>
 
     <!-- Footer ---------------------------------------------------------------->

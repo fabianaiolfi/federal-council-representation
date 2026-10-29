@@ -17,6 +17,7 @@ import { t, fmt, getLanguage } from "./i18n.js";
 import { overlap, toShares } from "./metrics.js";
 import { buildVersions } from "./council.js";
 import { buildComparisons, ageOn, partyOn } from "./comparisons.js";
+import { drawStepChart } from "./chart.js";
 
 const state = {
   index: 0, // which version is shown (0 = 1848)
@@ -27,6 +28,7 @@ const state = {
   //   data/candidates.csv) or "best" (a profile that maximises the score)
   replacements: {},
   editing: null, // number of the member whose replacement is being edited
+  view: "current", // comparison view: "current" (selected Council) or "history"
 };
 let base; // set in main()
 
@@ -217,13 +219,7 @@ function setupNavigator() {
   range.setAttribute("aria-label", t("navSlider"));
   range.max = last;
 
-  const go = (index) => {
-    const next = Math.min(Math.max(index, 0), last);
-    if (next === state.index) return;
-    state.index = next;
-    closeEditor({ refocus: false });
-    update();
-  };
+  const go = goTo;
   $("nav-prev").addEventListener("click", () => go(state.index - 1));
   $("nav-next").addEventListener("click", () => go(state.index + 1));
   range.addEventListener("input", () => go(Number(range.value)));
@@ -251,6 +247,15 @@ function setupNavigator() {
     ([entry]) => head.classList.toggle("show-score", !entry.isIntersecting),
     { rootMargin: `-${head.offsetHeight}px 0px 0px 0px` }
   ).observe($("score-value"));
+}
+
+/** Show version `index` (from the buttons, slider, arrow keys or the chart). */
+function goTo(index) {
+  const next = Math.min(Math.max(index, 0), base.versions.length - 1);
+  if (next === state.index) return;
+  state.index = next;
+  closeEditor({ refocus: false });
+  update();
 }
 
 /**
@@ -749,6 +754,109 @@ function updateComparisons(v) {
   $("score-status").textContent = `${t("overallLabel")}: ${v.overall === null ? "–" : fmt.pct(v.overall)}`;
 }
 
+// History: all scores over time --------------------------------------------------
+
+let history; // periods and series for the chart, built once in setupHistory()
+
+/** The two views of the comparison section: selected Council, or history. */
+function setupViews() {
+  const group = $("view-switch");
+  group.setAttribute("aria-label", t("viewSwitchLabel"));
+  for (const button of group.querySelectorAll("button")) {
+    button.addEventListener("click", () => {
+      state.view = button.dataset.view;
+      for (const b of group.querySelectorAll("button")) {
+        b.setAttribute("aria-pressed", String(b === button));
+      }
+      $("view-current").hidden = state.view !== "current";
+      $("view-history").hidden = state.view !== "history";
+      renderHistory();
+    });
+  }
+}
+
+/**
+ * Build the data of the history chart (the real Councils, without the
+ * user's replacements), its legend and the table. The chart itself is
+ * drawn by renderHistory().
+ */
+function setupHistory() {
+  const versions = base.versions;
+  const endOfToday = Date.parse(base.today) + 24 * 3600 * 1000;
+  const periods = versions.map((v, i) => ({
+    start: Date.parse(v.start),
+    end: i < versions.length - 1 ? Date.parse(versions[i + 1].start) : endOfToday,
+  }));
+
+  // One line per comparison, plus the overall score (black, on top)
+  const colors = { gender: "var(--blue)", party: "var(--orange)", language: "var(--aqua)", age: "var(--amber)" };
+  const lines = [
+    { label: t("historyOverall"), color: "var(--ink)", width: 3, values: versions.map((v) => v.overall) },
+    ...base.comparisons.map((cmp, k) => ({
+      label: cmp.title,
+      color: colors[cmp.key],
+      width: 2,
+      values: versions.map((v) => (v.results[k].available ? v.results[k].score : null)),
+    })),
+  ];
+  // Drawn bottom to top: the tooltip lists them top to bottom (overall first)
+  history = { periods, series: [...lines].reverse() };
+
+  // Legend: a short line in each series' colour
+  $("history-legend").replaceChildren(
+    ...lines.map((s) => {
+      const li = el("li");
+      const key = el("span", "key-line");
+      key.style.background = s.color;
+      if (s.width > 2) key.classList.add("key-line-strong");
+      li.append(key, document.createTextNode(s.label));
+      return li;
+    })
+  );
+
+  // Table: every Council, newest first
+  const head = el("tr");
+  for (const text of [t("historyColPeriod"), ...lines.map((s) => s.label)]) {
+    const th = el("th", null, text);
+    th.scope = "col";
+    head.append(th);
+  }
+  const rows = versions
+    .map((v, i) => {
+      const tr = el("tr");
+      const th = el("th", null, periodLabel(v, i === base.currentIndex));
+      th.scope = "row";
+      tr.append(th, ...lines.map((s) => el("td", null, s.values[i] === null ? "–" : fmt.pct(s.values[i]))));
+      return tr;
+    })
+    .reverse();
+  const thead = el("thead");
+  thead.append(head);
+  const tbody = el("tbody");
+  tbody.append(...rows);
+  $("history-table").replaceChildren(thead, tbody);
+
+  // Redraw when the available width changes (window resized, phone rotated)
+  let frame = 0;
+  new ResizeObserver(() => {
+    cancelAnimationFrame(frame);
+    frame = requestAnimationFrame(renderHistory);
+  }).observe($("history-chart"));
+}
+
+/** Draw the history chart (only while it is visible). */
+function renderHistory() {
+  if (state.view !== "history" || !history) return;
+  drawStepChart($("history-chart"), {
+    ...history,
+    selected: state.index,
+    describe: (i) => t("compareCouncil", periodLabel(base.versions[i], i === base.currentIndex)),
+    format: (v) => fmt.pct(v),
+    onSelect: goTo,
+    label: t("historyChartLabel"),
+  });
+}
+
 // Replacing a member ------------------------------------------------------------
 
 /**
@@ -1138,6 +1246,7 @@ function update() {
   updateCouncil(v);
   updateComparisons(v);
   updateEditor(v);
+  renderHistory();
 }
 
 // Start --------------------------------------------------------------------------
@@ -1166,6 +1275,8 @@ async function main() {
     state.index = base.currentIndex >= 0 ? base.currentIndex : base.versions.length - 1;
     setupNavigator();
     setupComparisons();
+    setupViews();
+    setupHistory();
     setupInfo();
     setupReplacements();
     setupFooter();
