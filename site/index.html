@@ -81,7 +81,19 @@
       <!-- The visible number is animated, so it is hidden from screen readers;
            #score-status announces the final value instead. -->
       <div class="score" id="score">
-        <p class="score-label" data-i18n="overallLabel"></p>
+        <!-- Title with a "Was bedeutet das?" explanation (filled in by app.js) -->
+        <div class="score-head">
+          <p class="score-label" data-i18n="overallLabel"></p>
+          <!-- Icon: Material Icons "info_outline" (Google, Apache License 2.0),
+               inlined so no request goes to Google. Label set by app.js. -->
+          <button class="info-button" id="info-button" type="button"
+                  aria-expanded="false" aria-controls="info-box">
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <path d="M11 7h2v2h-2zm0 4h2v6h-2zm1-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/>
+            </svg>
+          </button>
+          <div class="info-box" id="info-box" role="region" aria-labelledby="info-button" hidden></div>
+        </div>
         <p class="score-value" id="score-value" aria-hidden="true">–</p>
         <p class="score-caption" id="score-caption"></p>
         <p class="score-caption" data-i18n="scoreCaption"></p>

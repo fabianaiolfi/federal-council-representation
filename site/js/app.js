@@ -281,6 +281,60 @@ function setupTicks(last) {
 }
 
 /**
+ * "Was bedeutet das?" next to the overall score: an explanation that opens
+ * on hover or keyboard focus, and stays open after a click or tap (until
+ * clicked again, Escape, or a click elsewhere).
+ */
+function setupInfo() {
+  const head = document.querySelector(".score-head");
+  const button = $("info-button");
+  const box = $("info-box");
+  // Icon-only button: its name comes from the label (and a tooltip on hover)
+  button.setAttribute("aria-label", t("infoButton"));
+  button.title = t("infoButton");
+
+  const example = el("div", "info-example");
+  example.id = "info-example";
+  box.replaceChildren(
+    el("p", "info-title", t("infoButton")),
+    el("p", null, t("infoWhat")),
+    example, // filled in by updateComparisons()
+    el("p", null, t("infoOverall")),
+    el("p", "info-method", t("infoMethod"))
+  );
+
+  let pinned = false;
+  const show = (open) => {
+    box.hidden = !open;
+    button.setAttribute("aria-expanded", String(open));
+  };
+  const close = () => {
+    pinned = false;
+    show(false);
+  };
+
+  button.addEventListener("click", () => {
+    pinned = !pinned;
+    show(pinned);
+  });
+  head.addEventListener("mouseenter", () => show(true));
+  head.addEventListener("mouseleave", () => pinned || show(false));
+  button.addEventListener("focus", () => show(true));
+  head.addEventListener("focusout", (e) => {
+    if (!pinned && !head.contains(e.relatedTarget)) show(false);
+  });
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && !box.hidden) {
+      close();
+      button.focus();
+    }
+  });
+  document.addEventListener("click", (e) => {
+    if (!box.hidden && !head.contains(e.target)) close();
+  });
+}
+
+/**
  * One section per comparison: title and score, change, note (no data),
  * legend and two aligned 100 % bars (Council vs population). Built once;
  * update() fills them in.
@@ -636,8 +690,29 @@ function updateComparisons(v) {
   );
   $("score-caption").textContent = t("overallCaption", included);
 
-  // One section per comparison
+  // Worked example in "Was bedeutet das?": gender of the Council shown
   const period = periodLabel(v.version, v.isCurrent);
+  const gender = v.results.find((r) => r.key === "gender");
+  const genderCmp = base.comparisons.find((c) => c.key === "gender");
+  const example = el("ul", "info-rows");
+  for (const c of gender.categories) {
+    example.append(
+      el("li", null, t(
+        "infoExampleRow",
+        genderCmp.label(c),
+        fmt.pct(gender.p[c]),
+        fmt.pct(gender.q[c]),
+        fmt.pct(Math.min(gender.p[c], gender.q[c]))
+      ))
+    );
+  }
+  example.append(el("li", "info-sum", t("infoExampleSum", fmt.pct(gender.score))));
+  $("info-example").replaceChildren(
+    el("p", null, t("infoExampleTitle", t(v.isModified ? "compareCouncilModified" : "compareCouncil", period), gender.pop.label)),
+    example
+  );
+
+  // One section per comparison
   const councilName = t(v.isModified ? "compareCouncilModified" : "compareCouncil", period);
   for (const [k, r] of v.results.entries()) {
     const cmp = base.comparisons[k];
@@ -1100,6 +1175,7 @@ async function main() {
     state.index = base.currentIndex >= 0 ? base.currentIndex : base.versions.length - 1;
     setupNavigator();
     setupComparisons();
+    setupInfo();
     setupReplacements();
     setupFooter();
     setupTooltip();

@@ -72,6 +72,25 @@ const strings = {
     // Comparison
     compareTitle: "Der Bundesrat im Vergleich mit der Schweizer Bevölkerung",
     overallLabel: "Übereinstimmung insgesamt",
+
+    // "Was bedeutet das?" next to the overall score
+    infoButton: "Was bedeutet das?",
+    infoWhat:
+      "Die Übereinstimmung zeigt, wie ähnlich der Bundesrat der Bevölkerung " +
+      "zusammengesetzt ist. Für jede Gruppe wird der kleinere der beiden Anteile " +
+      "genommen – jener im Bundesrat oder jener in der Bevölkerung – und diese " +
+      "Werte werden zusammengezählt. 100\u00a0% heisst: gleiche Zusammensetzung.",
+    infoExampleTitle: (council, population) => `Beispiel Geschlecht – ${council}, ${population}:`,
+    infoExampleRow: (group, council, population, smaller) =>
+      `${group}: ${council} im Bundesrat, ${population} in der Bevölkerung → ${smaller}`,
+    infoExampleSum: (sum) => `Summe: ${sum}`,
+    infoOverall:
+      "Die Übereinstimmung insgesamt ist der Durchschnitt aus Geschlecht, Partei, " +
+      "Sprache und Alter. Weil der Bundesrat nur sieben Sitze hat, sind 100\u00a0% meist " +
+      "nicht erreichbar.",
+    infoMethod:
+      "In der Politikwissenschaft heisst dieses Mass Rose-Index: 100\u00a0% minus " +
+      "Loosemore-Hanby-Index.",
     overallCaption: (names) =>
       `Durchschnitt aus ${names.length > 1 ? `${names.slice(0, -1).join(", ")} und ${names.at(-1)}` : names[0]}`,
     scoreCaption: "100 % = gleiche Zusammensetzung wie die Bevölkerung",

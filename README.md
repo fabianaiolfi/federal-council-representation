@@ -38,7 +38,9 @@ The page has three parts:
    the Council matches the population by **gender, party, language and
    age**. The overall score at the top is the average of the four; below it,
    each comparison has its own score and two bars (Council vs population).
-   Everything updates with every step in the panel above.
+   Everything updates with every step in the panel above. "Was bedeutet
+   das?" next to the overall score explains the measure, with a worked
+   example for the Council shown.
 3. **Quellen:** data sources and picture credits for the portraits.
 
 ## Run the app locally
@@ -173,21 +175,66 @@ The app works out which version is **current** from the visitor's date:
 
 ## The measure
 
-**Overlap coefficient:** `score = Σ min(pᵢ, qᵢ)`
+Each comparison ("Übereinstimmung") is the **overlap** between two
+distributions:
 
-- `p`: the Council's share for each group, `q`: the population's share
-- 100 % means the two compositions are identical, 0 % means they share nothing
-- It equals `1 − ½·Σ|pᵢ − qᵢ|`, i.e. 1 minus the total variation distance.
-  In political science this distance is the Loosemore–Hanby index of
-  disproportionality.
-- It works for any number of groups, so all four comparisons use it.
+```
+score = Σ min(pᵢ, qᵢ)
+```
+
+- `pᵢ`: the Council's share in group `i` (e.g. women), `qᵢ`: the population's
+  share in the same group. Both add up to 100 %.
+- For every group, take the smaller of the two shares, then add them up.
+- 100 % means the two compositions are identical, 0 % means they share
+  nothing.
+
+**Example (gender, today):** Council 28.6 % women and 71.4 % men, population
+50.3 % women and 49.7 % men → 28.6 % + 49.7 % = **78.3 %**.
+
+### Relation to established indices
+
+Since `min(a, b) = (a + b − |a − b|) / 2` and both distributions add up to
+100 %:
+
+```
+Σ min(pᵢ, qᵢ) = 1 − ½ Σ |pᵢ − qᵢ|
+```
+
+The right-hand part, `½ Σ |pᵢ − qᵢ|`, is a well-known *deviation* measure
+under several names:
+
+- **Loosemore–Hanby index** (LH) of disproportionality, when comparing parties'
+  vote shares with their seat shares;
+- **index of dissimilarity** (Duncan) in segregation research;
+- **total variation distance** in statistics.
+
+So the score is `1 − LH`, which political science calls the **Rose index** or
+**Party Total Representativity** (see
+[Loosemore–Hanby index](https://en.wikipedia.org/wiki/Loosemore%E2%80%93Hanby_index)).
+For gender, language and age, where there are no parties, it is
+`1 − index of dissimilarity`; the formula is the same.
+
+The score and the deviation carry exactly the same information (78.3 %
+match = 21.7 % deviation). The app shows the match rather than the deviation
+because the page asks a positive question ("Wie gut bildet der Bundesrat die
+Bevölkerung ab?"): 100 % = perfect match reads more naturally than a
+deviation where lower is better.
+
+### Properties worth knowing
+
+- **Grouping groups without members changes nothing.** Merging groups in
+  which the Council has no members does not change the score. That is why
+  the many small parties without a seat can be shown as "Übrige Parteien".
+- **Many small groups add up.** Small deviations count linearly, so with many
+  small categories (e.g. small parties) they add up. The Gallagher index
+  (least squares) is an alternative that weights large deviations more
+  heavily; the app does not use it.
+- **Seven seats.** The Council's shares move in steps of 1/7 ≈ 14.3 %, so
+  100 % is usually impossible. For gender, with 2025 figures (50.3 % women),
+  the best achievable score is 93.1 % (4 women, 3 men).
 
 The **overall score** is the plain average of the comparisons that have data
-for the version shown.
-
-Because the Council has only 7 seats, 100 % is usually impossible. For gender,
-with 2025 figures (50.3 % women), the best achievable score is 93.1 %
-(4 women, 3 men).
+for the version shown (each comparison weighs the same).
 
 ## Comparisons and data
 
@@ -283,7 +330,9 @@ cards, score and bars whenever `state` changes.
   banner.
 - **Language switcher:** add a `"fr-CH"` (etc.) block to `site/js/i18n.js` and
   a button that calls `setLanguage()` and re-renders.
-- **Explanations:** a short section on how the measure is calculated.
+- **Explanations:** so far, "Was bedeutet das?" next to the overall score
+  explains the measure in short (with a worked example for gender); a longer
+  methods section could follow.
 
 ## Sources
 
@@ -298,6 +347,9 @@ cards, score and bars whenever `state` changes.
 - Birth dates, languages and portraits of the councillors:
   [Wikidata](https://www.wikidata.org/) and
   [Wikimedia Commons](https://commons.wikimedia.org/)
+- Info icon (ⓘ): [Material Icons](https://fonts.google.com/icons) "info_outline"
+  by Google, Apache License 2.0. Embedded as inline SVG in `site/index.html`,
+  so the page makes no request to Google.
 
 ## Image licences
 
