@@ -7,7 +7,7 @@ The interface is in Swiss High German.
 The page has three parts:
 
 1. **Der Bundesrat:** one panel with the seven members (portrait, name,
-   party, canton; by seniority) and a
+   "party · language"; by seniority) and a
    timeline. The ← → buttons, the slider or the ← → keys step through every
    version of the Council since 1848 (94 so far). The panel head stays at the
    top of the screen while you scroll through the whole page.
@@ -115,7 +115,7 @@ Vorname Nachname,female,GRÜNE,fr,1980-05-17,Genf
 | `party` | As in the BFS election statistics: `SP`, `Mitte`, `FDP`, `SVP`, `GRÜNE`, `GLP`, `EVP`, `EDU`, … (historic names like `CVP` or `BGB` are converted) |
 | `language` | `de`, `fr`, `it`, `rm` or `other` (or `Deutsch`, `Französisch`, …) |
 | `birth_date` | `YYYY-MM-DD`, or just `YYYY` if only the year is known (then 1 July is assumed) |
-| `canton` | Optional, shown in the list |
+| `canton` | Optional; kept for later (e.g. a comparison by region), not shown at the moment |
 
 The script stops with a message pointing to the line if a value is missing
 or unknown. While the file has no rows, the page says "Noch keine Personen

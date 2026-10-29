@@ -503,13 +503,14 @@ function cardButton(action, number, text) {
 }
 
 /**
- * One card per member: portrait, name, party and canton, and a button to
+ * One card per member: portrait, name, "party · language", and a button to
  * replace them. A person created by the user shows their chosen profile.
  */
 function memberCard(m) {
   const li = el("li", m.isNew ? "member is-new" : "member");
   const body = el("div", "member-body");
   const actions = el("p", "member-actions");
+  const language = base.comparisons.find((c) => c.key === "language");
 
   if (m.isNew) {
     const avatar = m.fromList
@@ -517,14 +518,9 @@ function memberCard(m) {
       : el("span", `avatar avatar-${m.gender} avatar-new`, t("newShort"));
     avatar.setAttribute("aria-hidden", "true");
     const party = base.comparisons.find((c) => c.key === "party");
-    const language = base.comparisons.find((c) => c.key === "language");
     body.append(
       el("p", "member-name", m.name),
-      el("p", "member-meta", [
-        party.choiceLabel(m.parties[0].party),
-        language.choiceLabel(m.language),
-        t("ageYears", m.age),
-      ].join(" · ")),
+      el("p", "member-meta", `${party.choiceLabel(m.parties[0].party)} · ${language.choiceLabel(m.language)}`),
       el("p", "member-meta", t("insteadOf", m.replaces.name))
     );
     actions.append(
@@ -535,7 +531,7 @@ function memberCard(m) {
   } else {
     body.append(
       el("p", "member-name", m.name),
-      el("p", "member-meta", `${m.party} · ${m.canton}`)
+      el("p", "member-meta", `${m.party} · ${language.choiceLabel(m.language)}`)
     );
     actions.append(cardButton("replace", m.number, t("replaceButton")));
     li.append(portrait(m), body);
@@ -1048,12 +1044,7 @@ function listPanel(choice, day) {
     const text = el("span", "person-text");
     text.append(
       el("span", "person-name", person.name),
-      el("span", "person-meta", [
-        party.choiceLabel(person.party),
-        language.choiceLabel(person.language),
-        t("ageYears", age),
-        person.canton,
-      ].filter(Boolean).join(" · "))
+      el("span", "person-meta", `${party.choiceLabel(person.party)} · ${language.choiceLabel(person.language)}`)
     );
     row.append(input, text);
     list.append(row);
