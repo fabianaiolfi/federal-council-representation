@@ -1,0 +1,69 @@
+# Check the web app and publish it on Cloudflare Pages.
+#
+#   push to main  -> public site  https://federal-council-representation.pages.dev
+#   push to beta  -> beta site    https://beta.federal-council-representation.pages.dev
+#   pull request  -> checks only, nothing is published
+#
+# The site is the folder site/ as it is in the repository (no build step).
+# Needs two repository secrets: CLOUDFLARE_API_TOKEN (permission
+# "Cloudflare Pages: Edit") and CLOUDFLARE_ACCOUNT_ID.
+
+name: Deploy
+
+on:
+  push:
+    branches: [main, beta]
+  pull_request:
+    branches: [main, beta]
+
+permissions:
+  contents: read
+
+# One deployment per branch at a time; a newer push replaces a waiting one.
+concurrency:
+  group: deploy-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  PROJECT: federal-council-representation
+  WRANGLER: wrangler@4.151.0
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+      - name: Check data, files and JavaScript
+        run: python3 scripts/check_site.py
+
+  deploy:
+    needs: check
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    environment:
+      name: ${{ github.ref_name == 'main' && 'production' || 'beta' }}
+      url: ${{ github.ref_name == 'main' && 'https://federal-council-representation.pages.dev' || 'https://beta.federal-council-representation.pages.dev' }}
+    env:
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+      - name: Create the Cloudflare Pages project (first run only)
+        run: |
+          if ! npx --yes "$WRANGLER" pages deployment list --project-name="$PROJECT" > /dev/null 2>&1; then
+            npx --yes "$WRANGLER" pages project create "$PROJECT" --production-branch=main
+          fi
+      # The branch decides the site: main is production, beta a preview
+      # with the fixed address beta.<project>.pages.dev
+      - name: Publish site/
+        run: >
+          npx --yes "$WRANGLER" pages deploy site
+          --project-name="$PROJECT"
+          --branch="$GITHUB_REF_NAME"
+          --commit-hash="$GITHUB_SHA"

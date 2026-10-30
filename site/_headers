@@ -1,0 +1,25 @@
+# HTTP headers on Cloudflare Pages (this file itself is not published).
+#
+# Page, code and data: the browser must ask for a newer version every time
+# (cheap: an unchanged file is answered with a short "not modified"). This
+# prevents a mix of old and new files after an update.
+/
+  Cache-Control: no-cache
+/index.html
+  Cache-Control: no-cache
+/js/*
+  Cache-Control: no-cache
+/css/*
+  Cache-Control: no-cache
+/data/*
+  Cache-Control: no-cache
+
+# Fonts and portraits rarely change: keep them for a while.
+/fonts/*
+  Cache-Control: public, max-age=2592000
+/img/*
+  Cache-Control: public, max-age=604800
+
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
