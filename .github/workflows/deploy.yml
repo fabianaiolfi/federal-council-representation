@@ -4,7 +4,8 @@
 #   push to beta  -> beta site    https://beta.federal-council-representation.pages.dev
 #   pull request  -> checks only, nothing is published
 #
-# The site is the folder site/ as it is in the repository (no build step).
+# The site is the folder site/ as it is in the repository (no build step);
+# only site/js/config.js is written per site (Google Analytics ID).
 # Needs two repository secrets: CLOUDFLARE_API_TOKEN (permission
 # "Cloudflare Pages: Edit") and CLOUDFLARE_ACCOUNT_ID.
 
@@ -59,6 +60,23 @@ jobs:
           if ! npx --yes "$WRANGLER" pages deployment list --project-name="$PROJECT" > /dev/null 2>&1; then
             npx --yes "$WRANGLER" pages project create "$PROJECT" --production-branch=main
           fi
+      # Google Analytics: the Measurement ID of this site (GitHub: Settings →
+      # Environments → production / beta → variable GA_MEASUREMENT_ID).
+      # Without it, the site has no analytics and no consent banner.
+      - name: Write site/js/config.js
+        env:
+          GA_MEASUREMENT_ID: ${{ vars.GA_MEASUREMENT_ID }}
+          GA_DEBUG: ${{ github.ref_name != 'main' }}
+        run: |
+          if [[ -n "$GA_MEASUREMENT_ID" && ! "$GA_MEASUREMENT_ID" =~ ^G-[A-Z0-9]+$ ]]; then
+            echo "GA_MEASUREMENT_ID must look like G-XXXXXXXXXX"; exit 1
+          fi
+          cat > site/js/config.js <<EOF
+          // Written by the deploy pipeline (see the copy in the repository)
+          export const GA_MEASUREMENT_ID = "$GA_MEASUREMENT_ID";
+          export const GA_DEBUG = $GA_DEBUG;
+          EOF
+          cat site/js/config.js
       # The branch decides the site: main is production, beta a preview
       # with the fixed address beta.<project>.pages.dev
       - name: Publish site/

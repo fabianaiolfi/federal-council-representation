@@ -1241,6 +1241,93 @@ h2 {
   font-size: 0.8125rem;
 }
 
+.footer-links {
+  margin-top: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.5rem;
+  align-items: baseline;
+}
+
+.footer-links .link-button {
+  font-size: inherit;
+  color: inherit;
+}
+
+/* Consent banner for Google Analytics (analytics.js) ------------------------------------- */
+.consent {
+  position: fixed;
+  inset: auto 0 0;
+  z-index: 50;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem 1.5rem;
+  padding-block: 1rem calc(1rem + env(safe-area-inset-bottom, 0px));
+  /* Lined up with the page content (.page) on wide screens */
+  padding-inline: max(var(--gutter), calc((100% - var(--max)) / 2 + var(--gutter)));
+  background: var(--bg);
+  border-top: 1px solid var(--ink);
+  font-size: 0.875rem;
+}
+
+.consent-text {
+  flex: 1 1 28rem;
+  max-width: 65ch;
+  margin: 0;
+}
+
+.consent-buttons {
+  display: flex;
+  gap: 0.5rem;
+}
+
+@media (max-width: 30rem) {
+  .consent-buttons {
+    width: 100%;
+  }
+
+  .consent-buttons .button {
+    flex: 1;
+  }
+}
+
+/* Privacy policy (datenschutz.html): running text --------------------------------------- */
+.legal h2 {
+  margin-top: 2.25rem;
+  margin-bottom: 0.5rem;
+  font-size: 1.25rem;
+}
+
+.legal p,
+.legal ul {
+  max-width: 65ch;
+}
+
+.legal p + p {
+  margin-top: 0.75rem;
+}
+
+.legal ul {
+  margin: 0;
+  padding-left: 1.25rem;
+}
+
+.legal-lead {
+  margin-top: 1.5rem;
+  color: var(--ink-2);
+}
+
+.legal .eyebrow a {
+  text-decoration: none;
+}
+
+.legal-date {
+  margin-top: 2.25rem;
+  font-size: 0.875rem;
+  color: var(--ink-3);
+}
+
 /* Small screens --------------------------------------------------------------------------- */
 @media (max-width: 30rem) {
   .member {
