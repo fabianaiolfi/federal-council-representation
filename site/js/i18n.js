@@ -145,6 +145,17 @@ const strings = {
     creditAuthorUnknown: "Urheber unbekannt",
     privacyLink: "Datenschutzerklärung",
 
+    // Consent banner (analytics.js)
+    consentLabel: "Einwilligung zur Nutzungsmessung",
+    consentText:
+      "Darf diese Website mit Google Analytics messen, wie sie genutzt wird? " +
+      "Dazu werden Cookies gesetzt und Nutzungsdaten an Google übermittelt, " +
+      "auch in die USA. Sie können Ihre Wahl jederzeit ändern.",
+    consentPrivacy: "Datenschutzerklärung",
+    consentAccept: "Akzeptieren",
+    consentDecline: "Ablehnen",
+    consentSettings: "Cookie-Einstellungen",
+
     // Errors
     loadError:
       "Die Daten konnten nicht geladen werden. Wird die Seite über einen " +

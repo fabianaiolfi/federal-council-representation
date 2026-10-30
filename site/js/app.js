@@ -11,6 +11,9 @@
  *   - setup*(): build the page once
  *   - update(): show the version described by `state`.
  *               Called on start and on every change of `state`.
+ *
+ * What visitors do is reported with track() (analytics.js), which sends
+ * nothing without their consent. The events are listed in the README.
  */
 
 import { t, fmt, getLanguage } from "./i18n.js";
@@ -18,6 +21,7 @@ import { overlap, toShares } from "./metrics.js";
 import { buildVersions } from "./council.js";
 import { buildComparisons, ageOn, partyOn } from "./comparisons.js";
 import { drawStepChart } from "./chart.js";
+import { setupAnalytics, track, trackOnce } from "./analytics.js";
 
 const state = {
   index: 0, // which version is shown (0 = 1848)
@@ -68,6 +72,33 @@ function lastName(name) {
 }
 
 const prefersReducedMotion = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+// Parameters for analytics events (analytics.js) ----------------------------------
+
+/** The Council shown, by its first day: { council_start: "1999-04-01" }. */
+function councilParams() {
+  return { council_start: base.versions[state.index].start };
+}
+
+/** The member being replaced, and the shown Council. */
+function seatParams(number) {
+  const m = base.versions[state.index].members.find((x) => x.number === number);
+  return { ...councilParams(), councillor: m.name };
+}
+
+/** The profile of a new person: how it was made, and its four properties. */
+function profileParams(choice) {
+  const group = base.ageGroups.find((g) => choice.age >= g.min && (g.max === null || choice.age <= g.max));
+  return {
+    mode: choice.mode,
+    gender: choice.gender,
+    party: choice.party ?? "",
+    language: choice.language,
+    age: choice.age,
+    age_group: group?.key ?? "",
+    ...(choice.name && { candidate: choice.name }),
+  };
+}
 
 // Data & model ---------------------------------------------------------------------
 
@@ -220,9 +251,11 @@ function setupNavigator() {
   range.max = last;
 
   const go = goTo;
-  $("nav-prev").addEventListener("click", () => go(state.index - 1));
-  $("nav-next").addEventListener("click", () => go(state.index + 1));
+  $("nav-prev").addEventListener("click", () => go(state.index - 1, "button"));
+  $("nav-next").addEventListener("click", () => go(state.index + 1, "button"));
+  // Reported once the slider is let go, not for every step on the way
   range.addEventListener("input", () => go(Number(range.value)));
+  range.addEventListener("change", () => track("select_council", { method: "slider", ...councilParams() }));
 
   // Arrow keys step through the versions, unless the focus is in a form
   // control that uses the arrow keys itself (slider, radio buttons).
@@ -230,8 +263,8 @@ function setupNavigator() {
     if (e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) return;
     const target = e.target instanceof Element ? e.target : null;
     if (target?.closest("input, select, textarea, [contenteditable]")) return;
-    if (e.key === "ArrowLeft") go(state.index - 1);
-    else if (e.key === "ArrowRight") go(state.index + 1);
+    if (e.key === "ArrowLeft") go(state.index - 1, "key");
+    else if (e.key === "ArrowRight") go(state.index + 1, "key");
     else return;
     e.preventDefault();
   });
@@ -249,13 +282,17 @@ function setupNavigator() {
   ).observe($("score-value"));
 }
 
-/** Show version `index` (from the buttons, slider, arrow keys or the chart). */
-function goTo(index) {
+/**
+ * Show version `index` (from the buttons, slider, arrow keys or the chart).
+ * `method` names the control for analytics (the slider reports itself).
+ */
+function goTo(index, method) {
   const next = Math.min(Math.max(index, 0), base.versions.length - 1);
   if (next === state.index) return;
   state.index = next;
   closeEditor({ refocus: false });
   update();
+  if (method) track("select_council", { method, ...councilParams() });
 }
 
 /**
@@ -321,8 +358,12 @@ function setupInfo() {
   button.addEventListener("click", () => {
     pinned = !pinned;
     show(pinned);
+    if (pinned) track("open_info", { method: "click" });
   });
-  head.addEventListener("mouseenter", () => show(true));
+  head.addEventListener("mouseenter", () => {
+    show(true);
+    trackOnce("open_info", { method: "hover" }); // hovering is frequent: once per visit
+  });
   head.addEventListener("mouseleave", () => pinned || show(false));
   button.addEventListener("focus", () => show(true));
   head.addEventListener("focusout", (e) => {
@@ -414,6 +455,7 @@ function setupCredits() {
   });
   $("credits-list").replaceChildren(...items);
   $("credits").hidden = people.length === 0;
+  $("credits").addEventListener("toggle", () => $("credits").open && track("open_credits"));
 }
 
 /** One shared tooltip for all bar segments; works on hover and keyboard focus. */
@@ -771,6 +813,7 @@ function setupViews() {
       $("view-current").hidden = state.view !== "current";
       $("view-history").hidden = state.view !== "history";
       renderHistory();
+      track("switch_view", { view: state.view });
     });
   }
 }
@@ -835,6 +878,8 @@ function setupHistory() {
   const tbody = el("tbody");
   tbody.append(...rows);
   $("history-table").replaceChildren(thead, tbody);
+  const details = $("history-table").closest("details");
+  details.addEventListener("toggle", () => details.open && track("open_table"));
 
   // Redraw when the available width changes (window resized, phone rotated)
   let frame = 0;
@@ -852,7 +897,7 @@ function renderHistory() {
     selected: state.index,
     describe: (i) => t("compareCouncil", periodLabel(base.versions[i], i === base.currentIndex)),
     format: (v) => fmt.pct(v),
-    onSelect: goTo,
+    onSelect: (i) => goTo(i, "chart"),
     label: t("historyChartLabel"),
   });
 }
@@ -873,13 +918,16 @@ function setupReplacements() {
       case "replace":
       case "edit":
         openEditor(number);
+        track(button.dataset.action === "replace" ? "replace_open" : "replace_edit", seatParams(number));
         break;
       case "undo":
+        track("replace_undo", seatParams(number));
         delete changes[number];
         if (state.editing === number) closeEditor({ refocus: false });
         update();
         break;
       case "reset":
+        track("replace_reset", { ...councilParams(), count: Object.keys(changes).length });
         state.replacements[state.index] = {};
         closeEditor({ refocus: false });
         update();
@@ -887,7 +935,7 @@ function setupReplacements() {
     }
   });
   $("editor").addEventListener("keydown", (e) => {
-    if (e.key === "Escape") closeEditor();
+    if (e.key === "Escape") finishEditing("escape");
   });
 }
 
@@ -916,6 +964,18 @@ function openEditor(number) {
   editor.hidden = false;
   editor.scrollIntoView({ block: "nearest", behavior: prefersReducedMotion() ? "auto" : "smooth" });
   editor.querySelector('.mode-button[aria-pressed="true"]')?.focus({ preventScroll: true });
+}
+
+/**
+ * The user closes the editor ("Fertig" or Escape): report the new person
+ * and what they change in the overall score, then close.
+ */
+function finishEditing(method) {
+  if (state.editing === null) return;
+  const v = computeView();
+  const change = Math.round((v.overall - v.version.overall) * 1000) / 10; // percentage points
+  track("replace_done", { method, ...seatParams(state.editing), ...profileParams(currentChoice()), score_change: change });
+  closeEditor();
 }
 
 function closeEditor({ refocus = true } = {}) {
@@ -952,6 +1012,7 @@ function chipField(cmp, choice, day) {
       choice[cmp.key] = option;
       makeCustom(choice);
       update();
+      track("replace_field", { field: cmp.key, choice: option });
     });
     const text = el("span");
     const key = el("span", "key");
@@ -984,6 +1045,7 @@ function ageField(choice) {
     makeCustom(choice);
     update();
   });
+  range.addEventListener("change", () => track("replace_field", { field: "age", choice: String(choice.age) }));
   const head = el("div", "editor-age-head");
   head.append(label, value);
   field.append(head, range);
@@ -1030,12 +1092,20 @@ function setMode(mode) {
   const choice = currentChoice();
   if (mode === "best") {
     // First click: the first best profile; every further click: the next one
-    applyBest(choice, choice.mode === "best" ? choice.variant + 1 : 0);
+    const again = choice.mode === "best";
+    applyBest(choice, again ? choice.variant + 1 : 0);
+    track(again ? "best_next" : "replace_mode", {
+      mode,
+      variant: choice.variant + 1,
+      variants: choice.variants,
+      ...profileParams(choice),
+    });
   } else if (mode === "custom") {
     makeCustom(choice);
   } else {
     choice.mode = "list"; // the profile stays until a person is picked
   }
+  if (mode !== "best") track("replace_mode", { mode });
   renderEditor();
   update();
   $("editor").querySelector(`.mode-button[data-mode="${mode}"]`)?.focus();
@@ -1148,6 +1218,7 @@ function listPanel(choice, day) {
       });
       delete choice.variant;
       update();
+      track("candidate_select", { candidate: person.name, party: person.party });
     });
     const text = el("span", "person-text");
     text.append(
@@ -1208,7 +1279,7 @@ function renderEditor() {
 
   const done = el("button", "button", t("editorDone"));
   done.type = "button";
-  done.addEventListener("click", () => closeEditor());
+  done.addEventListener("click", () => finishEditing("button"));
   const actions = el("div", "editor-actions");
   actions.append(done);
 
@@ -1261,6 +1332,7 @@ function showError(key, err) {
 
 async function main() {
   setupStaticText();
+  setupAnalytics(); // consent banner; Google Analytics only after consent
 
   let data;
   try {

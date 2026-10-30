@@ -5,8 +5,9 @@
   A plain static page: no JavaScript, same stylesheet as the app. The text
   is legal wording, so it lives here rather than in js/i18n.js; when the
   language switcher comes, each language gets its own copy of this page.
-  Update "Stand" at the bottom whenever the content changes (e.g. when
-  Google Analytics is added, it needs its own section here).
+  Update "Stand" at the bottom whenever the content changes. The section on
+  Google Analytics must match js/analytics.js and the settings in Google
+  Analytics (data retention: 14 months).
 -->
 <html lang="de-CH">
 <head>
@@ -17,6 +18,11 @@
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 2a14 14 0 0 0 0 28z' fill='%23eb6834'/%3E%3Cpath d='M16 2a14 14 0 0 1 0 28z' fill='%232a78d6'/%3E%3C/svg%3E">
   <link rel="preload" href="fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="css/style.css">
+  <!-- Consent banner and "Cookie-Einstellungen" (Google Analytics only after consent) -->
+  <script type="module">
+    import { setupAnalytics } from "./js/analytics.js";
+    setupAnalytics();
+  </script>
 </head>
 <body>
   <main class="page legal">
@@ -39,12 +45,19 @@
       E-Mail: <a href="mailto:fabian.aiolfi@gmail.com">fabian.aiolfi@gmail.com</a>
     </p>
 
-    <h2>Was diese Website nicht tut</h2>
+    <h2>Das Wichtigste in Kürze</h2>
     <ul>
-      <li>Sie setzt keine Cookies und speichert nichts in Ihrem Browser.</li>
       <li>
-        Sie lädt keine Inhalte von Dritten: Schrift, Symbole, Porträts und
-        Daten werden von dieser Website selbst ausgeliefert.
+        Ohne Ihre Einwilligung setzt die Website keine Cookies und übermittelt
+        keine Daten an Google.
+      </li>
+      <li>
+        Nur wenn Sie zustimmen, misst sie mit Google Analytics, wie die
+        Website genutzt wird. Sie können Ihre Wahl jederzeit ändern.
+      </li>
+      <li>
+        Sonst lädt sie keine Inhalte von Dritten: Schrift, Symbole, Porträts
+        und Daten werden von dieser Website selbst ausgeliefert.
       </li>
       <li>Sie verwendet keine Werbung und keine Social-Media-Einbindungen.</li>
     </ul>
@@ -73,6 +86,52 @@
       <a href="https://www.cloudflare.com/privacypolicy/">Datenschutzerklärung von Cloudflare</a>.
     </p>
 
+    <h2>Google Analytics (nur mit Ihrer Einwilligung)</h2>
+    <p>
+      Wenn Sie im Hinweis am unteren Bildschirmrand auf «Akzeptieren»
+      klicken, verwendet die Website Google Analytics, einen Dienst von
+      Google Ireland Limited (Gordon House, Barrow Street, Dublin 4, Irland)
+      und Google LLC (USA). Damit erfahren wir, wie die Website genutzt wird,
+      und können sie verbessern.
+    </p>
+    <p>
+      Erfasst werden: welche Seiten Sie aufrufen, wie Sie die Website
+      bedienen (zum Beispiel welchen Bundesrat Sie auswählen, welche Ansicht
+      Sie öffnen und welche Eigenschaften Sie bei einer Ersatzperson wählen),
+      Angaben zu Gerät, Browser und Bildschirmgrösse, die zuvor besuchte
+      Seite sowie Ihr ungefährer Standort (Land, Region). Google ermittelt
+      den Standort aus Ihrer IP-Adresse, speichert die IP-Adresse aber nach
+      eigenen Angaben nicht. Wir erhalten nur zusammengefasste Auswertungen
+      und können daraus nicht erkennen, wer Sie sind.
+    </p>
+    <p>
+      Google Analytics setzt dazu Cookies (<code>_ga</code> und
+      <code>_ga_…</code>), die Ihren Browser bei späteren Besuchen
+      wiedererkennen. Sie werden bis zu zwei Jahre gespeichert. Die
+      erfassten Daten werden nach 14 Monaten gelöscht. Werbefunktionen,
+      Google Signals und die Personalisierung von Werbung sind ausgeschaltet.
+    </p>
+    <p>
+      Die Daten können in die USA übermittelt werden. Google LLC ist unter
+      dem Swiss-U.S. und dem EU-U.S. Data Privacy Framework zertifiziert.
+      Weitere Angaben:
+      <a href="https://policies.google.com/privacy">Datenschutzerklärung von Google</a>.
+    </p>
+    <p>
+      Sie können Ihre Einwilligung jederzeit widerrufen: über
+      «Cookie-Einstellungen» unten auf jeder Seite, dann «Ablehnen». Die
+      Cookies von Google Analytics werden dabei gelöscht.
+      <button class="link-button" type="button" data-consent-settings hidden></button>
+    </p>
+
+    <h2>Ihre Wahl im Browser</h2>
+    <p>
+      Ob Sie zugestimmt oder abgelehnt haben, speichert die Website in Ihrem
+      Browser (Local Storage), damit Sie nicht bei jedem Besuch erneut
+      gefragt werden. Diese Angabe verlässt Ihr Gerät nicht. Sie können sie
+      löschen, indem Sie die Websitedaten in Ihrem Browser löschen.
+    </p>
+
     <h2>Kontakt per E-Mail</h2>
     <p>
       Wenn Sie uns schreiben, verwenden wir Ihre Angaben nur, um Ihre
@@ -96,8 +155,9 @@
       (DSG). Soweit die Datenschutz-Grundverordnung der EU (DSGVO) anwendbar
       ist, stützt sich die Bearbeitung beim Hosting auf unser berechtigtes
       Interesse an einer sicheren und zuverlässigen Website (Art. 6 Abs. 1
-      lit. f DSGVO) und beim Kontakt per E-Mail auf die Beantwortung Ihrer
-      Anfrage (Art. 6 Abs. 1 lit. b und f DSGVO).
+      lit. f DSGVO), bei Google Analytics auf Ihre Einwilligung (Art. 6
+      Abs. 1 lit. a DSGVO) und beim Kontakt per E-Mail auf die Beantwortung
+      Ihrer Anfrage (Art. 6 Abs. 1 lit. b und f DSGVO).
     </p>
 
     <h2>Ihre Rechte</h2>
@@ -124,7 +184,10 @@
     <p class="legal-date">Stand: 30. Oktober 2026</p>
 
     <footer class="footer">
-      <a href="./">Zurück zur Übersicht</a>
+      <p class="footer-links">
+        <a href="./">Zurück zur Übersicht</a>
+        <button class="link-button" type="button" data-consent-settings hidden></button>
+      </p>
     </footer>
   </main>
 </body>
