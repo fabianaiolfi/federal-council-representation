@@ -143,6 +143,7 @@ const strings = {
     dataGenerated: (date) => `Daten aufbereitet am ${date}`,
     creditsTitle: "Bildnachweise",
     creditAuthorUnknown: "Urheber unbekannt",
+    privacyLink: "Datenschutzerklärung",
 
     // Errors
     loadError:

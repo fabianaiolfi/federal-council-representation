@@ -51,17 +51,20 @@ def check_data() -> None:
 
 
 def check_references() -> None:
-    """Local files named in index.html, the CSS and the JS imports exist."""
+    """Local files named in the HTML pages, the CSS and the JS imports exist."""
     refs: list[tuple[Path, str]] = []
-    html = SITE / "index.html"
-    refs += [(html, r) for r in re.findall(r'(?:src|href)="([^"#:]+)"', html.read_text(encoding="utf-8"))]
+    for html in SITE.glob("*.html"):
+        refs += [(html, r) for r in re.findall(r'(?:src|href)="([^"#:]+)"', html.read_text(encoding="utf-8"))]
     for css in SITE.glob("css/*.css"):
         refs += [(css, r) for r in re.findall(r'url\(["\']?([^"\')]+)', css.read_text(encoding="utf-8"))
                  if not r.startswith("data:")]
     for js in SITE.glob("js/*.js"):
         refs += [(js, r) for r in re.findall(r'from\s+"(\.[^"]+)"', js.read_text(encoding="utf-8"))]
     for source, ref in refs:
-        if not (source.parent / ref).resolve().is_file():
+        target = (source.parent / ref).resolve()
+        if target.is_dir():
+            target /= "index.html"  # a link to "./" opens the folder's index.html
+        if not target.is_file():
             problems.append(f"{source.relative_to(ROOT)}: '{ref}' not found")
 
 
