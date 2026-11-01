@@ -42,7 +42,9 @@
          while scrolling through the whole page. It shows the overall score
          once the big number is out of view. -->
     <div class="panel-head" id="panel-head" hidden>
-      <div class="panel-row">
+      <!-- Title (the dates), buttons and score: side by side on wide
+           screens; on phones the title gets the full width -->
+      <div class="panel-top">
         <p class="panel-period" id="nav-period" aria-live="polite"></p>
         <div class="nav-buttons">
           <button class="nav-btn" id="nav-prev" type="button">
@@ -52,9 +54,6 @@
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
           </button>
         </div>
-      </div>
-      <div class="panel-row">
-        <p class="panel-dates" id="council-subtitle"></p>
         <p class="nav-score" id="nav-score" aria-hidden="true"></p>
       </div>
       <input class="range nav-range" id="nav-range" type="range" min="0" step="1">
@@ -125,23 +124,14 @@
     </section>
 
     <!-- Footer ---------------------------------------------------------------->
+    <!-- The same footer on every page (index, quellen, datenschutz) -->
     <footer class="footer">
-      <h2 class="footer-title" data-i18n="sourcesTitle"></h2>
-      <ul>
-        <li id="sources-bfs"></li>
-        <li data-i18n="sourceCouncil"></li>
-        <li data-i18n="sourcePortraits"></li>
-        <li id="data-generated"></li>
-      </ul>
-      <details class="credits" id="credits" hidden>
-        <summary data-i18n="creditsTitle"></summary>
-        <ul id="credits-list"></ul>
-      </details>
-      <p class="footer-links">
+      <nav class="footer-links" data-i18n-label="footerLabel">
+        <a href="quellen.html" data-i18n="sourcesLink"></a>
         <a href="datenschutz.html" data-i18n="privacyLink"></a>
         <!-- Shown by analytics.js when Google Analytics is set up -->
         <button class="link-button" type="button" data-consent-settings hidden></button>
-      </p>
+      </nav>
     </footer>
   </main>
 

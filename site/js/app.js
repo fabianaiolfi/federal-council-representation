@@ -16,7 +16,7 @@
  * nothing without their consent. The events are listed in the README.
  */
 
-import { t, fmt, getLanguage } from "./i18n.js";
+import { t, fmt, fillText } from "./i18n.js";
 import { overlap, toShares } from "./metrics.js";
 import { buildVersions } from "./council.js";
 import { buildComparisons, ageOn, partyOn } from "./comparisons.js";
@@ -163,11 +163,8 @@ function computeBase(data, today) {
     comparisons,
     versions,
     currentIndex,
-    councillors: data.councillors, // for the picture credits
     candidates: data.candidates ?? [], // people for "Aus Liste wählen"
     ageGroups: data.age.groups,
-    sources: [data.gender, data.language, data.language.other, data.party],
-    generated: data.generated,
   };
 }
 
@@ -224,14 +221,11 @@ function periodLabel(c, isCurrent) {
 
 // Setup: build the page once -----------------------------------------------------
 
-/** Fill every element that has a data-i18n="key" attribute. */
+/** Page title, description and every element with a data-i18n="key" attribute. */
 function setupStaticText() {
-  document.documentElement.lang = getLanguage();
   document.title = t("pageTitle");
   document.querySelector('meta[name="description"]').content = t("pageDescription");
-  for (const node of document.querySelectorAll("[data-i18n]")) {
-    node.textContent = t(node.dataset.i18n);
-  }
+  fillText();
 }
 
 /**
@@ -415,49 +409,6 @@ function barRow(key) {
   return row;
 }
 
-function setupFooter() {
-  // One line per BFS table, linking to the table
-  const items = base.sources.map((source) => {
-    const li = el("li");
-    const link = el("a", null, t("sourceBfs", source.tableTitle, source.table));
-    link.href = source.url;
-    link.rel = "noopener";
-    li.append(link);
-    return li;
-  });
-  $("sources-bfs").replaceWith(...items);
-  $("data-generated").textContent = t("dataGenerated", fmt.date(base.generated));
-  setupCredits();
-}
-
-/**
- * Picture credits: author and licence of every portrait (required by
- * several of the licences), in a collapsed list in the footer.
- */
-function setupCredits() {
-  const people = base.councillors.filter((c) => c.portrait);
-  const items = people.map((c) => {
-    const p = c.portrait;
-    const li = el("li");
-    const file = el("a", null, c.name);
-    file.href = p.source;
-    file.rel = "noopener";
-    li.append(file, document.createTextNode(`: ${p.author || t("creditAuthorUnknown")}, `));
-    if (p.licenseUrl) {
-      const license = el("a", null, p.license);
-      license.href = p.licenseUrl;
-      license.rel = "noopener";
-      li.append(license);
-    } else {
-      li.append(document.createTextNode(p.license || "–"));
-    }
-    return li;
-  });
-  $("credits-list").replaceChildren(...items);
-  $("credits").hidden = people.length === 0;
-  $("credits").addEventListener("toggle", () => $("credits").open && track("open_credits"));
-}
-
 /** One shared tooltip for all bar segments; works on hover and keyboard focus. */
 function setupTooltip() {
   const tip = $("tooltip");
@@ -512,8 +463,21 @@ function setupTooltip() {
 
 // Update: runs on start and whenever `state` changes ---------------------------------
 
+/**
+ * Title of the panel: the exact dates the version was in office,
+ * "1. April 2025 bis heute", "1. Januar 2023 bis 31. Dezember 2023".
+ */
+function councilDates(v) {
+  const c = v.version;
+  // A date never breaks across lines (on small screens only around "bis")
+  const date = (iso) => fmt.date(iso).replaceAll(" ", " ");
+  if (v.isCurrent) return t("councilPeriodCurrent", date(c.start));
+  if (c.start === c.end) return date(c.start);
+  return t("councilPeriod", date(c.start), date(c.end));
+}
+
 function updateNavigator(v) {
-  const label = periodLabel(v.version, v.isCurrent);
+  const label = councilDates(v);
   $("nav-period").textContent = label;
   const range = $("nav-range");
   range.value = state.index;
@@ -553,7 +517,17 @@ function cardButton(action, number, text) {
  * One card per member: portrait, name, "party · language", and a button to
  * replace them. A person created by the user shows their chosen profile.
  */
-function memberCard(m) {
+/**
+ * The member's party on `day`, as named at the time and shortened
+ * ("FDP.Die Liberalen" -> "FDP"; "SVP / BDP" -> the one that applied).
+ */
+function partyName(m, day) {
+  const names = m.party.split(" / ");
+  const i = m.parties.findLastIndex((p) => !p.from || p.from <= day);
+  return t("partyName", names[Math.max(i, 0)] ?? names[0]);
+}
+
+function memberCard(m, day) {
   const li = el("li", m.isNew ? "member is-new" : "member");
   const body = el("div", "member-body");
   const actions = el("p", "member-actions");
@@ -578,7 +552,7 @@ function memberCard(m) {
   } else {
     body.append(
       el("p", "member-name", m.name),
-      el("p", "member-meta", `${m.party} · ${language.choiceLabel(m.language)}`)
+      el("p", "member-meta", `${partyName(m, day)} · ${language.choiceLabel(m.language)}`)
     );
     actions.append(cardButton("replace", m.number, t("replaceButton")));
     li.append(portrait(m), body);
@@ -590,13 +564,7 @@ function memberCard(m) {
 /** The members of the shown version, by seniority. */
 function updateCouncil(v) {
   const c = v.version;
-  $("council-subtitle").textContent = v.isCurrent
-    ? t("councilSince", fmt.date(c.start))
-    : c.start === c.end
-      ? t("councilOneDay", fmt.date(c.start))
-      : t("councilFromTo", fmt.date(c.start), fmt.date(c.end));
-
-  $("council-list").replaceChildren(...v.members.map(memberCard));
+  $("council-list").replaceChildren(...v.members.map((m) => memberCard(m, c.day)));
 
   // Below the cards: an invitation to try it, or what has been changed
   const foot = $("panel-foot");
@@ -648,7 +616,7 @@ function updateBarRow(row, cmp, name, shares, detailFor, breakdownFor = () => nu
     seg.hidden = shares[c] === 0;
     seg.style.flexGrow = shares[c];
     seg.dataset.value = fmt.pct(shares[c]);
-    seg.dataset.label = `${cmp.label(c)} · ${name}`;
+    seg.dataset.label = `${cmp.longLabel?.(c) ?? cmp.label(c)} · ${name}`;
     seg.dataset.detail = detailFor(c);
     seg.setAttribute("aria-label", `${seg.dataset.label}: ${seg.dataset.value} ${seg.dataset.detail}`);
     breakdowns.set(seg, breakdownFor(c));
@@ -1351,7 +1319,6 @@ async function main() {
     setupHistory();
     setupInfo();
     setupReplacements();
-    setupFooter();
     setupTooltip();
     update();
   } catch (err) {

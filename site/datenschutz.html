@@ -18,21 +18,26 @@
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 2a14 14 0 0 0 0 28z' fill='%23eb6834'/%3E%3Cpath d='M16 2a14 14 0 0 1 0 28z' fill='%232a78d6'/%3E%3C/svg%3E">
   <link rel="preload" href="fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="css/style.css">
-  <!-- Consent banner and "Cookie-Einstellungen" (Google Analytics only after consent) -->
+  <!-- Footer and header text, consent banner and "Cookie-Einstellungen"
+       (Google Analytics only after consent), email link -->
   <script type="module">
+    import { fillText } from "./js/i18n.js";
     import { setupAnalytics } from "./js/analytics.js";
+    import { setupEmail } from "./js/email.js";
+    fillText();
     setupAnalytics();
+    setupEmail();
   </script>
 </head>
 <body>
-  <main class="page legal">
+  <main class="page text-page">
 
     <header class="intro">
-      <p class="eyebrow"><a href="./">Bundesrat und Bevölkerung</a></p>
+      <p class="eyebrow"><a href="./" data-i18n="pageTitleShort">Bundesrat und Bevölkerung</a></p>
       <h1>Datenschutzerklärung</h1>
     </header>
 
-    <p class="legal-lead">
+    <p class="text-lead">
       Diese Website zeigt, wie gut der Bundesrat die Schweizer Bevölkerung
       abbildet. Sie ist ein nicht kommerzielles Informationsangebot. Sie
       können sie nutzen, ohne sich anzumelden oder Angaben über sich zu
@@ -42,7 +47,7 @@
     <h2>Verantwortlich</h2>
     <p>
       Fabian Aiolfi, Schweiz<br>
-      E-Mail: <a href="mailto:fabian.aiolfi@gmail.com">fabian.aiolfi@gmail.com</a>
+      E-Mail: <span data-email="moc.liamg#ifloia.naibaf">fabian.aiolfi [at] gmail.com</span>
     </p>
 
     <h2>Das Wichtigste in Kürze</h2>
@@ -181,13 +186,18 @@
       die jeweils hier veröffentlichte Fassung.
     </p>
 
-    <p class="legal-date">Stand: 30. Oktober 2026</p>
+    <p class="text-note">Stand: 30. Oktober 2026</p>
 
+    <p class="back-link"><a href="./" data-i18n="backHome">Zurück zur Übersicht</a></p>
+
+    <!-- The same footer on every page (index, quellen, datenschutz) -->
     <footer class="footer">
-      <p class="footer-links">
-        <a href="./">Zurück zur Übersicht</a>
+      <nav class="footer-links" data-i18n-label="footerLabel">
+        <a href="quellen.html" data-i18n="sourcesLink">Quellen</a>
+        <a href="datenschutz.html" data-i18n="privacyLink" aria-current="page">Datenschutzerklärung</a>
+        <!-- Shown by analytics.js when Google Analytics is set up -->
         <button class="link-button" type="button" data-consent-settings hidden></button>
-      </p>
+      </nav>
     </footer>
   </main>
 </body>

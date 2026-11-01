@@ -9,6 +9,8 @@
   Cache-Control: no-cache
 /datenschutz*
   Cache-Control: no-cache
+/quellen*
+  Cache-Control: no-cache
 /js/*
   Cache-Control: no-cache
 /css/*

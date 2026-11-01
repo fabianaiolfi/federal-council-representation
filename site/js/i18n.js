@@ -33,9 +33,9 @@ const strings = {
 
     // Federal Council
     councilTitle: "Der Bundesrat",
-    councilSince: (date) => `Im Amt seit ${date}`,
-    councilFromTo: (from, to) => `Im Amt vom ${from} bis ${to}`,
-    councilOneDay: (date) => `Im Amt am ${date}`,
+    // Title of the panel: the exact dates the version was in office
+    councilPeriodCurrent: (from) => `${from} bis heute`,
+    councilPeriod: (from, to) => `${from} bis ${to}`,
     // Replacing a member
     replaceHint:
       "Was wäre, wenn …? Ersetzen Sie ein Mitglied und sehen Sie, wie sich die Übereinstimmung verändert.",
@@ -118,32 +118,53 @@ const strings = {
     populationYear: (year) => `Bevölkerung ${year}`,
     populationAdults: (year, minAge) => `Bevölkerung ab ${minAge} Jahren, ${year}`,
     partyElection: (year) => `Nationalratswahl ${year}`,
-    partyMitte: "Mitte/CVP",
-    partyOther: "Übrige Parteien",
+    // Party and language names are short (labels, cards); the long forms
+    // are used in the bar tooltips and for screen readers.
+    partyMitte: "M",
+    partyMitteLong: "Die Mitte (früher CVP)",
+    partyOther: "Übrige",
+    partyOtherLong: "Übrige Parteien",
+    // Party names as written in the list of councillors, shortened
+    partyName: (name) => ({ "Die Mitte": "M", "FDP.Die Liberalen": "FDP" })[name] ?? name,
     partyFurther: "Weitere",
     noDataParty: (year) => `Keine Daten: Die Parteistärken der BFS beginnen mit der Nationalratswahl ${year}.`,
-    language_de: "Deutsch",
-    language_fr: "Französisch",
-    language_it: "Italienisch",
-    language_rm: "Rätoromanisch",
-    language_other: "Andere Sprachen",
-    languageOtherSingular: "Andere Sprache",
+    // ISO 639-1 codes ("other" has none)
+    language_de: "DE",
+    language_fr: "FR",
+    language_it: "IT",
+    language_rm: "RM",
+    language_other: "Andere",
+    languageOtherSingular: "Andere",
+    languageName_de: "Deutsch",
+    languageName_fr: "Französisch",
+    languageName_it: "Italienisch",
+    languageName_rm: "Rätoromanisch",
+    languageName_other: "Andere Sprachen",
     languageFurther: "Weitere Sprachen",
     languageBreakdownNote: "Aufteilung gemäss Bevölkerung ab 15 Jahren",
     ageRange: (min, max) => `${min}–${max} Jahre`,
     ageFrom: (min) => `${min} Jahre und älter`,
     tooltipPersons: (n) => `${n} Personen`,
 
-    // Footer
+    // Footer (every page) and the header of the other pages
+    pageTitleShort: "Bundesrat und Bevölkerung",
+    footerLabel: "Weitere Seiten",
+    sourcesLink: "Quellen",
+    privacyLink: "Datenschutzerklärung",
+    backHome: "Zurück zur Übersicht",
+
+    // Page "Quellen" (quellen.html, sources.js)
+    sourcesPageTitle: "Quellen – Bundesrat und Bevölkerung",
     sourcesTitle: "Quellen",
+    sourcesData: "Daten",
     sourceBfs: (title, table) => `Bundesamt für Statistik (BFS): ${title} (${table})`,
     sourceCouncil:
       "Bundesrat: eigene Zusammenstellung (all_federal_councillors.csv); Geburtsdaten und Sprachen: Wikidata",
     sourcePortraits: "Porträts: Wikimedia Commons (Bildnachweise unten)",
     dataGenerated: (date) => `Daten aufbereitet am ${date}`,
     creditsTitle: "Bildnachweise",
+    creditsIntro: "Urheber und Lizenz jedes Porträts. Ein Klick auf den Namen öffnet die Bildseite auf Wikimedia Commons.",
     creditAuthorUnknown: "Urheber unbekannt",
-    privacyLink: "Datenschutzerklärung",
 
     // Consent banner (analytics.js)
     consentLabel: "Einwilligung zur Nutzungsmessung",
@@ -181,6 +202,20 @@ export function setLanguage(code) {
 
 export function getLanguage() {
   return lang;
+}
+
+/**
+ * Fill every element that has a data-i18n="key" attribute with its text,
+ * and give every element with data-i18n-label="key" its aria-label.
+ */
+export function fillText(root = document) {
+  document.documentElement.lang = lang;
+  for (const node of root.querySelectorAll("[data-i18n]")) {
+    node.textContent = t(node.dataset.i18n);
+  }
+  for (const node of root.querySelectorAll("[data-i18n-label]")) {
+    node.setAttribute("aria-label", t(node.dataset.i18nLabel));
+  }
 }
 
 /**

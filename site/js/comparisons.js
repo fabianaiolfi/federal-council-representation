@@ -5,6 +5,7 @@
  * Each comparison describes
  *   - categories(members, day): its categories, in display order
  *   - label(c), color(c):       how a category is named and drawn
+ *   - longLabel(c) (optional):  the full name, where label() is short
  *   - categoryOf(member, day):  which category a Council member falls into
  *   - choices(day), choiceLabel(c): the options offered when the user
  *                               creates a new member (age: a number instead)
@@ -111,6 +112,7 @@ export function buildComparisons(data) {
         return [...MAIN_PARTIES, ...extra, OTHER];
       },
       label: (c) => (c === "Mitte" ? t("partyMitte") : c === OTHER ? t("partyOther") : c),
+      longLabel: (c) => (c === "Mitte" ? t("partyMitteLong") : c === OTHER ? t("partyOtherLong") : c),
       color: (c) => partyColors[c] ?? COLOR("magenta"), // e.g. BDP (2008–2015)
       categoryOf: (m, day) => partyOn(m, day),
       // Parties with at least 1 % in the election that applies, largest first
@@ -145,6 +147,7 @@ export function buildComparisons(data) {
       title: t("compareLanguage"),
       categories: () => ["de", "fr", "it", "rm", "other"],
       label: (c) => t(`language_${c}`),
+      longLabel: (c) => t(`languageName_${c}`),
       color: (c) =>
         COLOR({ de: "blue", fr: "orange", it: "aqua", rm: "amber", other: "other" }[c]),
       categoryOf: (m) => m.language,
