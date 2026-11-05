@@ -660,7 +660,7 @@ h2 {
 }
 
 .history .legend {
-  margin-top: 1rem;
+  margin-top: 0; /* first in the box */
 }
 
 /* Legend key for a line: a short stroke */
@@ -769,51 +769,6 @@ h2 {
 
 .chart-tooltip-rows .key-line {
   margin-right: 0;
-}
-
-/* "Werte als Tabelle" */
-.history-table {
-  margin-top: 1.25rem;
-  font-size: 0.875rem;
-}
-
-.history-table summary {
-  cursor: pointer;
-  color: var(--ink-2);
-}
-
-.table-wrap {
-  max-height: 24rem;
-  margin-top: 0.75rem;
-  overflow: auto;
-}
-
-.history-table table {
-  width: 100%;
-  border-collapse: collapse;
-  font-variant-numeric: tabular-nums;
-}
-
-.history-table th,
-.history-table td {
-  padding: 0.4rem 0.75rem 0.4rem 0;
-  border-bottom: 1px solid var(--line);
-  text-align: right;
-  white-space: nowrap;
-}
-
-.history-table th:first-child {
-  text-align: left;
-  font-weight: 400;
-}
-
-.history-table thead th {
-  position: sticky;
-  top: 0;
-  background: var(--bg);
-  font-weight: 600;
-  color: var(--ink);
-  border-bottom-color: var(--ink);
 }
 
 .editor-fields > .link-button {

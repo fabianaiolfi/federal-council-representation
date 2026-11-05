@@ -802,8 +802,8 @@ function setupViews() {
 
 /**
  * Build the data of the history chart (the real Councils, without the
- * user's replacements), its legend and the table. The chart itself is
- * drawn by renderHistory().
+ * user's replacements) and its legend. The chart itself is drawn by
+ * renderHistory().
  */
 function setupHistory() {
   const versions = base.versions;
@@ -838,30 +838,6 @@ function setupHistory() {
       return li;
     })
   );
-
-  // Table: every Council, newest first
-  const head = el("tr");
-  for (const text of [t("historyColPeriod"), ...lines.map((s) => s.label)]) {
-    const th = el("th", null, text);
-    th.scope = "col";
-    head.append(th);
-  }
-  const rows = versions
-    .map((v, i) => {
-      const tr = el("tr");
-      const th = el("th", null, periodLabel(v, i === base.currentIndex));
-      th.scope = "row";
-      tr.append(th, ...lines.map((s) => el("td", null, s.values[i] === null ? "–" : fmt.pct(s.values[i]))));
-      return tr;
-    })
-    .reverse();
-  const thead = el("thead");
-  thead.append(head);
-  const tbody = el("tbody");
-  tbody.append(...rows);
-  $("history-table").replaceChildren(thead, tbody);
-  const details = $("history-table").closest("details");
-  details.addEventListener("toggle", () => details.open && track("open_table"));
 
   // Redraw when the available width changes (window resized, phone rotated)
   let frame = 0;

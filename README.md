@@ -59,14 +59,14 @@ The main page has two parts:
    das?" next to the overall score explains the measure, with a worked
    example for the Council shown.
 
-   A switch below the title changes between **"Ausgewählter Bundesrat"**
+   A switch at the top changes between **"Ausgewählter Bundesrat"**
    (the view above) and **"Verlauf seit 1848"**: a step line chart of the
    overall score and the four comparisons for every version of the Council
    (x: time, y: 0–100 %). Each step is one version; the selected one is
    shaded, with a dot on each line. Hovering shows all values of a version,
-   clicking selects it (the whole page follows). "Werte als Tabelle" lists
-   the same values. The chart shows the real Councils, without
-   replacements made in the editor. The party line starts in 1919.
+   clicking selects it (the whole page follows). The chart shows the real
+   Councils, without replacements made in the editor. The party line
+   starts in 1919.
 
 The footer of every page links to two more pages: **Quellen**
 (`quellen.html`: data sources and picture credits, built from
@@ -427,7 +427,6 @@ banner and sends nothing. On beta, events also appear in the DebugView
 | `select_council` | another Council is shown | `method` (button, slider, key, chart), `council_start` |
 | `switch_view` | "Ausgewählter Bundesrat" / "Verlauf" | `view` (current, history) |
 | `open_info` | "Was bedeutet das?" opened | `method` (click; hover once per visit) |
-| `open_table` | history table opened | – |
 | `replace_open` / `replace_edit` | "Ersetzen" / "Bearbeiten" on a card | `councillor`, `council_start` |
 | `replace_mode` | one of the three modes chosen | `mode` (custom, list, best); for best also the profile |
 | `best_next` | next of several best profiles | `variant`, `variants`, profile |

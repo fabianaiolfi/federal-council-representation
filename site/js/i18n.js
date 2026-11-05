@@ -100,14 +100,9 @@ const strings = {
     viewSwitchLabel: "Ansicht",
     viewCurrent: "Ausgewählter Bundesrat",
     viewHistory: "Verlauf seit 1848",
-    historyTitle: "Übereinstimmung seit 1848",
-    historyHint:
-      "Jede Stufe ist ein Bundesrat. Klicken Sie in die Grafik, um ihn auszuwählen.",
     historyChartLabel:
       "Stufendiagramm der Übereinstimmung insgesamt und nach Geschlecht, Partei, Sprache und Alter, für jeden Bundesrat seit 1848",
-    historyTable: "Werte als Tabelle",
     historyOverall: "Insgesamt",
-    historyColPeriod: "Bundesrat",
 
     // The four comparisons
     compareGender: "Geschlecht",
