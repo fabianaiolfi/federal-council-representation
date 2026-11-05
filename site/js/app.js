@@ -582,17 +582,6 @@ function memberCard(m, v) {
 function updateCouncil(v) {
   $("council-list").replaceChildren(...v.members.map((m) => memberCard(m, v)));
 
-  // Below the cards, once members have been replaced: how many, and a reset
-  const foot = $("panel-foot");
-  const replaced = v.members.filter((m) => m.isNew).length;
-  foot.hidden = replaced === 0;
-  if (replaced) {
-    const reset = el("button", "link-button", t("resetAll"));
-    reset.type = "button";
-    reset.dataset.action = "reset";
-    foot.replaceChildren(el("span", null, t("replacedCount", replaced)), reset);
-  }
-
   // Safety net: if today has an empty seat, the CSV may be out of date
   // (e.g. a successor is missing). Shown with the latest version.
   const isLatest = state.index === base.versions.length - 1;
@@ -909,7 +898,7 @@ function highlightHistory() {
 // Replacing a member ------------------------------------------------------------
 
 /**
- * Buttons on the cards and below them: replace, edit, undo, reset all.
+ * Buttons on the cards: replace, edit, undo.
  * One listener for the whole panel, since the cards are rebuilt often.
  */
 function setupReplacements() {
@@ -928,12 +917,6 @@ function setupReplacements() {
         track("replace_undo", seatParams(number));
         delete changes[number];
         if (state.editing === number) closeEditor({ refocus: false });
-        update();
-        break;
-      case "reset":
-        track("replace_reset", { ...councilParams(), count: Object.keys(changes).length });
-        state.replacements[state.index] = {};
-        closeEditor({ refocus: false });
         update();
         break;
     }
@@ -1166,7 +1149,8 @@ function profileText(choice) {
   return [
     byKey.gender.choiceLabel(choice.gender),
     choice.party && byKey.party.choiceLabel(choice.party),
-    byKey.language.choiceLabel(choice.language),
+    // "Andere" alone would be unclear in this line
+    choice.language === "other" ? t("languageName_otherSingular") : byKey.language.choiceLabel(choice.language),
     t("ageYears", choice.age),
   ]
     .filter(Boolean)

@@ -26,6 +26,7 @@ const strings = {
     navPrev: "Vorherige Zusammensetzung",
     navNext: "Nächste Zusammensetzung",
     navSlider: "Zusammensetzung auswählen",
+    navScoreLabel: "Übereinstimmung",
     periodCurrent: (startYear) => `${startYear} – heute`,
     periodYears: (startYear, endYear) => `${startYear} – ${endYear}`,
     periodMonths: (startMonth, endMonth, year) =>
@@ -40,8 +41,6 @@ const strings = {
     replaceButton: "Ersetzen",
     editButton: "Bearbeiten",
     undoButton: "Rückgängig",
-    replacedCount: (n) => (n === 1 ? "1 Mitglied ersetzt" : `${n} Mitglieder ersetzt`),
-    resetAll: "Alle zurücksetzen",
     newFemale: "Neue Bundesrätin",
     newMale: "Neuer Bundesrat",
     newShort: "Neu",
@@ -51,8 +50,8 @@ const strings = {
     editorNoParty: "Keine Parteidaten vor 1919",
     editorDelta: (points, unchanged) =>
       unchanged
-        ? "unverändert gegenüber dem tatsächlichen Bundesrat"
-        : `${points} Prozentpunkte gegenüber dem tatsächlichen Bundesrat`,
+        ? "unverändert gegenüber dem aktuellen Bundesrat"
+        : `${points} Prozentpunkte gegenüber dem aktuellen Bundesrat`,
     editorDone: "Fertig",
     modeLabel: "Wie möchten Sie ersetzen?",
     mode_custom: "Selbst zusammenstellen",
@@ -135,6 +134,7 @@ const strings = {
     languageName_it: "Italienisch",
     languageName_rm: "Rätoromanisch",
     languageName_other: "Andere Sprachen",
+    languageName_otherSingular: "Andere Sprache",
     languageFurther: "Weitere Sprachen",
     languageBreakdownNote: "Aufteilung gemäss Bevölkerung ab 15 Jahren",
     ageRange: (min, max) => `${min}–${max} Jahre`,

@@ -47,9 +47,9 @@ The main page has two parts:
    "Selbst zusammenstellen" shows it and lets you adjust it. Every change
    updates the editor's live result (overall score and the four
    comparisons, with the difference to the real Council) and all bars on the
-   page. If several members are leaving, each can be replaced; changes can
-   be undone one by one or all at once. Nothing is saved: reloading the
-   page shows the real Councils.
+   page. If several members are leaving, each can be replaced; each
+   replacement can be undone on its card ("Rückgängig"). Nothing is saved:
+   reloading the page shows the real Councils.
 2. **The comparison:** how closely the Council matches the population by
    **gender, party, language and age**. The overall score at the top
    ("Übereinstimmung des Bundesrates mit der Bevölkerung") is the average
@@ -441,7 +441,6 @@ banner and sends nothing. On beta, events also appear in the DebugView
 | `candidate_select` | a person picked from the list | `candidate`, `party` |
 | `replace_done` | editor closed ("Fertig" or Escape) | `method`, `councillor`, `council_start`, profile, `score_change` |
 | `replace_undo` | "Rückgängig" on a card | `councillor`, `council_start` |
-| `replace_reset` | "Alle zurücksetzen" | `council_start`, `count` |
 
 "Profile" means `mode`, `gender`, `party`, `language`, `age`, `age_group`,
 and `candidate` for a person from the list. `score_change` is the change in
@@ -450,8 +449,8 @@ compared with the real Council. No parameter says anything about the visitor.
 
 To use a parameter in the reports, register it once per property: Admin →
 Data display → Custom definitions → Create custom dimension (scope "Event",
-same name as the parameter). For `age`, `score_change`, `variant`,
-`variants` and `count` create a custom metric instead.
+same name as the parameter). For `age`, `score_change`, `variant`
+and `variants` create a custom metric instead.
 
 ## Next iterations
 

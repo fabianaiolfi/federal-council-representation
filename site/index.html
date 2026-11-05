@@ -53,7 +53,11 @@
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
           </button>
         </div>
-        <p class="nav-score" id="nav-score" aria-hidden="true"></p>
+        <!-- Overall score, shown once the big number is out of view -->
+        <p class="nav-score" aria-hidden="true">
+          <span class="nav-score-label" data-i18n="navScoreLabel"></span>
+          <span id="nav-score"></span>
+        </p>
       </div>
       <input class="range nav-range" id="nav-range" type="range" min="0" step="1">
       <div class="nav-ticks" id="nav-ticks" aria-hidden="true"></div>
@@ -61,8 +65,6 @@
 
     <section class="council-panel" id="council-panel" aria-labelledby="nav-period" hidden>
       <ol class="council" id="council-list"></ol>
-      <!-- What has been replaced (only shown after a replacement) -->
-      <div class="panel-foot" id="panel-foot" hidden></div>
     </section>
 
     <!-- Editor for a person replacing a member (built by app.js) -->

@@ -374,8 +374,16 @@ h2 {
 
 .nav-buttons {
   grid-area: buttons;
+  justify-self: end; /* the labelled score below can be wider */
   display: flex;
   gap: 0.375rem;
+}
+
+/* Phones: the buttons start their row (the score is on the right) */
+@media (max-width: 36rem) {
+  .nav-buttons {
+    justify-self: start;
+  }
 }
 
 .nav-btn {
@@ -501,6 +509,13 @@ h2 {
   display: block;
 }
 
+.nav-score-label {
+  margin-right: 0.375rem;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--ink-3);
+}
+
 /* Replacing a member --------------------------------------------------------------------- */
 
 /* Small text buttons on the cards ("Ersetzen", "Bearbeiten", "Rückgängig") */
@@ -538,18 +553,6 @@ h2 {
   font-size: 0.75rem;
   letter-spacing: 0.04em;
   text-transform: uppercase;
-}
-
-/* Below the cards: invitation, or what has been replaced */
-.panel-foot {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  gap: 0.5rem 1rem;
-  padding: 0.875rem 1rem;
-  border-top: 1px solid var(--line);
-  font-size: 0.9375rem;
-  color: var(--ink-2);
 }
 
 /* The editor */
