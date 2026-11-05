@@ -9,10 +9,10 @@ The main page has two parts:
 1. **The Council:** one panel with the seven members (portrait, name,
    "party · language"; by seniority) and a timeline. Its title gives the
    exact dates of the version shown ("Der Bundesrat vom 1. Januar 2023 bis
-   31. Dezember 2023"). The ← → buttons, the slider (a short line on the
-   track marks every version) or the ← → keys step through every version
-   of the Council since 1848 (94 so far). The panel head stays at the top
-   of the screen while you scroll through the whole page.
+   31. Dezember 2023"; the panel keeps its height for every title). The
+   ← → buttons, the slider or the ← → keys step through every version of
+   the Council since 1848 (94 so far). The panel head stays at the top of
+   the screen while you scroll through the whole page.
 
    Names are short to keep the page calm: languages as ISO 639-1 codes
    (DE, FR, IT, RM; "Andere" for other languages) and parties by their
@@ -21,7 +21,8 @@ The main page has two parts:
    tooltips use the full names.
 
    **Replacing a member who is leaving.** A member of today's Council who
-   has announced their resignation has an "Ersetzen" button. That is
+   has announced their resignation is highlighted (light red) and has an
+   "Ersetzen" button. That is
    anyone with a `left_office_date` in the future in
    `data/all_federal_councillors.csv` (currently Guy Parmelin, 31 December
    2026). To offer it for another member, enter the date they leave office

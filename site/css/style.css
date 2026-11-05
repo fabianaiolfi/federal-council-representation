@@ -49,6 +49,7 @@
   --ink-3: #6f6e69;        /* muted labels */
   --line: #e6e5e0;         /* hairlines */
   --wash: #f3f3f1;         /* hover background */
+  --leaving: #fde9e8;      /* a member who has announced their resignation */
 
   /* Categorical palette for all comparisons */
   --blue: #2a78d6;
@@ -333,7 +334,7 @@ h2 {
   grid-template-areas:
     "period buttons"
     ".      score";
-  align-items: center;
+  align-items: start;
   gap: 0 0.75rem;
 }
 
@@ -347,14 +348,27 @@ h2 {
   }
 }
 
+/* The title always takes the space of its longest form (2 lines; 3 on
+   phones), so the panel keeps its height while stepping through the
+   versions. On wide screens its first line is centred on the buttons. */
 .panel-period {
   grid-area: period;
+  box-sizing: content-box; /* min-height = the lines only, without padding */
+  min-height: calc(2 * 1.2em);
+  padding-top: calc((2.75rem - 1.2em) / 2);
   text-wrap: balance;
   font-weight: 700;
   font-size: clamp(1.25rem, 3.5vw, 1.5rem);
   line-height: 1.2;
   letter-spacing: -0.01em;
   font-variant-numeric: tabular-nums;
+}
+
+@media (max-width: 36rem) {
+  .panel-period {
+    min-height: calc(3 * 1.2em);
+    padding-top: 0;
+  }
 }
 
 .nav-buttons {
@@ -443,31 +457,8 @@ h2 {
   outline-offset: 2px;
 }
 
-/* The timeline slider, with a short line for every version (the points
-   it can stop at). The lines use the same positions as the year labels. */
-.nav-track {
-  position: relative;
+.nav-range {
   margin-top: 0.75rem;
-}
-
-.nav-track .range {
-  position: relative; /* above the lines, so the thumb covers them */
-}
-
-.nav-stops {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-}
-
-.stop {
-  position: absolute;
-  top: 50%;
-  left: calc(0.5rem + (100% - 1rem) * var(--at));
-  width: 1px;
-  height: 0.5rem;
-  transform: translate(-50%, -50%);
-  background: var(--ink);
 }
 
 /* Year labels under the slider. --at (0..1) is set in app.js; the thumb's
@@ -535,6 +526,11 @@ h2 {
 /* A person created by the user */
 .member.is-new {
   background: var(--wash);
+}
+
+/* A member who has announced their resignation (can be replaced) */
+.member.is-leaving {
+  background: var(--leaving);
 }
 
 .avatar-new {
@@ -644,9 +640,10 @@ h2 {
 }
 
 /* Switch between "Ausgewählter Bundesrat" and "Verlauf seit 1848" */
-/* The comparison section starts with the view switch (no title) */
+/* The comparison section starts with the view switch (no title), at the
+   same distance as the boxes below it */
 .compare {
-  margin-top: clamp(2rem, 6vw, 3rem);
+  margin-top: 1rem;
 }
 
 .view-switch {
@@ -1005,6 +1002,13 @@ h2 {
 
 .button:hover {
   background: var(--ink-2);
+}
+
+/* Smaller version, on a card ("Ersetzen") */
+.button-small {
+  padding: 0.3rem 0.75rem;
+  font-size: 0.8125rem;
+  line-height: 1.2;
 }
 
 /* Score -------------------------------------------------------------------------------- */

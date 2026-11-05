@@ -314,16 +314,6 @@ function setupTicks(last) {
       return span;
     })
   );
-
-  // A short line on the track for every version: the points the slider
-  // can stop at
-  $("nav-stops").replaceChildren(
-    ...base.versions.map((_, i) => {
-      const stop = el("span", "stop");
-      stop.style.setProperty("--at", i / last);
-      return stop;
-    })
-  );
 }
 
 /**
@@ -516,8 +506,8 @@ function portrait(m) {
 }
 
 /** A small text button that triggers an action on a member's card. */
-function cardButton(action, number, text) {
-  const button = el("button", "link-button", text);
+function cardButton(action, number, text, className = "link-button") {
+  const button = el("button", className, text);
   button.type = "button";
   button.dataset.action = action;
   button.dataset.number = number;
@@ -576,7 +566,11 @@ function memberCard(m, v) {
       el("p", "member-name", m.name),
       el("p", "member-meta", `${partyName(m, day)} · ${language.choiceLabel(m.language)}`)
     );
-    if (canReplace(m, v)) actions.append(cardButton("replace", m.number, t("replaceButton")));
+    // A member who is leaving: highlighted, with a clear button
+    if (canReplace(m, v)) {
+      li.classList.add("is-leaving");
+      actions.append(cardButton("replace", m.number, t("replaceButton"), "button button-small"));
+    }
     li.append(portrait(m), body);
   }
   if (actions.children.length) body.append(actions);
