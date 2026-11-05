@@ -10,23 +10,18 @@
  * that period; clicking calls onSelect(period index). The selected period
  * is shaded, with a dot on each line.
  *
- * Emphasis ("focus + context"): one series can be emphasized. It keeps its
- * colour, gets thicker and is drawn on top; all other lines turn light
- * gray (CSS: .chart.has-focus). Which one, in this order:
- *   1. set from outside with highlight(key) on the returned object
- *      (app.js: the legend, hover = preview, click = pinned)
- *   2. the line closest to the pointer while it moves over the plot
- * Without emphasis, the `primary` series is strong and the others are
- * thinner and lighter (CSS: .chart-line.is-secondary).
+ * Emphasis ("focus + context"): one series can be emphasized, set with the
+ * `focus` option or highlight(key) on the returned object (app.js: the
+ * legend). It keeps its colour, gets thicker and is drawn on top; all
+ * other lines turn light gray (CSS: .chart.has-focus). Without emphasis,
+ * the `primary` series is strong and the others are thinner and lighter
+ * (CSS: .chart-line.is-secondary).
  *
  * The chart is redrawn completely on every call (it is small), which also
  * makes it follow the width of its container.
  */
 
 const NS = "http://www.w3.org/2000/svg";
-
-/** How close (px) the pointer must be to a line to emphasize it. */
-const NEAR = 16;
 
 /** Create an SVG element with attributes. */
 function svgEl(tag, attrs = {}) {
@@ -160,14 +155,9 @@ export function drawStepChart(root, { periods, series, selected, focus = null, d
   tooltip.hidden = true;
 
   // --- Emphasis ---
-  let outside = focus; // set by highlight()
-  let nearest = null; // the line closest to the pointer
-  let shown; // the series emphasized right now
+  let key = focus; // the series emphasized (null: none)
 
   const apply = () => {
-    const key = outside ?? nearest;
-    if (key === shown) return;
-    shown = key;
     root.classList.toggle("has-focus", key !== null);
     for (const [k, path] of paths) path.classList.toggle("is-focus", k === key);
     for (const [k, dot] of dots) dot.classList.toggle("is-focus", k === key);
@@ -178,33 +168,18 @@ export function drawStepChart(root, { periods, series, selected, focus = null, d
     lineGroup.append(...order.filter((p) => p !== top), ...(top ? [top] : []));
   };
 
-  // Pointer position -> period and the closest line in that period
-  const pointerAt = (e) => {
+  // The period under the pointer
+  const periodAt = (clientX) => {
     const box = svg.getBoundingClientRect();
-    const scale = width / box.width;
-    const px = (e.clientX - box.left) * scale;
-    const py = (e.clientY - box.top) * scale;
-    const t = t0 + ((px - m.left) / w) * (t1 - t0);
+    const t = t0 + (((clientX - box.left) * (width / box.width) - m.left) / w) * (t1 - t0);
     let i = 0;
     while (i < periods.length - 1 && periods[i + 1].start <= t) i++;
-    let closest = null;
-    let best = NEAR;
-    for (const s of series) {
-      const v = s.values[i];
-      if (!hasValue(v)) continue;
-      const dist = Math.abs(y(v) - py);
-      if (dist <= best) {
-        best = dist;
-        closest = s.key;
-      }
-    }
-    return { i, closest };
+    return i;
   };
 
   const showTooltip = (i, clientX, clientY) => {
     placeBand(hoverBand, i);
     hoverBand.style.display = "";
-    const key = outside ?? nearest;
     const rows = el("ul", "chart-tooltip-rows");
     for (const s of [...series].reverse()) {
       const v = s.values[i];
@@ -230,28 +205,21 @@ export function drawStepChart(root, { periods, series, selected, focus = null, d
   const hide = () => {
     tooltip.hidden = true;
     hoverBand.style.display = "none";
-    nearest = null;
-    apply();
   };
 
   // Transparent layer over the plot area that catches the pointer
   const hit = svgEl("rect", { x: m.left, y: m.top, width: w, height: h, class: "chart-hit" });
-  hit.addEventListener("pointermove", (e) => {
-    const { i, closest } = pointerAt(e);
-    nearest = closest;
-    showTooltip(i, e.clientX, e.clientY);
-    apply();
-  });
+  hit.addEventListener("pointermove", (e) => showTooltip(periodAt(e.clientX), e.clientX, e.clientY));
   hit.addEventListener("pointerleave", hide);
-  hit.addEventListener("click", (e) => onSelect(pointerAt(e).i));
+  hit.addEventListener("click", (e) => onSelect(periodAt(e.clientX)));
   svg.append(hit);
 
   root.replaceChildren(svg, tooltip);
   apply();
 
   return {
-    highlight(key) {
-      outside = key;
+    highlight(next) {
+      key = next;
       apply();
     },
   };

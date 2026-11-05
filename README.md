@@ -72,8 +72,7 @@ The main page has two parts:
    comparisons are thinner and lighter. One line can be emphasized ("focus
    + context": it keeps its colour and comes to the front, all others turn
    light gray): hover a legend entry to preview it, click (tap) it to keep
-   it until clicked again. Without a pinned line, the line closest to the
-   pointer is emphasized while hovering the chart.
+   it until clicked again.
 
 The footer of every page links to two more pages: **Quellen**
 (`quellen.html`: data sources and picture credits, built from
