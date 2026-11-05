@@ -103,6 +103,7 @@ const strings = {
     historyChartLabel:
       "Stufendiagramm der Übereinstimmung insgesamt und nach Geschlecht, Partei, Sprache und Alter, für jeden Bundesrat seit 1848",
     historyOverall: "Insgesamt",
+    historyLegendLabel: "Linie hervorheben",
 
     // The four comparisons
     compareGender: "Geschlecht",

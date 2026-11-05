@@ -68,6 +68,13 @@ The main page has two parts:
    Councils, without replacements made in the editor. The party line
    starts in 1919.
 
+   By default the overall score is the strong black line and the four
+   comparisons are thinner and lighter. One line can be emphasized ("focus
+   + context": it keeps its colour and comes to the front, all others turn
+   light gray): hover a legend entry to preview it, click (tap) it to keep
+   it until clicked again. Without a pinned line, the line closest to the
+   pointer is emphasized while hovering the chart.
+
 The footer of every page links to two more pages: **Quellen**
 (`quellen.html`: data sources and picture credits, built from
 `data/data.json`) and the **Datenschutzerklärung** (`datenschutz.html`).
@@ -426,6 +433,7 @@ banner and sends nothing. On beta, events also appear in the DebugView
 |---|---|---|
 | `select_council` | another Council is shown | `method` (button, slider, key, chart), `council_start` |
 | `switch_view` | "Ausgewählter Bundesrat" / "Verlauf" | `view` (current, history) |
+| `history_focus` | a line pinned / unpinned in the legend of "Verlauf" | `series` (overall, gender, party, language, age), `action` (pin, unpin) |
 | `open_info` | "Was bedeutet das?" opened | `method` (click; hover once per visit) |
 | `replace_open` / `replace_edit` | "Ersetzen" / "Bearbeiten" on a card | `councillor`, `council_start` |
 | `replace_mode` | one of the three modes chosen | `mode` (custom, list, best); for best also the profile |

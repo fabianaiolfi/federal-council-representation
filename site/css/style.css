@@ -50,6 +50,7 @@
   --line: #e6e5e0;         /* hairlines */
   --wash: #f3f3f1;         /* hover background */
   --leaving: #fde9e8;      /* a member who has announced their resignation */
+  --chart-muted: #d6d5d0;  /* history chart: the lines not emphasized */
 
   /* Categorical palette for all comparisons */
   --blue: #2a78d6;
@@ -661,15 +662,44 @@ h2 {
 
 .history .legend {
   margin-top: 0; /* first in the box */
+  gap: 0.5rem;
 }
 
-/* Legend key for a line: a short stroke */
+/* Legend of the history chart: one button per line. Mouse over: preview
+   the line; click: keep it emphasized (pressed). */
+.legend-button {
+  display: flex;
+  align-items: center;
+  padding: 0.3rem 0.65rem;
+  border: 1px solid var(--line);
+  background: var(--bg);
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s;
+}
+
+.legend-button[aria-pressed="true"] {
+  border-color: var(--ink);
+  color: var(--ink);
+}
+
+.legend-button.is-muted {
+  color: var(--ink-3);
+}
+
+.legend-button.is-muted .key-line {
+  background: var(--chart-muted);
+}
+
+/* Legend key for a line: a short stroke in the colour of its series */
 .key-line {
   display: inline-block;
   flex: none;
   width: 1rem;
   height: 2px;
   margin-right: 0.45rem;
+  background: var(--series-color, currentColor);
 }
 
 .key-line-strong {
@@ -711,15 +741,43 @@ h2 {
   fill: rgba(11, 11, 11, 0.05);
 }
 
+/* Lines: the primary one (overall) strong; the others thinner and lighter
+   ("average first, details on request") */
 .chart-line {
   fill: none;
+  stroke: var(--series-color);
+  stroke-width: 3px;
   stroke-linejoin: round;
   stroke-linecap: round;
+  transition: stroke 0.15s, stroke-width 0.15s, opacity 0.15s;
+}
+
+.chart-line.is-secondary {
+  stroke-width: 1.5px;
+  opacity: 0.75;
+}
+
+/* One line emphasized (legend or pointer): it keeps its colour and gets
+   strong, all others turn light gray */
+.chart.has-focus .chart-line {
+  stroke: var(--chart-muted);
+  stroke-width: 1.5px;
+  opacity: 1;
+}
+
+.chart.has-focus .chart-line.is-focus {
+  stroke: var(--series-color);
+  stroke-width: 3px;
 }
 
 .chart-dot {
+  fill: var(--series-color);
   stroke: var(--bg);
   stroke-width: 2;
+}
+
+.chart.has-focus .chart-dot:not(.is-focus) {
+  display: none;
 }
 
 /* Catches the pointer over the plot area; clicking selects a Council */
@@ -769,6 +827,16 @@ h2 {
 
 .chart-tooltip-rows .key-line {
   margin-right: 0;
+}
+
+/* The emphasized line in the tooltip: the others recede */
+.chart.has-focus .chart-tooltip-rows li:not(.is-focus) {
+  opacity: 0.5;
+}
+
+.chart-tooltip-rows li.is-focus {
+  font-weight: 600;
+  color: var(--ink);
 }
 
 .editor-fields > .link-button {
@@ -1358,7 +1426,9 @@ h2 {
   .seg,
   .nav-btn,
   .chip > span,
-  .mode-button {
+  .mode-button,
+  .legend-button,
+  .chart-line {
     transition: none;
   }
 }

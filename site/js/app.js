@@ -33,6 +33,7 @@ const state = {
   replacements: {},
   editing: null, // number of the member whose replacement is being edited
   view: "current", // comparison view: "current" (selected Council) or "history"
+  historyFocus: null, // line pinned in the history chart ("overall", "gender", …)
 };
 let base; // set in main()
 
@@ -781,6 +782,8 @@ function updateComparisons(v) {
 // History: all scores over time --------------------------------------------------
 
 let history; // periods and series for the chart, built once in setupHistory()
+let historyChart; // the drawn chart: historyChart.highlight(key)
+let historyPreview = null; // line under the mouse in the legend
 
 /** The two views of the comparison section: selected Council, or history. */
 function setupViews() {
@@ -813,28 +816,48 @@ function setupHistory() {
     end: i < versions.length - 1 ? Date.parse(versions[i + 1].start) : endOfToday,
   }));
 
-  // One line per comparison, plus the overall score (black, on top)
+  // One line per comparison, plus the overall score (black, strong, on top)
   const colors = { gender: "var(--blue)", party: "var(--orange)", language: "var(--aqua)", age: "var(--amber)" };
   const lines = [
-    { label: t("historyOverall"), color: "var(--ink)", width: 3, values: versions.map((v) => v.overall) },
+    { key: "overall", label: t("historyOverall"), color: "var(--ink)", primary: true, values: versions.map((v) => v.overall) },
     ...base.comparisons.map((cmp, k) => ({
+      key: cmp.key,
       label: cmp.title,
       color: colors[cmp.key],
-      width: 2,
       values: versions.map((v) => (v.results[k].available ? v.results[k].score : null)),
     })),
   ];
   // Drawn bottom to top: the tooltip lists them top to bottom (overall first)
   history = { periods, series: [...lines].reverse() };
 
-  // Legend: a short line in each series' colour
-  $("history-legend").replaceChildren(
+  // Legend: one button per line. Hovering it with the mouse previews that
+  // line in the chart; clicking (tapping) keeps it emphasized until it is
+  // clicked again.
+  const legend = $("history-legend");
+  legend.setAttribute("aria-label", t("historyLegendLabel"));
+  legend.replaceChildren(
     ...lines.map((s) => {
-      const li = el("li");
+      const button = el("button", "legend-button");
+      button.type = "button";
+      button.dataset.series = s.key;
+      button.setAttribute("aria-pressed", "false");
       const key = el("span", "key-line");
-      key.style.background = s.color;
-      if (s.width > 2) key.classList.add("key-line-strong");
-      li.append(key, document.createTextNode(s.label));
+      key.style.setProperty("--series-color", s.color);
+      if (s.primary) key.classList.add("key-line-strong");
+      button.append(key, document.createTextNode(s.label));
+      button.addEventListener("pointerenter", (e) => {
+        if (e.pointerType === "mouse") previewHistory(s.key);
+      });
+      button.addEventListener("pointerleave", (e) => {
+        if (e.pointerType === "mouse") previewHistory(null);
+      });
+      button.addEventListener("click", () => {
+        state.historyFocus = state.historyFocus === s.key ? null : s.key;
+        highlightHistory();
+        track("history_focus", { series: s.key, action: state.historyFocus ? "pin" : "unpin" });
+      });
+      const li = el("li");
+      li.append(button);
       return li;
     })
   );
@@ -850,14 +873,37 @@ function setupHistory() {
 /** Draw the history chart (only while it is visible). */
 function renderHistory() {
   if (state.view !== "history" || !history) return;
-  drawStepChart($("history-chart"), {
+  historyChart = drawStepChart($("history-chart"), {
     ...history,
     selected: state.index,
+    focus: historyPreview ?? state.historyFocus,
     describe: (i) => t("compareCouncil", periodLabel(base.versions[i], i === base.currentIndex)),
     format: (v) => fmt.pct(v),
     onSelect: (i) => goTo(i, "chart"),
     label: t("historyChartLabel"),
   });
+  highlightHistory();
+}
+
+/** The legend entry under the mouse previews its line (null: back to the pinned one). */
+function previewHistory(key) {
+  historyPreview = key;
+  highlightHistory();
+}
+
+/**
+ * Emphasize one line in the history chart: the legend entry under the
+ * mouse, else the pinned one, else none (then the chart emphasizes the line
+ * closest to the pointer). The legend shows the same: the pinned entry is
+ * pressed, the others are muted while a line is emphasized.
+ */
+function highlightHistory() {
+  const key = historyPreview ?? state.historyFocus;
+  historyChart?.highlight(key);
+  for (const button of $("history-legend").querySelectorAll("button")) {
+    button.setAttribute("aria-pressed", String(button.dataset.series === state.historyFocus));
+    button.classList.toggle("is-muted", key !== null && button.dataset.series !== key);
+  }
 }
 
 // Replacing a member ------------------------------------------------------------
