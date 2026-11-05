@@ -321,7 +321,7 @@ h2 {
   position: sticky;
   top: env(safe-area-inset-top, 0px);
   z-index: 5;
-  margin-top: 1.5rem;
+  margin-top: clamp(2.5rem, 7vw, 3.5rem); /* below the page title */
   padding: 1rem 1rem 0.5rem;
   background: var(--bg);
   border: 1px solid var(--ink);
@@ -443,8 +443,31 @@ h2 {
   outline-offset: 2px;
 }
 
-.nav-range {
+/* The timeline slider, with a short line for every version (the points
+   it can stop at). The lines use the same positions as the year labels. */
+.nav-track {
+  position: relative;
   margin-top: 0.75rem;
+}
+
+.nav-track .range {
+  position: relative; /* above the lines, so the thumb covers them */
+}
+
+.nav-stops {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.stop {
+  position: absolute;
+  top: 50%;
+  left: calc(0.5rem + (100% - 1rem) * var(--at));
+  width: 1px;
+  height: 0.5rem;
+  transform: translate(-50%, -50%);
+  background: var(--ink);
 }
 
 /* Year labels under the slider. --at (0..1) is set in app.js; the thumb's
@@ -621,8 +644,13 @@ h2 {
 }
 
 /* Switch between "Ausgewählter Bundesrat" and "Verlauf seit 1848" */
+/* The comparison section starts with the view switch (no title) */
+.compare {
+  margin-top: clamp(2rem, 6vw, 3rem);
+}
+
 .view-switch {
-  margin: 1.25rem 0 0;
+  margin: 0;
 }
 
 .view-switch .mode-button {
@@ -989,22 +1017,23 @@ h2 {
 }
 
 /* Title with "Was bedeutet das?" and its explanation box */
+/* Title and ⓘ button: the button stays next to the first line of the
+   title, also when the title wraps (phones) */
 .score-head {
   position: relative;
   display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: 0.25rem 0.875rem;
+  align-items: flex-start;
+  gap: 0.5rem;
 }
 
 /* Round "i" icon button; the hit area (2rem) is larger than the icon */
 .info-button {
   display: inline-grid;
   place-items: center;
-  align-self: center;
+  flex: none;
   width: 2rem;
   height: 2rem;
-  margin: -0.375rem 0;
+  margin: -0.1875rem 0; /* centred on the first line of the title */
   padding: 0;
   border: 0;
   background: none;

@@ -35,8 +35,6 @@
 
     <!-- 1. Federal Council: one panel = timeline navigation (head) + the 7
          members. --------------------------------------------------------->
-    <h2 class="block" id="council-title" data-i18n="councilTitle"></h2>
-
     <!-- The panel head is a direct child of <main> (a sticky element only
          sticks within its parent), so it stays at the top of the screen
          while scrolling through the whole page. It shows the overall score
@@ -45,7 +43,8 @@
       <!-- Title (the dates), buttons and score: side by side on wide
            screens; on phones the title gets the full width -->
       <div class="panel-top">
-        <p class="panel-period" id="nav-period" aria-live="polite"></p>
+        <!-- "Der Bundesrat vom … bis …" (app.js) -->
+        <h2 class="panel-period" id="nav-period" aria-live="polite"></h2>
         <div class="nav-buttons">
           <button class="nav-btn" id="nav-prev" type="button">
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
@@ -56,14 +55,18 @@
         </div>
         <p class="nav-score" id="nav-score" aria-hidden="true"></p>
       </div>
-      <input class="range nav-range" id="nav-range" type="range" min="0" step="1">
+      <!-- The slider, with a short line for every version behind the track -->
+      <div class="nav-track">
+        <div class="nav-stops" id="nav-stops" aria-hidden="true"></div>
+        <input class="range" id="nav-range" type="range" min="0" step="1">
+      </div>
       <div class="nav-ticks" id="nav-ticks" aria-hidden="true"></div>
     </div>
 
-    <section class="council-panel" id="council-panel" aria-labelledby="council-title" hidden>
+    <section class="council-panel" id="council-panel" aria-labelledby="nav-period" hidden>
       <ol class="council" id="council-list"></ol>
-      <!-- Invitation to replace a member, or what has been replaced -->
-      <div class="panel-foot" id="panel-foot"></div>
+      <!-- What has been replaced (only shown after a replacement) -->
+      <div class="panel-foot" id="panel-foot" hidden></div>
     </section>
 
     <!-- Editor for a person replacing a member (built by app.js) -->
@@ -71,12 +74,11 @@
 
     <p class="warning" id="council-warning" hidden></p>
 
-    <!-- 2. Comparison: two views, switched by the buttons below the title:
+    <!-- 2. Comparison: two views, switched by the buttons at the top:
          - the selected Council: overall score, one section per comparison
            (gender, party, language, age; built by app.js)
          - the history: a step line chart of all scores since 1848 ------->
-    <section class="block" aria-labelledby="compare-title">
-      <h2 id="compare-title" data-i18n="compareTitle"></h2>
+    <section class="block compare" data-i18n-label="compareTitle">
 
       <div class="modes view-switch" id="view-switch" role="group">
         <button class="mode-button" type="button" data-view="current" aria-pressed="true" data-i18n="viewCurrent"></button>
@@ -89,7 +91,7 @@
       <div class="score" id="score">
         <!-- Title with a "Was bedeutet das?" explanation (filled in by app.js) -->
         <div class="score-head">
-          <p class="score-label" data-i18n="overallLabel"></p>
+          <p class="score-label" data-i18n="scoreTitle"></p>
           <!-- Icon: Material Icons "info_outline" (Google, Apache License 2.0),
                inlined so no request goes to Google. Label set by app.js. -->
           <button class="info-button" id="info-button" type="button"

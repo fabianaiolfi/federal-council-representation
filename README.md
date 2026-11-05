@@ -6,13 +6,13 @@ The interface is in Swiss High German.
 
 The main page has two parts:
 
-1. **Der Bundesrat:** one panel with the seven members (portrait, name,
-   "party · language"; by seniority) and a
-   timeline. Its title gives the exact dates of the version shown
-   ("1. Januar 2023 bis 31. Dezember 2023"). The ← → buttons, the slider or
-   the ← → keys step through every version of the Council since 1848 (94 so
-   far). The panel head stays at the top of the screen while you scroll
-   through the whole page.
+1. **The Council:** one panel with the seven members (portrait, name,
+   "party · language"; by seniority) and a timeline. Its title gives the
+   exact dates of the version shown ("Der Bundesrat vom 1. Januar 2023 bis
+   31. Dezember 2023"). The ← → buttons, the slider (a short line on the
+   track marks every version) or the ← → keys step through every version
+   of the Council since 1848 (94 so far). The panel head stays at the top
+   of the screen while you scroll through the whole page.
 
    Names are short to keep the page calm: languages as ISO 639-1 codes
    (DE, FR, IT, RM; "Andere" for other languages) and parties by their
@@ -20,8 +20,15 @@ The main page has two parts:
    the party as named at the time (e.g. "freis.", "CVP", "BDP"). The bar
    tooltips use the full names.
 
-   **"Was wäre, wenn …?"** Every member has an "Ersetzen" button. It opens
-   an editor ("Wer ersetzt …?") with three ways to choose the new person:
+   **Replacing a member who is leaving.** A member of today's Council who
+   has announced their resignation has an "Ersetzen" button. That is
+   anyone with a `left_office_date` in the future in
+   `data/all_federal_councillors.csv` (currently Guy Parmelin, 31 December
+   2026). To offer it for another member, enter the date they leave office
+   there and rerun `scripts/build_data.py`. Once the date has passed, they
+   are no longer in today's Council and the button disappears with them.
+   Past Councils cannot be changed. The button opens an editor ("Wer
+   ersetzt …?") with three ways to choose the new person:
 
    - **Selbst zusammenstellen:** set gender, party (the parties with at
      least 1 % in that period's National Council election), language and
@@ -39,12 +46,13 @@ The main page has two parts:
    "Selbst zusammenstellen" shows it and lets you adjust it. Every change
    updates the editor's live result (overall score and the four
    comparisons, with the difference to the real Council) and all bars on the
-   page. You can replace several members; changes stay with the version
-   they were made in and can be undone one by one or all at once. Nothing is
-   saved: reloading the page shows the real Councils.
-2. **Der Bundesrat im Vergleich mit der Schweizer Bevölkerung:** how closely
-   the Council matches the population by **gender, party, language and
-   age**. The overall score at the top is the average of the four; below it,
+   page. If several members are leaving, each can be replaced; changes can
+   be undone one by one or all at once. Nothing is saved: reloading the
+   page shows the real Councils.
+2. **The comparison:** how closely the Council matches the population by
+   **gender, party, language and age**. The overall score at the top
+   ("Übereinstimmung des Bundesrates mit der Bevölkerung") is the average
+   of the four; below it,
    each comparison has its own score and two bars (Council vs population).
    Everything updates with every step in the panel above. "Was bedeutet
    das?" next to the overall score explains the measure, with a worked

@@ -314,6 +314,16 @@ function setupTicks(last) {
       return span;
     })
   );
+
+  // A short line on the track for every version: the points the slider
+  // can stop at
+  $("nav-stops").replaceChildren(
+    ...base.versions.map((_, i) => {
+      const stop = el("span", "stop");
+      stop.style.setProperty("--at", i / last);
+      return stop;
+    })
+  );
 }
 
 /**
@@ -465,14 +475,15 @@ function setupTooltip() {
 
 /**
  * Title of the panel: the exact dates the version was in office,
- * "1. April 2025 bis heute", "1. Januar 2023 bis 31. Dezember 2023".
+ * "Der Bundesrat vom 1. April 2025 bis heute",
+ * "Der Bundesrat vom 1. Januar 2023 bis 31. Dezember 2023".
  */
 function councilDates(v) {
   const c = v.version;
-  // A date never breaks across lines (on small screens only around "bis")
-  const date = (iso) => fmt.date(iso).replaceAll(" ", " ");
+  // A date never breaks across lines (non-breaking spaces)
+  const date = (iso) => fmt.date(iso).replaceAll(" ", "\u00a0");
   if (v.isCurrent) return t("councilPeriodCurrent", date(c.start));
-  if (c.start === c.end) return date(c.start);
+  if (c.start === c.end) return t("councilOneDay", date(c.start));
   return t("councilPeriod", date(c.start), date(c.end));
 }
 
@@ -527,7 +538,18 @@ function partyName(m, day) {
   return t("partyName", names[Math.max(i, 0)] ?? names[0]);
 }
 
-function memberCard(m, day) {
+/**
+ * Only a member of today's Council who has announced their resignation
+ * can be replaced ("Ersetzen"): in data/all_federal_councillors.csv they
+ * have a left_office_date in the future. Once that day has passed, they
+ * are no longer in today's Council.
+ */
+function canReplace(m, v) {
+  return v.isCurrent && !m.isNew && Boolean(m.leftOfficeDate) && m.leftOfficeDate > base.today;
+}
+
+function memberCard(m, v) {
+  const day = v.version.day;
   const li = el("li", m.isNew ? "member is-new" : "member");
   const body = el("div", "member-body");
   const actions = el("p", "member-actions");
@@ -554,28 +576,26 @@ function memberCard(m, day) {
       el("p", "member-name", m.name),
       el("p", "member-meta", `${partyName(m, day)} · ${language.choiceLabel(m.language)}`)
     );
-    actions.append(cardButton("replace", m.number, t("replaceButton")));
+    if (canReplace(m, v)) actions.append(cardButton("replace", m.number, t("replaceButton")));
     li.append(portrait(m), body);
   }
-  body.append(actions);
+  if (actions.children.length) body.append(actions);
   return li;
 }
 
 /** The members of the shown version, by seniority. */
 function updateCouncil(v) {
-  const c = v.version;
-  $("council-list").replaceChildren(...v.members.map((m) => memberCard(m, c.day)));
+  $("council-list").replaceChildren(...v.members.map((m) => memberCard(m, v)));
 
-  // Below the cards: an invitation to try it, or what has been changed
+  // Below the cards, once members have been replaced: how many, and a reset
   const foot = $("panel-foot");
   const replaced = v.members.filter((m) => m.isNew).length;
+  foot.hidden = replaced === 0;
   if (replaced) {
     const reset = el("button", "link-button", t("resetAll"));
     reset.type = "button";
     reset.dataset.action = "reset";
     foot.replaceChildren(el("span", null, t("replacedCount", replaced)), reset);
-  } else {
-    foot.replaceChildren(el("span", null, t("replaceHint")));
   }
 
   // Safety net: if today has an empty seat, the CSV may be out of date
@@ -761,7 +781,7 @@ function updateComparisons(v) {
   }
 
   // Screen readers: announce the final result once (not every animation frame)
-  $("score-status").textContent = `${t("overallLabel")}: ${v.overall === null ? "–" : fmt.pct(v.overall)}`;
+  $("score-status").textContent = `${t("scoreTitle")}: ${v.overall === null ? "–" : fmt.pct(v.overall)}`;
 }
 
 // History: all scores over time --------------------------------------------------

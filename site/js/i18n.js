@@ -32,13 +32,11 @@ const strings = {
       startMonth === endMonth ? `${startMonth} ${year}` : `${startMonth} – ${endMonth} ${year}`,
 
     // Federal Council
-    councilTitle: "Der Bundesrat",
     // Title of the panel: the exact dates the version was in office
-    councilPeriodCurrent: (from) => `${from} bis heute`,
-    councilPeriod: (from, to) => `${from} bis ${to}`,
+    councilPeriodCurrent: (from) => `Der Bundesrat vom ${from} bis heute`,
+    councilPeriod: (from, to) => `Der Bundesrat vom ${from} bis ${to}`,
+    councilOneDay: (date) => `Der Bundesrat am ${date}`,
     // Replacing a member
-    replaceHint:
-      "Was wäre, wenn …? Ersetzen Sie ein Mitglied und sehen Sie, wie sich die Übereinstimmung verändert.",
     replaceButton: "Ersetzen",
     editButton: "Bearbeiten",
     undoButton: "Rückgängig",
@@ -71,7 +69,8 @@ const strings = {
 
     // Comparison
     compareTitle: "Der Bundesrat im Vergleich mit der Schweizer Bevölkerung",
-    overallLabel: "Übereinstimmung insgesamt",
+    scoreTitle: "Übereinstimmung des Bundesrates mit der Bevölkerung",
+    overallLabel: "Übereinstimmung insgesamt", // in the editor
 
     // "Was bedeutet das?" next to the overall score
     infoButton: "Was bedeutet das?",
