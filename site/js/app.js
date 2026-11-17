@@ -87,7 +87,7 @@ function seatParams(number) {
   return { ...councilParams(), councillor: m.name };
 }
 
-/** The profile of a new person: how it was made, and its four properties. */
+/** The profile of a new person: how it was made, and its five properties. */
 function profileParams(choice) {
   const group = base.ageGroups.find((g) => choice.age >= g.min && (g.max === null || choice.age <= g.max));
   return {
@@ -97,6 +97,7 @@ function profileParams(choice) {
     language: choice.language,
     age: choice.age,
     age_group: group?.key ?? "",
+    region: choice.region,
     ...(choice.name && { candidate: choice.name }),
   };
 }
@@ -183,6 +184,8 @@ function newMember(m, choice, day) {
     name: choice.name ?? t(choice.gender === "female" ? "newFemale" : "newMale"),
     gender: choice.gender,
     language: choice.language,
+    region: choice.region,
+    cantonCode: choice.cantonCode ?? null, // known for a person from the list only
     parties: choice.party ? [{ party: choice.party, from: null }] : m.parties,
     age: choice.age,
     birthDate: `${String(Number(day.slice(0, 4)) - choice.age).padStart(4, "0")}${day.slice(4)}`,
@@ -516,10 +519,6 @@ function cardButton(action, number, text, className = "link-button") {
 }
 
 /**
- * One card per member: portrait, name, "party · language", and a button to
- * replace them. A person created by the user shows their chosen profile.
- */
-/**
  * The member's party on `day`, as named at the time and shortened
  * ("FDP.Die Liberalen" -> "FDP"; "SVP / BDP" -> the one that applied).
  */
@@ -539,12 +538,18 @@ function canReplace(m, v) {
   return v.isCurrent && !m.isNew && Boolean(m.leftOfficeDate) && m.leftOfficeDate > base.today;
 }
 
+/**
+ * One card per member: portrait, name, "party · canton" (ISO code, "VD"),
+ * and for a member who is leaving a button to replace them. A person
+ * created by the user shows their party and canton (from the list) or
+ * Grossregion (put together, or the best profile).
+ */
 function memberCard(m, v) {
   const day = v.version.day;
   const li = el("li", m.isNew ? "member is-new" : "member");
   const body = el("div", "member-body");
   const actions = el("p", "member-actions");
-  const language = base.comparisons.find((c) => c.key === "language");
+  const region = base.comparisons.find((c) => c.key === "region");
 
   if (m.isNew) {
     const avatar = m.fromList
@@ -554,7 +559,7 @@ function memberCard(m, v) {
     const party = base.comparisons.find((c) => c.key === "party");
     body.append(
       el("p", "member-name", m.name),
-      el("p", "member-meta", `${party.choiceLabel(m.parties[0].party)} · ${language.choiceLabel(m.language)}`),
+      el("p", "member-meta", `${party.choiceLabel(m.parties[0].party)} · ${m.cantonCode ?? region.choiceLabel(m.region)}`),
       el("p", "member-meta", t("insteadOf", m.replaces.name))
     );
     actions.append(
@@ -565,7 +570,7 @@ function memberCard(m, v) {
   } else {
     body.append(
       el("p", "member-name", m.name),
-      el("p", "member-meta", `${partyName(m, day)} · ${language.choiceLabel(m.language)}`)
+      el("p", "member-meta", `${partyName(m, day)} · ${m.cantonCode}`)
     );
     // A member who is leaving: highlighted, with a clear button
     if (canReplace(m, v)) {
@@ -806,7 +811,13 @@ function setupHistory() {
   }));
 
   // One line per comparison, plus the overall score (black, strong, on top)
-  const colors = { gender: "var(--blue)", party: "var(--orange)", language: "var(--aqua)", age: "var(--amber)" };
+  const colors = {
+    gender: "var(--blue)",
+    party: "var(--orange)",
+    language: "var(--aqua)",
+    age: "var(--amber)",
+    region: "var(--blue-dark)", // all pairs of line colours checked for colour-blind separation
+  };
   const lines = [
     { key: "overall", label: t("historyOverall"), color: "var(--ink)", primary: true, values: versions.map((v) => v.overall) },
     ...base.comparisons.map((cmp, k) => ({
@@ -942,6 +953,7 @@ function openEditor(number) {
     party: party.choices(c.day) ? partyOn(m, c.day) : null,
     language: m.language,
     age: ageOn(m.birthDate, c.day),
+    region: m.region,
   };
   state.editing = number;
   renderEditor();
@@ -974,7 +986,7 @@ function closeEditor({ refocus = true } = {}) {
   if (refocus) document.querySelector(`#council-list button[data-number="${number}"]`)?.focus();
 }
 
-/** One group of options (gender, party, language) as radio "chips". */
+/** One group of options (gender, party, language, Grossregion) as radio "chips". */
 function chipField(cmp, choice, day) {
   const fieldset = el("fieldset", "editor-field");
   fieldset.append(el("legend", null, cmp.title));
@@ -1050,6 +1062,7 @@ function makeCustom(choice) {
   choice.mode = "custom";
   delete choice.name;
   delete choice.personId;
+  delete choice.cantonCode;
   delete choice.variant;
   for (const button of $("editor").querySelectorAll(".mode-button")) {
     button.setAttribute("aria-pressed", String(button.dataset.mode === "custom"));
@@ -1099,7 +1112,8 @@ function setMode(mode) {
 }
 
 /**
- * Every profile for this seat (gender × party × language × age group) that
+ * Every profile for this seat (gender × party × language × age group ×
+ * Grossregion) that
  * gives the highest overall score, with the other members as they are
  * (including the user's other replacements). Ages: the middle of each group.
  */
@@ -1121,17 +1135,18 @@ function bestProfiles() {
   for (const gender of byKey.gender.choices(day))
     for (const party of parties)
       for (const language of byKey.language.choices(day))
-        for (const age of ages) {
-          const profile = { gender, party, language, age };
-          const members = [...others, newMember(seat, profile, day)];
-          const score = average(base.comparisons.map((cmp) => evaluate(cmp, members, day)));
-          if (score > best + 1e-9) {
-            best = score;
-            profiles = [profile];
-          } else if (Math.abs(score - best) <= 1e-9) {
-            profiles.push(profile);
+        for (const age of ages)
+          for (const region of byKey.region.choices(day)) {
+            const profile = { gender, party, language, age, region };
+            const members = [...others, newMember(seat, profile, day)];
+            const score = average(base.comparisons.map((cmp) => evaluate(cmp, members, day)));
+            if (score > best + 1e-9) {
+              best = score;
+              profiles = [profile];
+            } else if (Math.abs(score - best) <= 1e-9) {
+              profiles.push(profile);
+            }
           }
-        }
   return profiles;
 }
 
@@ -1140,10 +1155,11 @@ function applyBest(choice, variant) {
   const k = variant % profiles.length;
   delete choice.name;
   delete choice.personId;
+  delete choice.cantonCode;
   Object.assign(choice, profiles[k], { mode: "best", variant: k, variants: profiles.length });
 }
 
-/** "Frau · GRÜNE · Andere Sprache · 29 Jahre" */
+/** "Frau · GRÜNE · Andere Sprache · 29 Jahre · Zürich" */
 function profileText(choice) {
   const byKey = Object.fromEntries(base.comparisons.map((cmp) => [cmp.key, cmp]));
   return [
@@ -1152,12 +1168,13 @@ function profileText(choice) {
     // "Andere" alone would be unclear in this line
     choice.language === "other" ? t("languageName_otherSingular") : byKey.language.choiceLabel(choice.language),
     t("ageYears", choice.age),
+    byKey.region.choiceLabel(choice.region),
   ]
     .filter(Boolean)
     .join(" · ");
 }
 
-/** Mode "Selbst zusammenstellen": the four fields. */
+/** Mode "Selbst zusammenstellen": the five fields. */
 function customPanel(choice, day) {
   const fields = el("div", "editor-fields");
   for (const cmp of base.comparisons) {
@@ -1180,7 +1197,6 @@ function listPanel(choice, day) {
     return panel;
   }
   const party = base.comparisons.find((cmp) => cmp.key === "party");
-  const language = base.comparisons.find((cmp) => cmp.key === "language");
   const hasParties = Boolean(party.choices(day));
 
   const fieldset = el("fieldset", "editor-field");
@@ -1202,6 +1218,8 @@ function listPanel(choice, day) {
         gender: person.gender,
         party: hasParties ? person.party : null,
         language: person.language,
+        region: person.region,
+        cantonCode: person.cantonCode,
         age,
       });
       delete choice.variant;
@@ -1211,7 +1229,7 @@ function listPanel(choice, day) {
     const text = el("span", "person-text");
     text.append(
       el("span", "person-name", person.name),
-      el("span", "person-meta", `${party.choiceLabel(person.party)} · ${language.choiceLabel(person.language)}`)
+      el("span", "person-meta", `${party.choiceLabel(person.party)} · ${person.cantonCode}`)
     );
     row.append(input, text);
     list.append(row);

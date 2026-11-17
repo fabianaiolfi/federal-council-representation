@@ -28,7 +28,7 @@ function link(text, href) {
 
 /** One line per BFS table (linking to it), then the other sources. */
 function renderSources(data) {
-  const tables = [data.gender, data.language, data.language.other, data.party];
+  const tables = [data.gender, data.language, data.language.other, data.party, data.region, data.region.annual];
   const items = tables.map((source) => {
     const li = el("li");
     li.append(link(t("sourceBfs", source.tableTitle, source.table), source.url));

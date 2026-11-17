@@ -28,8 +28,13 @@ Sources:
      "other languages": table T 01.08.01.02 (since 2010).
    - Party: table T 17.02.02.03.01 "Nationalratswahlen: Stärke der
      Parteien" (every National Council election since 1919).
-   The two tables are Excel files, downloaded through the BFS asset API by
-   their table number, so a new edition is picked up automatically.
+   - Grossregion (the seven regions the BFS groups the cantons into):
+     population by canton from table su-t-vz15-ch-01 "Bevölkerungsentwicklung
+     nach Grossregionen und Kantonen 1850-2000" (censuses, used until 1970),
+     then yearly from STAT-TAB table px-x-0102020000_101 "Demografische
+     Bilanz nach Kanton" (since 1971), summed per Grossregion.
+   The Excel tables are downloaded through the BFS asset API by their table
+   number, so a new edition is picked up automatically.
 
 Usage
     python3 scripts/build_data.py
@@ -47,6 +52,7 @@ import csv
 import io
 import json
 import re
+import struct
 import sys
 import urllib.request
 import zipfile
@@ -77,6 +83,14 @@ BFS_ASSETS_API = "https://dam-api.bfs.admin.ch/hub/api/dam/assets"
 LANGUAGE_TABLE = "je-d-01.08.01.01"  # Hauptsprachen seit 1910
 LANGUAGE_DETAIL_TABLE = "je-d-01.08.01.02"  # Hauptsprachen nach Kanton (since 2010)
 PARTY_TABLE = "je-d-17.02.02.03.01"  # Nationalratswahlen: Stärke der Parteien
+
+# Grossregion: population by canton, censuses 1850-2000 (old .xls file) and
+# yearly since 1971 (STAT-TAB). The census is used until 1970.
+REGION_CENSUS_TABLE = "su-t-vz15-ch-01"  # Bevölkerungsentwicklung nach Grossregionen und Kantonen
+REGION_PX_TABLE = "px-x-0102020000_101"  # Demografische Bilanz nach Kanton
+REGION_PX_API_URL = f"https://www.pxweb.bfs.admin.ch/api/v1/de/{REGION_PX_TABLE}/{REGION_PX_TABLE}.px"
+REGION_PX_TABLE_URL = f"https://www.pxweb.bfs.admin.ch/pxweb/de/{REGION_PX_TABLE}/-/{REGION_PX_TABLE}.px/"
+REGION_PX_FROM = 1971
 
 # Age groups compared. Only adults are compared, from 18: the voting age and
 # the minimum age for the Federal Council since 1991 (before: 20).
@@ -127,6 +141,35 @@ CANTON_LANGUAGE = {
 LANGUAGE_CORRECTIONS = {
     102: "fr",  # Pascal Couchepin: Wikidata only lists German as spoken language
 }
+
+# --- Cantons and Grossregionen ----------------------------------------------------
+# The cantons by their ISO 3166-2 code (without "CH-") and German name.
+CANTONS = {
+    "ZH": "Zürich", "BE": "Bern", "LU": "Luzern", "UR": "Uri", "SZ": "Schwyz",
+    "OW": "Obwalden", "NW": "Nidwalden", "GL": "Glarus", "ZG": "Zug",
+    "FR": "Freiburg", "SO": "Solothurn", "BS": "Basel-Stadt", "BL": "Basel-Landschaft",
+    "SH": "Schaffhausen", "AR": "Appenzell Ausserrhoden", "AI": "Appenzell Innerrhoden",
+    "SG": "St. Gallen", "GR": "Graubünden", "AG": "Aargau", "TG": "Thurgau",
+    "TI": "Tessin", "VD": "Waadt", "VS": "Wallis", "NE": "Neuenburg", "GE": "Genf",
+    "JU": "Jura",
+}
+# Other spellings found in the BFS tables (French and Italian names)
+CANTON_ALIASES = {
+    "Berne": "BE", "Fribourg": "FR", "Genève": "GE", "Neuchâtel": "NE", "Valais": "VS",
+    "Vaud": "VD", "Ticino": "TI", "Grigioni": "GR", "Grischun": "GR", "St.Gallen": "SG",
+}
+# The seven Grossregionen of the BFS (https://www.bfs.admin.ch/asset/de/5933503),
+# in the BFS order.
+GROSSREGIONEN = {
+    "genfersee": ["VD", "VS", "GE"],
+    "mittelland": ["BE", "FR", "SO", "NE", "JU"],
+    "nordwestschweiz": ["BS", "BL", "AG"],
+    "zuerich": ["ZH"],
+    "ostschweiz": ["GL", "SH", "AR", "AI", "SG", "GR", "TG"],
+    "zentralschweiz": ["LU", "UR", "SZ", "OW", "NW", "ZG"],
+    "tessin": ["TI"],
+}
+REGION_OF = {code: region for region, codes in GROSSREGIONEN.items() for code in codes}
 
 
 # --- helpers -------------------------------------------------------------------
@@ -193,6 +236,168 @@ def xlsx_rows(content: bytes, sheet_number: int = 1) -> list[list]:
     return rows
 
 
+def ole_stream(content: bytes, name: str) -> bytes:
+    """
+    One stream (e.g. "Workbook") of an OLE2 compound file, the container of
+    old Office files (.xls). The file is a set of sectors; a table (FAT)
+    links each sector to the next, a directory names the streams.
+    """
+    if content[:8] != bytes.fromhex("d0cf11e0a1b11ae1"):
+        sys.exit("Not an old Excel file (.xls).")
+    sector_size = 1 << struct.unpack_from("<H", content, 30)[0]
+    mini_size = 1 << struct.unpack_from("<H", content, 32)[0]
+    n_fat, dir_start = struct.unpack_from("<II", content, 44)
+    mini_cutoff, mini_fat_start, _, difat_start, n_difat = struct.unpack_from("<IIIII", content, 56)
+
+    def sector(i: int) -> bytes:
+        return content[512 + i * sector_size: 512 + (i + 1) * sector_size]
+
+    def numbers(block: bytes) -> tuple:
+        return struct.unpack(f"<{len(block) // 4}I", block)
+
+    def chain(start: int, table: list) -> list:
+        out = []
+        while start < 0xFFFFFFFA:  # end-of-chain and free markers are above
+            out.append(start)
+            start = table[start]
+        return out
+
+    # Where the FAT itself is stored: 109 entries in the header, more in DIFAT sectors
+    fat_sectors = list(struct.unpack_from("<109I", content, 76))
+    s = difat_start
+    for _ in range(n_difat):
+        block = numbers(sector(s))
+        fat_sectors += block[:-1]
+        s = block[-1]
+    fat = [n for s in fat_sectors[:n_fat] for n in numbers(sector(s))]
+
+    directory = b"".join(sector(s) for s in chain(dir_start, fat))
+    entries = {}
+    for off in range(0, len(directory), 128):
+        e = directory[off: off + 128]
+        name_len = struct.unpack_from("<H", e, 64)[0]
+        entry_name = e[: max(0, name_len - 2)].decode("utf-16-le")
+        entries.setdefault(entry_name, struct.unpack_from("<II", e, 116))  # start, size
+    if name not in entries:
+        sys.exit(f"No '{name}' stream in the .xls file.")
+    start, size = entries[name]
+    if size >= mini_cutoff:
+        return b"".join(sector(s) for s in chain(start, fat))[:size]
+    # Small streams live in the "mini stream", stored in the root entry
+    mini_fat = [n for s in chain(mini_fat_start, fat) for n in numbers(sector(s))]
+    root_start = struct.unpack_from("<I", directory, 116)[0]
+    mini = b"".join(sector(s) for s in chain(root_start, fat))
+    return b"".join(mini[s * mini_size: (s + 1) * mini_size] for s in chain(start, mini_fat))[:size]
+
+
+def rk_number(rk: int) -> float:
+    """A number in Excel's compact RK format (part of a double, or an integer)."""
+    if rk & 2:  # 30-bit signed integer
+        value = float((rk >> 2) - (1 << 30) if rk & 0x80000000 else rk >> 2)
+    else:  # the upper 30 bits of a double
+        value = struct.unpack("<d", struct.pack("<Q", (rk & 0xFFFFFFFC) << 32))[0]
+    return value / 100 if rk & 1 else value
+
+
+def xls_rows(content: bytes, sheet_number: int = 1) -> list[list]:
+    """
+    Read one sheet of an old Excel file (.xls, BIFF8) into a list of rows,
+    using only the standard library. Each row is a list of cell values
+    (str, float, or None for empty cells). Only what the BFS tables use is
+    supported: text, numbers and the cached results of formulas.
+    """
+    stream = ole_stream(content, "Workbook")
+    records, pos = [], 0
+    while pos + 4 <= len(stream):
+        rtype, length = struct.unpack_from("<HH", stream, pos)
+        records.append((rtype, stream[pos + 4: pos + 4 + length]))
+        pos += 4 + length
+
+    # Shared strings (record SST), continued in CONTINUE records. A string
+    # that runs into the next record continues there after one flags byte.
+    strings = []
+    for k, (rtype, body) in enumerate(records):
+        if rtype != 0x00FC:
+            continue
+        parts = [body]
+        for rtype2, body2 in records[k + 1:]:
+            if rtype2 != 0x003C:
+                break
+            parts.append(body2)
+        part, off = 0, 8
+        for _ in range(struct.unpack_from("<I", body, 4)[0]):
+            if off >= len(parts[part]):
+                part, off = part + 1, 0
+            buf = parts[part]
+            n, flags = struct.unpack_from("<HB", buf, off)
+            off += 3
+            runs = ext = 0
+            if flags & 8:  # rich text: formatting runs after the text
+                runs = struct.unpack_from("<H", buf, off)[0]
+                off += 2
+            if flags & 4:  # Asian phonetic data after the text
+                ext = struct.unpack_from("<I", buf, off)[0]
+                off += 4
+            wide, text = flags & 1, ""
+            while True:
+                width = 2 if wide else 1
+                take = min(n - len(text), (len(buf) - off) // width)
+                text += buf[off: off + take * width].decode("utf-16-le" if wide else "latin-1")
+                off += take * width
+                if len(text) >= n:
+                    break
+                part, off = part + 1, 1
+                buf = parts[part]
+                wide = buf[0] & 1
+            off += runs * 4 + ext
+            while off > len(buf) and part + 1 < len(parts):
+                off -= len(buf)
+                part += 1
+                buf = parts[part]
+            strings.append(text)
+        break
+
+    # Cells of the sheet (each sheet starts with a BOF record, after the globals)
+    cells, sheet = {}, -1
+    for rtype, body in records:
+        if rtype == 0x0809:  # BOF
+            sheet += 1
+        elif sheet != sheet_number:
+            continue
+        elif rtype == 0x000A:  # EOF
+            break
+        elif rtype == 0x00FD:  # LABELSST: text
+            r, c, _, i = struct.unpack_from("<HHHI", body)
+            cells[(r, c)] = strings[i]
+        elif rtype == 0x0203:  # NUMBER
+            r, c, _, v = struct.unpack_from("<HHHd", body)
+            cells[(r, c)] = v
+        elif rtype == 0x027E:  # RK: one number
+            r, c, _, rk = struct.unpack_from("<HHHI", body)
+            cells[(r, c)] = rk_number(rk)
+        elif rtype == 0x00BD:  # MULRK: several numbers in a row
+            r, c = struct.unpack_from("<HH", body)
+            for k in range((len(body) - 6) // 6):
+                cells[(r, c + k)] = rk_number(struct.unpack_from("<I", body, 4 + k * 6 + 2)[0])
+        elif rtype == 0x0006 and body[12:14] != b"\xff\xff":  # FORMULA with a number result
+            r, c, _, v = struct.unpack_from("<HHHd", body)
+            cells[(r, c)] = v
+    if not cells:
+        return []
+    n_cols = max(c for _, c in cells) + 1
+    return [[cells.get((r, c)) for c in range(n_cols)] for r in range(max(r for r, _ in cells) + 1)]
+
+
+def canton_code(name: str) -> str | None:
+    """'Waadt', 'Vaud 2)', 'Bern / Berne' -> 'VD', 'VD', 'BE' (None if unknown)."""
+    by_name = {**{v: k for k, v in CANTONS.items()}, **CANTON_ALIASES}
+    for part in re.sub(r"\s*\d+\)", "", name).split("/"):  # footnote marks, "a / b"
+        code = by_name.get(part.strip())
+        if code:
+            return code
+    return None
+
+
 def to_number(value) -> float | None:
     """'28.84' -> 28.84; '*' (no candidates), '-> FDP' (merged), '' -> None."""
     try:
@@ -224,11 +429,17 @@ def load_councillors() -> list[dict]:
     councillors = []
     with CSV_PATH.open(encoding="utf-8", newline="") as f:
         for row in csv.DictReader(f):
+            canton = row["canton"].strip()
+            code = canton_code(canton)
+            if code is None:
+                sys.exit(f"Unknown canton '{canton}' for {row['full_name']}: add it to CANTON_ALIASES.")
             councillors.append({
                 "number": int(row["number"]),
                 "name": row["full_name"].strip(),
                 "gender": row["gender"].strip(),  # "female" | "male"
-                "canton": row["canton"].strip(),
+                "canton": canton,
+                "cantonCode": code,  # "VD"
+                "region": REGION_OF[code],  # Grossregion: "genfersee"
                 # A few historic entries list two parties on two lines
                 # (e.g. "SVP\nBDP" after a party split).
                 "party": " / ".join(p.strip() for p in row["party"].splitlines() if p.strip()),
@@ -314,6 +525,9 @@ def load_candidates() -> list[dict]:
                 sys.exit(f"{where}: birth_date must be YYYY-MM-DD or YYYY.")
             if not row["name"] or not row["party"]:
                 sys.exit(f"{where}: name and party are required.")
+            code = canton_code(row.get("canton", ""))
+            if code is None:
+                sys.exit(f"{where}: canton missing or unknown (e.g. Zürich, Waadt, Tessin).")
             candidates.append({
                 "id": len(candidates) + 1,
                 "name": row["name"],
@@ -322,7 +536,9 @@ def load_candidates() -> list[dict]:
                 "party": PARTY_TO_BFS.get(row["party"], row["party"]),
                 "language": languages[row["language"]],
                 "birthDate": birth,
-                "canton": row.get("canton", ""),
+                "canton": row["canton"],
+                "cantonCode": code,
+                "region": REGION_OF[code],
             })
     return candidates
 
@@ -403,6 +619,84 @@ def get_gender_and_age() -> tuple[dict, dict]:
         {**info, "years": gender},  # {"1860": {"female": …, "male": …}, …}
         {**info, "groups": AGE_GROUPS, "years": age},  # {"1860": {"20-39": …, …}, …}
     )
+
+
+# --- 2b. Grossregion (BFS: census .xls, then PxWeb) -----------------------------------
+
+def get_regions() -> dict:
+    """
+    Population of the seven Grossregionen: the censuses 1850-1970 (from the
+    table of all censuses 1850-2000), then every year from 1971 (permanent
+    resident population on 31 December). Both are read by canton and summed
+    per Grossregion, so every source uses the same definition of the regions.
+    """
+    by_year: dict[str, dict] = {}
+
+    def add(year: str, code: str, persons: float) -> None:
+        counts = by_year.setdefault(year, {region: 0 for region in GROSSREGIONEN})
+        counts[REGION_OF[code]] += int(persons)
+
+    # Censuses: a header row with the census years, then one row per canton
+    # (the canton name in the second column; the first column names regions)
+    content, census_info = bfs_table(REGION_CENSUS_TABLE)
+    rows = xls_rows(content)
+    header = next(r for r in rows if sum(isinstance(v, float) and 1840 < v < 2100 for v in r) >= 10)
+    years = {i: str(int(v)) for i, v in enumerate(header) if isinstance(v, float) and 1840 < v < REGION_PX_FROM}
+    seen = set()
+    for r in rows:
+        if len(r) < 2 or not isinstance(r[1], str):
+            continue
+        code = canton_code(r[1])
+        if code is None:
+            sys.exit(f"Census table: unknown canton '{r[1]}': add it to CANTON_ALIASES.")
+        seen.add(code)
+        for i, year in years.items():
+            add(year, code, r[i])
+    if seen != set(CANTONS):
+        sys.exit(f"Census table: cantons missing: {sorted(set(CANTONS) - seen)}")
+
+    # Every year since 1971: STAT-TAB, population at the end of the year
+    meta = http_json(REGION_PX_API_URL)
+    var = {v["code"]: v for v in meta["variables"]}
+
+    def pick(code: str, text_test) -> list:
+        v = var[code]
+        return [c for c, t in zip(v["values"], v["valueTexts"]) if text_test(t)]
+
+    year_var, canton_var, *other_vars = list(var)
+    selection = {year_var: var[year_var]["values"], canton_var: var[canton_var]["values"]}
+    for code in other_vars:
+        texts = var[code]["valueTexts"]
+        if any(t.startswith("Bestand am 31") for t in texts):
+            selection[code] = pick(code, lambda t: t.startswith("Bestand am 31"))
+        else:
+            selection[code] = pick(code, lambda t: RE_TOTAL.search(t.lower()))[:1]
+    body = {"query": [{"code": c, "selection": {"filter": "item", "values": v}} for c, v in selection.items()],
+            "response": {"format": "json"}}
+    res = http_json(REGION_PX_API_URL, body)
+    columns = [c["code"] for c in res["columns"]]
+    year_label = dict(zip(var[year_var]["values"], var[year_var]["valueTexts"]))
+    canton_label = dict(zip(var[canton_var]["values"], var[canton_var]["valueTexts"]))
+    for row in res["data"]:
+        code = canton_code(canton_label[row["key"][columns.index(canton_var)]])
+        value = row["values"][0]
+        if code is None or not value.replace(".", "").isdigit():  # Schweiz, Ohne Angabe
+            continue
+        add(year_label[row["key"][columns.index(year_var)]], code, float(value))
+
+    if not any(int(y) >= REGION_PX_FROM for y in by_year):
+        sys.exit("Could not read the population by canton from the BFS response.")
+    return {
+        **census_info,
+        "regions": list(GROSSREGIONEN),
+        "years": dict(sorted(by_year.items())),  # {"1850": {"genfersee": 345280, …}, …}
+        "annual": {  # the second source, for the list of sources
+            "source": "Bundesamt für Statistik (BFS)",
+            "table": REGION_PX_TABLE,
+            "tableTitle": meta.get("title", ""),
+            "url": REGION_PX_TABLE_URL,
+        },
+    }
 
 
 # --- 3. Language (BFS, Excel) ---------------------------------------------------
@@ -513,6 +807,8 @@ def main() -> None:
           f"other languages in detail: {len(language['other']['years'])} years")
     party = get_parties()
     print(f"Party: {len(party['elections'])} elections ({min(party['elections'])}-{max(party['elections'])})")
+    region = get_regions()
+    print(f"Grossregion: {len(region['years'])} years ({min(region['years'])}-{max(region['years'])})")
 
     output = {
         "generated": datetime.now(timezone.utc).isoformat(timespec="seconds"),
@@ -520,6 +816,7 @@ def main() -> None:
         "age": age,
         "language": language,
         "party": party,
+        "region": region,
         "councillors": councillors,
         "candidates": candidates,
     }

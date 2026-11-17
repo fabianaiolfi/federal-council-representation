@@ -1,6 +1,6 @@
 /**
- * comparisons.js — the four comparisons between the Federal Council and
- * the population: gender, party, language and age.
+ * comparisons.js — the five comparisons between the Federal Council and
+ * the population: gender, party, language, age and Grossregion.
  *
  * Each comparison describes
  *   - categories(members, day): its categories, in display order
@@ -50,7 +50,7 @@ export function partyOn(member, day) {
 // each bar, the order of the colours was checked for colour-blind separation.
 const COLOR = (name) => `var(--${name})`;
 
-// --- The four comparisons ----------------------------------------------------------
+// --- The five comparisons ----------------------------------------------------------
 
 export function buildComparisons(data) {
   // Parties always shown, from left to right; any other party with a seat
@@ -80,6 +80,19 @@ export function buildComparisons(data) {
   const electionOn = (day) => {
     const held = Object.keys(data.party.elections).filter((y) => `${y}-11-01` <= day);
     return held.length ? held[held.length - 1] : null;
+  };
+
+  // Grossregionen in the BFS order (west to east, then Ticino); colours in
+  // this order were checked for colour-blind separation.
+  const regions = data.region.regions;
+  const regionColors = {
+    genfersee: "blue",
+    mittelland: "orange",
+    nordwestschweiz: "aqua",
+    zuerich: "violet",
+    ostschweiz: "amber",
+    zentralschweiz: "green",
+    tessin: "magenta",
   };
 
   const ageGroups = data.age.groups;
@@ -190,6 +203,23 @@ export function buildComparisons(data) {
         const year = pickYear(data.age.years, Number(day.slice(0, 4)));
         const values = data.age.years[year];
         return { label: t("populationAdults", year, ageGroups[0].min), values, persons: values };
+      },
+    },
+    {
+      key: "region",
+      title: t("compareRegion"),
+      categories: () => regions,
+      label: (c) => t(`region_${c}`),
+      color: (c) => COLOR(regionColors[c]),
+      categoryOf: (m) => m.region,
+      choices: () => regions,
+      choiceLabel: (c) => t(`region_${c}`),
+      population(day) {
+        // Censuses until 1970 (about every ten years), then every year
+        const year = pickYear(data.region.years, Number(day.slice(0, 4)));
+        const values = data.region.years[year];
+        const label = year < 1971 ? t("populationCensus", year) : t("populationYear", year);
+        return { label, values, persons: values };
       },
     },
   ];

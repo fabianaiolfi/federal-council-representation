@@ -84,7 +84,7 @@ const strings = {
     infoExampleSum: (sum) => `Summe: ${sum}`,
     infoOverall:
       "Die Übereinstimmung insgesamt ist der Durchschnitt aus Geschlecht, Partei, " +
-      "Sprache und Alter. Weil der Bundesrat nur sieben Sitze hat, sind 100\u00a0% meist " +
+      "Sprache, Alter und Grossregion. Weil der Bundesrat nur sieben Sitze hat, sind 100\u00a0% meist " +
       "nicht erreichbar.",
     infoMethod:
       "In der Politikwissenschaft heisst dieses Mass Rose-Index: 100\u00a0% minus " +
@@ -100,16 +100,18 @@ const strings = {
     viewCurrent: "Ausgewählter Bundesrat",
     viewHistory: "Verlauf seit 1848",
     historyChartLabel:
-      "Stufendiagramm der Übereinstimmung insgesamt und nach Geschlecht, Partei, Sprache und Alter, für jeden Bundesrat seit 1848",
+      "Stufendiagramm der Übereinstimmung insgesamt und nach Geschlecht, Partei, Sprache, Alter und Grossregion, für jeden Bundesrat seit 1848",
     historyOverall: "Insgesamt",
     historyLegendLabel: "Linie hervorheben",
 
-    // The four comparisons
+    // The five comparisons
     compareGender: "Geschlecht",
     compareParty: "Partei",
     compareLanguage: "Sprache",
     compareAge: "Alter",
+    compareRegion: "Grossregion",
     populationYear: (year) => `Bevölkerung ${year}`,
+    populationCensus: (year) => `Volkszählung ${year}`,
     populationAdults: (year, minAge) => `Bevölkerung ab ${minAge} Jahren, ${year}`,
     partyElection: (year) => `Nationalratswahl ${year}`,
     // Party and language names are short (labels, cards); the long forms
@@ -137,6 +139,14 @@ const strings = {
     languageName_otherSingular: "Andere Sprache",
     languageFurther: "Weitere Sprachen",
     languageBreakdownNote: "Aufteilung gemäss Bevölkerung ab 15 Jahren",
+    // Grossregionen of the BFS
+    region_genfersee: "Genferseeregion",
+    region_mittelland: "Espace Mittelland",
+    region_nordwestschweiz: "Nordwestschweiz",
+    region_zuerich: "Zürich",
+    region_ostschweiz: "Ostschweiz",
+    region_zentralschweiz: "Zentralschweiz",
+    region_tessin: "Tessin",
     ageRange: (min, max) => `${min}–${max} Jahre`,
     ageFrom: (min) => `${min} Jahre und älter`,
     tooltipPersons: (n) => `${n} Personen`,

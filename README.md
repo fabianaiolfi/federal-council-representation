@@ -1,21 +1,23 @@
 # Descriptive Representation of the Swiss Federal Council
 
 A small web app that shows how closely the Swiss Federal Council (Bundesrat)
-mirrors the Swiss population. It compares four dimensions: **gender, party, language and age**.
+mirrors the Swiss population. It compares five dimensions: **gender, party, language, age and
+Grossregion** (the seven regions of the Federal Statistical Office).
 The interface is in Swiss High German.
 
 The main page has two parts:
 
 1. **The Council:** one panel with the seven members (portrait, name,
-   "party · language"; by seniority) and a timeline. Its title gives the
+   "party · canton"; by seniority) and a timeline. Its title gives the
    exact dates of the version shown ("Der Bundesrat vom 1. Januar 2023 bis
    31. Dezember 2023"; the panel keeps its height for every title). The
    ← → buttons, the slider or the ← → keys step through every version of
    the Council since 1848 (94 so far). The panel head stays at the top of
    the screen while you scroll through the whole page.
 
-   Names are short to keep the page calm: languages as ISO 639-1 codes
-   (DE, FR, IT, RM; "Andere" for other languages) and parties by their
+   Names are short to keep the page calm: cantons as ISO 3166-2 codes
+   without "CH-" (VD, TI, ZH, …), languages as ISO 639-1 codes (DE, FR,
+   IT, RM; "Andere" for other languages) and parties by their
    abbreviation ("M" for Die Mitte, "FDP" for FDP.Die Liberalen). Cards show
    the party as named at the time (e.g. "freis.", "CVP", "BDP"). The bar
    tooltips use the full names.
@@ -38,22 +40,22 @@ The main page has two parts:
      "People for the list" below). Their age is calculated for the version
      shown; only people who would have been 18 or older are offered.
    - **Bestmögliche Person:** the app tries every combination of gender,
-     party, language and age group for this seat (with the other members as
+     party, language, age group and Grossregion for this seat (with the other members as
      they are) and shows a profile with the highest overall score. If
      several profiles are equally good, clicking again shows the next one
      ("Variante 2 von 3"). Ages are the middle of the age group.
 
    The modes share one profile: after picking a person or a best profile,
    "Selbst zusammenstellen" shows it and lets you adjust it. Every change
-   updates the editor's live result (overall score and the four
+   updates the editor's live result (overall score and the five
    comparisons, with the difference to the real Council) and all bars on the
    page. If several members are leaving, each can be replaced; each
    replacement can be undone on its card ("Rückgängig"). Nothing is saved:
    reloading the page shows the real Councils.
 2. **The comparison:** how closely the Council matches the population by
-   **gender, party, language and age**. The overall score at the top
-   ("Übereinstimmung des Bundesrates mit der Bevölkerung") is the average
-   of the four; below it,
+   **gender, party, language, age and Grossregion**. The overall score at
+   the top ("Übereinstimmung des Bundesrates mit der Bevölkerung") is the
+   average of the five; below it,
    each comparison has its own score and two bars (Council vs population).
    Everything updates with every step in the panel above. "Was bedeutet
    das?" next to the overall score explains the measure, with a worked
@@ -61,14 +63,14 @@ The main page has two parts:
 
    A switch at the top changes between **"Ausgewählter Bundesrat"**
    (the view above) and **"Verlauf seit 1848"**: a step line chart of the
-   overall score and the four comparisons for every version of the Council
+   overall score and the five comparisons for every version of the Council
    (x: time, y: 0–100 %). Each step is one version; the selected one is
    shaded, with a dot on each line. Hovering shows all values of a version,
    clicking selects it (the whole page follows). The chart shows the real
    Councils, without replacements made in the editor. The party line
    starts in 1919.
 
-   By default the overall score is the strong black line and the four
+   By default the overall score is the strong black line and the five
    comparisons are thinner and lighter. One line can be emphasized ("focus
    + context": it keeps its colour and comes to the front, all others turn
    light gray): hover a legend entry to preview it, click (tap) it to keep
@@ -153,7 +155,7 @@ Vorname Nachname,female,GRÜNE,fr,1980-05-17,Genf
 | `party` | As in the BFS election statistics: `SP`, `Mitte`, `FDP`, `SVP`, `GRÜNE`, `GLP`, `EVP`, `EDU`, … (historic names like `CVP` or `BGB` are converted) |
 | `language` | `de`, `fr`, `it`, `rm` or `other` (or `Deutsch`, `Französisch`, …) |
 | `birth_date` | `YYYY-MM-DD`, or just `YYYY` if only the year is known (then 1 July is assumed) |
-| `canton` | Optional; kept for later (e.g. a comparison by region), not shown at the moment |
+| `canton` | Canton, as in the councillor list (`Zürich`, `Waadt`, `Tessin`, …): shown as its code (ZH, VD, TI) and used for the Grossregion |
 
 The script stops with a message pointing to the line if a value is missing
 or unknown. While the file has no rows, the page says "Noch keine Personen
@@ -289,6 +291,7 @@ first year (the bar label always shows the year used).
 | Party | `party` in the CSV, mapped to the BFS party names | Party strength (share of the vote) in the National Council election, table T 17.02.02.03.01 | 1919, every election |
 | Language | Main language (Wikidata, see below) | Main languages of the permanent resident population, table T 01.08.01.01 | 1910; censuses until 2000, yearly since 2010 |
 | Age | Age on the day the version took office; today's age for the Council in office (birth dates from Wikidata) | Permanent resident population aged 18+, same table as gender | 1860, yearly |
+| Grossregion | `canton` in the CSV → its Grossregion | Population by canton, summed per Grossregion: censuses from table su-t-vz15-ch-01 "Bevölkerungsentwicklung nach Grossregionen und Kantonen 1850-2000" until 1970, then the permanent resident population on 31 December, STAT-TAB `px-x-0102020000_101` | 1850; censuses until 1970, yearly since 1971 |
 
 Details and choices:
 
@@ -317,6 +320,18 @@ Details and choices:
 - **Age:** groups 18–39, 40–64 and 65+ (`AGE_GROUPS` in `build_data.py`);
   the population is compared from age 18, the voting age and the minimum
   age for the Federal Council since 1991.
+- **Grossregion:** the seven Grossregionen of the BFS
+  ([definition](https://www.bfs.admin.ch/asset/de/5933503)):
+  Genferseeregion (VD, VS, GE), Espace Mittelland (BE, FR, SO, NE, JU),
+  Nordwestschweiz (BS, BL, AG), Zürich (ZH), Ostschweiz (GL, SH, AR, AI,
+  SG, GR, TG), Zentralschweiz (LU, UR, SZ, OW, NW, ZG) and Tessin (TI);
+  `GROSSREGIONEN` in `build_data.py`. A councillor counts for the canton in
+  the CSV. The census table is an old Excel file (.xls), read by
+  `xls_rows()` in `build_data.py` with the standard library. Both sources
+  are read by canton and summed per region; until 1970 the bar label says
+  "Volkszählung", e.g. "Volkszählung 1920". The census (Wohnbevölkerung)
+  and the yearly statistics (ständige Wohnbevölkerung) count slightly
+  differently, so the figures step a little between 1970 and 1971.
 - **Colours:** all comparisons use one categorical palette (custom
   properties at the top of `style.css`). Parties are shown left to right in
   their usual colours where possible: SP red, Mitte amber, FDP blue, SVP
@@ -324,9 +339,12 @@ Details and choices:
   violet, BDP and any other party magenta; "Übrige Parteien" light grey.
   Languages: German blue, French orange, Italian aqua, Romansh amber, other
   languages light grey. Age is ordered, so it uses one hue (light to dark
-  blue). For every bar, the order of its colours was checked for colour-blind
-  separation. In the history chart, the overall score is a thick black line;
-  gender, party, language and age use blue, orange, aqua and amber.
+  blue). Grossregionen: Genferseeregion blue, Espace Mittelland orange,
+  Nordwestschweiz aqua, Zürich violet, Ostschweiz amber, Zentralschweiz
+  green, Tessin magenta. For every bar, the order of its colours was
+  checked for colour-blind separation. In the history chart, the overall
+  score is a thick black line; gender, party, language, age and Grossregion
+  use blue, orange, aqua, amber and dark blue.
 - **Hover on the Council bars:** lists the members in that part of the bar
   by last name; in the age comparison with their age on the day the version
   is measured, e.g. "Parmelin (66)".
@@ -351,7 +369,7 @@ site/                           the web app (static files; this folder is publis
   css/style.css                 all styling (design tokens at the top)
   js/app.js                     loads data, builds the page, browsing
   js/council.js                 versions of the Council
-  js/comparisons.js             the four comparisons (categories, BFS data)
+  js/comparisons.js             the five comparisons (categories, BFS data)
   js/chart.js                   step line chart for "Verlauf seit 1848" (SVG)
   js/metrics.js                 the score calculation (no DOM code)
   js/i18n.js                    all visible text + number/date formatting
@@ -437,13 +455,13 @@ banner and sends nothing. On beta, events also appear in the DebugView
 | `replace_open` / `replace_edit` | "Ersetzen" / "Bearbeiten" on a card | `councillor`, `council_start` |
 | `replace_mode` | one of the three modes chosen | `mode` (custom, list, best); for best also the profile |
 | `best_next` | next of several best profiles | `variant`, `variants`, profile |
-| `replace_field` | gender, party, language or age changed | `field`, `choice` (age: when the slider is let go) |
+| `replace_field` | gender, party, language, age or Grossregion changed | `field`, `choice` (age: when the slider is let go) |
 | `candidate_select` | a person picked from the list | `candidate`, `party` |
 | `replace_done` | editor closed ("Fertig" or Escape) | `method`, `councillor`, `council_start`, profile, `score_change` |
 | `replace_undo` | "Rückgängig" on a card | `councillor`, `council_start` |
 
 "Profile" means `mode`, `gender`, `party`, `language`, `age`, `age_group`,
-and `candidate` for a person from the list. `score_change` is the change in
+`region`, and `candidate` for a person from the list. `score_change` is the change in
 the overall score of the Council with all replacements, in percentage points,
 compared with the real Council. No parameter says anything about the visitor.
 
@@ -469,6 +487,11 @@ and `variants` create a custom metric instead.
   Grossregion und Kanton"
 - Party strength: BFS, table T 17.02.02.03.01 "Nationalratswahlen: Stärke
   der Parteien"
+- Grossregionen: BFS [definition](https://www.bfs.admin.ch/asset/de/5933503);
+  population by canton from table su-t-vz15-ch-01 "Bevölkerungsentwicklung
+  nach Grossregionen und Kantonen 1850-2000" and STAT-TAB table
+  [px-x-0102020000_101](https://www.pxweb.bfs.admin.ch/pxweb/de/px-x-0102020000_101/-/px-x-0102020000_101.px/)
+  "Demografische Bilanz nach Kanton"
 - Federal Council: `data/all_federal_councillors.csv`
 - Birth dates, languages and portraits of the councillors:
   [Wikidata](https://www.wikidata.org/) and
