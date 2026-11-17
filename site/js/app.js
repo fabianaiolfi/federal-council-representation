@@ -22,6 +22,7 @@ import { buildVersions } from "./council.js";
 import { buildComparisons, ageOn, partyOn } from "./comparisons.js";
 import { drawStepChart } from "./chart.js";
 import { setupAnalytics, track, trackOnce } from "./analytics.js";
+import { loadContent } from "./content.js";
 
 const state = {
   index: 0, // which version is shown (0 = 1848)
@@ -1339,6 +1340,7 @@ function showError(key, err) {
 async function main() {
   setupStaticText();
   setupAnalytics(); // consent banner; Google Analytics only after consent
+  loadContent(); // longer texts (Markdown), loaded alongside the data
 
   let data;
   try {

@@ -1,0 +1,3 @@
+Der Bundesrat vertritt die ganze Schweiz. Doch wie ähnlich ist er der Bevölkerung, die er vertritt? Diese Seite vergleicht die sieben Mitglieder des Bundesrates mit der Schweizer Bevölkerung – nach **Geschlecht, Partei, Sprache, Alter und Grossregion**, für jede Zusammensetzung seit 1848.
+
+100 % hiesse: Der Bundesrat ist genau so zusammengesetzt wie die Bevölkerung. Blättern Sie durch die Geschichte des Bundesrates oder ersetzen Sie ein Mitglied, das seinen Rücktritt angekündigt hat, und sehen Sie, wie sich die Übereinstimmung verändert. Die Zahlen zur Bevölkerung stammen vom Bundesamt für Statistik ([Quellen](quellen.html)).

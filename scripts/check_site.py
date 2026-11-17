@@ -9,8 +9,9 @@ and handy locally before a commit):
    the councillors and the people list match data/all_federal_councillors.csv,
    data/wikidata.json and data/candidates.csv. (The BFS figures are not
    re-downloaded; they only change when you run build_data.py.)
-2. Every file the page refers to exists: scripts, styles, fonts and the
-   portrait of every councillor.
+2. Every file the page refers to exists: scripts, styles, fonts, the
+   portrait of every councillor, and every text (data-content="intro" ->
+   site/content/<language>/intro.md, in every language folder).
 3. Every JavaScript file is free of syntax errors (needs Node.js).
 
 Exits with an error message if anything is wrong. Only the Python standard
@@ -60,6 +61,12 @@ def check_references() -> None:
                  if not r.startswith("data:")]
     for js in SITE.glob("js/*.js"):
         refs += [(js, r) for r in re.findall(r'from\s+"(\.[^"]+)"', js.read_text(encoding="utf-8"))]
+    # Texts in Markdown: one file per name and language
+    languages = [d.name for d in (SITE / "content").iterdir() if d.is_dir()] if (SITE / "content").is_dir() else []
+    for html in SITE.glob("*.html"):
+        for name in re.findall(r'data-content="([^"]+)"', html.read_text(encoding="utf-8")):
+            for language in languages or ["de"]:
+                refs.append((html, f"content/{language}/{name}.md"))
     for source, ref in refs:
         target = (source.parent / ref).resolve()
         if target.is_dir():
