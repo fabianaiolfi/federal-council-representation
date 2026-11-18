@@ -469,15 +469,18 @@ function setupTooltip() {
 
 /**
  * Title of the navigator: the exact dates the version was in office,
- * "1. Apr. 2025 – heute", "1. Jan. 2023 – 31. Dez. 2023".
+ * "1. Apr. 2025 – heute", "1. Nov. 2017 – 31. Dez. 2018"; within one year
+ * the year is given once: "1. Jan. – 12. Feb. 1920".
  */
 function councilDates(v) {
   const c = v.version;
   // A date never breaks across lines (non-breaking spaces)
-  const date = (iso) => fmt.dateShort(iso).replaceAll(" ", "\u00a0");
+  const nbsp = (text) => text.replaceAll(" ", "\u00a0");
+  const date = (iso) => nbsp(fmt.dateShort(iso));
   if (v.isCurrent) return t("councilPeriodCurrent", date(c.start));
   if (c.start === c.end) return date(c.start);
-  return t("councilPeriod", date(c.start), date(c.end));
+  const sameYear = c.start.slice(0, 4) === c.end.slice(0, 4);
+  return t("councilPeriod", sameYear ? nbsp(fmt.dayMonthShort(c.start)) : date(c.start), date(c.end));
 }
 
 function updateNavigator(v) {

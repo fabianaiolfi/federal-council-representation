@@ -268,6 +268,12 @@ export const fmt = {
       month: "short",
       year: "numeric",
     }).format(new Date(`${iso.slice(0, 10)}T12:00:00`)),
+  /** "2026-10-27" -> "27. Okt." (the first date of a range within one year) */
+  dayMonthShort: (iso) =>
+    new Intl.DateTimeFormat(lang, {
+      day: "numeric",
+      month: "short",
+    }).format(new Date(`${iso.slice(0, 10)}T12:00:00`)),
   /** "2026-10-27" -> "Oktober" */
   month: (iso) =>
     new Intl.DateTimeFormat(lang, { month: "long" }).format(
