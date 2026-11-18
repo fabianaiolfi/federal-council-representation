@@ -35,10 +35,11 @@ const strings = {
         : `${startMonth} – ${endMonth} ${year}`,
 
     // Federal Council
-    // Title of the panel: the exact dates the version was in office
-    councilPeriodCurrent: (from) => `Der Bundesrat vom ${from} bis heute`,
-    councilPeriod: (from, to) => `Der Bundesrat vom ${from} bis ${to}`,
-    councilOneDay: (date) => `Der Bundesrat am ${date}`,
+    // Title of the navigator: the exact dates the version was in office.
+    // The non-breaking space keeps the dash with the first date, so a
+    // second line starts with the second date.
+    councilPeriodCurrent: (from) => `${from}\u00a0– heute`,
+    councilPeriod: (from, to) => `${from}\u00a0– ${to}`,
     // Replacing a member
     replaceButton: "Ersetzen",
     editButton: "Bearbeiten",
@@ -104,9 +105,6 @@ const strings = {
       `Bundesrat ${period} mit Ihren Änderungen`,
 
     // Views: the selected Council, or the history chart
-    viewSwitchLabel: "Ansicht",
-    viewCurrent: "Ausgewählter Bundesrat",
-    viewHistory: "Verlauf seit 1848",
     historyChartLabel:
       "Stufendiagramm der Übereinstimmung insgesamt und nach Geschlecht, Partei, Sprache, Alter und Grossregion, für jeden Bundesrat seit 1848",
     historyOverall: "Insgesamt",
@@ -261,6 +259,13 @@ export const fmt = {
     new Intl.DateTimeFormat(lang, {
       day: "numeric",
       month: "long",
+      year: "numeric",
+    }).format(new Date(`${iso.slice(0, 10)}T12:00:00`)),
+  /** "2026-10-27" -> "27. Okt. 2026" (standard abbreviations: "März", "Sept.") */
+  dateShort: (iso) =>
+    new Intl.DateTimeFormat(lang, {
+      day: "numeric",
+      month: "short",
       year: "numeric",
     }).format(new Date(`${iso.slice(0, 10)}T12:00:00`)),
   /** "2026-10-27" -> "Oktober" */

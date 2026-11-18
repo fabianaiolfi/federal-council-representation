@@ -198,10 +198,6 @@ h1 {
 }
 
 /* Sections ------------------------------------------------------------------------- */
-.block {
-  margin-top: clamp(3rem, 8vw, 4.5rem);
-}
-
 h2 {
   font-size: clamp(1.5rem, 4vw, 2rem);
   line-height: 1.2;
@@ -266,11 +262,10 @@ h2 {
   padding: clamp(1rem, 3vw, 1.5rem);
 }
 
-/* Federal Council panel: navigation head + the 7 seats, one element ------------- */
+/* Federal Council: the 7 seats ------------------------------------------------------ */
 .council-panel {
-  border-top: none; /* the panel head above draws the top edge */
-  /* "clip" (unlike "hidden") keeps the sticky head working */
-  overflow: clip;
+  margin-top: 1rem;
+  overflow: hidden;
 }
 
 .council {
@@ -364,34 +359,27 @@ h2 {
   border: 1px solid var(--ink);
 }
 
+/* One row: ‹ dates (and the score, once it is out of view) › */
 .panel-top {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  grid-template-areas:
-    "period buttons"
-    ".      score";
-  align-items: start;
-  gap: 0 0.75rem;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.75rem;
 }
 
-/* Phones: the title (two dates) gets the full width, the buttons go below */
-@media (max-width: 36rem) {
-  .panel-top {
-    grid-template-areas:
-      "period  period"
-      "buttons score";
-    row-gap: 0.75rem;
-  }
+.panel-middle {
+  display: flex;
+  flex-wrap: wrap; /* narrow screens: the score goes below the dates */
+  justify-content: center;
+  align-items: center;
+  gap: 0.25rem 1.5rem;
+  text-align: center;
 }
 
-/* The title always takes the space of its longest form (2 lines; 3 on
-   phones), so the panel keeps its height while stepping through the
-   versions. On wide screens its first line is centred on the buttons. */
+/* The dates. On phones the font is smaller and the title always takes two
+   lines, so the navigator keeps its height while stepping through the
+   versions. */
 .panel-period {
-  grid-area: period;
-  box-sizing: content-box; /* min-height = the lines only, without padding */
-  min-height: calc(2 * 1.2em);
-  padding-top: calc((2.75rem - 1.2em) / 2);
   text-wrap: balance;
   font-weight: 700;
   font-size: clamp(1.25rem, 3.5vw, 1.5rem);
@@ -402,22 +390,11 @@ h2 {
 
 @media (max-width: 36rem) {
   .panel-period {
-    min-height: calc(3 * 1.2em);
-    padding-top: 0;
-  }
-}
-
-.nav-buttons {
-  grid-area: buttons;
-  justify-self: end; /* the labelled score below can be wider */
-  display: flex;
-  gap: 0.375rem;
-}
-
-/* Phones: the buttons start their row (the score is on the right) */
-@media (max-width: 36rem) {
-  .nav-buttons {
-    justify-self: start;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: calc(2 * 1.2em);
+    font-size: 1.125rem;
   }
 }
 
@@ -528,14 +505,14 @@ h2 {
   transform: none;
 }
 
-/* Score in the head (below the buttons; on phones next to them): only
-   shown while the big number is off screen */
+/* "73 % Übereinstimmung" next to the dates, like them in size and weight:
+   only shown while the big score is off screen */
 .nav-score {
-  grid-area: score;
-  justify-self: end;
   display: none;
   font-weight: 700;
-  font-size: 1.25rem;
+  font-size: clamp(1.25rem, 3.5vw, 1.5rem);
+  line-height: 1.2;
+  letter-spacing: -0.01em;
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
 }
@@ -544,11 +521,20 @@ h2 {
   display: block;
 }
 
-.nav-score-label {
-  margin-right: 0.375rem;
-  font-size: 0.8125rem;
-  font-weight: 500;
-  color: var(--ink-3);
+/* Where dates and score don't always fit side by side (the longest
+   dates, "16. Aug. 1895 – 11. März 1897", need about 900 px), the score
+   always gets its own line, so the navigator doesn't change height
+   between versions. */
+@media (max-width: 57rem) {
+  .nav-score {
+    flex-basis: 100%;
+  }
+}
+
+@media (max-width: 36rem) {
+  .nav-score {
+    font-size: 1.125rem;
+  }
 }
 
 /* Replacing a member --------------------------------------------------------------------- */
@@ -662,35 +648,20 @@ h2 {
   color: #fff;
 }
 
-/* Narrow screens: the three modes stacked (the two views stay side by side) */
+/* Narrow screens: the three modes stacked */
 @media (max-width: 36rem) {
-  .modes:not(.view-switch) {
+  .modes {
     flex-direction: column;
   }
 
-  .modes:not(.view-switch) .mode-button {
+  .modes .mode-button {
     border-right: 0;
     border-bottom: 1px solid var(--ink);
   }
 
-  .modes:not(.view-switch) .mode-button:last-child {
+  .modes .mode-button:last-child {
     border-bottom: 0;
   }
-}
-
-/* Switch between "Ausgewählter Bundesrat" and "Verlauf seit 1848" */
-/* The comparison section starts with the view switch (no title), at the
-   same distance as the boxes below it */
-.compare {
-  margin-top: 1rem;
-}
-
-.view-switch {
-  margin: 0;
-}
-
-.view-switch .mode-button {
-  flex: 1 1 0;
 }
 
 /* History view ------------------------------------------------------------------------ */

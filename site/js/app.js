@@ -33,7 +33,6 @@ const state = {
   //   data/candidates.csv) or "best" (a profile that maximises the score)
   replacements: {},
   editing: null, // number of the member whose replacement is being edited
-  view: "current", // comparison view: "current" (selected Council) or "history"
   historyFocus: null, // line pinned in the history chart ("overall", "gender", …)
 };
 let base; // set in main()
@@ -469,16 +468,15 @@ function setupTooltip() {
 // Update: runs on start and whenever `state` changes ---------------------------------
 
 /**
- * Title of the panel: the exact dates the version was in office,
- * "Der Bundesrat vom 1. April 2025 bis heute",
- * "Der Bundesrat vom 1. Januar 2023 bis 31. Dezember 2023".
+ * Title of the navigator: the exact dates the version was in office,
+ * "1. Apr. 2025 – heute", "1. Jan. 2023 – 31. Dez. 2023".
  */
 function councilDates(v) {
   const c = v.version;
   // A date never breaks across lines (non-breaking spaces)
-  const date = (iso) => fmt.date(iso).replaceAll(" ", "\u00a0");
+  const date = (iso) => fmt.dateShort(iso).replaceAll(" ", "\u00a0");
   if (v.isCurrent) return t("councilPeriodCurrent", date(c.start));
-  if (c.start === c.end) return t("councilOneDay", date(c.start));
+  if (c.start === c.end) return date(c.start);
   return t("councilPeriod", date(c.start), date(c.end));
 }
 
@@ -670,12 +668,13 @@ function updateLegend(list, cmp, categories) {
 /**
  * Animate numbers from their current value to a new one (0..1). Each
  * counter keeps its own state, so several numbers can move at once.
+ * `digits`: decimals shown ("73 %" with 0, "78.3 %" with 1).
  */
-function counter(...nodes) {
+function counter(nodes, digits = 1) {
   let shown = null; // the value currently displayed (mid-animation too)
   let frame = 0;
   const paint = (value) => {
-    for (const n of nodes) n.textContent = value === null ? "–" : fmt.pct(value);
+    for (const n of nodes) n.textContent = value === null ? "–" : fmt.pct(value, digits);
   };
   return (to) => {
     cancelAnimationFrame(frame);
@@ -704,7 +703,8 @@ const counters = {}; // created on first use: "overall", "gender", …
 
 function updateComparisons(v) {
   // Overall score
-  counters.overall ??= counter($("score-value"), $("nav-score"));
+  // The big overall score in whole percent (also in the navigator)
+  counters.overall ??= counter([$("score-value"), $("nav-score")], 0);
   counters.overall(v.overall);
   const included = v.results.filter((r) => r.available).map((r) =>
     base.comparisons.find((c) => c.key === r.key).title
@@ -738,7 +738,7 @@ function updateComparisons(v) {
   for (const [k, r] of v.results.entries()) {
     const cmp = base.comparisons[k];
     const section = document.querySelector(`.comparison[data-key="${cmp.key}"]`);
-    counters[cmp.key] ??= counter(section.querySelector(".comparison-score"));
+    counters[cmp.key] ??= counter([section.querySelector(".comparison-score")]);
     counters[cmp.key](r.available ? r.score : null);
     section.querySelector(".comparison-note").textContent = r.available ? "" : cmp.noData();
     section.classList.toggle("is-unavailable", !r.available);
@@ -771,7 +771,7 @@ function updateComparisons(v) {
   }
 
   // Screen readers: announce the final result once (not every animation frame)
-  $("score-status").textContent = `${t("scoreTitle")}: ${v.overall === null ? "–" : fmt.pct(v.overall)}`;
+  $("score-status").textContent = `${t("scoreTitle")}: ${v.overall === null ? "–" : fmt.pct(v.overall, 0)}`;
 }
 
 // History: all scores over time --------------------------------------------------
@@ -779,24 +779,6 @@ function updateComparisons(v) {
 let history; // periods and series for the chart, built once in setupHistory()
 let historyChart; // the drawn chart: historyChart.highlight(key)
 let historyPreview = null; // line under the mouse in the legend
-
-/** The two views of the comparison section: selected Council, or history. */
-function setupViews() {
-  const group = $("view-switch");
-  group.setAttribute("aria-label", t("viewSwitchLabel"));
-  for (const button of group.querySelectorAll("button")) {
-    button.addEventListener("click", () => {
-      state.view = button.dataset.view;
-      for (const b of group.querySelectorAll("button")) {
-        b.setAttribute("aria-pressed", String(b === button));
-      }
-      $("view-current").hidden = state.view !== "current";
-      $("view-history").hidden = state.view !== "history";
-      renderHistory();
-      track("switch_view", { view: state.view });
-    });
-  }
-}
 
 /**
  * Build the data of the history chart (the real Councils, without the
@@ -871,9 +853,9 @@ function setupHistory() {
   }).observe($("history-chart"));
 }
 
-/** Draw the history chart (only while it is visible). */
+/** Draw the history chart (redrawn on every update; it is small). */
 function renderHistory() {
-  if (state.view !== "history" || !history) return;
+  if (!history) return;
   historyChart = drawStepChart($("history-chart"), {
     ...history,
     selected: state.index,
@@ -1355,7 +1337,6 @@ async function main() {
     state.index = base.currentIndex >= 0 ? base.currentIndex : base.versions.length - 1;
     setupNavigator();
     setupComparisons();
-    setupViews();
     setupHistory();
     setupInfo();
     setupReplacements();

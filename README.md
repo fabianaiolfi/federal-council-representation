@@ -5,15 +5,20 @@ mirrors the Swiss population. It compares five dimensions: **gender, party, lang
 Grossregion** (the seven regions of the Federal Statistical Office).
 The interface is in Swiss High German.
 
-The main page has two parts:
+The main page shows, from top to bottom: the navigator, the overall score,
+the seven members, one box per comparison and the history chart.
 
-1. **The Council:** one panel with the seven members (portrait, name,
-   "party · canton"; by seniority) and a timeline. Its title gives the
-   exact dates of the version shown ("Der Bundesrat vom 1. Januar 2023 bis
-   31. Dezember 2023"; the panel keeps its height for every title). The
-   ← → buttons, the slider or the ← → keys step through every version of
-   the Council since 1848 (94 so far). The panel head stays at the top of
-   the screen while you scroll through the whole page.
+1. **The Council:** the **navigator** gives the exact dates of the version
+   shown ("1. Nov. 2017 – 31. Dez. 2018", standard German month
+   abbreviations). The ← → buttons, the slider or the ← → keys step
+   through every version of the Council since 1848 (94 so far). The
+   navigator stays at the top of the screen while you scroll through the
+   whole page; once the big score is out of view, it shows the score next
+   to the dates ("73 % Übereinstimmung"). It keeps one height for every
+   version (on phones the dates always take two lines, and below about
+   900 px the score always gets its own line). Below the overall score,
+   one box shows the seven members (portrait, name, "party · canton"; by
+   seniority).
 
    Names are short to keep the page calm: cantons as ISO 3166-2 codes
    without "CH-" (VD, TI, ZH, …), languages as ISO 639-1 codes (DE, FR,
@@ -53,16 +58,16 @@ The main page has two parts:
    replacement can be undone on its card ("Rückgängig"). Nothing is saved:
    reloading the page shows the real Councils.
 2. **The comparison:** how closely the Council matches the population by
-   **gender, party, language, age and Grossregion**. The overall score at
-   the top ("Übereinstimmung des Bundesrates mit der Bevölkerung") is the
-   average of the five; below it,
-   each comparison has its own score and two bars (Council vs population).
-   Everything updates with every step in the panel above. "Was bedeutet
+   **gender, party, language, age and Grossregion**. The overall score
+   ("Übereinstimmung des Bundesrates mit der Bevölkerung", directly below
+   the navigator) is the average of the five, shown in whole percent; each
+   comparison has its own box with its score (one decimal) and two bars
+   (Council vs population). Everything updates with every step in the
+   navigator. "Was bedeutet
    das?" next to the overall score explains the measure, with a worked
    example for the Council shown.
 
-   A switch at the top changes between **"Ausgewählter Bundesrat"**
-   (the view above) and **"Verlauf seit 1848"**: a step line chart of the
+   At the bottom, the **history chart** is a step line chart of the
    overall score and the five comparisons for every version of the Council
    (x: time, y: 0–100 %). Each step is one version; the selected one is
    shaded, with a dot on each line. Hovering shows all values of a version,
@@ -483,8 +488,7 @@ banner and sends nothing. On beta, events also appear in the DebugView
 | Event | When | Parameters |
 |---|---|---|
 | `select_council` | another Council is shown | `method` (button, slider, key, chart), `council_start` |
-| `switch_view` | "Ausgewählter Bundesrat" / "Verlauf" | `view` (current, history) |
-| `history_focus` | a line pinned / unpinned in the legend of "Verlauf" | `series` (overall, gender, party, language, age), `action` (pin, unpin) |
+| `history_focus` | a line pinned / unpinned in the legend of the history chart | `series` (overall, gender, party, language, age, region), `action` (pin, unpin) |
 | `open_info` | "Was bedeutet das?" opened | `method` (click; hover once per visit) |
 | `replace_open` / `replace_edit` | "Ersetzen" / "Bearbeiten" on a card | `councillor`, `council_start` |
 | `replace_mode` | one of the three modes chosen | `mode` (custom, list, best); for best also the profile |
