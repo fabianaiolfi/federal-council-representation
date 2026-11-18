@@ -30,7 +30,9 @@ const strings = {
     periodCurrent: (startYear) => `${startYear} – heute`,
     periodYears: (startYear, endYear) => `${startYear} – ${endYear}`,
     periodMonths: (startMonth, endMonth, year) =>
-      startMonth === endMonth ? `${startMonth} ${year}` : `${startMonth} – ${endMonth} ${year}`,
+      startMonth === endMonth
+        ? `${startMonth} ${year}`
+        : `${startMonth} – ${endMonth} ${year}`,
 
     // Federal Council
     // Title of the panel: the exact dates the version was in office
@@ -58,10 +60,14 @@ const strings = {
     mode_list: "Aus Liste wählen",
     mode_best: "Bestmögliche Person",
     listEmpty: "Noch keine Personen hinterlegt.",
-    listNoneEligible: "Niemand auf der Liste war zu dieser Zeit mindestens 18 Jahre alt.",
-    bestIntro: "Eine Person, welche die Übereinstimmung insgesamt so stark wie möglich erhöht.",
+    listNoneEligible:
+      "Niemand auf der Liste war zu dieser Zeit mindestens 18 Jahre alt.",
+    bestIntro:
+      "Eine Person, welche die Übereinstimmung insgesamt so stark wie möglich erhöht.",
     bestVariant: (k, n) =>
-      n === 1 ? "Die einzige bestmögliche Person für diesen Sitz" : `Variante ${k} von ${n}`,
+      n === 1
+        ? "Die einzige bestmögliche Person für diesen Sitz"
+        : `Variante ${k} von ${n}`,
     bestNext: "Nächste Variante",
     councilWarning:
       "Hinweis: Für heute ist kein vollständiger Bundesrat erfasst. Die Daten sind möglicherweise nicht aktuell.",
@@ -78,7 +84,8 @@ const strings = {
       "zusammengesetzt ist. Für jede Gruppe wird der kleinere der beiden Anteile " +
       "genommen – jener im Bundesrat oder jener in der Bevölkerung – und diese " +
       "Werte werden zusammengezählt. 100\u00a0% heisst: gleiche Zusammensetzung.",
-    infoExampleTitle: (council, population) => `Beispiel Geschlecht – ${council}, ${population}:`,
+    infoExampleTitle: (council, population) =>
+      `Beispiel Geschlecht – ${council}, ${population}:`,
     infoExampleRow: (group, council, population, smaller) =>
       `${group}: ${council} im Bundesrat, ${population} in der Bevölkerung → ${smaller}`,
     infoExampleSum: (sum) => `Summe: ${sum}`,
@@ -93,7 +100,8 @@ const strings = {
       `Durchschnitt aus ${names.length > 1 ? `${names.slice(0, -1).join(", ")} und ${names.at(-1)}` : names[0]}`,
     scoreCaption: "100 % = gleiche Zusammensetzung wie die Bevölkerung",
     compareCouncil: (period) => `Bundesrat ${period}`,
-    compareCouncilModified: (period) => `Bundesrat ${period} mit Ihren Änderungen`,
+    compareCouncilModified: (period) =>
+      `Bundesrat ${period} mit Ihren Änderungen`,
 
     // Views: the selected Council, or the history chart
     viewSwitchLabel: "Ansicht",
@@ -112,7 +120,8 @@ const strings = {
     compareRegion: "Grossregion",
     populationYear: (year) => `Bevölkerung ${year}`,
     populationCensus: (year) => `Volkszählung ${year}`,
-    populationAdults: (year, minAge) => `Bevölkerung ab ${minAge} Jahren, ${year}`,
+    populationAdults: (year, minAge) =>
+      `Bevölkerung ab ${minAge} Jahren, ${year}`,
     partyElection: (year) => `Nationalratswahl ${year}`,
     // Party and language names are short (labels, cards); the long forms
     // are used in the bar tooltips and for screen readers.
@@ -121,9 +130,11 @@ const strings = {
     partyOther: "Übrige",
     partyOtherLong: "Übrige Parteien",
     // Party names as written in the list of councillors, shortened
-    partyName: (name) => ({ "Die Mitte": "M", "FDP.Die Liberalen": "FDP" })[name] ?? name,
+    partyName: (name) =>
+      ({ "Die Mitte": "M", "FDP.Die Liberalen": "FDP" })[name] ?? name,
     partyFurther: "Weitere",
-    noDataParty: (year) => `Keine Daten: Die Parteistärken der BFS beginnen mit der Nationalratswahl ${year}.`,
+    noDataParty: (year) =>
+      `Keine Daten: Die Parteistärken des BFS beginnen mit der Nationalratswahl ${year}.`,
     // ISO 639-1 codes ("other" has none)
     language_de: "DE",
     language_fr: "FR",
@@ -162,13 +173,15 @@ const strings = {
     sourcesPageTitle: "Quellen – Bundesrat und Bevölkerung",
     sourcesTitle: "Quellen",
     sourcesData: "Daten",
-    sourceBfs: (title, table) => `Bundesamt für Statistik (BFS): ${title} (${table})`,
+    sourceBfs: (title, table) =>
+      `Bundesamt für Statistik (BFS): ${title} (${table})`,
     sourceCouncil:
       "Bundesrat: eigene Zusammenstellung (all_federal_councillors.csv); Geburtsdaten und Sprachen: Wikidata",
     sourcePortraits: "Porträts: Wikimedia Commons (Bildnachweise unten)",
     dataGenerated: (date) => `Daten aufbereitet am ${date}`,
     creditsTitle: "Bildnachweise",
-    creditsIntro: "Urheber und Lizenz jedes Porträts. Ein Klick auf den Namen öffnet die Bildseite auf Wikimedia Commons.",
+    creditsIntro:
+      "Urheber und Lizenz jedes Porträts. Ein Klick auf den Namen öffnet die Bildseite auf Wikimedia Commons.",
     creditAuthorUnknown: "Urheber unbekannt",
 
     // Consent banner (analytics.js)
@@ -245,10 +258,14 @@ export const fmt = {
   pct: (share, digits = 1) => `${fmt.dec(share * 100, digits)} %`,
   /** "2026-10-27" -> "27. Oktober 2026" */
   date: (iso) =>
-    new Intl.DateTimeFormat(lang, { day: "numeric", month: "long", year: "numeric" }).format(
-      new Date(`${iso.slice(0, 10)}T12:00:00`)
-    ),
+    new Intl.DateTimeFormat(lang, {
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+    }).format(new Date(`${iso.slice(0, 10)}T12:00:00`)),
   /** "2026-10-27" -> "Oktober" */
   month: (iso) =>
-    new Intl.DateTimeFormat(lang, { month: "long" }).format(new Date(`${iso.slice(0, 10)}T12:00:00`)),
+    new Intl.DateTimeFormat(lang, { month: "long" }).format(
+      new Date(`${iso.slice(0, 10)}T12:00:00`),
+    ),
 };
