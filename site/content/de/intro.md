@@ -1,11 +1,10 @@
 # Wie gut bildet der Bundesrat die Bevölkerung ab?
 
-Wie gut bildet die Zusammensetzung des Schweizer Bundesrats die Vielfalt der in der Schweiz lebendend Bevölkerung ab? Diese Seite misst die [deskriptive Repräsentation](https://en.wikipedia.org/wiki/Political_representation#Descriptive_representation) des Bundesrats. Es vergleicht die sieben Mitglieder der Landesregierung mit der Schweizer Bevölkerung nach Geschlecht, Partei, Sprache, Alter und Grossregion, für jede Zusammensetzung seit 1848.
+Wie gut bildet die Zusammensetzung des Schweizer Bundesrats die Vielfalt der in der Schweiz lebendend Bevölkerung ab? Diese Seite misst die «[deskriptive Repräsentation](https://en.wikipedia.org/wiki/Political_representation#Descriptive_representation)» des Bundesrats im Vergleich zur Bevölkerung.
+
+Jedes politische Gremium sollte eine möglichst hohe deskriptive Repräsentation anstreben, um das Gremium demokratisch zu legitimieren. Diese Seite vergleicht die sieben Mitglieder der Landesregierung mit der Bevölkerung in Bezug auf Geschlecht, Partei, Sprache, Alter und Herkunft nach Schweizer Grossregion. Der Vergleich wird in Prozent ausgedrückt und ist für jede Zusammensetzung des Bundesrats seit 1848 möglich. Zudem können zurücktretende Bundesrät:innen mit möglichen Kandidat:innen ersetzt werden. Dabei wird ersichtlich, ob ein:e Kandidat:in die deskriptive Repräsentation verbessert oder verschlechtert.
 
 [Mehr lesen](#)
-
-## Deskriptive Repräsentation
-Eine möglichst hohe deskriptive Repräsentation ist in jedem politischen Gremium erstrebenswert, damit das Gremium demokratisch legitimiert ist. Diese Seite soll dazu dienen, die deskriptive Repräsentation des Bundesrats objektiv zu messen, damit untersucht werden kann, ob ein:e Bundesratskandidat:in die deskriptive Repräsentation der Landesregierung erhöhrt oder senkt und somit geeignet ist oder nicht. Weiter zeigt diese Seite auch den historischen Verlauf dieser Repräsentation auf, um der Repräsentation mehr Kontext zu verleihen.
 
 ## Methode
 Der Vergleich zwischen Bundesrate und Bevölkerung lässt sich mit dem _Rose Index_ messen. Dieser Index basiert auf dem [_Loosemore–Hanby index_
@@ -23,9 +22,9 @@ Ein Beispiel: Heute ist der Frauenanteil im Bundesrat mit zwei Sitzen bei 28.6 %
 Rose Index = 100 - (0.5 × (|28.6 - 50.3| + |71.4 - 49.7|) ) = 78.3 %
 ```
 
-Der _Rose Index_ wird in Prozent ausgedrückt. Wenn der Bundesrat die genau gleiche Zusammensetzung hat wie die Bevölkerung, gäbe das eine Übereinstimmung von 100 %. Weil der Bundesrat aber nur sieben Sitze hat, sind 100 % fast nie erreichbar.
+Wenn der Bundesrat die genau gleiche Zusammensetzung wie die Bevölkerung hat, gäbe das eine Übereinstimmung von 100 %. Weil der Bundesrat aber nur sieben Sitze hat, sind 100 % fast nie erreichbar.
 
-## Wahl der Kategorien
-Auf dieser Seite werden Übereinstimmungen bezüglich Geschlecht, Partei, Sprache, Alter und Grossregion berechnet. Die Wahl der Kategorien «Sprache» und «Grossregion» basiert auf dem Wortlaut der Schweizer Bundesverfassung, dass «[die Landesgegenden und Sprachregionen angemessen vertreten sind](https://www.fedlex.admin.ch/eli/cc/1999/404/de#art_175)». Die weiteren Kategorien «Geschlecht», «Partei» und «Alter» wurden gewählt, weil diese offensichtlich sind in ihrer Vermittlung und das Bundesamt für Statistik (BFS) die Datengrundlage dafür bietet (siehe [Quellen](quellen.html)). Diese Liste an Kategorien ist nicht abschliessend und kann beliebig ergänzt werden, z.B. mit religiöser Zugehörigkeit, sexuelle Orientierung oder Ausbildung und Beruf.
+## Vergleichskategorien
+Auf dieser Seite wird der Bundesrat bezüglich Geschlecht, Partei, Sprache, Alter und Grossregion mit der Bevölkerung verglichen. Die Wahl der Kategorien «Sprache» und «Grossregion» basiert auf der Schweizer Bundesverfassung, wobei Mitglieder der Landesregierung «[die Landesgegenden und Sprachregionen angemessen vertreten](https://www.fedlex.admin.ch/eli/cc/1999/404/de#art_175)» sollen. Die weiteren Kategorien «Geschlecht», «Partei» und «Alter» wurden gewählt, weil diese offensichtlich sind in ihrer Vermittlung und das Bundesamt für Statistik (BFS) die Datengrundlage dafür bietet (siehe [Quellen](quellen.html)). Diese Liste an Kategorien ist nicht abschliessend und kann beliebig ergänzt werden, z.B. mit religiöser Zugehörigkeit, sexuelle Orientierung oder Ausbildung und Beruf.
 
-Die totale Übereinstimmung ist der Durchschnitt aller einzelnen _Rose Index_-Werte.
+Die totale Übereinstimmung ist der Durchschnitt der einzelnen Kategorie-Werte.
