@@ -1,21 +1,33 @@
 ## Deskriptive Repräesentation
-# Die Zusammensetzung des Bundesrats im Vergleich zur Bevölkerung
+# Wie gut bildet der Bundesrat die Bevölkerung ab?
 
-Der Bundesrat vertritt die ganze Schweiz. Doch wie ähnlich ist er der Bevölkerung, die er vertritt? Diese Seite vergleicht die sieben Mitglieder des Bundesrates mit der Schweizer Bevölkerung – nach **Geschlecht, Partei, Sprache, Alter und Grossregion**, für jede Zusammensetzung seit 1848.
+Wie gut bildet die Zusammensetzung des Bundesrats die Vielfalt der in der Schweiz lebendend Bevölkerung ab?
 
-100 % hiesse: Der Bundesrat ist genau so zusammengesetzt wie die Bevölkerung. Blättern Sie durch die Geschichte des Bundesrates oder ersetzen Sie ein Mitglied, das seinen Rücktritt angekündigt hat, und sehen Sie, wie sich die Übereinstimmung verändert. Die Zahlen zur Bevölkerung stammen vom Bundesamt für Statistik ([Quellen](quellen.html)).
+Diese Seite vergleicht die sieben Mitglieder des Bundesrates mit der Schweizer Bevölkerung nach Geschlecht, Partei, Sprache, Alter und Grossregion, für jede Zusammensetzung seit 1848.
+
+Mehr lesen
+
+Der Vergleich zwischen Bundesrate und Bevölkerung lässt sich mit dem _Rose Index_ messen. Dieser Index basiert auf dem [_Loosemore–Hanby index_
+](https://en.wikipedia.org/wiki/Loosemore%E2%80%93Hanby_index) und misst die Disproportionalität eines Wahlsystems. Es verlgeicht die Differenz zwischen den abgegebenen Stimmen und den gewonnenen Sitzen. Je ähnlicher die Zusammensetzung des Bundesrats im Vergleich zur Bevölkerung, desto höher die Übereinstimmung. 
+
+```
+Rose Index = 100 - (0.5 × Σ |Anteil Bundesrat - Anteil Bevölkerung|)
+```
+
+Ein Beispiel: Heute ist der Frauenanteil im Bundesrat mit zwei Sitzen bei 28.6 %, in der Bevölkerung ist der Frauenanteil 50.3 %. Der Männeranteil im Bundesrat ist 71.4 %, in der Bevölkerung 49.7 %. Der _Rose Index_ lässt sich dann berechnen:
+
+```
+Rose Index = 100 - (0.5 × (|28.6 - 50.3| + |71.4 - 49.7|) ) = 78.3 %
+```
+
+Der _Rose Index_ verwendet Prozent für die Übereinstimmung. Wenn der Bundesrat die genau gleiche Zusammensetzung hat wie die Bevölkerung, gäbe das eine Übereinstimmung von 100 %. Weil der Bundesrat aber nur sieben Sitze hat, sind 100 % meist nicht erreichbar.
+
+Auf dieser Seite werden die Übereinstimmung bezüglich Geschlecht, Partei, Sprache, Alter und Grossregion berechnet. Die insgesamte Übereinstimmung ist schliesslich der Durchschnitt der einzelnen _Rose Index_-Werte für jede Kategorie.
+
+Blättern Sie durch die Geschichte des Bundesrates oder ersetzen Sie ein Mitglied, das seinen Rücktritt angekündigt hat, und sehen Sie, wie sich die Übereinstimmung verändert. Die Zahlen zur Bevölkerung stammen vom Bundesamt für Statistik (siehe [Quellen](quellen.html)).
 
 ---
 
-Wie gut bildet der Bundesrat die Bevölkerung ab?
-Bundesrat vs Bevölkerung
-Die deskriptive Repräsentation des Bundesrats
-Die Zusammensetzung des Bundesrats im Vergleich zur Bevölkerung
-Die Zusammensetzung des Bundesrats vs die Zusammensetzung der Bevölkerung
-
-Wie gut bildet die Zusammensetzung des Bundesrats die Bevölkerung der Schweiz ab? Diese Seite verwendet deskriptive Merkmale der Bundesratsmitglieder, z.B. Geschlecht, Partei, Alter, und vergleicht dessen Verteilung im Bundesrat mit der Verteilung in der Bevölkerung. / Die Verteilungen werden dann verglichen: Je ähnlicher die Verteilungen, desto höher die Übereinstimmung zwischen Bundesrat und Bevölkerung. / Der Vergleich der Verteilungen lässt sich messen: je ähnlicher die Verteilungen, desto höher die Übereinstimmung mit der Bevölkerung. Diese Übereinstimmung wird auf dieser Seite mit Prozent beschrieben. Eine perfekte Übereinstimmung, also wenn die Verteilung im Bundesrat und in der Bevölkerung absolut deckungsgleich ist, führt zu einer Übereinstimmung von 100%.
-
-mehr lesen
 
 Was bedeutet das?
 
@@ -26,7 +38,7 @@ Beispiel Geschlecht – Bundesrat 2025 – heute, Bevölkerung 2025:
 Frauen: 28.6 % im Bundesrat, 50.3 % in der Bevölkerung → 28.6 %
 Männer: 71.4 % im Bundesrat, 49.7 % in der Bevölkerung → 49.7 %
 Summe: 78.3 %
-Die Übereinstimmung insgesamt ist der Durchschnitt aus Geschlecht, Partei, Sprache, Alter und Grossregion. Weil der Bundesrat nur sieben Sitze hat, sind 100 % meist nicht erreichbar.
+
 
 In der Politikwissenschaft heisst dieses Mass Rose-Index: 100 % minus Loosemore-Hanby-Index.
 
