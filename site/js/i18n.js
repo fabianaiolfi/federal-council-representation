@@ -17,10 +17,6 @@ const strings = {
     pageDescription:
       "Wie gut bildet der Schweizer Bundesrat die Bevölkerung ab? Ein Vergleich nach Geschlecht.",
 
-    // Header
-    eyebrow: "Deskriptive Repräsentation",
-    title: "Wie gut bildet der Bundesrat die Bevölkerung ab?",
-
     // Navigation through every version of the Council since 1848
     navLabel: "Zusammensetzung des Bundesrats seit 1848",
     navPrev: "Vorherige Zusammensetzung",
@@ -166,6 +162,7 @@ const strings = {
     sourcesLink: "Quellen",
     privacyLink: "Datenschutzerklärung",
     backHome: "Zurück zur Übersicht",
+    readLess: "Weniger", // hides the text again that "Mehr lesen" (+++ in the Markdown) showed
 
     // Page "Quellen" (quellen.html, sources.js)
     sourcesPageTitle: "Quellen – Bundesrat und Bevölkerung",

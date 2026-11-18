@@ -134,7 +134,7 @@ language, in `site/content/<language>/`:
 
 | File | Shown |
 |---|---|
-| `site/content/de/intro.md` | below the page title |
+| `site/content/de/intro.md` | the page title (its `#` line) and the intro below it |
 
 To change a text, edit its file; no code needs to change. To add a new
 text, put an element with `data-content="<name>"` into the page
@@ -150,12 +150,20 @@ still loads nothing from other websites):
 | Write | Becomes |
 |---|---|
 | a blank line | a new paragraph (single line breaks are spaces) |
-| `# Heading`, `## Heading` | a heading (the page title stays the only h1) |
+| `# Title` | the page title (h1); use it once, in `intro.md` |
+| `## Kicker` directly above `# Title` | the small grey line above the title |
+| `## Heading`, `### Heading` | a heading (h2, h3) |
 | `- item` or `1. item` at the start of lines | a list |
-| `**bold**`, `*italic*` | **bold**, *italic* |
+| `**bold**`, `*italic*` or `_italic_`, `` `code` `` | **bold**, *italic*, `code` |
+| ```` ``` ```` on its own line, the code, ```` ``` ```` again | a code block, shown exactly as written |
+| `---` | a dividing line |
 | `[text](https://…)` or `[text](quellen.html)` | a link |
+| `+++ Mehr lesen` | a link with this label; the text after it stays hidden until the link is pressed, up to a line with just `+++` (or to the end of the file). The link then reads "Weniger" (`readLess` in `i18n.js`) and hides the text again; `+++ Mehr lesen \| Weniger anzeigen` sets that label in the file |
 
-Anything else, including HTML, is shown as plain text. Short texts
+A space before `%` (or none: `51%`) becomes a non-breaking space, so
+"28.6 %" never breaks across lines. Links to other websites open in a
+new tab (here and on the Quellen and Datenschutz pages). Anything else, including HTML, is
+shown as plain text. Short texts
 (buttons, labels, the consent banner) stay in `site/js/i18n.js`; the
 privacy policy is its own page (`site/datenschutz.html`).
 
@@ -490,6 +498,7 @@ banner and sends nothing. On beta, events also appear in the DebugView
 | `select_council` | another Council is shown | `method` (button, slider, key, chart), `council_start` |
 | `history_focus` | a line pinned / unpinned in the legend of the history chart | `series` (overall, gender, party, language, age, region), `action` (pin, unpin) |
 | `open_info` | "Was bedeutet das?" opened | `method` (click; hover once per visit) |
+| `read_more` | "Mehr lesen" / "Weniger" pressed in a text | `text` (e.g. intro), `action` (open, close) |
 | `replace_open` / `replace_edit` | "Ersetzen" / "Bearbeiten" on a card | `councillor`, `council_start` |
 | `replace_mode` | one of the three modes chosen | `mode` (custom, list, best); for best also the profile |
 | `best_next` | next of several best profiles | `variant`, `variants`, profile |

@@ -4,7 +4,7 @@ Wie gut bildet die Zusammensetzung des Schweizer Bundesrats die Vielfalt der in 
 
 Jedes politische Gremium sollte eine möglichst hohe deskriptive Repräsentation anstreben, um das Gremium demokratisch zu legitimieren. Diese Seite vergleicht die sieben Mitglieder der Landesregierung mit der Bevölkerung in Bezug auf Geschlecht, Partei, Sprache, Alter und Herkunft nach Schweizer Grossregion. Der Vergleich wird in Prozent ausgedrückt und ist für jede Zusammensetzung des Bundesrats seit 1848 möglich. Zudem können zurücktretende Bundesrät:innen mit möglichen Kandidat:innen ersetzt werden. Dabei wird ersichtlich, ob ein:e Kandidat:in die deskriptive Repräsentation verbessert oder verschlechtert.
 
-[Mehr lesen](#)
++++ Mehr lesen | Weniger anzeigen
 
 ## Methode
 Der Vergleich zwischen Bundesrate und Bevölkerung lässt sich mit dem _Rose Index_ messen. Dieser Index basiert auf dem [_Loosemore–Hanby index_

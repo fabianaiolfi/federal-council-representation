@@ -18,10 +18,11 @@ function el(tag, className, text) {
   return node;
 }
 
-/** A link that opens another website. */
+/** A link that opens another website, in a new tab. */
 function link(text, href) {
   const a = el("a", null, text);
   a.href = href;
+  a.target = "_blank";
   a.rel = "noopener";
   return a;
 }

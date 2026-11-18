@@ -167,8 +167,55 @@ h1 {
   max-width: 65ch;
 }
 
-.prose > * + * {
+.prose > * + *,
+.more-text > * + * {
   margin-top: 0.875rem;
+}
+
+/* The page title, when it comes from the text (intro.md) */
+.prose h1 {
+  color: var(--ink);
+}
+
+.prose .eyebrow + h1 {
+  margin-top: 0;
+}
+
+.prose h1 + * {
+  margin-top: 1.5rem;
+}
+
+.prose code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.875em;
+}
+
+.prose pre {
+  margin-bottom: 0;
+  padding: 0.75rem 1rem;
+  overflow-x: auto;
+  border: 1px solid var(--line);
+  background: var(--bg);
+  line-height: 1.5;
+}
+
+.prose hr {
+  margin-block: 1.75rem 0;
+  border: 0;
+  border-top: 1px solid var(--line);
+}
+
+/* "Mehr lesen" / "Weniger" (+++ in the Markdown): looks like a link */
+.more-link {
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  color: inherit; /* the colour of the text around it, like the other links */
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+  cursor: pointer;
 }
 
 .prose h2,
@@ -190,9 +237,8 @@ h1 {
   padding-left: 1.25rem;
 }
 
-/* The intro below the page title */
+/* The page title and the intro below it */
 .intro-text {
-  margin-top: 1.5rem;
   font-size: 1.125rem;
   color: var(--ink-2);
 }
