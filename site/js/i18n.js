@@ -229,13 +229,23 @@ export function t(key, ...args) {
 }
 
 /** Number and date formatting in the active locale (de-CH: 4’586’802, 78.3). */
+/**
+ * A number with its digits grouped only from 5 digits on, and then by a
+ * non-breaking space: "2 392 740", "12 500", but "2500" and years ("1850")
+ * without a separator. (Intl would write "2’392’740" and "2’500" in de-CH.)
+ */
+function formatNumber(n, options = {}) {
+  const grouped = Math.abs(n) >= 10000;
+  return new Intl.NumberFormat(lang, { ...options, useGrouping: grouped })
+    .formatToParts(n)
+    .map((part) => (part.type === "group" ? "\u00a0" : part.value))
+    .join("");
+}
+
 export const fmt = {
-  int: (n) => new Intl.NumberFormat(lang).format(n),
+  int: (n) => formatNumber(n),
   dec: (n, digits = 1) =>
-    new Intl.NumberFormat(lang, {
-      minimumFractionDigits: digits,
-      maximumFractionDigits: digits,
-    }).format(n),
+    formatNumber(n, { minimumFractionDigits: digits, maximumFractionDigits: digits }),
   /** 0.7832 -> "78.3 %" (non-breaking space so it never wraps) */
   pct: (share, digits = 1) => `${fmt.dec(share * 100, digits)} %`,
   /** "2026-10-27" -> "27. Oktober 2026" */

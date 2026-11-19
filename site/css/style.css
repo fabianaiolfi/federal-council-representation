@@ -611,17 +611,42 @@ h2 {
 
 /* Where dates and score don't always fit side by side (the longest
    dates, "16. Aug. 1895 – 11. März 1897", need about 900 px), the score
-   always gets its own line, so the navigator doesn't change height
-   between versions. */
+   always gets its own row, so the navigator doesn't change height between
+   versions. The row spans the whole navigator, below the arrows: on small
+   phones "67 % Gesamtübereinstimmung" is wider than the space between
+   them. (.panel-middle steps aside, so dates and score are placed in the
+   grid of .panel-top themselves.) */
 @media (max-width: 57rem) {
+  .panel-top {
+    grid-template-areas:
+      "prev period next"
+      "score score score";
+    row-gap: 0.25rem;
+  }
+
+  .panel-middle {
+    display: contents;
+  }
+
+  #nav-prev { grid-area: prev; }
+  #nav-next { grid-area: next; }
+
+  .panel-period {
+    grid-area: period;
+    text-align: center;
+  }
+
   .nav-score {
-    flex-basis: 100%;
+    grid-area: score;
+    justify-self: center;
   }
 }
 
+/* Phones: like the dates; on the narrowest ones (about 340 px and less)
+   a little smaller, so "67 % Gesamtübereinstimmung" fits on one line */
 @media (max-width: 36rem) {
   .nav-score {
-    font-size: 1.125rem;
+    font-size: min(1.125rem, 5.1vw);
   }
 }
 
