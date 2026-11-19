@@ -1,0 +1,237 @@
+/*
+ * video.css — the look of the website (Inter, white boxes with a black
+ * hairline on a light grey page, square corners), at video size.
+ * Colours: the design tokens of site/css/style.css.
+ */
+
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 100 900;
+  src: url("../site/fonts/inter-latin.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304,
+    U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 100 900;
+  src: url("../site/fonts/inter-latin-ext.woff2") format("woff2");
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+1E00-1E9F;
+}
+
+:root {
+  --bg: #ffffff;
+  --canvas: #f2f2ef;
+  --ink: #0b0b0b;
+  --ink-2: #52514e;
+  --ink-3: #6f6e69;
+  --line: #e6e5e0;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  background: #2b2b2b; /* around the stage: easy to see what to record */
+  font-family: "Inter", system-ui, sans-serif;
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  display: grid;
+  justify-items: center;
+  align-content: start;
+  gap: 16px;
+  padding: 24px;
+}
+
+p,
+h1 {
+  margin: 0;
+}
+
+/* The video: 540 × 675 (4:5) */
+.stage {
+  position: relative;
+  width: 540px;
+  height: 675px;
+  overflow: hidden;
+  padding: 26px 32px;
+  background: var(--canvas);
+}
+
+.controls {
+  color: #bbb;
+  font-size: 13px;
+}
+
+.controls strong {
+  color: #fff;
+}
+
+.box {
+  background: var(--bg);
+  border: 1px solid var(--ink);
+}
+
+/* The address at the top: like a link (arrow to the right, moving
+   gently in video.js), in the text colour */
+.url {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 14px;
+  font-size: 19px;
+  font-weight: 650;
+  color: var(--ink);
+}
+
+.url svg {
+  width: 20px;
+  height: 20px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.4;
+  stroke-linecap: square;
+}
+
+/* The title: the same in every frame */
+.title {
+  font-size: 40px;
+  text-wrap: balance;
+  line-height: 1.04;
+  letter-spacing: -0.03em;
+  font-weight: 750;
+}
+
+/* The Gesamtübereinstimmung: the same box in every frame, its value and
+   the line above it change */
+.score-box {
+  margin-top: 16px;
+  padding: 20px 22px 18px;
+}
+
+.score-label {
+  font-size: 19px;
+  font-weight: 650;
+}
+
+.score-context {
+  margin-top: 3px;
+  font-size: 16px;
+  color: var(--ink-2);
+}
+
+.score-value {
+  margin-top: 6px;
+  font-size: 104px;
+  font-weight: 750;
+  line-height: 1;
+  letter-spacing: -0.045em;
+  font-variant-numeric: tabular-nums;
+}
+
+.score-caption {
+  font-size: 13px;
+  line-height: 1.4;
+  color: var(--ink-3);
+}
+
+.score-value + .score-caption {
+  margin-top: 10px;
+}
+
+/* One person at a time: all boxes in the same place, cross-fading */
+.slot {
+  position: relative;
+  height: 142px;
+  margin-top: 12px;
+}
+
+.person {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-columns: 90px minmax(0, 1fr) auto;
+  gap: 20px;
+  align-items: center;
+  padding: 14px 22px 14px 14px;
+}
+
+/* Guy Parmelin, who is leaving: light red, as on the website */
+.person.is-leaving {
+  background: #fde9e8;
+}
+
+.portrait {
+  display: block;
+  width: 90px;
+  height: 112px;
+  object-fit: cover;
+  object-position: center 20%;
+  background: var(--line);
+}
+
+.name {
+  font-size: 26px;
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.015em;
+}
+
+.meta {
+  margin-top: 6px;
+  font-size: 18px;
+  color: var(--ink-2);
+}
+
+.note {
+  margin-top: 4px;
+  font-size: 15px;
+  color: var(--ink-2);
+}
+
+.flag {
+  display: inline-block;
+  width: 0.9em;
+  height: 0.9em;
+  margin-right: 0.4em;
+  vertical-align: -0.1em;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.15);
+}
+
+/* The change in percentage points */
+.result {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.result strong {
+  display: block;
+  font-size: 46px;
+  font-weight: 750;
+  line-height: 1;
+  letter-spacing: -0.03em;
+}
+
+.result span {
+  font-size: 14px;
+  color: var(--ink-2);
+}
+
+/* Photo credits: the same in every frame */
+.credits {
+  position: absolute;
+  left: 32px;
+  right: 32px;
+  bottom: 16px;
+  font-size: 10.5px;
+  line-height: 1.4;
+  color: var(--ink-3);
+}

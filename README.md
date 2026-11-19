@@ -462,6 +462,7 @@ site/                           the web app (static files; this folder is publis
   img/                          portraits (written by fetch_wikidata.py; candidates/ too)
   img/flags/                    canton flags (written by fetch_flags.py)
   fonts/                        Inter (woff2) + its licence
+promo/                          LinkedIn video (not published; see promo/README.md)
 .github/workflows/deploy.yml    pipeline: check, then publish (main / beta)
 ```
 
