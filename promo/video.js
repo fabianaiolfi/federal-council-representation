@@ -34,6 +34,9 @@ const STEPS = [1.8, 4.0, 6.2];
 /** When the video goes back to the start (Parmelin, today's value) */
 const END = 8.8;
 
+/** One beat of the arrow after the address (seconds; must divide DURATION) */
+const PULSE = 2.5;
+
 // --- The numbers (as in site/js/app.js) -------------------------------------------
 
 function evaluate(cmp, members, day) {
@@ -147,7 +150,7 @@ function credits(people) {
     const label = p.portrait?.license === "CC0" ? `${author} (CC0)` : author;
     if (!authors.includes(label)) authors.push(label);
   }
-  return `Fotos: ${authors.join("; ")}, via Wikimedia Commons · Gemessen wird nur die deskriptive Repräsentation, keine Wahlempfehlung.`;
+  return `Fotos: ${authors.join("; ")}, via Wikimedia Commons`;
 }
 
 // --- The video -----------------------------------------------------------------------
@@ -155,13 +158,23 @@ function credits(people) {
 /**
  * Builds the DOM once and returns render(t).
  *
- * Always on screen: the title, the Gesamtübereinstimmung box and the
- * credits. Below them, one person at a time: first Guy Parmelin (today),
+ * Always on screen: the address (www.bundesrat.fyi), the title, the
+ * Gesamtübereinstimmung box and the credits. Below them, one person at a time: first Guy Parmelin (today),
  * then each candidate in his place, then Parmelin again, so the last frame
  * is the same as the first and the video loops without a jump.
  */
 function build(stage, m) {
   const { seat, today, people, partyLabel } = m;
+
+  // The address, made to look like a link: with an arrow pointing right
+  // (as on the website's buttons: square line ends)
+  const url = el("p", "url");
+  url.append(el("span", null, "www.bundesrat.fyi"));
+  url.insertAdjacentHTML(
+    "beforeend",
+    '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6"/></svg>',
+  );
+  const arrow = url.lastElementChild;
 
   const title = el(
     "h1",
@@ -231,13 +244,19 @@ function build(stage, m) {
   ];
 
   const credit = el("p", "credits", credits([seat, ...people]));
-  stage.append(title, scoreBox, slot, credit);
+  stage.append(url, title, scoreBox, slot, credit);
 
   // From one person to the next: [time, from slide, to slide]
   const changes = STEPS.map((at, i) => [at, i, i + 1]);
   changes.push([END, people.length, 0]); // back to the start
 
   return function render(t) {
+    // The arrow after the address moves 3 px to the right and back. One
+    // beat every 2.5 s (four per round), at rest at 0 s and 10 s, so the
+    // loop stays seamless.
+    const beat = (1 - Math.cos((2 * Math.PI * t) / PULSE)) / 2;
+    arrow.style.transform = `translateX(${3 * beat}px)`;
+
     // Before the first change: Parmelin and today's value, standing still
     let [at, from, to] = [0, 0, 0];
     for (const c of changes) if (t >= c[0]) [at, from, to] = c;

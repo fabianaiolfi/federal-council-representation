@@ -62,7 +62,7 @@ h1 {
   width: 540px;
   height: 675px;
   overflow: hidden;
-  padding: 36px 32px;
+  padding: 26px 32px;
   background: var(--canvas);
 }
 
@@ -80,9 +80,30 @@ h1 {
   border: 1px solid var(--ink);
 }
 
+/* The address at the top: like a link (arrow to the right, moving
+   gently in video.js), in the text colour */
+.url {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 14px;
+  font-size: 19px;
+  font-weight: 650;
+  color: var(--ink);
+}
+
+.url svg {
+  width: 20px;
+  height: 20px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.4;
+  stroke-linecap: square;
+}
+
 /* The title: the same in every frame */
 .title {
-  font-size: 42px;
+  font-size: 40px;
   text-wrap: balance;
   line-height: 1.04;
   letter-spacing: -0.03em;
@@ -92,7 +113,7 @@ h1 {
 /* The Gesamtübereinstimmung: the same box in every frame, its value and
    the line above it change */
 .score-box {
-  margin-top: 20px;
+  margin-top: 16px;
   padding: 20px 22px 18px;
 }
 
@@ -109,7 +130,7 @@ h1 {
 
 .score-value {
   margin-top: 6px;
-  font-size: 112px;
+  font-size: 104px;
   font-weight: 750;
   line-height: 1;
   letter-spacing: -0.045em;
@@ -130,7 +151,7 @@ h1 {
 .slot {
   position: relative;
   height: 142px;
-  margin-top: 14px;
+  margin-top: 12px;
 }
 
 .person {
@@ -204,12 +225,12 @@ h1 {
   color: var(--ink-2);
 }
 
-/* Photo credits and the note: the same in every frame */
+/* Photo credits: the same in every frame */
 .credits {
   position: absolute;
   left: 32px;
   right: 32px;
-  bottom: 20px;
+  bottom: 16px;
   font-size: 10.5px;
   line-height: 1.4;
   color: var(--ink-3);

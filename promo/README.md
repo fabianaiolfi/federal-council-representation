@@ -8,7 +8,7 @@ What it shows:
 
 | Time | |
 |---|---|
-| always | the title "Wie gut bildet der Bundesrat die Bevölkerung ab?", the box "Gesamtübereinstimmung" with its value and the two explanations from the website ("Durchschnitt aus …", "100 % = …"), and at the bottom the photo credits and "keine Wahlempfehlung" |
+| always | the address "www.bundesrat.fyi →" (every 2.5 s the arrow moves gently to the right and back), the title "Wie gut bildet der Bundesrat die Bevölkerung ab?", the box "Gesamtübereinstimmung" with its value and the two explanations from the website ("Durchschnitt aus …", "100 % = …"), and at the bottom the photo credits |
 | 0 s | today's value, and below it Guy Parmelin (light red, with the day he leaves office): the first frame also works as a still, since LinkedIn doesn't always play videos by itself |
 | 1.8 s | the first candidate takes Parmelin's place: their box (large portrait, name, flag, party, change in percentage points) replaces his, and the value moves to the Gesamtübereinstimmung with them |
 | 4.0 s | the second candidate |
