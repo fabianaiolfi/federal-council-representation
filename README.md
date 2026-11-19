@@ -441,6 +441,8 @@ site/                           the web app (static files; this folder is publis
   quellen.html                  sources and picture credits
   datenschutz.html              privacy policy
   kontakt.html                  contact
+  404.html                      "Seite nicht gefunden" (any unknown address)
+  robots.txt                    search engines may list the public site
   favicon.svg (.ico, apple-touch-icon.png)  icon in the browser tab
   _headers                      browser caching rules (Cloudflare Pages)
   css/style.css                 all styling (design tokens at the top)
@@ -478,8 +480,22 @@ published by GitHub Actions (`.github/workflows/deploy.yml`):
 | `beta` | https://beta.bundesrat.fyi (also https://beta.federal-council-representation.pages.dev) |
 | `main` | https://bundesrat.fyi (also https://federal-council-representation.pages.dev) |
 
-The beta site is kept out of search engines: the pipeline adds the header
-`X-Robots-Tag: noindex` to every page of every branch except `main`.
+**Search engines** should only list https://bundesrat.fyi:
+
+- The beta site sends the header `X-Robots-Tag: noindex`: the pipeline adds
+  it to every page of every branch except `main` (Cloudflare adds it itself
+  only on `*.pages.dev`, not on `beta.bundesrat.fyi`).
+- The public site's own Cloudflare address,
+  `federal-council-representation.pages.dev`, sends `noindex` too (a rule
+  for that address only, in `site/_headers`).
+- Every page names its official address with
+  `<link rel="canonical" href="https://bundesrat.fyi/…">` (without `.html`,
+  as Cloudflare serves the pages).
+- `site/robots.txt` allows everything. It deliberately blocks nothing: a
+  page blocked there can't be read, so its `noindex` would never be seen.
+- `site/404.html` is shown, with the status 404, for every address that
+  doesn't exist. Without it, Cloudflare Pages would answer any address with
+  the main page. It can appear at any address, so its links start with `/`.
 
 ### Domain
 

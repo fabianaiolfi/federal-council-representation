@@ -1,0 +1,7 @@
+# Search engines may list the public site, https://bundesrat.fyi.
+# The beta site and the *.pages.dev addresses are kept out of search
+# results by the header "X-Robots-Tag: noindex" (see site/_headers and
+# .github/workflows/deploy.yml), not here: a page blocked in robots.txt
+# can't be read, so its "noindex" would never be seen.
+User-agent: *
+Allow: /

@@ -111,7 +111,7 @@ function openBanner() {
     const text = document.createElement("p");
     text.className = "consent-text";
     const link = document.createElement("a");
-    link.href = "datenschutz.html";
+    link.href = "/datenschutz.html"; // from the site's root: also right on the 404 page (any address)
     link.textContent = t("consentPrivacy");
     text.append(document.createTextNode(`${t("consentText")} `), link);
 
