@@ -62,7 +62,10 @@ def check_references() -> None:
     """Local files named in the HTML pages, the CSS and the JS imports exist."""
     refs: list[tuple[Path, str]] = []
     for html in SITE.glob("*.html"):
-        refs += [(html, r) for r in re.findall(r'(?:src|href)="([^"#:]+)"', html.read_text(encoding="utf-8"))]
+        text = html.read_text(encoding="utf-8")
+        refs += [(html, r) for r in re.findall(r'(?:src|href)="([^"#:]+)"', text)]
+        # Imports in a page's inline <script type="module">
+        refs += [(html, r) for r in re.findall(r'from\s+"([./][^"]+)"', text)]
     for css in SITE.glob("css/*.css"):
         refs += [(css, r) for r in re.findall(r'url\(["\']?([^"\')]+)', css.read_text(encoding="utf-8"))
                  if not r.startswith("data:")]
@@ -75,7 +78,9 @@ def check_references() -> None:
             for language in languages or ["de"]:
                 refs.append((html, f"content/{language}/{name}.md"))
     for source, ref in refs:
-        target = (source.parent / ref).resolve()
+        # "/css/style.css" starts at site/ (used by 404.html, which can be
+        # shown at any address); everything else is relative to the file
+        target = (SITE / ref.lstrip("/") if ref.startswith("/") else source.parent / ref).resolve()
         if target.is_dir():
             target /= "index.html"  # a link to "./" opens the folder's index.html
         if not target.is_file():

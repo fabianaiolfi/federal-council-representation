@@ -31,3 +31,9 @@
 /*
   X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin
+
+# The public site also answers at the project's own Cloudflare address.
+# Search engines should only list https://bundesrat.fyi, so that address
+# is marked "noindex" (the beta site gets it from the pipeline).
+https://federal-council-representation.pages.dev/*
+  X-Robots-Tag: noindex
