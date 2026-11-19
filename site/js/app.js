@@ -21,7 +21,7 @@ import { overlap, toShares } from "./metrics.js";
 import { buildVersions } from "./council.js";
 import { buildComparisons, ageOn, partyOn } from "./comparisons.js";
 import { drawStepChart } from "./chart.js";
-import { setupAnalytics, track } from "./analytics.js";
+import { setupAnalytics, track, trackOnce } from "./analytics.js";
 import { loadContent } from "./content.js";
 
 const state = {
@@ -1329,6 +1329,39 @@ function showError(key, err) {
   box.hidden = false;
 }
 
+/**
+ * How far visitors scroll: the event "section_view" is sent once per page
+ * view for each part of the page that has come into view (at least part of
+ * it on screen), from top to bottom: the Council's cards, the comparisons,
+ * the history chart and the end of the page (footer). Sent only with
+ * consent, like every event; the parts on screen when consent is given
+ * are counted at that moment.
+ */
+function setupSectionTracking() {
+  const sections = {
+    council: $("council-panel"),
+    comparisons: $("comparisons"),
+    history: $("history"),
+    end: document.querySelector(".footer"),
+  };
+  const names = new Map(Object.entries(sections).map(([name, node]) => [node, name]));
+  const visible = new Set(); // names of the parts on screen right now
+  const send = (name) => trackOnce("section_view", { section: name });
+  const observer = new IntersectionObserver((entries) => {
+    for (const entry of entries) {
+      const name = names.get(entry.target);
+      if (entry.isIntersecting) {
+        visible.add(name);
+        send(name);
+      } else {
+        visible.delete(name);
+      }
+    }
+  });
+  for (const node of names.keys()) if (node) observer.observe(node);
+  window.addEventListener("analytics-consent", () => visible.forEach(send));
+}
+
 async function main() {
   setupStaticText();
   setupAnalytics(); // consent banner; Google Analytics only after consent
@@ -1352,6 +1385,7 @@ async function main() {
     setupTooltip();
     setupFlagLabels();
     update();
+    setupSectionTracking();
   } catch (err) {
     return showError("renderError", err); // e.g. old cached files mixed with new ones
   }

@@ -559,6 +559,8 @@ banner and sends nothing. On beta, events also appear in the DebugView
 
 | Event | When | Parameters |
 |---|---|---|
+| `consent_accept` | "Akzeptieren" clicked in the consent banner (declining can't be counted: then nothing is sent) | – |
+| `section_view` | a part of the main page came into view, once per page view: how far visitors scroll | `section` (council, comparisons, history, end) |
 | `select_council` | another Council is shown | `method` (button, slider, key, chart), `council_start` |
 | `history_focus` | a line pinned / unpinned in the legend of the history chart | `series` (overall, gender, party, language, age, region), `action` (pin, unpin) |
 | `read_more` | "Mehr lesen" / "Weniger" pressed in a text | `text` (e.g. intro), `action` (open, close) |
@@ -579,6 +581,50 @@ To use a parameter in the reports, register it once per property: Admin →
 Data display → Custom definitions → Create custom dimension (scope "Event",
 same name as the parameter). For `age`, `score_change`, `variant`
 and `variants` create a custom metric instead.
+
+**Setting up the reports (once, production property).** GA only counts
+visitors who clicked "Akzeptieren"; all its numbers are about them.
+
+1. Custom dimensions (scope Event; name = event parameter): `candidate`,
+   `party`, `gender`, `language`, `age_group`, `region`, `mode`, `field`,
+   `choice`, `method`, `councillor`, `council_start`, `series`, `action`,
+   `text`, `section`. Custom metrics: `score_change`, `age`, `variant`,
+   `variants`. They are filled from the day they are created, not before.
+2. Admin → Data streams → the stream → Enhanced measurement: page views,
+   scrolls and outbound clicks on; form interactions off (the editor's
+   choices would be counted as forms); site search and video off.
+3. Admin → Events: mark `replace_done` as a key event (star), once it has
+   appeared (a replacement was completed).
+4. Own visits: click "Ablehnen" in your own browsers.
+5. Google signals stays off (age, gender and interests would need it; the
+   privacy policy says advertising features are off).
+
+Where to find the answers (Reports): visitors and returning visitors under
+Reports snapshot and Engagement / Retention; country and city under User
+attributes → Demographic details; where visitors come from under
+Acquisition → Traffic acquisition; time on the site under Engagement →
+Overview ("Average engagement time"); devices under Tech → Tech details;
+the events above under Engagement → Events (click an event, then add the
+custom dimension to the table, e.g. `candidate_select` by `candidate`).
+Links you share yourself can carry a source, e.g.
+`https://bundesrat.fyi/?utm_source=linkedin&utm_campaign=launch`.
+
+## Cloudflare Web Analytics (all visitors, no cookies)
+
+Google Analytics only sees visitors who agreed. To know how many people
+visit **in total**, Cloudflare Web Analytics counts every visit, without
+cookies and without recognising anyone, so no consent is asked for. It
+shows visits, pages, referrers, countries and devices. Comparing its
+visitors with those in Google Analytics gives a rough acceptance rate of
+the consent banner.
+
+Setup (once, in the Cloudflare dashboard): Workers & Pages →
+`federal-council-representation` → Metrics → Web Analytics → Enable.
+Cloudflare then adds its small script (`static.cloudflareinsights.com`)
+to the pages itself, from the next deployment on; there is nothing in the
+code. The beta site is counted too; filter by host (`bundesrat.fyi`) in the
+Web Analytics dashboard. The privacy policy describes the service; if it is
+switched off again, remove that section.
 
 ## Next iterations
 
