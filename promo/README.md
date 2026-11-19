@@ -8,16 +8,17 @@ What it shows:
 
 | Time | |
 |---|---|
-| always | "bundesrat.fyi", the title "Wie gut bildet der Bundesrat die Bevölkerung ab?", and at the bottom the photo credits and "keine Wahlempfehlung" |
-| 0.3 s | the box "Gesamtübereinstimmung": today's value |
-| 1.8 s | Thomas Aeschi's box appears below; the value changes to the Gesamtübereinstimmung with him instead of Guy Parmelin, with the change in percentage points |
-| 4.0 s | the same for Céline Amaudruz |
-| 6.2 s | the same for Marco Chiesa |
-| 8.8–9.6 s | everything but the title fades out |
+| always | the title "Wie gut bildet der Bundesrat die Bevölkerung ab?", the box "Gesamtübereinstimmung" with its value and the two explanations from the website ("Durchschnitt aus …", "100 % = …"), and at the bottom the photo credits and "keine Wahlempfehlung" |
+| 0 s | today's value, and below it Guy Parmelin (light red, with the day he leaves office): the first frame also works as a still, since LinkedIn doesn't always play videos by itself |
+| 1.8 s | the first candidate takes Parmelin's place: their box (large portrait, name, flag, party, change in percentage points) replaces his, and the value moves to the Gesamtübereinstimmung with them |
+| 4.0 s | the second candidate |
+| 6.2 s | the third candidate |
+| 8.8 s | back to Guy Parmelin and today's value |
 | 10 s | the same picture as at 0 s: the video can play in a loop without a visible jump |
 
 The three people and their order are set in `promo/video.js` (`PEOPLE`,
-names as in `data/candidates.csv`; `STEPS`: when each box appears).
+names as in `data/candidates.csv`; `STEPS`: when each one appears; `END`:
+when the video returns to the start).
 
 The numbers are calculated from `site/data/data.json` with the website's own
 code (`site/js/comparisons.js`, `council.js`, `metrics.js`). They were checked
@@ -59,10 +60,9 @@ LinkedIn recommends for the feed.
 3. Click **Record**, then press **Space** on the page. Let it play once
    (10 seconds) or a few times, then stop the recording (stop button in
    the menu bar).
-4. Open the file in **QuickTime Player**: Edit → Trim. Start where the
-   "Gesamtübereinstimmung" box begins to appear, and end after one or more
-   full rounds, just before the box appears again (in between, only the
-   title is visible). File → Export As → 1080p.
+4. Open the file in **QuickTime Player**: Edit → Trim. Start at the moment
+   you pressed Space and end exactly one or more rounds (10 seconds each)
+   later, while Guy Parmelin is shown. File → Export As → 1080p.
 5. Upload the file directly to LinkedIn (not as a YouTube link).
 
 If the recording stutters, close other apps and try again; or render it
@@ -72,5 +72,6 @@ Puppeteer and ffmpeg).
 ## Photo credits
 
 The line at the bottom names the photographers of the portraits shown
-(the Parlamentsdienste; the licence asks for attribution). Keep it in the
+(Schweizerische Bundeskanzlei, Parlamentsdienste; their licences ask for
+attribution). Keep it in the
 video, or name them in the post.
