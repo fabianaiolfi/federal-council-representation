@@ -13,17 +13,18 @@
 
 const strings = {
   "de-CH": {
-    pageTitle: "Bundesrat und Bevölkerung – Wer ist vertreten?",
+    pageTitle: "Wie gut bildet der Bundesrat die Bevölkerung ab?",
     pageDescription:
-      "Wie gut bildet der Schweizer Bundesrat die Bevölkerung ab? Ein Vergleich nach Geschlecht.",
+      "Wie gut bildet der Schweizer Bundesrat die Bevölkerung ab? Ein Vergleich nach Geschlecht, " +
+      "Partei, Sprache, Alter und Herkunft nach Grossregion, für jeden Bundesrat seit 1848.",
 
     // Navigation through every version of the Council since 1848
     navLabel: "Zusammensetzung des Bundesrats seit 1848",
     navPrev: "Vorherige Zusammensetzung",
     navNext: "Nächste Zusammensetzung",
     navSlider: "Zusammensetzung auswählen",
-    navScoreLabel: "Übereinstimmung",
-    periodCurrent: (startYear) => `${startYear} – heute`,
+    navScoreLabel: "Gesamtübereinstimmung",
+    periodCurrent: (startYear) => `${startYear} – Heute`,
     periodYears: (startYear, endYear) => `${startYear} – ${endYear}`,
     periodMonths: (startMonth, endMonth, year) =>
       startMonth === endMonth
@@ -34,7 +35,7 @@ const strings = {
     // Title of the navigator: the exact dates the version was in office.
     // The non-breaking space keeps the dash with the first date, so a
     // second line starts with the second date.
-    councilPeriodCurrent: (from) => `${from}\u00a0– heute`,
+    councilPeriodCurrent: (from) => `${from}\u00a0– Heute`,
     councilPeriod: (from, to) => `${from}\u00a0– ${to}`,
     // Replacing a member
     replaceButton: "Ersetzen",
@@ -54,13 +55,13 @@ const strings = {
     editorDone: "Fertig",
     modeLabel: "Wie möchten Sie ersetzen?",
     mode_custom: "Selbst zusammenstellen",
-    mode_list: "Aus Liste wählen",
+    mode_list: "Offizielle Kandidierende",
     mode_best: "Bestmögliche Person",
-    listEmpty: "Noch keine Personen hinterlegt.",
+    listEmpty: "Noch keine offiziellen Kandidierenden erfasst.",
     listNoneEligible:
-      "Niemand auf der Liste war zu dieser Zeit mindestens 18 Jahre alt.",
+      "Keine der offiziellen Kandidierenden war zu dieser Zeit mindestens 18 Jahre alt.",
     bestIntro:
-      "Eine Person, welche die Übereinstimmung insgesamt so stark wie möglich erhöht.",
+      "Eine Person, welche die Gesamtübereinstimmung so stark wie möglich erhöht.",
     bestVariant: (k, n) =>
       n === 1
         ? "Die einzige bestmögliche Person für diesen Sitz"
@@ -71,28 +72,9 @@ const strings = {
 
     // Comparison
     compareTitle: "Der Bundesrat im Vergleich mit der Schweizer Bevölkerung",
-    scoreTitle: "Übereinstimmung des Bundesrates mit der Bevölkerung",
-    overallLabel: "Übereinstimmung insgesamt", // in the editor
+    scoreTitle: "Gesamtübereinstimmung des Bundesrats mit der Bevölkerung",
+    overallLabel: "Gesamtübereinstimmung", // in the editor
 
-    // "Was bedeutet das?" next to the overall score
-    infoButton: "Was bedeutet das?",
-    infoWhat:
-      "Die Übereinstimmung zeigt, wie ähnlich der Bundesrat der Bevölkerung " +
-      "zusammengesetzt ist. Für jede Gruppe wird der kleinere der beiden Anteile " +
-      "genommen – jener im Bundesrat oder jener in der Bevölkerung – und diese " +
-      "Werte werden zusammengezählt. 100\u00a0% heisst: gleiche Zusammensetzung.",
-    infoExampleTitle: (council, population) =>
-      `Beispiel Geschlecht – ${council}, ${population}:`,
-    infoExampleRow: (group, council, population, smaller) =>
-      `${group}: ${council} im Bundesrat, ${population} in der Bevölkerung → ${smaller}`,
-    infoExampleSum: (sum) => `Summe: ${sum}`,
-    infoOverall:
-      "Die Übereinstimmung insgesamt ist der Durchschnitt aus Geschlecht, Partei, " +
-      "Sprache, Alter und Grossregion. Weil der Bundesrat nur sieben Sitze hat, sind 100\u00a0% meist " +
-      "nicht erreichbar.",
-    infoMethod:
-      "In der Politikwissenschaft heisst dieses Mass Rose-Index: 100\u00a0% minus " +
-      "Loosemore-Hanby-Index.",
     overallCaption: (names) =>
       `Durchschnitt aus ${names.length > 1 ? `${names.slice(0, -1).join(", ")} und ${names.at(-1)}` : names[0]}`,
     scoreCaption: "100 % = gleiche Zusammensetzung wie die Bevölkerung",
@@ -101,9 +83,10 @@ const strings = {
       `Bundesrat ${period} mit Ihren Änderungen`,
 
     // Views: the selected Council, or the history chart
+    historyTitle: "Verlauf seit 1848",
     historyChartLabel:
-      "Stufendiagramm der Übereinstimmung insgesamt und nach Geschlecht, Partei, Sprache, Alter und Grossregion, für jeden Bundesrat seit 1848",
-    historyOverall: "Insgesamt",
+      "Stufendiagramm der Gesamtübereinstimmung und der Übereinstimmung nach Geschlecht, Partei, Sprache, Alter und Herkunft nach Grossregion, für jeden Bundesrat seit 1848",
+    historyOverall: "Gesamtübereinstimmung",
     historyLegendLabel: "Linie hervorheben",
 
     // The five comparisons
@@ -111,7 +94,7 @@ const strings = {
     compareParty: "Partei",
     compareLanguage: "Sprache",
     compareAge: "Alter",
-    compareRegion: "Grossregion",
+    compareRegion: "Herkunft nach Grossregion",
     populationYear: (year) => `Bevölkerung ${year}`,
     populationCensus: (year) => `Volkszählung ${year}`,
     populationAdults: (year, minAge) =>
@@ -119,13 +102,13 @@ const strings = {
     partyElection: (year) => `Nationalratswahl ${year}`,
     // Party and language names are short (labels, cards); the long forms
     // are used in the bar tooltips and for screen readers.
-    partyMitte: "M",
+    partyMitte: "Mitte",
     partyMitteLong: "Die Mitte (früher CVP)",
     partyOther: "Übrige",
     partyOtherLong: "Übrige Parteien",
     // Party names as written in the list of councillors, shortened
     partyName: (name) =>
-      ({ "Die Mitte": "M", "FDP.Die Liberalen": "FDP" })[name] ?? name,
+      ({ "Die Mitte": "Mitte", "FDP.Die Liberalen": "FDP" })[name] ?? name,
     partyFurther: "Weitere",
     noDataParty: (year) =>
       `Keine Daten: Die Parteistärken des BFS beginnen mit der Nationalratswahl ${year}.`,
@@ -156,27 +139,31 @@ const strings = {
     ageFrom: (min) => `${min} Jahre und älter`,
     tooltipPersons: (n) => `${n} Personen`,
 
-    // Footer (every page) and the header of the other pages
-    pageTitleShort: "Bundesrat und Bevölkerung",
+    // Footer (every page) and the "back" link of the other pages
     footerLabel: "Weitere Seiten",
     sourcesLink: "Quellen",
     privacyLink: "Datenschutzerklärung",
+    contactLink: "Kontakt",
     backHome: "Zurück zur Übersicht",
+    cantonFlag: (canton) => `Kanton ${canton}`, // the flag on a card (alt text, tooltip)
     readLess: "Weniger", // hides the text again that "Mehr lesen" (+++ in the Markdown) showed
 
     // Page "Quellen" (quellen.html, sources.js)
-    sourcesPageTitle: "Quellen – Bundesrat und Bevölkerung",
+    sourcesPageTitle: "Quellen – Wie gut bildet der Bundesrat die Bevölkerung ab?",
     sourcesTitle: "Quellen",
     sourcesData: "Daten",
     sourceBfs: (title, table) =>
       `Bundesamt für Statistik (BFS): ${title} (${table})`,
     sourceCouncil:
       "Bundesrat: eigene Zusammenstellung (all_federal_councillors.csv); Geburtsdaten und Sprachen: Wikidata",
-    sourcePortraits: "Porträts: Wikimedia Commons (Bildnachweise unten)",
+    sourcePortraits: "Porträts und Kantonsfahnen: Wikimedia Commons (Bildnachweise unten)",
     dataGenerated: (date) => `Daten aufbereitet am ${date}`,
     creditsTitle: "Bildnachweise",
     creditsIntro:
-      "Urheber und Lizenz jedes Porträts. Ein Klick auf den Namen öffnet die Bildseite auf Wikimedia Commons.",
+      "Urheber und Lizenz jedes Bildes. Ein Klick auf den Namen öffnet die Bildseite auf Wikimedia Commons.",
+    creditsCouncillors: "Mitglieder des Bundesrats",
+    creditsCandidates: "Offizielle Kandidierende",
+    creditsFlags: "Kantonsfahnen",
     creditAuthorUnknown: "Urheber unbekannt",
 
     // Consent banner (analytics.js)

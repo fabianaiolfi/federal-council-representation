@@ -13,9 +13,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>Datenschutzerklärung – Bundesrat und Bevölkerung</title>
+  <title>Datenschutzerklärung – Wie gut bildet der Bundesrat die Bevölkerung ab?</title>
   <meta name="theme-color" content="#f2f2ef">
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 2a14 14 0 0 0 0 28z' fill='%23eb6834'/%3E%3Cpath d='M16 2a14 14 0 0 1 0 28z' fill='%232a78d6'/%3E%3C/svg%3E">
   <link rel="preload" href="fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="css/style.css">
   <!-- Footer and header text, consent banner and "Cookie-Einstellungen"
@@ -33,7 +32,11 @@
   <main class="page text-page">
 
     <header class="intro">
-      <p class="eyebrow"><a href="./" data-i18n="pageTitleShort">Bundesrat und Bevölkerung</a></p>
+      <!-- Back to the main page -->
+      <a class="back-button" href="./">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
+        <span data-i18n="backHome">Zurück zur Übersicht</span>
+      </a>
       <h1>Datenschutzerklärung</h1>
     </header>
 
@@ -192,11 +195,12 @@
 
     <p class="back-link"><a href="./" data-i18n="backHome">Zurück zur Übersicht</a></p>
 
-    <!-- The same footer on every page (index, quellen, datenschutz) -->
+    <!-- The same footer on every page (index, quellen, datenschutz, kontakt) -->
     <footer class="footer">
       <nav class="footer-links" data-i18n-label="footerLabel">
         <a href="quellen.html" data-i18n="sourcesLink">Quellen</a>
         <a href="datenschutz.html" data-i18n="privacyLink" aria-current="page">Datenschutzerklärung</a>
+        <a href="kontakt.html" data-i18n="contactLink">Kontakt</a>
         <!-- Shown by analytics.js when Google Analytics is set up -->
         <button class="link-button" type="button" data-consent-settings hidden></button>
       </nav>

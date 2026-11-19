@@ -6139,7 +6139,14 @@
    "birthDate": "1979-01-13",
    "canton": "Zug",
    "cantonCode": "ZG",
-   "region": "zentralschweiz"
+   "region": "zentralschweiz",
+   "portrait": {
+    "image": "img/candidates/thomas-aeschi.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:Thomas_Aeschi_(2023).jpg",
+    "author": "Assemblea Federale Svizzera",
+    "license": "Attribution",
+    "licenseUrl": null
+   }
   },
   {
    "id": 2,
@@ -6150,7 +6157,14 @@
    "birthDate": "1966-08-24",
    "canton": "Aargau",
    "cantonCode": "AG",
-   "region": "nordwestschweiz"
+   "region": "nordwestschweiz",
+   "portrait": {
+    "image": "img/candidates/jean-pierre-gallati.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:Jean-Pierre_Gallati_(2019).jpg",
+    "author": "Parliamentary Services",
+    "license": "Attribution",
+    "licenseUrl": null
+   }
   },
   {
    "id": 3,
@@ -6161,7 +6175,14 @@
    "birthDate": "1962-12-13",
    "canton": "Bern",
    "cantonCode": "BE",
-   "region": "mittelland"
+   "region": "mittelland",
+   "portrait": {
+    "image": "img/candidates/pierre-alain-schnegg.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:SCO_SVP_Biel-Bienne_20260126_(70).jpg",
+    "author": "Bricetofly",
+    "license": "CC0",
+    "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en"
+   }
   },
   {
    "id": 4,
@@ -6172,7 +6193,14 @@
    "birthDate": "1979-03-15",
    "canton": "Genf",
    "cantonCode": "GE",
-   "region": "genfersee"
+   "region": "genfersee",
+   "portrait": {
+    "image": "img/candidates/celine-amaudruz.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:C%C3%A9line_Amaudruz_(2019).jpg",
+    "author": "Services du Parlement",
+    "license": "Attribution",
+    "licenseUrl": null
+   }
   },
   {
    "id": 5,
@@ -6183,7 +6211,14 @@
    "birthDate": "1971-02-24",
    "canton": "Wallis",
    "cantonCode": "VS",
-   "region": "genfersee"
+   "region": "genfersee",
+   "portrait": {
+    "image": "img/candidates/franz-ruppen.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:Franz_Ruppen_(2019).jpg",
+    "author": "Services du Parlement",
+    "license": "Attribution",
+    "licenseUrl": null
+   }
   },
   {
    "id": 6,
@@ -6194,7 +6229,14 @@
    "birthDate": "1967-06-20",
    "canton": "Solothurn",
    "cantonCode": "SO",
-   "region": "mittelland"
+   "region": "mittelland",
+   "portrait": {
+    "image": "img/candidates/remy-wyssmann.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:R%C3%A9my_Wyssmann_(cropped).jpg",
+    "author": "Parliamentary Services",
+    "license": "Attribution",
+    "licenseUrl": null
+   }
   },
   {
    "id": 7,
@@ -6205,7 +6247,14 @@
    "birthDate": "1981-06-03",
    "canton": "Wallis",
    "cantonCode": "VS",
-   "region": "genfersee"
+   "region": "genfersee",
+   "portrait": {
+    "image": "img/candidates/michael-graber.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:Michael_Graber_(2021,_parl.ch).jpg",
+    "author": "Services du Parlement",
+    "license": "Attribution",
+    "licenseUrl": null
+   }
   },
   {
    "id": 8,
@@ -6216,7 +6265,224 @@
    "birthDate": "1974-10-10",
    "canton": "Tessin",
    "cantonCode": "TI",
-   "region": "tessin"
+   "region": "tessin",
+   "portrait": {
+    "image": "img/candidates/marco-chiesa.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:Marco_Chiesa_(2018,_cropped).jpg",
+    "author": "Services du Parlement",
+    "license": "Attribution",
+    "licenseUrl": null
+   }
   }
- ]
+ ],
+ "flags": {
+  "ZH": {
+   "canton": "Zürich",
+   "image": "img/flags/ZH.svg",
+   "source": "https://commons.wikimedia.org/wiki/File:Flag_of_Canton_of_Z%C3%BCrich.svg",
+   "author": null,
+   "license": "Public domain",
+   "licenseUrl": null
+  },
+  "BE": {
+   "canton": "Bern",
+   "image": "img/flags/BE.svg",
+   "source": "https://commons.wikimedia.org/wiki/File:Flag_of_Canton_of_Bern.svg",
+   "author": "Paul Boesch",
+   "license": "Public domain",
+   "licenseUrl": null
+  },
+  "LU": {
+   "canton": "Luzern",
+   "image": "img/flags/LU.svg",
+   "source": "https://commons.wikimedia.org/wiki/File:CHE_Luzern_Flag.svg",
+   "author": "Cantone Ticino",
+   "license": "Public domain",
+   "licenseUrl": null
+  },
+  "UR": {
+   "canton": "Uri",
+   "image": "img/flags/UR.svg",
+   "source": "https://commons.wikimedia.org/wiki/File:Flag_of_Canton_of_Uri.svg",
+   "author": null,
+   "license": "Public domain",
+   "licenseUrl": null
+  },
+  "SZ": {
+   "canton": "Schwyz",
+   "image": "img/flags/SZ.svg",
+   "source": "https://commons.wikimedia.org/wiki/File:Flag_of_Canton_of_Schwyz.svg",
+   "author": null,
+   "license": "Public domain",
+   "licenseUrl": null
+  },
+  "OW": {
+   "canton": "Obwalden",
+   "image": "img/flags/OW.svg",
+   "source": "https://commons.wikimedia.org/wiki/File:Flag_of_Canton_of_Obwalden.svg",
+   "author": "Rudolf Münger",
+   "license": "Public domain",
+   "licenseUrl": null
+  },
+  "NW": {
+   "canton": "Nidwalden",
+   "image": "img/flags/NW.svg",
+   "source": "https://commons.wikimedia.org/wiki/File:Flag_of_Canton_of_Nidwalden.svg",
+   "author": null,
+   "license": "Public domain",
+   "licenseUrl": null
+  },
+  "GL": {
+   "canton": "Glarus",
+   "image": "img/flags/GL.svg",
+   "source": "https://commons.wikimedia.org/wiki/File:Flag_of_Canton_of_Glarus.svg",
+   "author": null,
+   "license": "Public domain",
+   "licenseUrl": null
+  },
+  "ZG": {
+   "canton": "Zug",
+   "image": "img/flags/ZG.svg",
+   "source": "https://commons.wikimedia.org/wiki/File:Flag_of_Canton_of_Zug.svg",
+   "author": null,
+   "license": "Public domain",
+   "licenseUrl": null
+  },
+  "FR": {
+   "canton": "Freiburg",
+   "image": "img/flags/FR.svg",
+   "source": "https://commons.wikimedia.org/wiki/File:Flag_of_Canton_of_Fribourg.svg",
+   "author": null,
+   "license": "Public domain",
+   "licenseUrl": null
+  },
+  "SO": {
+   "canton": "Solothurn",
+   "image": "img/flags/SO.svg",
+   "source": "https://commons.wikimedia.org/wiki/File:Flag_of_Canton_of_Solothurn.svg",
+   "author": null,
+   "license": "Public domain",
+   "licenseUrl": null
+  },
+  "BS": {
+   "canton": "Basel-Stadt",
+   "image": "img/flags/BS.svg",
+   "source": "https://commons.wikimedia.org/wiki/File:Flag_of_Canton_of_Basel.svg",
+   "author": "Edi Hauri",
+   "license": "Public domain",
+   "licenseUrl": null
+  },
+  "BL": {
+   "canton": "Basel-Landschaft",
+   "image": "img/flags/BL.svg",
+   "source": "https://commons.wikimedia.org/wiki/File:CHE_Basel-Landschaft_Flag.svg",
+   "author": "Otto Plattner, Vektorgrafik: SpinnerLaserzthe2nd",
+   "license": "Public domain",
+   "licenseUrl": null
+  },
+  "SH": {
+   "canton": "Schaffhausen",
+   "image": "img/flags/SH.svg",
+   "source": "https://commons.wikimedia.org/wiki/File:Flag_of_Canton_of_Schaffhausen.svg",
+   "author": null,
+   "license": "Public domain",
+   "licenseUrl": null
+  },
+  "AR": {
+   "canton": "Appenzell Ausserrhoden",
+   "image": "img/flags/AR.svg",
+   "source": "https://commons.wikimedia.org/wiki/File:Flag_of_Canton_of_Appenzell_Ausserrhoden.svg",
+   "author": null,
+   "license": "Public domain",
+   "licenseUrl": null
+  },
+  "AI": {
+   "canton": "Appenzell Innerrhoden",
+   "image": "img/flags/AI.svg",
+   "source": "https://commons.wikimedia.org/wiki/File:Flag_of_Canton_of_Appenzell_Innerrhoden.svg",
+   "author": null,
+   "license": "Public domain",
+   "licenseUrl": null
+  },
+  "SG": {
+   "canton": "St. Gallen",
+   "image": "img/flags/SG.svg",
+   "source": "https://commons.wikimedia.org/wiki/File:Flag_of_Canton_of_Sankt_Gallen_2011.svg",
+   "author": null,
+   "license": "Public domain",
+   "licenseUrl": null
+  },
+  "GR": {
+   "canton": "Graubünden",
+   "image": "img/flags/GR.svg",
+   "source": "https://commons.wikimedia.org/wiki/File:Flag_of_Canton_of_Graub%C3%BCnden.svg",
+   "author": null,
+   "license": "Public domain",
+   "licenseUrl": null
+  },
+  "AG": {
+   "canton": "Aargau",
+   "image": "img/flags/AG.svg",
+   "source": "https://commons.wikimedia.org/wiki/File:Flag_of_Canton_of_Aargau.svg",
+   "author": null,
+   "license": "Public domain",
+   "licenseUrl": null
+  },
+  "TG": {
+   "canton": "Thurgau",
+   "image": "img/flags/TG.svg",
+   "source": "https://commons.wikimedia.org/wiki/File:Flag_of_Canton_of_Thurgau.svg",
+   "author": null,
+   "license": "Public domain",
+   "licenseUrl": null
+  },
+  "TI": {
+   "canton": "Tessin",
+   "image": "img/flags/TI.svg",
+   "source": "https://commons.wikimedia.org/wiki/File:Flag_of_Canton_of_Ticino.svg",
+   "author": null,
+   "license": "Public domain",
+   "licenseUrl": null
+  },
+  "VD": {
+   "canton": "Waadt",
+   "image": "img/flags/VD.svg",
+   "source": "https://commons.wikimedia.org/wiki/File:CHE_Vaud_Flag.svg",
+   "author": "Vektorgrafik: SpinnerLaserzthe2nd",
+   "license": "Public domain",
+   "licenseUrl": null
+  },
+  "VS": {
+   "canton": "Wallis",
+   "image": "img/flags/VS.svg",
+   "source": "https://commons.wikimedia.org/wiki/File:CHE_Valais_Flag.svg",
+   "author": "Vektorgrafik: SpinnerLaserzthe2nd",
+   "license": "Public domain",
+   "licenseUrl": null
+  },
+  "NE": {
+   "canton": "Neuenburg",
+   "image": "img/flags/NE.svg",
+   "source": "https://commons.wikimedia.org/wiki/File:Flag_of_Canton_of_Neuch%C3%A2tel.svg",
+   "author": null,
+   "license": "Public domain",
+   "licenseUrl": null
+  },
+  "GE": {
+   "canton": "Genf",
+   "image": "img/flags/GE.svg",
+   "source": "https://commons.wikimedia.org/wiki/File:CHE_Canton_de_Gen%C3%A8ve_Flag.svg",
+   "author": "Émile Demole, Vektorgrafik: République et Canton de Genève",
+   "license": "Public domain",
+   "licenseUrl": null
+  },
+  "JU": {
+   "canton": "Jura",
+   "image": "img/flags/JU.svg",
+   "source": "https://commons.wikimedia.org/wiki/File:Flag_of_Canton_of_Jura.svg",
+   "author": null,
+   "license": "Public domain",
+   "licenseUrl": null
+  }
+ }
 }

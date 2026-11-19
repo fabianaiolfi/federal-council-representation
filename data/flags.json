@@ -1,0 +1,210 @@
+{
+  "ZH": {
+    "image": "img/flags/ZH.svg",
+    "file": "Flag of Canton of Zürich.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Flag_of_Canton_of_Z%C3%BCrich.svg",
+    "author": null,
+    "license": "Public domain",
+    "licenseUrl": null
+  },
+  "BE": {
+    "image": "img/flags/BE.svg",
+    "file": "Flag of Canton of Bern.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Flag_of_Canton_of_Bern.svg",
+    "author": "Paul Boesch",
+    "license": "Public domain",
+    "licenseUrl": null
+  },
+  "LU": {
+    "image": "img/flags/LU.svg",
+    "file": "CHE Luzern Flag.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:CHE_Luzern_Flag.svg",
+    "author": "Cantone Ticino",
+    "license": "Public domain",
+    "licenseUrl": null
+  },
+  "UR": {
+    "image": "img/flags/UR.svg",
+    "file": "Flag of Canton of Uri.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Flag_of_Canton_of_Uri.svg",
+    "author": null,
+    "license": "Public domain",
+    "licenseUrl": null
+  },
+  "SZ": {
+    "image": "img/flags/SZ.svg",
+    "file": "Flag of Canton of Schwyz.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Flag_of_Canton_of_Schwyz.svg",
+    "author": null,
+    "license": "Public domain",
+    "licenseUrl": null
+  },
+  "OW": {
+    "image": "img/flags/OW.svg",
+    "file": "Flag of Canton of Obwalden.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Flag_of_Canton_of_Obwalden.svg",
+    "author": "Rudolf Münger",
+    "license": "Public domain",
+    "licenseUrl": null
+  },
+  "NW": {
+    "image": "img/flags/NW.svg",
+    "file": "Flag of Canton of Nidwalden.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Flag_of_Canton_of_Nidwalden.svg",
+    "author": null,
+    "license": "Public domain",
+    "licenseUrl": null
+  },
+  "GL": {
+    "image": "img/flags/GL.svg",
+    "file": "Flag of Canton of Glarus.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Flag_of_Canton_of_Glarus.svg",
+    "author": null,
+    "license": "Public domain",
+    "licenseUrl": null
+  },
+  "ZG": {
+    "image": "img/flags/ZG.svg",
+    "file": "Flag of Canton of Zug.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Flag_of_Canton_of_Zug.svg",
+    "author": null,
+    "license": "Public domain",
+    "licenseUrl": null
+  },
+  "FR": {
+    "image": "img/flags/FR.svg",
+    "file": "Flag of Canton of Fribourg.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Flag_of_Canton_of_Fribourg.svg",
+    "author": null,
+    "license": "Public domain",
+    "licenseUrl": null
+  },
+  "SO": {
+    "image": "img/flags/SO.svg",
+    "file": "Flag of Canton of Solothurn.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Flag_of_Canton_of_Solothurn.svg",
+    "author": null,
+    "license": "Public domain",
+    "licenseUrl": null
+  },
+  "BS": {
+    "image": "img/flags/BS.svg",
+    "file": "Flag of Canton of Basel.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Flag_of_Canton_of_Basel.svg",
+    "author": "Edi Hauri",
+    "license": "Public domain",
+    "licenseUrl": null
+  },
+  "BL": {
+    "image": "img/flags/BL.svg",
+    "file": "CHE Basel-Landschaft Flag.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:CHE_Basel-Landschaft_Flag.svg",
+    "author": "Otto Plattner, Vektorgrafik: SpinnerLaserzthe2nd",
+    "license": "Public domain",
+    "licenseUrl": null
+  },
+  "SH": {
+    "image": "img/flags/SH.svg",
+    "file": "Flag of Canton of Schaffhausen.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Flag_of_Canton_of_Schaffhausen.svg",
+    "author": null,
+    "license": "Public domain",
+    "licenseUrl": null
+  },
+  "AR": {
+    "image": "img/flags/AR.svg",
+    "file": "Flag of Canton of Appenzell Ausserrhoden.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Flag_of_Canton_of_Appenzell_Ausserrhoden.svg",
+    "author": null,
+    "license": "Public domain",
+    "licenseUrl": null
+  },
+  "AI": {
+    "image": "img/flags/AI.svg",
+    "file": "Flag of Canton of Appenzell Innerrhoden.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Flag_of_Canton_of_Appenzell_Innerrhoden.svg",
+    "author": null,
+    "license": "Public domain",
+    "licenseUrl": null
+  },
+  "SG": {
+    "image": "img/flags/SG.svg",
+    "file": "Flag of Canton of Sankt Gallen 2011.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Flag_of_Canton_of_Sankt_Gallen_2011.svg",
+    "author": null,
+    "license": "Public domain",
+    "licenseUrl": null
+  },
+  "GR": {
+    "image": "img/flags/GR.svg",
+    "file": "Flag of Canton of Graubünden.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Flag_of_Canton_of_Graub%C3%BCnden.svg",
+    "author": null,
+    "license": "Public domain",
+    "licenseUrl": null
+  },
+  "AG": {
+    "image": "img/flags/AG.svg",
+    "file": "Flag of Canton of Aargau.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Flag_of_Canton_of_Aargau.svg",
+    "author": null,
+    "license": "Public domain",
+    "licenseUrl": null
+  },
+  "TG": {
+    "image": "img/flags/TG.svg",
+    "file": "Flag of Canton of Thurgau.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Flag_of_Canton_of_Thurgau.svg",
+    "author": null,
+    "license": "Public domain",
+    "licenseUrl": null
+  },
+  "TI": {
+    "image": "img/flags/TI.svg",
+    "file": "Flag of Canton of Tessin.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Flag_of_Canton_of_Ticino.svg",
+    "author": null,
+    "license": "Public domain",
+    "licenseUrl": null
+  },
+  "VD": {
+    "image": "img/flags/VD.svg",
+    "file": "CHE Vaud Flag.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:CHE_Vaud_Flag.svg",
+    "author": "Vektorgrafik: SpinnerLaserzthe2nd",
+    "license": "Public domain",
+    "licenseUrl": null
+  },
+  "VS": {
+    "image": "img/flags/VS.svg",
+    "file": "CHE Valais Flag.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:CHE_Valais_Flag.svg",
+    "author": "Vektorgrafik: SpinnerLaserzthe2nd",
+    "license": "Public domain",
+    "licenseUrl": null
+  },
+  "NE": {
+    "image": "img/flags/NE.svg",
+    "file": "Flag of Canton of Neuchâtel.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Flag_of_Canton_of_Neuch%C3%A2tel.svg",
+    "author": null,
+    "license": "Public domain",
+    "licenseUrl": null
+  },
+  "GE": {
+    "image": "img/flags/GE.svg",
+    "file": "CHE Canton de Genève Flag.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:CHE_Canton_de_Gen%C3%A8ve_Flag.svg",
+    "author": "Émile Demole, Vektorgrafik: République et Canton de Genève",
+    "license": "Public domain",
+    "licenseUrl": null
+  },
+  "JU": {
+    "image": "img/flags/JU.svg",
+    "file": "Flag of Canton of Jura.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Flag_of_Canton_of_Jura.svg",
+    "author": null,
+    "license": "Public domain",
+    "licenseUrl": null
+  }
+}

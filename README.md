@@ -13,17 +13,19 @@ the seven members, one box per comparison and the history chart.
    abbreviations). The ← → buttons, the slider or the ← → keys step
    through every version of the Council since 1848 (94 so far). The
    navigator stays at the top of the screen while you scroll through the
-   whole page; once the big score is out of view, it shows the score next
-   to the dates ("73 % Übereinstimmung"). It keeps one height for every
+   whole page; once the big score has scrolled past (above the screen),
+   it shows the score next to the dates ("75 % Gesamtübereinstimmung"),
+   but not while you read the intro above it. It keeps one height for every
    version (on phones the dates always take two lines, and below about
    900 px the score always gets its own line). Below the overall score,
    one box shows the seven members (portrait, name, "party · canton"; by
-   seniority).
+   seniority). The canton is shown as its flag (`site/img/flags/`, see
+   "Canton flags" below), about as tall as the text, with the canton's name
+   on hover and for screen readers.
 
-   Names are short to keep the page calm: cantons as ISO 3166-2 codes
-   without "CH-" (VD, TI, ZH, …), languages as ISO 639-1 codes (DE, FR,
-   IT, RM; "Andere" for other languages) and parties by their
-   abbreviation ("M" for Die Mitte, "FDP" for FDP.Die Liberalen). Cards show
+   Names are short to keep the page calm: languages as ISO 639-1 codes (DE,
+   FR, IT, RM; "Andere" for other languages) and parties by their
+   abbreviation ("Mitte" for Die Mitte, "FDP" for FDP.Die Liberalen). Cards show
    the party as named at the time (e.g. "freis.", "CVP", "BDP"). The bar
    tooltips use the full names.
 
@@ -41,9 +43,12 @@ the seven members, one box per comparison and the history chart.
    - **Selbst zusammenstellen:** set gender, party (the parties with at
      least 1 % in that period's National Council election), language and
      age yourself. Starts with the replaced member's profile.
-   - **Aus Liste wählen:** pick a person from `data/candidates.csv` (see
-     "People for the list" below). Their age is calculated for the version
-     shown; only people who would have been 18 or older are offered.
+   - **Offizielle Kandidierende:** pick a person from
+     `data/candidates.csv` (see "Official candidates" below), shown as
+     cards like the Council's (portrait, name, party · flag) in a grid that
+     grows with the number of people (no scrolling inside the box). Their
+     age is calculated for the version shown; only people who would have
+     been 18 or older are offered. The new member's card shows their portrait.
    - **Bestmögliche Person:** the app tries every combination of gender,
      party, language, age group and Grossregion for this seat (with the other members as
      they are) and shows a profile with the highest overall score. If
@@ -58,16 +63,15 @@ the seven members, one box per comparison and the history chart.
    replacement can be undone on its card ("Rückgängig"). Nothing is saved:
    reloading the page shows the real Councils.
 2. **The comparison:** how closely the Council matches the population by
-   **gender, party, language, age and Grossregion**. The overall score
-   ("Übereinstimmung des Bundesrates mit der Bevölkerung", directly below
-   the navigator) is the average of the five, shown in whole percent; each
-   comparison has its own box with its score (one decimal) and two bars
-   (Council vs population). Everything updates with every step in the
-   navigator. "Was bedeutet
-   das?" next to the overall score explains the measure, with a worked
-   example for the Council shown.
+   **gender, party, language, age and Herkunft nach Grossregion**. The
+   overall score ("Gesamtübereinstimmung des Bundesrats mit der
+   Bevölkerung", directly below the navigator) is the average of the five,
+   shown in whole percent; each comparison has its own box with its score
+   (one decimal) and two bars (Council vs population). Everything updates
+   with every step in the navigator. The intro text above (behind "Mehr
+   lesen") explains the measure.
 
-   At the bottom, the **history chart** is a step line chart of the
+   At the bottom, the **history chart** ("Verlauf seit 1848") is a step line chart of the
    overall score and the five comparisons for every version of the Council
    (x: time, y: 0–100 %). Each step is one version; the selected one is
    shaded, with a dot on each line. Hovering shows all values of a version,
@@ -81,10 +85,11 @@ the seven members, one box per comparison and the history chart.
    light gray): hover a legend entry to preview it, click (tap) it to keep
    it until clicked again.
 
-The footer of every page links to two more pages: **Quellen**
+The footer of every page links to three more pages: **Quellen**
 (`quellen.html`: data sources and picture credits, built from
-`data/data.json`) and the **Datenschutzerklärung** (`datenschutz.html`).
-The contact address there is protected from spam bots (`js/email.js`): the
+`data/data.json`), the **Datenschutzerklärung** (`datenschutz.html`) and
+**Kontakt** (`kontakt.html`). Each has a "Zurück zur Übersicht" button at
+the top. The email address on these pages is protected from spam bots (`js/email.js`): the
 page shows "name [at] domain" and puts the real address together only when
 it is clicked.
 
@@ -183,7 +188,7 @@ Run it again whenever
 - the CSV changes (new councillor, someone leaves), or
 - BFS publishes a new year (usually in late summer).
 
-## People for the list ("Aus Liste wählen")
+## Official candidates ("Offizielle Kandidierende")
 
 Add people to `data/candidates.csv` and run `python3 scripts/build_data.py`.
 One row per person:
@@ -200,11 +205,31 @@ Vorname Nachname,female,GRÜNE,fr,1980-05-17,Genf
 | `party` | As in the BFS election statistics: `SP`, `Mitte`, `FDP`, `SVP`, `GRÜNE`, `GLP`, `EVP`, `EDU`, … (historic names like `CVP` or `BGB` are converted) |
 | `language` | `de`, `fr`, `it`, `rm` or `other` (or `Deutsch`, `Französisch`, …) |
 | `birth_date` | `YYYY-MM-DD`, or just `YYYY` if only the year is known (then 1 July is assumed) |
-| `canton` | Canton, as in the councillor list (`Zürich`, `Waadt`, `Tessin`, …): shown as its code (ZH, VD, TI) and used for the Grossregion |
+| `canton` | Canton, as in the councillor list (`Zürich`, `Waadt`, `Tessin`, …): shown as its flag and used for the Grossregion |
 
 The script stops with a message pointing to the line if a value is missing
-or unknown. While the file has no rows, the page says "Noch keine Personen
-hinterlegt."
+or unknown. While the file has no rows, the page says "Noch keine
+offiziellen Kandidierenden erfasst."
+
+Portraits come from Wikidata, like the councillors' (next section):
+`scripts/fetch_wikidata.py` finds each person by name (and birth date, if
+several people share the name) and saves the picture as
+`site/img/candidates/<name>.jpg`, with author and licence in
+`data/wikidata_candidates.json`. A person without a picture gets their
+initials. Pictures already there are kept, so a photo cropped by hand
+stays (Pierre Alain Schnegg: head and shoulders cut from a CC0 event photo).
+
+## Canton flags
+
+```bash
+python3 scripts/fetch_flags.py   # then: python3 scripts/build_data.py
+```
+
+Downloads the 26 canton flags from Wikimedia Commons (the files of the
+German Wikipedia "Liste der Wappen und Fahnen der Schweizer Kantone"; all
+public domain) to `site/img/flags/<code>.svg`, with author and licence in
+`data/flags.json` for the Quellen page. `scripts/check_site.py` checks that
+the flag of every canton shown exists.
 
 ## Birth dates, languages and portraits (Wikidata)
 
@@ -399,17 +424,21 @@ Details and choices:
 ```
 data/
   all_federal_councillors.csv   source data: every councillor since 1848
-  candidates.csv                people for "Aus Liste wählen" (you fill this in)
+  candidates.csv                people for "Offizielle Kandidierende" (you fill this in)
   wikidata.json                 written by fetch_wikidata.py
+  wikidata_candidates.json      written by fetch_wikidata.py (candidates' portraits)
+  flags.json                    written by fetch_flags.py (credits of the flags)
 scripts/
   build_data.py                 builds site/data/data.json (CSV + BFS API)
   check_site.py                 checks before deploying (run by the pipeline)
   fetch_wikidata.py             birth dates, languages, portraits (Wikidata)
+  fetch_flags.py                canton flags (Wikimedia Commons)
   serve.py                      local web server without browser caching
 site/                           the web app (static files; this folder is published)
   index.html                    page structure (main page)
   quellen.html                  sources and picture credits
   datenschutz.html              privacy policy
+  kontakt.html                  contact
   _headers                      browser caching rules (Cloudflare Pages)
   css/style.css                 all styling (design tokens at the top)
   js/app.js                     loads data, builds the page, browsing
@@ -423,9 +452,10 @@ site/                           the web app (static files; this folder is publis
   js/sources.js                 fills quellen.html from data.json
   js/email.js                   email address hidden from spam bots
   js/content.js                 longer texts: loads and renders the Markdown files
-  content/de/intro.md           intro text below the page title (Markdown)
+  content/de/intro.md           page title and intro text (Markdown)
   data/data.json                generated by build_data.py
-  img/                          portraits (written by fetch_wikidata.py)
+  img/                          portraits (written by fetch_wikidata.py; candidates/ too)
+  img/flags/                    canton flags (written by fetch_flags.py)
   fonts/                        Inter (woff2) + its licence
 .github/workflows/deploy.yml    pipeline: check, then publish (main / beta)
 ```
@@ -497,7 +527,6 @@ banner and sends nothing. On beta, events also appear in the DebugView
 |---|---|---|
 | `select_council` | another Council is shown | `method` (button, slider, key, chart), `council_start` |
 | `history_focus` | a line pinned / unpinned in the legend of the history chart | `series` (overall, gender, party, language, age, region), `action` (pin, unpin) |
-| `open_info` | "Was bedeutet das?" opened | `method` (click; hover once per visit) |
 | `read_more` | "Mehr lesen" / "Weniger" pressed in a text | `text` (e.g. intro), `action` (open, close) |
 | `replace_open` / `replace_edit` | "Ersetzen" / "Bearbeiten" on a card | `councillor`, `council_start` |
 | `replace_mode` | one of the three modes chosen | `mode` (custom, list, best); for best also the profile |
@@ -521,9 +550,6 @@ and `variants` create a custom metric instead.
 
 - **Language switcher:** add a `"fr-CH"` (etc.) block to `site/js/i18n.js` and
   a button that calls `setLanguage()` and re-renders.
-- **Explanations:** so far, "Was bedeutet das?" next to the overall score
-  explains the measure in short (with a worked example for gender); a longer
-  methods section could follow.
 
 ## Sources
 
@@ -540,16 +566,18 @@ and `variants` create a custom metric instead.
   [px-x-0102020000_101](https://www.pxweb.bfs.admin.ch/pxweb/de/px-x-0102020000_101/-/px-x-0102020000_101.px/)
   "Demografische Bilanz nach Kanton"
 - Federal Council: `data/all_federal_councillors.csv`
-- Birth dates, languages and portraits of the councillors:
-  [Wikidata](https://www.wikidata.org/) and
+- Birth dates, languages and portraits of the councillors, portraits of
+  the candidates: [Wikidata](https://www.wikidata.org/) and
   [Wikimedia Commons](https://commons.wikimedia.org/)
-- Info icon (ⓘ): [Material Icons](https://fonts.google.com/icons) "info_outline"
-  by Google, Apache License 2.0. Embedded as inline SVG in `site/index.html`,
-  so the page makes no request to Google.
+- Canton flags: [Wikimedia Commons](https://commons.wikimedia.org/), as used in
+  the German Wikipedia "Liste der Wappen und Fahnen der Schweizer Kantone"
+  (public domain)
 - Font: [Inter](https://fonts.google.com/specimen/Inter) by Rasmus Andersson
   (The Inter Project Authors), SIL Open Font License 1.1 (`site/fonts/OFL.txt`). The files from Google
   Fonts are stored in `site/fonts/` and served with the site, so every device
-  shows the same font and visitors' browsers don't contact Google.
+  shows the same font and visitors' browsers don't contact Google. Upright
+  (`inter-latin*.woff2`) and the true italics (`inter-italic-latin*.woff2`,
+  for *italic* in the Markdown texts; only downloaded when a page shows italics).
 
 ## Image licences
 
@@ -557,5 +585,7 @@ The portraits in `site/img/` are **not** covered by this project's own
 licence. Each image keeps the licence it was published under on Wikimedia
 Commons (public domain, Creative Commons, or free use with attribution).
 Author, licence and source of every image are listed in
-`data/wikidata.json` and on the page under "Bildnachweise". Keep these
+`data/wikidata.json`, `data/wikidata_candidates.json` and `data/flags.json`
+(canton flags, all public domain), and on the Quellen page under
+"Bildnachweise". Keep these
 credits when reusing or redistributing the images.

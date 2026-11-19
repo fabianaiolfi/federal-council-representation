@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<!--
+  Contact page ("Kontakt"), linked from the footer of every page.
+
+  A plain static page like the privacy policy: same stylesheet, the footer
+  text from js/i18n.js, and the email address protected from spam bots by
+  js/email.js (only "name [at] domain" is in the HTML).
+-->
+<html lang="de-CH">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Kontakt – Wie gut bildet der Bundesrat die Bevölkerung ab?</title>
+  <meta name="theme-color" content="#f2f2ef">
+  <link rel="preload" href="fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="css/style.css">
+  <!-- Footer text, consent banner and "Cookie-Einstellungen" (Google
+       Analytics only after consent), email link -->
+  <script type="module">
+    import { fillText } from "./js/i18n.js";
+    import { setupAnalytics } from "./js/analytics.js";
+    import { setupEmail } from "./js/email.js";
+    fillText();
+    setupAnalytics();
+    setupEmail();
+  </script>
+</head>
+<body>
+  <main class="page text-page">
+
+    <header class="intro">
+      <!-- Back to the main page -->
+      <a class="back-button" href="./">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
+        <span data-i18n="backHome">Zurück zur Übersicht</span>
+      </a>
+      <h1>Kontakt</h1>
+    </header>
+
+    <div class="box text-box">
+      <p>
+        Bei Fragen, Kritik oder Anregungen:
+        <span data-email="moc.liamg#ifloia.naibaf">fabian.aiolfi [at] gmail.com</span>
+      </p>
+    </div>
+
+    <!-- The same footer on every page (index, quellen, datenschutz, kontakt) -->
+    <footer class="footer">
+      <nav class="footer-links" data-i18n-label="footerLabel">
+        <a href="quellen.html" data-i18n="sourcesLink">Quellen</a>
+        <a href="datenschutz.html" data-i18n="privacyLink">Datenschutzerklärung</a>
+        <a href="kontakt.html" data-i18n="contactLink" aria-current="page">Kontakt</a>
+        <!-- Shown by analytics.js when Google Analytics is set up -->
+        <button class="link-button" type="button" data-consent-settings hidden></button>
+      </nav>
+    </footer>
+  </main>
+</body>
+</html>

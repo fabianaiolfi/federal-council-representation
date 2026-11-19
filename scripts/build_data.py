@@ -13,7 +13,7 @@ Sources:
    birth date, languages and portrait of each councillor.
 
    data/candidates.csv (optional): people the user can pick from when
-   replacing a councillor ("Aus Liste wählen"). Columns: name, gender
+   replacing a councillor ("Offizielle Kandidierende"). Columns: name, gender
    (female/male), party (e.g. SP, Mitte, FDP, SVP, GRÜNE, GLP), language
    (de/fr/it/rm/other, or Deutsch, Französisch, …), birth_date (YYYY-MM-DD,
    or just YYYY), canton (optional).
@@ -66,6 +66,8 @@ ROOT = Path(__file__).resolve().parent.parent
 CSV_PATH = ROOT / "data" / "all_federal_councillors.csv"
 WIKIDATA_PATH = ROOT / "data" / "wikidata.json"
 CANDIDATES_PATH = ROOT / "data" / "candidates.csv"
+CANDIDATE_WIKIDATA_PATH = ROOT / "data" / "wikidata_candidates.json"
+FLAGS_PATH = ROOT / "data" / "flags.json"
 OUT_PATH = ROOT / "site" / "data" / "data.json"
 
 USER_AGENT = (
@@ -499,7 +501,7 @@ def add_wikidata(councillors: list[dict]) -> None:
 
 def load_candidates() -> list[dict]:
     """
-    People offered in "Aus Liste wählen" (data/candidates.csv). Party and
+    People offered in "Offizielle Kandidierende" (data/candidates.csv). Party and
     language are converted to the names the comparisons use; rows with
     missing or unknown values stop the script with a message.
     """
@@ -540,7 +542,23 @@ def load_candidates() -> list[dict]:
                 "cantonCode": code,
                 "region": REGION_OF[code],
             })
+    # Portraits (scripts/fetch_wikidata.py)
+    wikidata = (json.loads(CANDIDATE_WIKIDATA_PATH.read_text(encoding="utf-8"))
+                if CANDIDATE_WIKIDATA_PATH.exists() else {})
+    for c in candidates:
+        p = wikidata.get(c["name"], {}).get("portrait")
+        if p:
+            c["portrait"] = {k: p[k] for k in ("image", "source", "author", "license", "licenseUrl")}
     return candidates
+
+
+def load_flags() -> dict:
+    """Canton flags (scripts/fetch_flags.py): source and licence, for the Quellen page."""
+    if not FLAGS_PATH.exists():
+        return {}
+    flags = json.loads(FLAGS_PATH.read_text(encoding="utf-8"))
+    return {code: {"canton": CANTONS[code], **{k: f[k] for k in ("image", "source", "author", "license", "licenseUrl")}}
+            for code, f in flags.items()}
 
 
 # --- 2. Gender and age (BFS, PxWeb) --------------------------------------------
@@ -797,7 +815,7 @@ def main() -> None:
     add_wikidata(councillors)
     print(f"Read {len(councillors)} councillors (+ birth dates, languages, portraits)")
     candidates = load_candidates()
-    print(f"Read {len(candidates)} people for 'Aus Liste wählen' from {CANDIDATES_PATH.relative_to(ROOT)}")
+    print(f"Read {len(candidates)} people for 'Offizielle Kandidierende' from {CANDIDATES_PATH.relative_to(ROOT)}")
 
     gender, age = get_gender_and_age()
     print(f"Gender and age: {len(gender['years'])} years ({min(gender['years'])}-{max(gender['years'])})")
@@ -819,6 +837,7 @@ def main() -> None:
         "region": region,
         "councillors": councillors,
         "candidates": candidates,
+        "flags": load_flags(),
     }
     OUT_PATH.parent.mkdir(parents=True, exist_ok=True)
     OUT_PATH.write_text(json.dumps(output, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")

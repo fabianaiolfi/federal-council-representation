@@ -13,8 +13,6 @@
   <title>Bundesrat und Bevölkerung</title>
   <meta name="description" content="">
   <meta name="theme-color" content="#f2f2ef">
-  <!-- Favicon: a small two-colour disc, inline so no extra file is needed -->
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 2a14 14 0 0 0 0 28z' fill='%23eb6834'/%3E%3Cpath d='M16 2a14 14 0 0 1 0 28z' fill='%232a78d6'/%3E%3C/svg%3E">
   <!-- Start loading the font right away (it is referenced from the CSS) -->
   <link rel="preload" href="fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="css/style.css">
@@ -37,8 +35,9 @@
     <!-- 1. Navigator: which Council is shown (buttons, slider, ← → keys).
          A direct child of <main> (a sticky element only sticks within its
          parent), so it stays at the top of the screen while scrolling
-         through the whole page. Once the big score is out of view, the
-         score appears next to the dates ("73 % Übereinstimmung"). ------>
+         through the whole page. Once the big score has scrolled past
+         (above the screen), the score appears next to the dates
+         ("75 % Gesamtübereinstimmung"); not while reading the intro. ---->
     <div class="panel-head" id="panel-head" hidden>
       <div class="panel-top">
         <button class="nav-btn" id="nav-prev" type="button">
@@ -64,19 +63,7 @@
          animated, so it is hidden from screen readers; #score-status
          announces the final value instead. --------------------------->
     <section class="score" id="score" aria-labelledby="score-label">
-      <!-- Title with a "Was bedeutet das?" explanation (filled in by app.js) -->
-      <div class="score-head">
-        <p class="score-label" id="score-label" data-i18n="scoreTitle"></p>
-        <!-- Icon: Material Icons "info_outline" (Google, Apache License 2.0),
-             inlined so no request goes to Google. Label set by app.js. -->
-        <button class="info-button" id="info-button" type="button"
-                aria-expanded="false" aria-controls="info-box">
-          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-            <path d="M11 7h2v2h-2zm0 4h2v6h-2zm1-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/>
-          </svg>
-        </button>
-        <div class="info-box" id="info-box" role="region" aria-labelledby="info-button" hidden></div>
-      </div>
+      <p class="score-label" id="score-label" data-i18n="scoreTitle"></p>
       <p class="score-value" id="score-value" aria-hidden="true">–</p>
       <p class="score-caption" id="score-caption"></p>
       <p class="score-caption" data-i18n="scoreCaption"></p>
@@ -98,18 +85,20 @@
          chart of all scores since 1848 ------------------------------->
     <section class="compare" data-i18n-label="compareTitle">
       <div class="comparisons" id="comparisons"></div>
-      <div class="history" id="history">
+      <div class="history" id="history" role="group" aria-labelledby="history-title">
+        <h3 class="history-title" id="history-title" data-i18n="historyTitle"></h3>
         <ul class="legend" id="history-legend"></ul>
         <div class="chart" id="history-chart"></div>
       </div>
     </section>
 
     <!-- Footer ---------------------------------------------------------------->
-    <!-- The same footer on every page (index, quellen, datenschutz) -->
+    <!-- The same footer on every page (index, quellen, datenschutz, kontakt) -->
     <footer class="footer">
       <nav class="footer-links" data-i18n-label="footerLabel">
         <a href="quellen.html" data-i18n="sourcesLink"></a>
         <a href="datenschutz.html" data-i18n="privacyLink"></a>
+        <a href="kontakt.html" data-i18n="contactLink"></a>
         <!-- Shown by analytics.js when Google Analytics is set up -->
         <button class="link-button" type="button" data-consent-settings hidden></button>
       </nav>

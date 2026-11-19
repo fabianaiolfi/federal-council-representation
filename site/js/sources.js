@@ -40,17 +40,30 @@ function renderSources(data) {
   $("data-generated").textContent = t("dataGenerated", fmt.date(data.generated));
 }
 
-/** Picture credits: "Name: Author, Licence", one line per portrait. */
+/** One credit line: "Name: Author, Licence" (the name links to the image on Commons). */
+function creditItem(name, p) {
+  const li = el("li");
+  li.append(link(name, p.source), document.createTextNode(`: ${p.author || t("creditAuthorUnknown")}, `));
+  li.append(p.licenseUrl ? link(p.license, p.licenseUrl) : document.createTextNode(p.license || "–"));
+  return li;
+}
+
+/** Picture credits in three groups: councillors, candidates, canton flags. */
 function renderCredits(data) {
-  const people = data.councillors.filter((c) => c.portrait);
-  const items = people.map((c) => {
-    const p = c.portrait;
-    const li = el("li");
-    li.append(link(c.name, p.source), document.createTextNode(`: ${p.author || t("creditAuthorUnknown")}, `));
-    li.append(p.licenseUrl ? link(p.license, p.licenseUrl) : document.createTextNode(p.license || "–"));
-    return li;
-  });
-  $("credits-list").replaceChildren(...items);
+  const groups = [
+    [t("creditsCouncillors"), data.councillors.filter((c) => c.portrait).map((c) => creditItem(c.name, c.portrait))],
+    [t("creditsCandidates"), (data.candidates ?? []).filter((c) => c.portrait).map((c) => creditItem(c.name, c.portrait))],
+    [t("creditsFlags"), Object.values(data.flags ?? {}).map((f) => creditItem(t("cantonFlag", f.canton), f))],
+  ];
+  $("credits").replaceChildren(
+    ...groups
+      .filter(([, items]) => items.length)
+      .flatMap(([title, items]) => {
+        const list = el("ul", "source-list credits-list");
+        list.append(...items);
+        return [el("h3", null, title), list];
+      })
+  );
 }
 
 async function main() {

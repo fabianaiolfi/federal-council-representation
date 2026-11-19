@@ -1,0 +1,90 @@
+{
+  "Thomas Aeschi": {
+    "wikidata": "Q118558",
+    "portrait": {
+      "image": "img/candidates/thomas-aeschi.jpg",
+      "file": "Thomas Aeschi (2023).jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Thomas_Aeschi_(2023).jpg",
+      "author": "Assemblea Federale Svizzera",
+      "license": "Attribution",
+      "licenseUrl": null
+    }
+  },
+  "Jean-Pierre Gallati": {
+    "wikidata": "Q76891689",
+    "portrait": {
+      "image": "img/candidates/jean-pierre-gallati.jpg",
+      "file": "Jean-Pierre Gallati (2019).jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Jean-Pierre_Gallati_(2019).jpg",
+      "author": "Parliamentary Services",
+      "license": "Attribution",
+      "licenseUrl": null
+    }
+  },
+  "Pierre Alain Schnegg": {
+    "wikidata": "Q30118138",
+    "portrait": {
+      "image": "img/candidates/pierre-alain-schnegg.jpg",
+      "file": "SCO SVP Biel-Bienne 20260126 (70).jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:SCO_SVP_Biel-Bienne_20260126_(70).jpg",
+      "author": "Bricetofly",
+      "license": "CC0",
+      "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en"
+    }
+  },
+  "Céline Amaudruz": {
+    "wikidata": "Q120883",
+    "portrait": {
+      "image": "img/candidates/celine-amaudruz.jpg",
+      "file": "Céline Amaudruz (2019).jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:C%C3%A9line_Amaudruz_(2019).jpg",
+      "author": "Services du Parlement",
+      "license": "Attribution",
+      "licenseUrl": null
+    }
+  },
+  "Franz Ruppen": {
+    "wikidata": "Q21294822",
+    "portrait": {
+      "image": "img/candidates/franz-ruppen.jpg",
+      "file": "Franz Ruppen (2019).jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Franz_Ruppen_(2019).jpg",
+      "author": "Services du Parlement",
+      "license": "Attribution",
+      "licenseUrl": null
+    }
+  },
+  "Rémy Wyssmann": {
+    "wikidata": "Q123485143",
+    "portrait": {
+      "image": "img/candidates/remy-wyssmann.jpg",
+      "file": "Rémy Wyssmann (cropped).jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:R%C3%A9my_Wyssmann_(cropped).jpg",
+      "author": "Parliamentary Services",
+      "license": "Attribution",
+      "licenseUrl": null
+    }
+  },
+  "Michael Graber": {
+    "wikidata": "Q106240065",
+    "portrait": {
+      "image": "img/candidates/michael-graber.jpg",
+      "file": "Michael Graber (2021, parl.ch).jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Michael_Graber_(2021,_parl.ch).jpg",
+      "author": "Services du Parlement",
+      "license": "Attribution",
+      "licenseUrl": null
+    }
+  },
+  "Marco Chiesa": {
+    "wikidata": "Q21294613",
+    "portrait": {
+      "image": "img/candidates/marco-chiesa.jpg",
+      "file": "Marco Chiesa (2018, cropped).jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Marco_Chiesa_(2018,_cropped).jpg",
+      "author": "Services du Parlement",
+      "license": "Attribution",
+      "licenseUrl": null
+    }
+  }
+}

@@ -11,6 +11,8 @@
   Cache-Control: no-cache
 /quellen*
   Cache-Control: no-cache
+/kontakt*
+  Cache-Control: no-cache
 /js/*
   Cache-Control: no-cache
 /css/*

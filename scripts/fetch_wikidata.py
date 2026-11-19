@@ -15,6 +15,9 @@ Steps:
 4. Save the images as site/img/<number>.<ext> and everything else as
    data/wikidata.json. build_data.py then adds it to site/data/data.json
    (and works out each councillor's main language from it).
+5. The same for the portraits of the people in data/candidates.csv
+   ("Offizielle Kandidierende"): site/img/candidates/<name>.jpg and
+   data/wikidata_candidates.json.
 
 The images are stored in this repository (not loaded from Wikimedia when
 someone visits the page): faster, works offline, and visitors' browsers
@@ -151,6 +154,87 @@ def commons_info(files: list[str]) -> dict[str, dict]:
     return info
 
 
+# --- Candidates (data/candidates.csv): portraits ---------------------------------------
+
+def slug(name: str) -> str:
+    """'Céline Amaudruz' -> 'celine-amaudruz' (file name of the portrait)."""
+    plain = unicodedata.normalize("NFKD", name).encode("ascii", "ignore").decode()
+    return re.sub(r"[^a-z]+", "-", plain.lower()).strip("-")
+
+
+def fetch_candidate_portraits() -> None:
+    """
+    Portraits of the people in data/candidates.csv ("Offizielle
+    Kandidierende"). They are found on Wikidata by name; if several people
+    share the name, the one with the birth date from the CSV is taken.
+    Saved as site/img/candidates/<name>.jpg, credits in
+    data/wikidata_candidates.json (keyed by name). Existing images are kept,
+    so a photo cropped by hand stays (pierre-alain-schnegg.jpg: head and
+    shoulders cut from the event photo on Wikidata, which is CC0).
+    """
+    from build_data import load_candidates  # same folder
+
+    candidates = load_candidates()
+    if not candidates:
+        return
+    labels = " ".join(f'"{c["name"]}"@{lang}' for c in candidates for lang in ("de", "fr", "en"))
+    query = f"""
+        SELECT ?person ?label ?img ?born WHERE {{
+          VALUES ?label {{ {labels} }}
+          ?person rdfs:label ?label ; wdt:P31 wd:Q5 .
+          OPTIONAL {{ ?person wdt:P18 ?img }}
+          OPTIONAL {{ ?person wdt:P569 ?born }}
+        }}
+    """
+    data = json.loads(get(WIKIDATA_SPARQL, {"query": query, "format": "json"}))
+    found: dict[str, list[dict]] = {}
+    for row in data["results"]["bindings"]:
+        image_url = row.get("img", {}).get("value")
+        found.setdefault(row["label"]["value"], []).append({
+            "wikidata": row["person"]["value"].rsplit("/", 1)[1],
+            "birthDate": row.get("born", {}).get("value", "")[:10],
+            "file": urllib.parse.unquote(image_url.rsplit("/", 1)[1]) if image_url else None,
+        })
+
+    chosen, missing = {}, []
+    for c in candidates:
+        people = [p for p in found.get(c["name"], []) if p["file"]]
+        same_birth = [p for p in people if p["birthDate"] == c["birthDate"]]
+        person = (same_birth or people or [None])[0]
+        if person:
+            chosen[c["name"]] = person
+        else:
+            missing.append(c["name"])
+
+    info = commons_info(sorted({p["file"] for p in chosen.values()}))
+    out_dir = IMG_DIR / "candidates"
+    out_dir.mkdir(parents=True, exist_ok=True)
+    result = {}
+    for name, person in chosen.items():
+        meta = info.get(person["file"])
+        if not meta:
+            missing.append(name)
+            continue
+        ext = Path(urllib.parse.urlparse(meta["thumb"]).path).suffix.lower() or ".jpg"
+        path = out_dir / f"{slug(name)}{ext}"
+        if not path.exists():
+            path.write_bytes(get(meta["thumb"]))
+            time.sleep(0.5)
+        result[name] = {
+            "wikidata": person["wikidata"],
+            "portrait": {
+                "image": f"img/candidates/{path.name}",
+                "file": person["file"],
+                **{k: meta[k] for k in ("source", "author", "license", "licenseUrl")},
+            },
+        }
+    path = ROOT / "data" / "wikidata_candidates.json"
+    path.write_text(json.dumps(result, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    print(f"Candidates: {len(result)} portraits in {out_dir.relative_to(ROOT)}/, credits in {path.relative_to(ROOT)}")
+    if missing:
+        print("No portrait found for:", ", ".join(missing))
+
+
 # --- main ------------------------------------------------------------------------------
 
 def main() -> None:
@@ -209,6 +293,7 @@ def main() -> None:
             print(f"  {c['number']}: {c['name']}")
     if no_portrait:
         print("No portrait on Wikidata for numbers:", ", ".join(map(str, no_portrait)))
+    fetch_candidate_portraits()
     print("Now run: python3 scripts/build_data.py")
 
 

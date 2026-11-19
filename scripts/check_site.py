@@ -10,7 +10,8 @@ and handy locally before a commit):
    data/wikidata.json and data/candidates.csv. (The BFS figures are not
    re-downloaded; they only change when you run build_data.py.)
 2. Every file the page refers to exists: scripts, styles, fonts, the
-   portrait of every councillor, and every text (data-content="intro" ->
+   portrait of every councillor and candidate, the flag of every canton
+   shown, and every text (data-content="intro" ->
    site/content/<language>/intro.md, in every language folder).
 3. Every JavaScript file is free of syntax errors (needs Node.js).
 
@@ -45,10 +46,16 @@ def check_data() -> None:
         problems.append("site/data/data.json: councillors are out of date. Run scripts/build_data.py.")
     if data["candidates"] != build_data.load_candidates():
         problems.append("site/data/data.json: people list is out of date. Run scripts/build_data.py.")
-    for c in data["councillors"]:
+    if data.get("flags") != build_data.load_flags():
+        problems.append("site/data/data.json: canton flags are out of date. Run scripts/build_data.py.")
+    for c in data["councillors"] + data["candidates"]:
         image = c.get("portrait", {}).get("image")
         if image and not (SITE / image).is_file():
             problems.append(f"Portrait of {c['name']} missing: site/{image}")
+    # Every card shows its canton's flag (img/flags/<code>.svg, scripts/fetch_flags.py)
+    for code in sorted({c["cantonCode"] for c in data["councillors"] + data["candidates"]}):
+        if not (SITE / "img" / "flags" / f"{code}.svg").is_file():
+            problems.append(f"Flag of canton {code} missing: site/img/flags/{code}.svg (run scripts/fetch_flags.py)")
 
 
 def check_references() -> None:
