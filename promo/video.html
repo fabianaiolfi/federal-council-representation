@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<!--
+  Short video for LinkedIn: how the official candidates for Guy Parmelin's
+  seat would change the Gesamtübereinstimmung. Not part of the website
+  (this folder is not published); see promo/README.md.
+
+  The stage is 540 × 675 CSS pixels (4:5). On a Retina screen that is
+  exactly 1080 × 1350 pixels, LinkedIn's recommended portrait size.
+-->
+<html lang="de-CH">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Video: Wer ersetzt Guy Parmelin?</title>
+  <link rel="preload" href="../site/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="video.css">
+  <script type="module" src="video.js"></script>
+</head>
+<body>
+  <!-- Everything inside #stage is the video; record exactly this area -->
+  <div class="stage" id="stage"></div>
+
+  <!-- Outside the recorded area -->
+  <p class="controls" id="controls">
+    <strong>Leertaste</strong>: abspielen / pausieren ·
+    <strong>R</strong>: von vorne ·
+    <strong>← →</strong>: eine Sekunde zurück / vor ·
+    <span id="clock">0.0 s</span>
+  </p>
+</body>
+</html>

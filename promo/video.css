@@ -1,0 +1,374 @@
+/*
+ * video.css — the look of the website (Inter, white boxes with a black
+ * hairline on a light grey page, square corners), at video size.
+ * Colours: the design tokens of site/css/style.css.
+ */
+
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 100 900;
+  src: url("../site/fonts/inter-latin.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304,
+    U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 100 900;
+  src: url("../site/fonts/inter-latin-ext.woff2") format("woff2");
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+1E00-1E9F;
+}
+
+:root {
+  --bg: #ffffff;
+  --canvas: #f2f2ef;
+  --ink: #0b0b0b;
+  --ink-2: #52514e;
+  --ink-3: #6f6e69;
+  --line: #e6e5e0;
+  --leaving: #fde9e8;
+  --female: #eb6834;
+  --male: #2a78d6;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  background: #2b2b2b; /* around the stage: easy to see what to record */
+  font-family: "Inter", system-ui, sans-serif;
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  display: grid;
+  justify-items: center;
+  align-content: start;
+  gap: 16px;
+  padding: 24px;
+}
+
+p,
+h1,
+h2 {
+  margin: 0;
+}
+
+/* The video: 540 × 675 (4:5) */
+.stage {
+  position: relative;
+  width: 540px;
+  height: 675px;
+  overflow: hidden;
+  background: var(--canvas);
+}
+
+.controls {
+  color: #bbb;
+  font-size: 13px;
+}
+
+.controls strong {
+  color: #fff;
+}
+
+/* A scene fills the stage; its parts fade and move in (video.js) */
+.scene {
+  position: absolute;
+  inset: 0;
+  padding: 36px 32px;
+}
+
+.eyebrow {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+.title {
+  margin-top: 14px;
+  font-size: 40px;
+  line-height: 1.08;
+  letter-spacing: -0.025em;
+  font-weight: 700;
+}
+
+.title-small {
+  font-size: 28px;
+  line-height: 1.15;
+}
+
+.subline {
+  margin-top: 10px;
+  font-size: 15px;
+  line-height: 1.4;
+  color: var(--ink-2);
+}
+
+.box {
+  background: var(--bg);
+  border: 1px solid var(--ink);
+}
+
+/* A person: portrait (3:4), name, flag and party */
+.person {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
+.portrait {
+  flex: none;
+  display: block;
+  width: 54px;
+  height: 72px;
+  object-fit: cover;
+  object-position: center 20%;
+  background: var(--line);
+}
+
+.name {
+  font-size: 20px;
+  font-weight: 650;
+  line-height: 1.2;
+}
+
+.meta {
+  margin-top: 4px;
+  font-size: 15px;
+  color: var(--ink-2);
+}
+
+.flag {
+  display: inline-block;
+  width: 0.9em;
+  height: 0.9em;
+  margin-right: 0.4em;
+  vertical-align: -0.1em;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.15);
+}
+
+/* Scene 1: the member who is leaving, and today's score */
+.leaving {
+  margin-top: 28px;
+  padding: 18px;
+  background: var(--leaving);
+}
+
+.score-box {
+  margin-top: 16px;
+  padding: 22px 20px 24px;
+}
+
+.score-label {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.score-value {
+  margin-top: 6px;
+  font-size: 92px;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  font-variant-numeric: tabular-nums;
+}
+
+.score-caption {
+  margin-top: 10px;
+  font-size: 13px;
+  color: var(--ink-3);
+}
+
+/* Scene 2: one row per candidate */
+.ranking {
+  position: relative;
+  margin-top: 22px;
+}
+
+/* Column labels, in the same grid as the rows */
+.ranking-head {
+  display: grid;
+  grid-template-columns: 30px minmax(0, 1fr) 120px 74px;
+  gap: 12px;
+  align-items: end;
+  height: 34px;
+  padding: 0 14px 8px;
+  border-bottom: 1px solid var(--line);
+  font-size: 12px;
+  color: var(--ink-3);
+}
+
+.head-ref {
+  text-align: center;
+  white-space: nowrap;
+}
+
+.head-value {
+  text-align: right;
+}
+
+.rows {
+  position: relative;
+}
+
+.row {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 54px;
+  display: grid;
+  grid-template-columns: 30px minmax(0, 1fr) 120px 74px;
+  align-items: center;
+  gap: 12px;
+  padding: 0 14px;
+  border-bottom: 1px solid var(--line);
+}
+
+.row .portrait {
+  width: 30px;
+  height: 40px;
+}
+
+.row .name {
+  font-size: 15px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.row .meta {
+  margin-top: 2px;
+  font-size: 12px;
+}
+
+/* Change against today: a bar from the line "heute" to the left (lower)
+   or the right (higher) */
+.change {
+  position: relative;
+  height: 14px;
+}
+
+.change-bar {
+  position: absolute;
+  top: 0;
+  height: 14px;
+  background: var(--ink);
+}
+
+/* The line "heute", through all rows */
+.reference {
+  position: absolute;
+  top: -20px;
+  bottom: -20px;
+  left: 50%;
+  width: 1px;
+  background: var(--ink-3);
+}
+
+.value {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.value strong {
+  display: block;
+  font-size: 16px;
+}
+
+.value span {
+  font-size: 12px;
+  color: var(--ink-2);
+}
+
+/* Scene 3: the best possible person */
+.best {
+  margin-top: 26px;
+  padding: 20px;
+}
+
+.avatar {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 54px;
+  height: 54px;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+.best-value {
+  margin-top: 18px;
+  font-size: 72px;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  font-variant-numeric: tabular-nums;
+}
+
+.best-delta {
+  margin-top: 8px;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.best-compare {
+  margin-top: 18px;
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+  font-size: 15px;
+  color: var(--ink-2);
+}
+
+.note {
+  margin-top: 16px;
+  font-size: 14px;
+  line-height: 1.45;
+  color: var(--ink-2);
+}
+
+/* Scene 4: end card */
+.end {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.url {
+  margin-top: 26px;
+  padding: 18px 22px;
+  font-size: 50px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+}
+
+.end .subline {
+  margin-top: 16px;
+}
+
+.disclaimer {
+  margin-top: 26px;
+  font-size: 14px;
+  line-height: 1.45;
+  color: var(--ink-2);
+}
+
+.credits {
+  position: absolute;
+  left: 32px;
+  right: 32px;
+  bottom: 24px;
+  font-size: 10.5px;
+  line-height: 1.4;
+  color: var(--ink-3);
+}
