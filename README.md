@@ -18,10 +18,11 @@ the seven members, one box per comparison and the history chart.
    but not while you read the intro above it. It keeps one height for every
    version (on phones the dates always take two lines, and below about
    900 px the score always gets its own line). Below the overall score,
-   one box shows the seven members (portrait, name, "party · canton"; by
-   seniority). The canton is shown as its flag (`site/img/flags/`, see
-   "Canton flags" below), about as tall as the text, with the canton's name
-   on hover and for screen readers.
+   one box shows the seven members (portrait, name, canton and party; by
+   seniority). The canton is shown as its flag before the party
+   (`site/img/flags/`, see "Canton flags" below), about as tall as the
+   text. Hovering the flag shows the canton's name in a small label (on
+   touch screens: tapping it); screen readers read "Kanton Zürich".
 
    Names are short to keep the page calm: languages as ISO 639-1 codes (DE,
    FR, IT, RM; "Andere" for other languages) and parties by their
@@ -45,15 +46,16 @@ the seven members, one box per comparison and the history chart.
      age yourself. Starts with the replaced member's profile.
    - **Offizielle Kandidierende:** pick a person from
      `data/candidates.csv` (see "Official candidates" below), shown as
-     cards like the Council's (portrait, name, party · flag) in a grid that
+     cards like the Council's (portrait, name, flag and party) in a grid that
      grows with the number of people (no scrolling inside the box). Their
      age is calculated for the version shown; only people who would have
      been 18 or older are offered. The new member's card shows their portrait.
    - **Bestmögliche Person:** the app tries every combination of gender,
      party, language, age group and Grossregion for this seat (with the other members as
-     they are) and shows a profile with the highest overall score. If
-     several profiles are equally good, clicking again shows the next one
-     ("Variante 2 von 3"). Ages are the middle of the age group.
+     they are) and shows every profile with the highest overall score as
+     cards in the same kind of grid ("Frau, 52 Jahre" / "Genferseeregion ·
+     SVP · Französisch"); the first is chosen, another card replaces it.
+     Ages are the middle of the age group.
 
    The modes share one profile: after picking a person or a best profile,
    "Selbst zusammenstellen" shows it and lets you adjust it. Every change
@@ -85,11 +87,11 @@ the seven members, one box per comparison and the history chart.
    light gray): hover a legend entry to preview it, click (tap) it to keep
    it until clicked again.
 
-The footer of every page links to three more pages: **Quellen**
-(`quellen.html`: data sources and picture credits, built from
-`data/data.json`), the **Datenschutzerklärung** (`datenschutz.html`) and
-**Kontakt** (`kontakt.html`). Each has a "Zurück zur Übersicht" button at
-the top. The email address on these pages is protected from spam bots (`js/email.js`): the
+The footer of every page links to three more pages, in this order:
+**Kontakt** (`kontakt.html`), **Quellen** (`quellen.html`: data sources
+and picture credits, built from `data/data.json`) and the
+**Datenschutzerklärung** (`datenschutz.html`), then "Cookie-Einstellungen".
+Each page has a "Zurück zur Übersicht" link at the top. The email address on these pages is protected from spam bots (`js/email.js`): the
 page shows "name [at] domain" and puts the real address together only when
 it is clicked.
 
@@ -439,6 +441,7 @@ site/                           the web app (static files; this folder is publis
   quellen.html                  sources and picture credits
   datenschutz.html              privacy policy
   kontakt.html                  contact
+  favicon.svg (.ico, apple-touch-icon.png)  icon in the browser tab
   _headers                      browser caching rules (Cloudflare Pages)
   css/style.css                 all styling (design tokens at the top)
   js/app.js                     loads data, builds the page, browsing
@@ -530,7 +533,7 @@ banner and sends nothing. On beta, events also appear in the DebugView
 | `read_more` | "Mehr lesen" / "Weniger" pressed in a text | `text` (e.g. intro), `action` (open, close) |
 | `replace_open` / `replace_edit` | "Ersetzen" / "Bearbeiten" on a card | `councillor`, `council_start` |
 | `replace_mode` | one of the three modes chosen | `mode` (custom, list, best); for best also the profile |
-| `best_next` | next of several best profiles | `variant`, `variants`, profile |
+| `best_select` | another of several best profiles chosen (card) | `variant`, `variants`, profile |
 | `replace_field` | gender, party, language, age or Grossregion changed | `field`, `choice` (age: when the slider is let go) |
 | `candidate_select` | a person picked from the list | `candidate`, `party` |
 | `replace_done` | editor closed ("Fertig" or Escape) | `method`, `councillor`, `council_start`, profile, `score_change` |
@@ -565,13 +568,17 @@ and `variants` create a custom metric instead.
   nach Grossregionen und Kantonen 1850-2000" and STAT-TAB table
   [px-x-0102020000_101](https://www.pxweb.bfs.admin.ch/pxweb/de/px-x-0102020000_101/-/px-x-0102020000_101.px/)
   "Demografische Bilanz nach Kanton"
-- Federal Council: `data/all_federal_councillors.csv`
+- Federal Council: `data/all_federal_councillors.csv`, based on the
+  [list of all Federal Councillors](https://www.admin.ch/de/alle-bundesraete) on admin.ch
 - Birth dates, languages and portraits of the councillors, portraits of
   the candidates: [Wikidata](https://www.wikidata.org/) and
   [Wikimedia Commons](https://commons.wikimedia.org/)
 - Canton flags: [Wikimedia Commons](https://commons.wikimedia.org/), as used in
   the German Wikipedia "Liste der Wappen und Fahnen der Schweizer Kantone"
   (public domain)
+- Favicon: [Material Icons](https://fonts.google.com/icons) "assured_workload"
+  by Google, Apache License 2.0 (`site/favicon.svg`; `favicon.ico` and
+  `apple-touch-icon.png` are rendered from it)
 - Font: [Inter](https://fonts.google.com/specimen/Inter) by Rasmus Andersson
   (The Inter Project Authors), SIL Open Font License 1.1 (`site/fonts/OFL.txt`). The files from Google
   Fonts are stored in `site/fonts/` and served with the site, so every device
@@ -589,3 +596,9 @@ Author, licence and source of every image are listed in
 (canton flags, all public domain), and on the Quellen page under
 "Bildnachweise". Keep these
 credits when reusing or redistributing the images.
+
+The author names come from Wikimedia Commons as they are; `build_data.py`
+tidies them for the page (`tidy_author`): placeholders like "Unknown author
+Unknown author" or "nicht bekannt / unknown" become "Urheber unbekannt",
+"Unknown; copyright belongs to the Swiss Confederation." is said in German,
+and for the flags "Original: … Vector: …" becomes "…, Vektorgrafik: …".

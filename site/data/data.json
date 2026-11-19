@@ -2943,7 +2943,7 @@
    "portrait": {
     "image": "img/1.jpg",
     "source": "https://commons.wikimedia.org/wiki/File:Jonas_Furrer.jpg",
-    "author": "nicht bekannt / unknown",
+    "author": null,
     "license": "Public domain",
     "licenseUrl": null
    }
@@ -2969,7 +2969,7 @@
    "portrait": {
     "image": "img/2.jpg",
     "source": "https://commons.wikimedia.org/wiki/File:Ulrich_Ochsenbein_SNM_DIG-4931_LM-70931_(cropped).jpg",
-    "author": "Unknown author Unknown author",
+    "author": null,
     "license": "Public domain",
     "licenseUrl": null
    }
@@ -2995,7 +2995,7 @@
    "portrait": {
     "image": "img/3.jpg",
     "source": "https://commons.wikimedia.org/wiki/File:Henri_Druey_1850.jpg",
-    "author": "original - not known, copy - uploader",
+    "author": null,
     "license": "Public domain",
     "licenseUrl": null
    }
@@ -3021,7 +3021,7 @@
    "portrait": {
     "image": "img/4.jpg",
     "source": "https://commons.wikimedia.org/wiki/File:Josef_Munzinger.jpg",
-    "author": "Unknown author Unknown author",
+    "author": null,
     "license": "Public domain",
     "licenseUrl": null
    }
@@ -3177,7 +3177,7 @@
    "portrait": {
     "image": "img/10.jpg",
     "source": "https://commons.wikimedia.org/wiki/File:Josef_Martin_Kn%C3%BCsel.jpg",
-    "author": "Unknown author Unknown author",
+    "author": null,
     "license": "Public domain",
     "licenseUrl": null
    }
@@ -3203,7 +3203,7 @@
    "portrait": {
     "image": "img/11.jpg",
     "source": "https://commons.wikimedia.org/wiki/File:Giovanni_Battista_Pioda.jpg",
-    "author": "Unknown author Unknown author",
+    "author": null,
     "license": "Public domain",
     "licenseUrl": null
    }
@@ -3281,7 +3281,7 @@
    "portrait": {
     "image": "img/14.jpg",
     "source": "https://commons.wikimedia.org/wiki/File:Jean-Jacques_Challet-Venel.jpg",
-    "author": "Unknown author Unknown author",
+    "author": null,
     "license": "Public domain",
     "licenseUrl": null
    }
@@ -3359,7 +3359,7 @@
    "portrait": {
     "image": "img/17.jpg",
     "source": "https://commons.wikimedia.org/wiki/File:Paul_C%C3%A9r%C3%A9sole.jpg",
-    "author": "Unknown author Unknown author",
+    "author": null,
     "license": "Public domain",
     "licenseUrl": null
    }
@@ -3385,7 +3385,7 @@
    "portrait": {
     "image": "img/18.jpg",
     "source": "https://commons.wikimedia.org/wiki/File:Johann_Jakob_Scherer.jpg",
-    "author": "Unknown author Unknown author",
+    "author": null,
     "license": "Public domain",
     "licenseUrl": null
    }
@@ -3437,7 +3437,7 @@
    "portrait": {
     "image": "img/20.jpg",
     "source": "https://commons.wikimedia.org/wiki/File:JoachimHeer.jpg",
-    "author": "Unknown author Unknown author",
+    "author": null,
     "license": "Public domain",
     "licenseUrl": null
    }
@@ -3463,7 +3463,7 @@
    "portrait": {
     "image": "img/21.jpg",
     "source": "https://commons.wikimedia.org/wiki/File:Fridolin_Anderwert.jpg",
-    "author": "Unknown author Unknown author",
+    "author": null,
     "license": "Public domain",
     "licenseUrl": null
    }
@@ -3541,7 +3541,7 @@
    "portrait": {
     "image": "img/24.jpg",
     "source": "https://commons.wikimedia.org/wiki/File:Simeon.Bavier_(cropped).jpg",
-    "author": "Unknown author Unknown author",
+    "author": null,
     "license": "Public domain",
     "licenseUrl": null
    }
@@ -3567,7 +3567,7 @@
    "portrait": {
     "image": "img/25.jpg",
     "source": "https://commons.wikimedia.org/wiki/File:Wilhelm_Hertenstein.jpg",
-    "author": "Unknown author Unknown author",
+    "author": null,
     "license": "Public domain",
     "licenseUrl": null
    }
@@ -3619,7 +3619,7 @@
    "portrait": {
     "image": "img/27.jpg",
     "source": "https://commons.wikimedia.org/wiki/File:Adolf_Deucher_1885.jpg",
-    "author": "Unknown author Unknown author",
+    "author": null,
     "license": "Public domain",
     "licenseUrl": null
    }
@@ -3645,7 +3645,7 @@
    "portrait": {
     "image": "img/28.gif",
     "source": "https://commons.wikimedia.org/wiki/File:Hauser.gif",
-    "author": "Unknown author Unknown author",
+    "author": null,
     "license": "Public domain",
     "licenseUrl": null
    }
@@ -3697,7 +3697,7 @@
    "portrait": {
     "image": "img/30.jpg",
     "source": "https://commons.wikimedia.org/wiki/File:Josef_Zemp.jpg",
-    "author": "Unknown author Unknown author",
+    "author": null,
     "license": "Public domain",
     "licenseUrl": null
    }
@@ -3723,7 +3723,7 @@
    "portrait": {
     "image": "img/31.jpg",
     "source": "https://commons.wikimedia.org/wiki/File:Adrien_Lachenal.jpg",
-    "author": "Unknown author Unknown author",
+    "author": null,
     "license": "Public domain",
     "licenseUrl": null
    }
@@ -3749,7 +3749,7 @@
    "portrait": {
     "image": "img/32.gif",
     "source": "https://commons.wikimedia.org/wiki/File:Eug%C3%A8ne_Ruffy.gif",
-    "author": "Unknown author Unknown author",
+    "author": null,
     "license": "Public domain",
     "licenseUrl": null
    }
@@ -3775,7 +3775,7 @@
    "portrait": {
     "image": "img/33.jpg",
     "source": "https://commons.wikimedia.org/wiki/File:Eduard_Mueller.jpg",
-    "author": "Unknown author Unknown author",
+    "author": null,
     "license": "Public domain",
     "licenseUrl": null
    }
@@ -3801,7 +3801,7 @@
    "portrait": {
     "image": "img/34.jpg",
     "source": "https://commons.wikimedia.org/wiki/File:Ernst_Brenner.jpg",
-    "author": "Unknown author Unknown author",
+    "author": null,
     "license": "Public domain",
     "licenseUrl": null
    }
@@ -3827,7 +3827,7 @@
    "portrait": {
     "image": "img/35.jpg",
     "source": "https://commons.wikimedia.org/wiki/File:Robert_Comtesse.jpg",
-    "author": "Unknown author Unknown author",
+    "author": null,
     "license": "Public domain",
     "licenseUrl": null
    }
@@ -3879,7 +3879,7 @@
    "portrait": {
     "image": "img/37.jpg",
     "source": "https://commons.wikimedia.org/wiki/File:Ludwig_Forrer.jpg",
-    "author": "Unknown author Unknown author",
+    "author": null,
     "license": "Public domain",
     "licenseUrl": null
    }
@@ -3905,7 +3905,7 @@
    "portrait": {
     "image": "img/38.jpg",
     "source": "https://commons.wikimedia.org/wiki/File:ZHB_SoSa_Portrait_220_cropped.jpg",
-    "author": "Unknown Unknown",
+    "author": null,
     "license": "Public domain",
     "licenseUrl": null
    }
@@ -3983,7 +3983,7 @@
    "portrait": {
     "image": "img/41.gif",
     "source": "https://commons.wikimedia.org/wiki/File:Louis_Perrier.gif",
-    "author": "Unknown; copyright belongs to the Swiss Confederation.",
+    "author": "Urheber unbekannt, Urheberrecht bei der Schweizerischen Eidgenossenschaft",
     "license": "Copyrighted free use",
     "licenseUrl": null
    }
@@ -4035,7 +4035,7 @@
    "portrait": {
     "image": "img/43.gif",
     "source": "https://commons.wikimedia.org/wiki/File:Edmund_Schulthess.gif",
-    "author": "Unknown; copyright belongs to the Swiss Confederation.",
+    "author": "Urheber unbekannt, Urheberrecht bei der Schweizerischen Eidgenossenschaft",
     "license": "Copyrighted free use",
     "licenseUrl": null
    }
@@ -4061,7 +4061,7 @@
    "portrait": {
     "image": "img/44.gif",
     "source": "https://commons.wikimedia.org/wiki/File:Felix-Louis_Calonder.gif",
-    "author": "Unknown; copyright belongs to the Swiss Confederation.",
+    "author": "Urheber unbekannt, Urheberrecht bei der Schweizerischen Eidgenossenschaft",
     "license": "Copyrighted free use",
     "licenseUrl": null
    }
@@ -4113,7 +4113,7 @@
    "portrait": {
     "image": "img/46.jpg",
     "source": "https://commons.wikimedia.org/wiki/File:Robert_Haab.jpg",
-    "author": "Unknown author Unknown author",
+    "author": null,
     "license": "Public domain",
     "licenseUrl": null
    }
@@ -4139,7 +4139,7 @@
    "portrait": {
     "image": "img/47.jpg",
     "source": "https://commons.wikimedia.org/wiki/File:Karl_Scheurer.jpg",
-    "author": "Unknown author Unknown author",
+    "author": null,
     "license": "Public domain",
     "licenseUrl": null
    }
@@ -4165,7 +4165,7 @@
    "portrait": {
     "image": "img/48.gif",
     "source": "https://commons.wikimedia.org/wiki/File:Ernest_Chuard.gif",
-    "author": "Unknown; copyright belongs to the Swiss Confederation.",
+    "author": "Urheber unbekannt, Urheberrecht bei der Schweizerischen Eidgenossenschaft",
     "license": "Copyrighted free use",
     "licenseUrl": null
    }
@@ -4191,7 +4191,7 @@
    "portrait": {
     "image": "img/49.gif",
     "source": "https://commons.wikimedia.org/wiki/File:Jean-Marie_Musy.gif",
-    "author": "Unknown; copyright belongs to the Swiss Confederation.",
+    "author": "Urheber unbekannt, Urheberrecht bei der Schweizerischen Eidgenossenschaft",
     "license": "Copyrighted free use",
     "licenseUrl": null
    }
@@ -4217,7 +4217,7 @@
    "portrait": {
     "image": "img/50.gif",
     "source": "https://commons.wikimedia.org/wiki/File:Heinrich_H%C3%A4berlin.gif",
-    "author": "Unknown; copyright belongs to the Swiss Confederation.",
+    "author": "Urheber unbekannt, Urheberrecht bei der Schweizerischen Eidgenossenschaft",
     "license": "Copyrighted free use",
     "licenseUrl": null
    }
@@ -4243,7 +4243,7 @@
    "portrait": {
     "image": "img/51.gif",
     "source": "https://commons.wikimedia.org/wiki/File:Marcel_Pilet-Golaz.gif",
-    "author": "Unknown; copyright belongs to the Swiss Confederation.",
+    "author": "Urheber unbekannt, Urheberrecht bei der Schweizerischen Eidgenossenschaft",
     "license": "Copyrighted free use",
     "licenseUrl": null
    }
@@ -4295,7 +4295,7 @@
    "portrait": {
     "image": "img/53.jpg",
     "source": "https://commons.wikimedia.org/wiki/File:Albert_Meyer.jpg",
-    "author": "Unknown author Unknown author",
+    "author": null,
     "license": "Public domain",
     "licenseUrl": null
    }
@@ -4321,7 +4321,7 @@
    "portrait": {
     "image": "img/54.gif",
     "source": "https://commons.wikimedia.org/wiki/File:Johannes_Baumann.gif",
-    "author": "Unknown; copyright belongs to the Swiss Confederation.",
+    "author": "Urheber unbekannt, Urheberrecht bei der Schweizerischen Eidgenossenschaft",
     "license": "Copyrighted free use",
     "licenseUrl": null
    }
@@ -4373,7 +4373,7 @@
    "portrait": {
     "image": "img/56.gif",
     "source": "https://commons.wikimedia.org/wiki/File:Hermann_Obrecht.gif",
-    "author": "Unknown; copyright belongs to the Swiss Confederation.",
+    "author": "Urheber unbekannt, Urheberrecht bei der Schweizerischen Eidgenossenschaft",
     "license": "Copyrighted free use",
     "licenseUrl": null
    }
@@ -4399,7 +4399,7 @@
    "portrait": {
     "image": "img/57.gif",
     "source": "https://commons.wikimedia.org/wiki/File:Ernst_Wetter.gif",
-    "author": "Unknown; copyright belongs to the Swiss Confederation.",
+    "author": "Urheber unbekannt, Urheberrecht bei der Schweizerischen Eidgenossenschaft",
     "license": "Copyrighted free use",
     "licenseUrl": null
    }
@@ -4425,7 +4425,7 @@
    "portrait": {
     "image": "img/58.gif",
     "source": "https://commons.wikimedia.org/wiki/File:Enrico_Celio.gif",
-    "author": "Unknown; copyright belongs to the Swiss Confederation.",
+    "author": "Urheber unbekannt, Urheberrecht bei der Schweizerischen Eidgenossenschaft",
     "license": "Copyrighted free use",
     "licenseUrl": null
    }
@@ -4451,7 +4451,7 @@
    "portrait": {
     "image": "img/59.gif",
     "source": "https://commons.wikimedia.org/wiki/File:Walther_Stampfli.gif",
-    "author": "Unknown; copyright belongs to the Swiss Confederation.",
+    "author": "Urheber unbekannt, Urheberrecht bei der Schweizerischen Eidgenossenschaft",
     "license": "Copyrighted free use",
     "licenseUrl": null
    }
@@ -4477,7 +4477,7 @@
    "portrait": {
     "image": "img/60.gif",
     "source": "https://commons.wikimedia.org/wiki/File:Eduard_von_Steiger.gif",
-    "author": "Unknown; copyright belongs to the Swiss Confederation.",
+    "author": "Urheber unbekannt, Urheberrecht bei der Schweizerischen Eidgenossenschaft",
     "license": "Copyrighted free use",
     "licenseUrl": null
    }
@@ -4503,7 +4503,7 @@
    "portrait": {
     "image": "img/61.gif",
     "source": "https://commons.wikimedia.org/wiki/File:Karl_Kobelt.gif",
-    "author": "Unknown; copyright belongs to the Swiss Confederation.",
+    "author": "Urheber unbekannt, Urheberrecht bei der Schweizerischen Eidgenossenschaft",
     "license": "Copyrighted free use",
     "licenseUrl": null
    }
@@ -4529,7 +4529,7 @@
    "portrait": {
     "image": "img/62.gif",
     "source": "https://commons.wikimedia.org/wiki/File:Ernst_Nobs.gif",
-    "author": "Unknown; copyright belongs to the Swiss Confederation.",
+    "author": "Urheber unbekannt, Urheberrecht bei der Schweizerischen Eidgenossenschaft",
     "license": "Copyrighted free use",
     "licenseUrl": null
    }
@@ -4555,7 +4555,7 @@
    "portrait": {
     "image": "img/63.gif",
     "source": "https://commons.wikimedia.org/wiki/File:Max_Petitpierre.gif",
-    "author": "Unknown; copyright belongs to the Swiss Confederation.",
+    "author": "Urheber unbekannt, Urheberrecht bei der Schweizerischen Eidgenossenschaft",
     "license": "Copyrighted free use",
     "licenseUrl": null
    }
@@ -4607,7 +4607,7 @@
    "portrait": {
     "image": "img/65.gif",
     "source": "https://commons.wikimedia.org/wiki/File:Josef_Escher.gif",
-    "author": "Unknown; copyright belongs to the Swiss Confederation.",
+    "author": "Urheber unbekannt, Urheberrecht bei der Schweizerischen Eidgenossenschaft",
     "license": "Copyrighted free use",
     "licenseUrl": null
    }
@@ -4633,7 +4633,7 @@
    "portrait": {
     "image": "img/66.gif",
     "source": "https://commons.wikimedia.org/wiki/File:Markus_Feldmann.gif",
-    "author": "Unknown; copyright belongs to the Swiss Confederation.",
+    "author": "Urheber unbekannt, Urheberrecht bei der Schweizerischen Eidgenossenschaft",
     "license": "Copyrighted free use",
     "licenseUrl": null
    }
@@ -4659,7 +4659,7 @@
    "portrait": {
     "image": "img/67.gif",
     "source": "https://commons.wikimedia.org/wiki/File:Max_Weber.gif",
-    "author": "Unknown; copyright belongs to the Swiss Confederation.",
+    "author": "Urheber unbekannt, Urheberrecht bei der Schweizerischen Eidgenossenschaft",
     "license": "Copyrighted free use",
     "licenseUrl": null
    }
@@ -4685,7 +4685,7 @@
    "portrait": {
     "image": "img/68.gif",
     "source": "https://commons.wikimedia.org/wiki/File:Hans_Streuli.gif",
-    "author": "Unknown; copyright belongs to the Swiss Confederation.",
+    "author": "Urheber unbekannt, Urheberrecht bei der Schweizerischen Eidgenossenschaft",
     "license": "Copyrighted free use",
     "licenseUrl": null
    }
@@ -4711,7 +4711,7 @@
    "portrait": {
     "image": "img/69.gif",
     "source": "https://commons.wikimedia.org/wiki/File:Thomas_Holenstein.gif",
-    "author": "Unknown; copyright belongs to the Swiss Confederation.",
+    "author": "Urheber unbekannt, Urheberrecht bei der Schweizerischen Eidgenossenschaft",
     "license": "Copyrighted free use",
     "licenseUrl": null
    }
@@ -4737,7 +4737,7 @@
    "portrait": {
     "image": "img/70.gif",
     "source": "https://commons.wikimedia.org/wiki/File:Paul_Chaudet.gif",
-    "author": "Unknown; copyright belongs to the Swiss Confederation.",
+    "author": "Urheber unbekannt, Urheberrecht bei der Schweizerischen Eidgenossenschaft",
     "license": "Copyrighted free use",
     "licenseUrl": null
    }
@@ -4763,7 +4763,7 @@
    "portrait": {
     "image": "img/71.gif",
     "source": "https://commons.wikimedia.org/wiki/File:Giuseppe_Lepori.gif",
-    "author": "Unknown; copyright belongs to the Swiss Confederation.",
+    "author": "Urheber unbekannt, Urheberrecht bei der Schweizerischen Eidgenossenschaft",
     "license": "Copyrighted free use",
     "licenseUrl": null
    }
@@ -4789,7 +4789,7 @@
    "portrait": {
     "image": "img/72.gif",
     "source": "https://commons.wikimedia.org/wiki/File:Friedrich_Traugott_Wahlen.gif",
-    "author": "Unknown; copyright belongs to the Swiss Confederation.",
+    "author": "Urheber unbekannt, Urheberrecht bei der Schweizerischen Eidgenossenschaft",
     "license": "Copyrighted free use",
     "licenseUrl": null
    }
@@ -4815,7 +4815,7 @@
    "portrait": {
     "image": "img/73.gif",
     "source": "https://commons.wikimedia.org/wiki/File:Jean_Bourgknecht.gif",
-    "author": "Unknown; copyright belongs to the Swiss Confederation.",
+    "author": "Urheber unbekannt, Urheberrecht bei der Schweizerischen Eidgenossenschaft",
     "license": "Copyrighted free use",
     "licenseUrl": null
    }
@@ -4841,7 +4841,7 @@
    "portrait": {
     "image": "img/74.gif",
     "source": "https://commons.wikimedia.org/wiki/File:Willy_Sp%C3%BChler.gif",
-    "author": "Unknown; copyright belongs to the Swiss Confederation.",
+    "author": "Urheber unbekannt, Urheberrecht bei der Schweizerischen Eidgenossenschaft",
     "license": "Copyrighted free use",
     "licenseUrl": null
    }
@@ -4867,7 +4867,7 @@
    "portrait": {
     "image": "img/75.gif",
     "source": "https://commons.wikimedia.org/wiki/File:Ludwig_von_Moos.gif",
-    "author": "Unknown; copyright belongs to the Swiss Confederation.",
+    "author": "Urheber unbekannt, Urheberrecht bei der Schweizerischen Eidgenossenschaft",
     "license": "Copyrighted free use",
     "licenseUrl": null
    }
@@ -4919,7 +4919,7 @@
    "portrait": {
     "image": "img/77.gif",
     "source": "https://commons.wikimedia.org/wiki/File:Hans_Schaffner.gif",
-    "author": "Unknown; copyright belongs to the Swiss Confederation.",
+    "author": "Urheber unbekannt, Urheberrecht bei der Schweizerischen Eidgenossenschaft",
     "license": "Copyrighted free use",
     "licenseUrl": null
    }
@@ -4945,7 +4945,7 @@
    "portrait": {
     "image": "img/78.gif",
     "source": "https://commons.wikimedia.org/wiki/File:Roger_Bonvin.gif",
-    "author": "Unknown; copyright belongs to the Swiss Confederation.",
+    "author": "Urheber unbekannt, Urheberrecht bei der Schweizerischen Eidgenossenschaft",
     "license": "Copyrighted free use",
     "licenseUrl": null
    }
@@ -5023,7 +5023,7 @@
    "portrait": {
     "image": "img/81.gif",
     "source": "https://commons.wikimedia.org/wiki/File:Ernst_Brugger.gif",
-    "author": "Unknown; copyright belongs to the Swiss Confederation.",
+    "author": "Urheber unbekannt, Urheberrecht bei der Schweizerischen Eidgenossenschaft",
     "license": "Copyrighted free use",
     "licenseUrl": null
    }
@@ -5127,7 +5127,7 @@
    "portrait": {
     "image": "img/85.gif",
     "source": "https://commons.wikimedia.org/wiki/File:Hans_H%C3%BCrlimann.gif",
-    "author": "Unknown; copyright belongs to the Swiss Confederation.",
+    "author": "Urheber unbekannt, Urheberrecht bei der Schweizerischen Eidgenossenschaft",
     "license": "Copyrighted free use",
     "licenseUrl": null
    }
@@ -5153,7 +5153,7 @@
    "portrait": {
     "image": "img/86.gif",
     "source": "https://commons.wikimedia.org/wiki/File:Georges-Andr%C3%A9_Chevallaz.gif",
-    "author": "Unknown; copyright belongs to the Swiss Confederation.",
+    "author": "Urheber unbekannt, Urheberrecht bei der Schweizerischen Eidgenossenschaft",
     "license": "Copyrighted free use",
     "licenseUrl": null
    }
@@ -5179,7 +5179,7 @@
    "portrait": {
     "image": "img/87.gif",
     "source": "https://commons.wikimedia.org/wiki/File:Fritz_Honegger.gif",
-    "author": "Unknown; copyright belongs to the Swiss Confederation.",
+    "author": "Urheber unbekannt, Urheberrecht bei der Schweizerischen Eidgenossenschaft",
     "license": "Copyrighted free use",
     "licenseUrl": null
    }
@@ -5231,7 +5231,7 @@
    "portrait": {
     "image": "img/89.gif",
     "source": "https://commons.wikimedia.org/wiki/File:Leon_Schlumpf.gif",
-    "author": "Unknown; copyright belongs to the Swiss Confederation.",
+    "author": "Urheber unbekannt, Urheberrecht bei der Schweizerischen Eidgenossenschaft",
     "license": "Copyrighted free use",
     "licenseUrl": null
    }
@@ -5257,7 +5257,7 @@
    "portrait": {
     "image": "img/90.gif",
     "source": "https://commons.wikimedia.org/wiki/File:Alphons_Egli.gif",
-    "author": "Unknown; copyright belongs to the Swiss Confederation.",
+    "author": "Urheber unbekannt, Urheberrecht bei der Schweizerischen Eidgenossenschaft",
     "license": "Copyrighted free use",
     "licenseUrl": null
    }
@@ -5283,7 +5283,7 @@
    "portrait": {
     "image": "img/91.gif",
     "source": "https://commons.wikimedia.org/wiki/File:Rudolf_Friedrich.gif",
-    "author": "Unknown; copyright belongs to the Swiss Confederation.",
+    "author": "Urheber unbekannt, Urheberrecht bei der Schweizerischen Eidgenossenschaft",
     "license": "Copyrighted free use",
     "licenseUrl": null
    }
@@ -5309,7 +5309,7 @@
    "portrait": {
     "image": "img/92.jpg",
     "source": "https://commons.wikimedia.org/wiki/File:Otto_Stich.jpg",
-    "author": "Unknown author Unknown author",
+    "author": null,
     "license": "Attribution",
     "licenseUrl": null
    }
@@ -5361,7 +5361,7 @@
    "portrait": {
     "image": "img/94.gif",
     "source": "https://commons.wikimedia.org/wiki/File:Elisabeth_Kopp.gif",
-    "author": "Unknown; copyright belongs to the Swiss Confederation.",
+    "author": "Urheber unbekannt, Urheberrecht bei der Schweizerischen Eidgenossenschaft",
     "license": "Copyrighted free use",
     "licenseUrl": null
    }
@@ -5465,7 +5465,7 @@
    "portrait": {
     "image": "img/98.png",
     "source": "https://commons.wikimedia.org/wiki/File:Adolf_Ogi.png",
-    "author": "Unknown; copyright belongs to the Swiss Confederation.",
+    "author": "Urheber unbekannt, Urheberrecht bei der Schweizerischen Eidgenossenschaft",
     "license": "Copyrighted free use",
     "licenseUrl": null
    }
@@ -5651,7 +5651,7 @@
    "portrait": {
     "image": "img/105.jpg",
     "source": "https://commons.wikimedia.org/wiki/File:BR-Samuel-Schmid.jpg",
-    "author": "Unknown author Unknown author",
+    "author": null,
     "license": "Attribution",
     "licenseUrl": null
    }
@@ -6280,209 +6280,209 @@
    "canton": "Zürich",
    "image": "img/flags/ZH.svg",
    "source": "https://commons.wikimedia.org/wiki/File:Flag_of_Canton_of_Z%C3%BCrich.svg",
-   "author": null,
    "license": "Public domain",
-   "licenseUrl": null
+   "licenseUrl": null,
+   "author": null
   },
   "BE": {
    "canton": "Bern",
    "image": "img/flags/BE.svg",
    "source": "https://commons.wikimedia.org/wiki/File:Flag_of_Canton_of_Bern.svg",
-   "author": "Paul Boesch",
    "license": "Public domain",
-   "licenseUrl": null
+   "licenseUrl": null,
+   "author": "Paul Boesch"
   },
   "LU": {
    "canton": "Luzern",
    "image": "img/flags/LU.svg",
    "source": "https://commons.wikimedia.org/wiki/File:CHE_Luzern_Flag.svg",
-   "author": "Cantone Ticino",
    "license": "Public domain",
-   "licenseUrl": null
+   "licenseUrl": null,
+   "author": "Cantone Ticino"
   },
   "UR": {
    "canton": "Uri",
    "image": "img/flags/UR.svg",
    "source": "https://commons.wikimedia.org/wiki/File:Flag_of_Canton_of_Uri.svg",
-   "author": null,
    "license": "Public domain",
-   "licenseUrl": null
+   "licenseUrl": null,
+   "author": null
   },
   "SZ": {
    "canton": "Schwyz",
    "image": "img/flags/SZ.svg",
    "source": "https://commons.wikimedia.org/wiki/File:Flag_of_Canton_of_Schwyz.svg",
-   "author": null,
    "license": "Public domain",
-   "licenseUrl": null
+   "licenseUrl": null,
+   "author": null
   },
   "OW": {
    "canton": "Obwalden",
    "image": "img/flags/OW.svg",
    "source": "https://commons.wikimedia.org/wiki/File:Flag_of_Canton_of_Obwalden.svg",
-   "author": "Rudolf Münger",
    "license": "Public domain",
-   "licenseUrl": null
+   "licenseUrl": null,
+   "author": "Rudolf Münger"
   },
   "NW": {
    "canton": "Nidwalden",
    "image": "img/flags/NW.svg",
    "source": "https://commons.wikimedia.org/wiki/File:Flag_of_Canton_of_Nidwalden.svg",
-   "author": null,
    "license": "Public domain",
-   "licenseUrl": null
+   "licenseUrl": null,
+   "author": null
   },
   "GL": {
    "canton": "Glarus",
    "image": "img/flags/GL.svg",
    "source": "https://commons.wikimedia.org/wiki/File:Flag_of_Canton_of_Glarus.svg",
-   "author": null,
    "license": "Public domain",
-   "licenseUrl": null
+   "licenseUrl": null,
+   "author": null
   },
   "ZG": {
    "canton": "Zug",
    "image": "img/flags/ZG.svg",
    "source": "https://commons.wikimedia.org/wiki/File:Flag_of_Canton_of_Zug.svg",
-   "author": null,
    "license": "Public domain",
-   "licenseUrl": null
+   "licenseUrl": null,
+   "author": null
   },
   "FR": {
    "canton": "Freiburg",
    "image": "img/flags/FR.svg",
    "source": "https://commons.wikimedia.org/wiki/File:Flag_of_Canton_of_Fribourg.svg",
-   "author": null,
    "license": "Public domain",
-   "licenseUrl": null
+   "licenseUrl": null,
+   "author": null
   },
   "SO": {
    "canton": "Solothurn",
    "image": "img/flags/SO.svg",
    "source": "https://commons.wikimedia.org/wiki/File:Flag_of_Canton_of_Solothurn.svg",
-   "author": null,
    "license": "Public domain",
-   "licenseUrl": null
+   "licenseUrl": null,
+   "author": null
   },
   "BS": {
    "canton": "Basel-Stadt",
    "image": "img/flags/BS.svg",
    "source": "https://commons.wikimedia.org/wiki/File:Flag_of_Canton_of_Basel.svg",
-   "author": "Edi Hauri",
    "license": "Public domain",
-   "licenseUrl": null
+   "licenseUrl": null,
+   "author": "Edi Hauri"
   },
   "BL": {
    "canton": "Basel-Landschaft",
    "image": "img/flags/BL.svg",
    "source": "https://commons.wikimedia.org/wiki/File:CHE_Basel-Landschaft_Flag.svg",
-   "author": "Otto Plattner, Vektorgrafik: SpinnerLaserzthe2nd",
    "license": "Public domain",
-   "licenseUrl": null
+   "licenseUrl": null,
+   "author": "Otto Plattner, Vektorgrafik: SpinnerLaserzthe2nd"
   },
   "SH": {
    "canton": "Schaffhausen",
    "image": "img/flags/SH.svg",
    "source": "https://commons.wikimedia.org/wiki/File:Flag_of_Canton_of_Schaffhausen.svg",
-   "author": null,
    "license": "Public domain",
-   "licenseUrl": null
+   "licenseUrl": null,
+   "author": null
   },
   "AR": {
    "canton": "Appenzell Ausserrhoden",
    "image": "img/flags/AR.svg",
    "source": "https://commons.wikimedia.org/wiki/File:Flag_of_Canton_of_Appenzell_Ausserrhoden.svg",
-   "author": null,
    "license": "Public domain",
-   "licenseUrl": null
+   "licenseUrl": null,
+   "author": null
   },
   "AI": {
    "canton": "Appenzell Innerrhoden",
    "image": "img/flags/AI.svg",
    "source": "https://commons.wikimedia.org/wiki/File:Flag_of_Canton_of_Appenzell_Innerrhoden.svg",
-   "author": null,
    "license": "Public domain",
-   "licenseUrl": null
+   "licenseUrl": null,
+   "author": null
   },
   "SG": {
    "canton": "St. Gallen",
    "image": "img/flags/SG.svg",
    "source": "https://commons.wikimedia.org/wiki/File:Flag_of_Canton_of_Sankt_Gallen_2011.svg",
-   "author": null,
    "license": "Public domain",
-   "licenseUrl": null
+   "licenseUrl": null,
+   "author": null
   },
   "GR": {
    "canton": "Graubünden",
    "image": "img/flags/GR.svg",
    "source": "https://commons.wikimedia.org/wiki/File:Flag_of_Canton_of_Graub%C3%BCnden.svg",
-   "author": null,
    "license": "Public domain",
-   "licenseUrl": null
+   "licenseUrl": null,
+   "author": null
   },
   "AG": {
    "canton": "Aargau",
    "image": "img/flags/AG.svg",
    "source": "https://commons.wikimedia.org/wiki/File:Flag_of_Canton_of_Aargau.svg",
-   "author": null,
    "license": "Public domain",
-   "licenseUrl": null
+   "licenseUrl": null,
+   "author": null
   },
   "TG": {
    "canton": "Thurgau",
    "image": "img/flags/TG.svg",
    "source": "https://commons.wikimedia.org/wiki/File:Flag_of_Canton_of_Thurgau.svg",
-   "author": null,
    "license": "Public domain",
-   "licenseUrl": null
+   "licenseUrl": null,
+   "author": null
   },
   "TI": {
    "canton": "Tessin",
    "image": "img/flags/TI.svg",
    "source": "https://commons.wikimedia.org/wiki/File:Flag_of_Canton_of_Ticino.svg",
-   "author": null,
    "license": "Public domain",
-   "licenseUrl": null
+   "licenseUrl": null,
+   "author": null
   },
   "VD": {
    "canton": "Waadt",
    "image": "img/flags/VD.svg",
    "source": "https://commons.wikimedia.org/wiki/File:CHE_Vaud_Flag.svg",
-   "author": "Vektorgrafik: SpinnerLaserzthe2nd",
    "license": "Public domain",
-   "licenseUrl": null
+   "licenseUrl": null,
+   "author": "Vektorgrafik: SpinnerLaserzthe2nd"
   },
   "VS": {
    "canton": "Wallis",
    "image": "img/flags/VS.svg",
    "source": "https://commons.wikimedia.org/wiki/File:CHE_Valais_Flag.svg",
-   "author": "Vektorgrafik: SpinnerLaserzthe2nd",
    "license": "Public domain",
-   "licenseUrl": null
+   "licenseUrl": null,
+   "author": "Vektorgrafik: SpinnerLaserzthe2nd"
   },
   "NE": {
    "canton": "Neuenburg",
    "image": "img/flags/NE.svg",
    "source": "https://commons.wikimedia.org/wiki/File:Flag_of_Canton_of_Neuch%C3%A2tel.svg",
-   "author": null,
    "license": "Public domain",
-   "licenseUrl": null
+   "licenseUrl": null,
+   "author": null
   },
   "GE": {
    "canton": "Genf",
    "image": "img/flags/GE.svg",
    "source": "https://commons.wikimedia.org/wiki/File:CHE_Canton_de_Gen%C3%A8ve_Flag.svg",
-   "author": "Émile Demole, Vektorgrafik: République et Canton de Genève",
    "license": "Public domain",
-   "licenseUrl": null
+   "licenseUrl": null,
+   "author": "Émile Demole, Vektorgrafik: République et Canton de Genève"
   },
   "JU": {
    "canton": "Jura",
    "image": "img/flags/JU.svg",
    "source": "https://commons.wikimedia.org/wiki/File:Flag_of_Canton_of_Jura.svg",
-   "author": null,
    "license": "Public domain",
-   "licenseUrl": null
+   "licenseUrl": null,
+   "author": null
   }
  }
 }

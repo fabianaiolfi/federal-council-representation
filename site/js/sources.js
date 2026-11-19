@@ -27,6 +27,9 @@ function link(text, href) {
   return a;
 }
 
+/** Where data/all_federal_councillors.csv comes from */
+const COUNCIL_LIST_URL = "https://www.admin.ch/de/alle-bundesraete";
+
 /** One line per BFS table (linking to it), then the other sources. */
 function renderSources(data) {
   const tables = [data.gender, data.language, data.language.other, data.party, data.region, data.region.annual];
@@ -35,7 +38,10 @@ function renderSources(data) {
     li.append(link(t("sourceBfs", source.tableTitle, source.table), source.url));
     return li;
   });
-  items.push(el("li", null, t("sourceCouncil")), el("li", null, t("sourcePortraits")));
+  // The list of councillors is based on the official list of the Confederation
+  const council = el("li", null, t("sourceCouncilBefore"));
+  council.append(link(t("sourceCouncilLink"), COUNCIL_LIST_URL), t("sourceCouncilAfter"));
+  items.push(council, el("li", null, t("sourcePortraits")));
   $("sources-list").replaceChildren(...items);
   $("data-generated").textContent = t("dataGenerated", fmt.date(data.generated));
 }

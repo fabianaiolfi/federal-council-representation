@@ -15,7 +15,6 @@ Only the Python standard library is used.
 from __future__ import annotations
 
 import json
-import re
 import time
 from pathlib import Path
 
@@ -56,18 +55,6 @@ FILES = {
 }
 
 
-def author(value: str) -> str | None:
-    """
-    The author as plain text. Commons writes "Unknown author" twice
-    (two spans), for a vector drawing "Original: X Vector: Y"; an unknown
-    author becomes None ("Urheber unbekannt" on the page).
-    """
-    text = re.sub(r"Unknown author( Unknown author)?", "", plain_text(value)).strip()
-    text = re.sub(r"^Original:\s*", "", text)
-    text = re.sub(r"\s*Vector:\s*", ", Vektorgrafik: ", text).strip(", ")
-    return text or None
-
-
 def main() -> None:
     data = json.loads(get(COMMONS_API, {
         "action": "query",
@@ -85,7 +72,7 @@ def main() -> None:
         info[title] = {
             "url": ii["url"],
             "source": ii["descriptionurl"],
-            "author": author(meta.get("Artist", {}).get("value", "")),
+            "author": plain_text(meta.get("Artist", {}).get("value", "")) or None,  # tidied by build_data.py
             "license": plain_text(meta.get("LicenseShortName", {}).get("value", "")) or None,
             "licenseUrl": meta.get("LicenseUrl", {}).get("value"),
         }

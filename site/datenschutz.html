@@ -15,6 +15,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Datenschutzerklärung – Wie gut bildet der Bundesrat die Bevölkerung ab?</title>
   <meta name="theme-color" content="#f2f2ef">
+  <!-- Favicon: Material Icons "assured_workload" (Google, Apache License 2.0);
+       PNG/ICO for browsers without SVG icons (made from favicon.svg) -->
+  <link rel="icon" href="favicon.ico" sizes="32x32">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
   <link rel="preload" href="fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="css/style.css">
   <!-- Footer and header text, consent banner and "Cookie-Einstellungen"
@@ -32,11 +37,7 @@
   <main class="page text-page">
 
     <header class="intro">
-      <!-- Back to the main page -->
-      <a class="back-button" href="./">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
-        <span data-i18n="backHome">Zurück zur Übersicht</span>
-      </a>
+      <p class="back-link back-link-top"><a href="./" data-i18n="backHome">Zurück zur Übersicht</a></p>
       <h1>Datenschutzerklärung</h1>
     </header>
 
@@ -195,12 +196,12 @@
 
     <p class="back-link"><a href="./" data-i18n="backHome">Zurück zur Übersicht</a></p>
 
-    <!-- The same footer on every page (index, quellen, datenschutz, kontakt) -->
+    <!-- The same footer on every page (index, kontakt, quellen, datenschutz) -->
     <footer class="footer">
       <nav class="footer-links" data-i18n-label="footerLabel">
+        <a href="kontakt.html" data-i18n="contactLink">Kontakt</a>
         <a href="quellen.html" data-i18n="sourcesLink">Quellen</a>
         <a href="datenschutz.html" data-i18n="privacyLink" aria-current="page">Datenschutzerklärung</a>
-        <a href="kontakt.html" data-i18n="contactLink">Kontakt</a>
         <!-- Shown by analytics.js when Google Analytics is set up -->
         <button class="link-button" type="button" data-consent-settings hidden></button>
       </nav>

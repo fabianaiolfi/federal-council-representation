@@ -60,13 +60,11 @@ const strings = {
     listEmpty: "Noch keine offiziellen Kandidierenden erfasst.",
     listNoneEligible:
       "Keine der offiziellen Kandidierenden war zu dieser Zeit mindestens 18 Jahre alt.",
-    bestIntro:
-      "Eine Person, welche die Gesamtübereinstimmung so stark wie möglich erhöht.",
-    bestVariant: (k, n) =>
+    bestIntro: (n) =>
       n === 1
-        ? "Die einzige bestmögliche Person für diesen Sitz"
-        : `Variante ${k} von ${n}`,
-    bestNext: "Nächste Variante",
+        ? "Die Person, welche die Gesamtübereinstimmung so stark wie möglich erhöht:"
+        : `${n} Personen erhöhen die Gesamtübereinstimmung gleich stark. Wählen Sie eine aus:`,
+    bestName: (gender, age) => `${gender}, ${age} Jahre`, // a card in "Bestmögliche Person"
     councilWarning:
       "Hinweis: Für heute ist kein vollständiger Bundesrat erfasst. Die Daten sind möglicherweise nicht aktuell.",
 
@@ -145,7 +143,7 @@ const strings = {
     privacyLink: "Datenschutzerklärung",
     contactLink: "Kontakt",
     backHome: "Zurück zur Übersicht",
-    cantonFlag: (canton) => `Kanton ${canton}`, // the flag on a card (alt text, tooltip)
+    cantonFlag: (canton) => `Kanton ${canton}`, // the flag on a card (for screen readers)
     readLess: "Weniger", // hides the text again that "Mehr lesen" (+++ in the Markdown) showed
 
     // Page "Quellen" (quellen.html, sources.js)
@@ -154,8 +152,10 @@ const strings = {
     sourcesData: "Daten",
     sourceBfs: (title, table) =>
       `Bundesamt für Statistik (BFS): ${title} (${table})`,
-    sourceCouncil:
-      "Bundesrat: eigene Zusammenstellung (all_federal_councillors.csv); Geburtsdaten und Sprachen: Wikidata",
+    // "Bundesrat: … auf Grundlage der [Liste aller Bundesrätinnen und Bundesräte (admin.ch)]; …"
+    sourceCouncilBefore: "Bundesrat: eigene Zusammenstellung (all_federal_councillors.csv) auf Grundlage der ",
+    sourceCouncilLink: "Liste aller Bundesrätinnen und Bundesräte (admin.ch)",
+    sourceCouncilAfter: "; Geburtsdaten und Sprachen: Wikidata",
     sourcePortraits: "Porträts und Kantonsfahnen: Wikimedia Commons (Bildnachweise unten)",
     dataGenerated: (date) => `Daten aufbereitet am ${date}`,
     creditsTitle: "Bildnachweise",

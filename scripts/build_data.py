@@ -483,6 +483,35 @@ def main_language(c: dict, wd: dict) -> str:
     return CANTON_LANGUAGE.get(c["canton"], "de")
 
 
+# Commons often has no real author name: "Unknown author" (twice, from two
+# HTML elements), "nicht bekannt / unknown", … These become None, shown as
+# "Urheber unbekannt" on the Quellen page.
+UNKNOWN_AUTHOR = re.compile(
+    r"(unknown( author)?|nicht bekannt( / unknown)?|urheber unbekannt|original - not known, copy - uploader)"
+    r"( (unknown( author)?))?",
+    re.IGNORECASE,
+)
+
+
+def tidy_author(author: str | None) -> str | None:
+    """
+    The author of a picture as shown in the credits: unknown authors become
+    None; "Unknown; copyright belongs to the Swiss Confederation." and the
+    "Original: … Vector: …" of the flags are said in German.
+    """
+    text = re.sub(r"\s+", " ", author or "").strip()
+    if re.fullmatch(r"unknown; copyright belongs to the swiss confederation\.?", text, re.IGNORECASE):
+        return "Urheber unbekannt, Urheberrecht bei der Schweizerischen Eidgenossenschaft"
+    # Flags: "Original: Unknown author Unknown author Vector: Name"
+    text = re.sub(r"^Original:\s*", "", text)
+    parts = [part.strip(" ,") for part in re.split(r"\s*Vector:\s*", text)]
+    parts = [None if UNKNOWN_AUTHOR.fullmatch(part) else part or None for part in parts]
+    if len(parts) == 2:  # [original, vector drawing]
+        vector = f"Vektorgrafik: {parts[1]}" if parts[1] else None
+        return ", ".join(filter(None, [parts[0], vector])) or None
+    return parts[0]
+
+
 def add_wikidata(councillors: list[dict]) -> None:
     """Attach birth date, main language, party periods and portrait."""
     wikidata = json.loads(WIKIDATA_PATH.read_text(encoding="utf-8")) if WIKIDATA_PATH.exists() else {}
@@ -494,6 +523,7 @@ def add_wikidata(councillors: list[dict]) -> None:
         p = wd.get("portrait")
         if p:
             c["portrait"] = {k: p[k] for k in ("image", "source", "author", "license", "licenseUrl")}
+            c["portrait"]["author"] = tidy_author(p["author"])
     missing = [c["name"] for c in councillors if not c["birthDate"]]
     if missing:
         sys.exit(f"No birth date for: {', '.join(missing)}. Run scripts/fetch_wikidata.py first.")
@@ -549,6 +579,7 @@ def load_candidates() -> list[dict]:
         p = wikidata.get(c["name"], {}).get("portrait")
         if p:
             c["portrait"] = {k: p[k] for k in ("image", "source", "author", "license", "licenseUrl")}
+            c["portrait"]["author"] = tidy_author(p["author"])
     return candidates
 
 
@@ -557,7 +588,8 @@ def load_flags() -> dict:
     if not FLAGS_PATH.exists():
         return {}
     flags = json.loads(FLAGS_PATH.read_text(encoding="utf-8"))
-    return {code: {"canton": CANTONS[code], **{k: f[k] for k in ("image", "source", "author", "license", "licenseUrl")}}
+    return {code: {"canton": CANTONS[code], **{k: f[k] for k in ("image", "source", "license", "licenseUrl")},
+                   "author": tidy_author(f["author"])}
             for code, f in flags.items()}
 
 

@@ -362,11 +362,57 @@ function barRow(key) {
   return row;
 }
 
+/** Show the shared tooltip above the point (x, y), `pad` px away, inside the viewport. */
+function placeTooltip(tip, x, y, pad = 12) {
+  tip.hidden = false;
+  const { width, height } = tip.getBoundingClientRect();
+  const left = Math.min(Math.max(pad, x - width / 2), window.innerWidth - width - pad);
+  const top = y - height - pad < pad ? y + pad * 2 : y - height - pad;
+  tip.style.left = `${left}px`;
+  tip.style.top = `${top}px`;
+}
+
+/**
+ * The canton's name above a flag (cards of the Council and of the
+ * candidates): on mouse hover, and on touch screens when the flag is
+ * tapped (gone with the next tap or scroll). Uses the bars' tooltip.
+ */
+function setupFlagLabels() {
+  const tip = $("tooltip");
+  let shown = null;
+  const show = (flag) => {
+    shown = flag;
+    tip.classList.add("is-compact");
+    tip.replaceChildren(el("span", "tooltip-label", flag.dataset.canton));
+    const r = flag.getBoundingClientRect();
+    placeTooltip(tip, r.left + r.width / 2, r.top, 6);
+  };
+  const hide = () => {
+    if (!shown) return;
+    shown = null;
+    tip.hidden = true;
+  };
+  document.addEventListener("pointerover", (e) => {
+    const flag = e.target.closest?.(".flag[data-canton]");
+    if (flag && e.pointerType === "mouse") show(flag);
+  });
+  document.addEventListener("pointerout", (e) => {
+    if (e.target.closest?.(".flag[data-canton]") && e.pointerType === "mouse") hide();
+  });
+  document.addEventListener("pointerdown", (e) => {
+    const flag = e.target.closest?.(".flag[data-canton]");
+    if (flag && e.pointerType !== "mouse") show(flag);
+    else hide();
+  });
+  window.addEventListener("scroll", hide, { passive: true });
+}
+
 /** One shared tooltip for all bar segments; works on hover and keyboard focus. */
 function setupTooltip() {
   const tip = $("tooltip");
 
   function show(seg, x, y) {
+    tip.classList.remove("is-compact"); // set by the flags' label
     tip.replaceChildren(
       el("strong", null, seg.dataset.value),
       el("span", null, seg.dataset.label),
@@ -387,14 +433,7 @@ function setupTooltip() {
       tip.append(list);
       if (breakdown.note) tip.append(el("span", "tooltip-detail", breakdown.note));
     }
-    tip.hidden = false;
-    // Keep the tooltip inside the viewport.
-    const pad = 12;
-    const { width, height } = tip.getBoundingClientRect();
-    const left = Math.min(Math.max(pad, x - width / 2), window.innerWidth - width - pad);
-    const top = y - height - pad < pad ? y + pad * 2 : y - height - pad;
-    tip.style.left = `${left}px`;
-    tip.style.top = `${top}px`;
+    placeTooltip(tip, x, y);
   }
   const hide = () => (tip.hidden = true);
 
@@ -460,25 +499,29 @@ function portrait(m) {
   return img;
 }
 
-/** The canton's flag (img/flags/ZH.svg, scripts/fetch_flags.py), shown instead of its code. */
+/**
+ * The canton's flag (img/flags/ZH.svg, scripts/fetch_flags.py), shown
+ * instead of its code. Its name ("Zürich") appears in a label on hover
+ * (setupFlagLabels); screen readers read the alt text "Kanton Zürich".
+ */
 function cantonFlag(code, canton) {
   const img = el("img", "flag");
   img.src = `img/flags/${code}.svg`;
   img.alt = t("cantonFlag", canton ?? code);
-  img.title = img.alt; // the canton's name on hover
+  img.dataset.canton = canton ?? code;
   img.decoding = "async";
   img.addEventListener("error", () => img.replaceWith(code)); // fallback: "ZH"
   return img;
 }
 
 /**
- * "SVP · [flag]": party and canton (flag) of a card; a person put together
- * by the user has no canton, only a Grossregion (as text).
+ * "[flag] SVP": canton (flag) and party of a card. A person put together
+ * by the user has no canton, only a Grossregion: "Genferseeregion · SVP".
  */
 function metaLine(tag, className, partyText, m) {
-  const line = el(tag, className, `${partyText} · `);
-  if (m.cantonCode) line.append(cantonFlag(m.cantonCode, m.canton));
-  else line.append(base.comparisons.find((c) => c.key === "region").choiceLabel(m.region));
+  const line = el(tag, className);
+  if (m.cantonCode) line.append(cantonFlag(m.cantonCode, m.canton), partyText);
+  else line.append(`${base.comparisons.find((c) => c.key === "region").choiceLabel(m.region)} · ${partyText}`);
   return line;
 }
 
@@ -1026,15 +1069,10 @@ function modeSwitch(choice) {
 function setMode(mode) {
   const choice = currentChoice();
   if (mode === "best") {
-    // First click: the first best profile; every further click: the next one
-    const again = choice.mode === "best";
-    applyBest(choice, again ? choice.variant + 1 : 0);
-    track(again ? "best_next" : "replace_mode", {
-      mode,
-      variant: choice.variant + 1,
-      variants: choice.variants,
-      ...profileParams(choice),
-    });
+    // The first of the best profiles; the others are shown next to it
+    if (choice.mode === "best") return;
+    applyBest(choice, 0);
+    track("replace_mode", { mode, variant: 1, variants: choice.variants, ...profileParams(choice) });
   } else if (mode === "custom") {
     makeCustom(choice);
   } else {
@@ -1092,21 +1130,6 @@ function applyBest(choice, variant) {
   delete choice.personId;
   delete choice.cantonCode;
   Object.assign(choice, profiles[k], { mode: "best", variant: k, variants: profiles.length });
-}
-
-/** "Frau · GRÜNE · Andere Sprache · 29 Jahre · Zürich" */
-function profileText(choice) {
-  const byKey = Object.fromEntries(base.comparisons.map((cmp) => [cmp.key, cmp]));
-  return [
-    byKey.gender.choiceLabel(choice.gender),
-    choice.party && byKey.party.choiceLabel(choice.party),
-    // "Andere" alone would be unclear in this line
-    choice.language === "other" ? t("languageName_otherSingular") : byKey.language.choiceLabel(choice.language),
-    t("ageYears", choice.age),
-    byKey.region.choiceLabel(choice.region),
-  ]
-    .filter(Boolean)
-    .join(" · ");
 }
 
 /** Mode "Selbst zusammenstellen": the five fields. */
@@ -1180,22 +1203,51 @@ function listPanel(choice, day) {
   return panel;
 }
 
-/** Mode "Bestmögliche Person": the current best profile and its number. */
+/**
+ * Mode "Bestmögliche Person": every profile that raises the overall score
+ * the most, as cards in a grid like the candidates'. Choosing a card makes
+ * it the new member.
+ */
 function bestPanel(choice) {
   const panel = el("div", "editor-fields");
-  panel.append(el("p", "editor-note", t("bestIntro")));
-  const profile = el("div", "best-profile");
-  profile.append(
-    el("p", "best-variant", t("bestVariant", choice.variant + 1, choice.variants)),
-    el("p", "best-text", profileText(choice))
-  );
-  panel.append(profile);
-  if (choice.variants > 1) {
-    const next = el("button", "link-button", t("bestNext"));
-    next.type = "button";
-    next.addEventListener("click", () => setMode("best"));
-    panel.append(next);
-  }
+  const profiles = bestProfiles();
+  panel.append(el("p", "editor-note", t("bestIntro", profiles.length)));
+  const byKey = Object.fromEntries(base.comparisons.map((cmp) => [cmp.key, cmp]));
+
+  const fieldset = el("fieldset", "editor-field");
+  fieldset.append(el("legend", "visually-hidden", t("mode_best")));
+  const grid = el("div", "person-grid");
+  profiles.forEach((profile, k) => {
+    const row = el("label", "person");
+    const input = el("input");
+    input.type = "radio";
+    input.name = "editor-best";
+    input.value = k;
+    input.checked = choice.variant === k;
+    input.addEventListener("change", () => {
+      applyBest(choice, k);
+      update();
+      track("best_select", { variant: k + 1, variants: profiles.length, ...profileParams(choice) });
+    });
+    const avatar = el("span", `avatar avatar-${profile.gender} avatar-new`, t("newShort"));
+    avatar.setAttribute("aria-hidden", "true");
+    const text = el("span", "person-text");
+    text.append(
+      // "Frau, 52 Jahre" / "Genferseeregion · SVP · Französisch"
+      el("span", "person-name", t("bestName", byKey.gender.choiceLabel(profile.gender), profile.age)),
+      el("span", "person-meta", [
+        byKey.region.choiceLabel(profile.region),
+        profile.party && byKey.party.choiceLabel(profile.party),
+        profile.language === "other" ? t("languageName_otherSingular") : byKey.language.longLabel(profile.language),
+      ].filter(Boolean).join(" · "))
+    );
+    const card = el("span", "person-card");
+    card.append(avatar, text);
+    row.append(input, card);
+    grid.append(row);
+  });
+  fieldset.append(grid);
+  panel.append(fieldset);
   return panel;
 }
 
@@ -1298,6 +1350,7 @@ async function main() {
     setupHistory();
     setupReplacements();
     setupTooltip();
+    setupFlagLabels();
     update();
   } catch (err) {
     return showError("renderError", err); // e.g. old cached files mixed with new ones
