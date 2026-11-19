@@ -9,8 +9,10 @@ and handy locally before a commit):
    the councillors and the people list match data/all_federal_councillors.csv,
    data/wikidata.json and data/candidates.csv. (The BFS figures are not
    re-downloaded; they only change when you run build_data.py.)
-2. Every file the page refers to exists: scripts, styles, fonts and the
-   portrait of every councillor.
+2. Every file the page refers to exists: scripts, styles, fonts, the
+   portrait of every councillor and candidate, the flag of every canton
+   shown, and every text (data-content="intro" ->
+   site/content/<language>/intro.md, in every language folder).
 3. Every JavaScript file is free of syntax errors (needs Node.js).
 
 Exits with an error message if anything is wrong. Only the Python standard
@@ -44,10 +46,16 @@ def check_data() -> None:
         problems.append("site/data/data.json: councillors are out of date. Run scripts/build_data.py.")
     if data["candidates"] != build_data.load_candidates():
         problems.append("site/data/data.json: people list is out of date. Run scripts/build_data.py.")
-    for c in data["councillors"]:
+    if data.get("flags") != build_data.load_flags():
+        problems.append("site/data/data.json: canton flags are out of date. Run scripts/build_data.py.")
+    for c in data["councillors"] + data["candidates"]:
         image = c.get("portrait", {}).get("image")
         if image and not (SITE / image).is_file():
             problems.append(f"Portrait of {c['name']} missing: site/{image}")
+    # Every card shows its canton's flag (img/flags/<code>.svg, scripts/fetch_flags.py)
+    for code in sorted({c["cantonCode"] for c in data["councillors"] + data["candidates"]}):
+        if not (SITE / "img" / "flags" / f"{code}.svg").is_file():
+            problems.append(f"Flag of canton {code} missing: site/img/flags/{code}.svg (run scripts/fetch_flags.py)")
 
 
 def check_references() -> None:
@@ -60,6 +68,12 @@ def check_references() -> None:
                  if not r.startswith("data:")]
     for js in SITE.glob("js/*.js"):
         refs += [(js, r) for r in re.findall(r'from\s+"(\.[^"]+)"', js.read_text(encoding="utf-8"))]
+    # Texts in Markdown: one file per name and language
+    languages = [d.name for d in (SITE / "content").iterdir() if d.is_dir()] if (SITE / "content").is_dir() else []
+    for html in SITE.glob("*.html"):
+        for name in re.findall(r'data-content="([^"]+)"', html.read_text(encoding="utf-8")):
+            for language in languages or ["de"]:
+                refs.append((html, f"content/{language}/{name}.md"))
     for source, ref in refs:
         target = (source.parent / ref).resolve()
         if target.is_dir():

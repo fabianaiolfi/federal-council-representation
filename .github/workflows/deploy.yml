@@ -1,8 +1,13 @@
 # Check the web app and publish it on Cloudflare Pages.
 #
-#   push to main  -> public site  https://federal-council-representation.pages.dev
-#   push to beta  -> beta site    https://beta.federal-council-representation.pages.dev
+#   push to main  -> public site  https://bundesrat.fyi
+#                                 (also https://federal-council-representation.pages.dev)
+#   push to beta  -> beta site    https://beta.bundesrat.fyi
+#                                 (also https://beta.federal-council-representation.pages.dev)
 #   pull request  -> checks only, nothing is published
+#
+# The domains are set up in Cloudflare (DNS zone bundesrat.fyi, and the
+# Pages project's custom domains); see "Domain" in the README.
 #
 # The site is the folder site/ as it is in the repository (no build step);
 # only site/js/config.js is written per site (Google Analytics ID).
@@ -46,7 +51,7 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: ${{ github.ref_name == 'main' && 'production' || 'beta' }}
-      url: ${{ github.ref_name == 'main' && 'https://federal-council-representation.pages.dev' || 'https://beta.federal-council-representation.pages.dev' }}
+      url: ${{ github.ref_name == 'main' && 'https://bundesrat.fyi' || 'https://beta.bundesrat.fyi' }}
     env:
       CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
       CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
@@ -77,6 +82,14 @@ jobs:
           export const GA_DEBUG = $GA_DEBUG;
           EOF
           cat site/js/config.js
+      # Search engines must not show the beta site. Cloudflare adds this
+      # header on *.pages.dev by itself, but not on a custom domain
+      # (beta.bundesrat.fyi), so it is added here for every branch but main.
+      - name: Keep the beta site out of search engines
+        if: github.ref_name != 'main'
+        run: |
+          printf '\n# Added by the pipeline: not the public site\n/*\n  X-Robots-Tag: noindex\n' >> site/_headers
+          tail -4 site/_headers
       # The branch decides the site: main is production, beta a preview
       # with the fixed address beta.<project>.pages.dev
       - name: Publish site/

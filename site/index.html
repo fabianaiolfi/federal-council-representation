@@ -12,9 +12,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Bundesrat und Bevölkerung</title>
   <meta name="description" content="">
-  <meta name="theme-color" content="#ffffff">
-  <!-- Favicon: a small two-colour disc, inline so no extra file is needed -->
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 2a14 14 0 0 0 0 28z' fill='%23eb6834'/%3E%3Cpath d='M16 2a14 14 0 0 1 0 28z' fill='%232a78d6'/%3E%3C/svg%3E">
+  <meta name="theme-color" content="#f2f2ef">
+  <!-- Favicon: Material Icons "assured_workload" (Google, Apache License 2.0);
+       PNG/ICO for browsers without SVG icons (made from favicon.svg) -->
+  <link rel="icon" href="favicon.ico" sizes="32x32">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
   <!-- Start loading the font right away (it is referenced from the CSS) -->
   <link rel="preload" href="fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="css/style.css">
@@ -26,45 +29,55 @@
   <main class="page">
 
     <!-- Header ---------------------------------------------------------------->
+    <!-- Title and intro text: site/content/<language>/intro.md (Markdown,
+         js/content.js); its "# …" line is the page title (h1) -->
     <header class="intro">
-      <p class="eyebrow" data-i18n="eyebrow"></p>
-      <h1 data-i18n="title"></h1>
+      <div class="prose intro-text" data-content="intro" hidden></div>
     </header>
 
     <p class="load-error" id="load-error" role="alert" hidden></p>
 
-    <!-- 1. Federal Council: one panel = timeline navigation (head) + the 7
-         members. --------------------------------------------------------->
-    <h2 class="block" id="council-title" data-i18n="councilTitle"></h2>
-
-    <!-- The panel head is a direct child of <main> (a sticky element only
-         sticks within its parent), so it stays at the top of the screen
-         while scrolling through the whole page. It shows the overall score
-         once the big number is out of view. -->
+    <!-- 1. Navigator: which Council is shown (buttons, slider, ← → keys).
+         A direct child of <main> (a sticky element only sticks within its
+         parent), so it stays at the top of the screen while scrolling
+         through the whole page. Once the big score has scrolled past
+         (above the screen), the score appears next to the dates
+         ("75 % Gesamtübereinstimmung"); not while reading the intro. ---->
     <div class="panel-head" id="panel-head" hidden>
-      <div class="panel-row">
-        <p class="panel-period" id="nav-period" aria-live="polite"></p>
-        <div class="nav-buttons">
-          <button class="nav-btn" id="nav-prev" type="button">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
-          </button>
-          <button class="nav-btn" id="nav-next" type="button">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
-          </button>
+      <div class="panel-top">
+        <button class="nav-btn" id="nav-prev" type="button">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
+        </button>
+        <div class="panel-middle">
+          <!-- "1. Nov. 2017 – 31. Dez. 2018" (app.js) -->
+          <h2 class="panel-period" id="nav-period" aria-live="polite"></h2>
+          <p class="nav-score" aria-hidden="true">
+            <span id="nav-score"></span>
+            <span data-i18n="navScoreLabel"></span>
+          </p>
         </div>
-      </div>
-      <div class="panel-row">
-        <p class="panel-dates" id="council-subtitle"></p>
-        <p class="nav-score" id="nav-score" aria-hidden="true"></p>
+        <button class="nav-btn" id="nav-next" type="button">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
+        </button>
       </div>
       <input class="range nav-range" id="nav-range" type="range" min="0" step="1">
       <div class="nav-ticks" id="nav-ticks" aria-hidden="true"></div>
     </div>
 
-    <section class="council-panel" id="council-panel" aria-labelledby="council-title" hidden>
+    <!-- 2. Overall score of the Council shown. The visible number is
+         animated, so it is hidden from screen readers; #score-status
+         announces the final value instead. --------------------------->
+    <section class="score" id="score" aria-labelledby="score-label">
+      <p class="score-label" id="score-label" data-i18n="scoreTitle"></p>
+      <p class="score-value" id="score-value" aria-hidden="true">–</p>
+      <p class="score-caption" id="score-caption"></p>
+      <p class="score-caption" data-i18n="scoreCaption"></p>
+      <p class="visually-hidden" id="score-status" aria-live="polite"></p>
+    </section>
+
+    <!-- 3. The seven members ------------------------------------------>
+    <section class="council-panel" id="council-panel" aria-labelledby="nav-period" hidden>
       <ol class="council" id="council-list"></ol>
-      <!-- Invitation to replace a member, or what has been replaced -->
-      <div class="panel-foot" id="panel-foot"></div>
     </section>
 
     <!-- Editor for a person replacing a member (built by app.js) -->
@@ -72,76 +85,28 @@
 
     <p class="warning" id="council-warning" hidden></p>
 
-    <!-- 2. Comparison: two views, switched by the buttons below the title:
-         - the selected Council: overall score, one section per comparison
-           (gender, party, language, age; built by app.js)
-         - the history: a step line chart of all scores since 1848 ------->
-    <section class="block" aria-labelledby="compare-title">
-      <h2 id="compare-title" data-i18n="compareTitle"></h2>
-
-      <div class="modes view-switch" id="view-switch" role="group">
-        <button class="mode-button" type="button" data-view="current" aria-pressed="true" data-i18n="viewCurrent"></button>
-        <button class="mode-button" type="button" data-view="history" aria-pressed="false" data-i18n="viewHistory"></button>
-      </div>
-
-      <div id="view-current">
-      <!-- The visible number is animated, so it is hidden from screen readers;
-           #score-status announces the final value instead. -->
-      <div class="score" id="score">
-        <!-- Title with a "Was bedeutet das?" explanation (filled in by app.js) -->
-        <div class="score-head">
-          <p class="score-label" data-i18n="overallLabel"></p>
-          <!-- Icon: Material Icons "info_outline" (Google, Apache License 2.0),
-               inlined so no request goes to Google. Label set by app.js. -->
-          <button class="info-button" id="info-button" type="button"
-                  aria-expanded="false" aria-controls="info-box">
-            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-              <path d="M11 7h2v2h-2zm0 4h2v6h-2zm1-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/>
-            </svg>
-          </button>
-          <div class="info-box" id="info-box" role="region" aria-labelledby="info-button" hidden></div>
-        </div>
-        <p class="score-value" id="score-value" aria-hidden="true">–</p>
-        <p class="score-caption" id="score-caption"></p>
-        <p class="score-caption" data-i18n="scoreCaption"></p>
-        <p class="visually-hidden" id="score-status" aria-live="polite"></p>
-      </div>
-
+    <!-- 4. One box per comparison (gender, party, language, age,
+         Grossregion; built by app.js), then the history: a step line
+         chart of all scores since 1848 ------------------------------->
+    <section class="compare" data-i18n-label="compareTitle">
       <div class="comparisons" id="comparisons"></div>
-      </div>
-
-      <div class="history" id="view-history" hidden>
-        <p class="score-label" data-i18n="historyTitle"></p>
-        <p class="score-caption" data-i18n="historyHint"></p>
+      <div class="history" id="history" role="group" aria-labelledby="history-title">
+        <h3 class="history-title" id="history-title" data-i18n="historyTitle"></h3>
         <ul class="legend" id="history-legend"></ul>
         <div class="chart" id="history-chart"></div>
-        <details class="history-table">
-          <summary data-i18n="historyTable"></summary>
-          <div class="table-wrap">
-            <table id="history-table"></table>
-          </div>
-        </details>
       </div>
     </section>
 
     <!-- Footer ---------------------------------------------------------------->
+    <!-- The same footer on every page (index, kontakt, quellen, datenschutz) -->
     <footer class="footer">
-      <h2 class="footer-title" data-i18n="sourcesTitle"></h2>
-      <ul>
-        <li id="sources-bfs"></li>
-        <li data-i18n="sourceCouncil"></li>
-        <li data-i18n="sourcePortraits"></li>
-        <li id="data-generated"></li>
-      </ul>
-      <details class="credits" id="credits" hidden>
-        <summary data-i18n="creditsTitle"></summary>
-        <ul id="credits-list"></ul>
-      </details>
-      <p class="footer-links">
+      <nav class="footer-links" data-i18n-label="footerLabel">
+        <a href="kontakt.html" data-i18n="contactLink"></a>
+        <a href="quellen.html" data-i18n="sourcesLink"></a>
         <a href="datenschutz.html" data-i18n="privacyLink"></a>
         <!-- Shown by analytics.js when Google Analytics is set up -->
         <button class="link-button" type="button" data-consent-settings hidden></button>
-      </p>
+      </nav>
     </footer>
   </main>
 

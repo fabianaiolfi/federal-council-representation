@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-28T21:32:06+00:00",
+ "generated": "2026-11-17T13:19:54+00:00",
  "gender": {
   "source": "Bundesamt für Statistik (BFS)",
   "table": "px-x-0102030000_101",
@@ -2286,12 +2286,649 @@
    }
   }
  },
+ "region": {
+  "source": "Bundesamt für Statistik (BFS)",
+  "table": "su-t-vz15-ch-01",
+  "tableTitle": "Bevölkerungsentwicklung nach Grossregionen und Kantonen 1850-2000",
+  "url": "https://www.bfs.admin.ch/asset/de/232829",
+  "regions": [
+   "genfersee",
+   "mittelland",
+   "nordwestschweiz",
+   "zuerich",
+   "ostschweiz",
+   "zentralschweiz",
+   "tessin"
+  ],
+  "years": {
+   "1850": {
+    "genfersee": 345280,
+    "mittelland": 693004,
+    "nordwestschweiz": 283050,
+    "zuerich": 250698,
+    "ostschweiz": 468834,
+    "zentralschweiz": 234115,
+    "tessin": 117759
+   },
+   "1860": {
+    "genfersee": 386825,
+    "mittelland": 723747,
+    "nordwestschweiz": 292022,
+    "zuerich": 266265,
+    "ostschweiz": 490496,
+    "zentralschweiz": 234794,
+    "tessin": 116343
+   },
+   "1870": {
+    "genfersee": 415101,
+    "mittelland": 775914,
+    "nordwestschweiz": 305813,
+    "zuerich": 284047,
+    "ostschweiz": 509485,
+    "zentralschweiz": 243050,
+    "tessin": 121591
+   },
+   "1880": {
+    "genfersee": 435251,
+    "mittelland": 822207,
+    "nordwestschweiz": 328039,
+    "zuerich": 316074,
+    "ostschweiz": 540124,
+    "zentralschweiz": 259698,
+    "tessin": 130394
+   },
+   "1888": {
+    "genfersee": 455149,
+    "mittelland": 843294,
+    "nordwestschweiz": 335584,
+    "zuerich": 337183,
+    "ostschweiz": 566267,
+    "zentralschweiz": 253526,
+    "tessin": 126751
+   },
+   "1900": {
+    "genfersee": 528426,
+    "mittelland": 936659,
+    "nordwestschweiz": 394988,
+    "zuerich": 431036,
+    "ostschweiz": 610669,
+    "zentralschweiz": 275027,
+    "tessin": 138638
+   },
+   "1910": {
+    "genfersee": 600744,
+    "mittelland": 1027006,
+    "nordwestschweiz": 451666,
+    "zuerich": 503915,
+    "ostschweiz": 706927,
+    "zentralschweiz": 306869,
+    "tessin": 156166
+   },
+   "1920": {
+    "genfersee": 616744,
+    "mittelland": 1070718,
+    "nordwestschweiz": 472571,
+    "zuerich": 538602,
+    "ostschweiz": 705560,
+    "zentralschweiz": 323869,
+    "tessin": 152256
+   },
+   "1930": {
+    "genfersee": 639613,
+    "mittelland": 1091158,
+    "nordwestschweiz": 516583,
+    "zuerich": 617706,
+    "ostschweiz": 698570,
+    "zentralschweiz": 343547,
+    "tessin": 159223
+   },
+   "1941": {
+    "genfersee": 666572,
+    "mittelland": 1144056,
+    "nordwestschweiz": 544640,
+    "zuerich": 674505,
+    "ostschweiz": 699252,
+    "zentralschweiz": 374796,
+    "tessin": 161882
+   },
+   "1950": {
+    "genfersee": 739681,
+    "mittelland": 1248459,
+    "nordwestschweiz": 615668,
+    "zuerich": 777002,
+    "ostschweiz": 752487,
+    "zentralschweiz": 406640,
+    "tessin": 175055
+   },
+   "1960": {
+    "genfersee": 866529,
+    "mittelland": 1384817,
+    "nordwestschweiz": 747159,
+    "zuerich": 952304,
+    "ostschweiz": 821359,
+    "zentralschweiz": 461327,
+    "tessin": 195566
+   },
+   "1970": {
+    "genfersee": 1050013,
+    "mittelland": 1542646,
+    "nordwestschweiz": 887383,
+    "zuerich": 1107788,
+    "ostschweiz": 902552,
+    "zentralschweiz": 533943,
+    "tessin": 245458
+   },
+   "1971": {
+    "genfersee": 1047423,
+    "mittelland": 1549698,
+    "nordwestschweiz": 864204,
+    "zuerich": 1099732,
+    "ostschweiz": 890937,
+    "zentralschweiz": 534575,
+    "tessin": 247175
+   },
+   "1972": {
+    "genfersee": 1060206,
+    "mittelland": 1556607,
+    "nordwestschweiz": 872712,
+    "zuerich": 1110395,
+    "ostschweiz": 896477,
+    "zentralschweiz": 539693,
+    "tessin": 252078
+   },
+   "1973": {
+    "genfersee": 1066397,
+    "mittelland": 1561230,
+    "nordwestschweiz": 879910,
+    "zuerich": 1119276,
+    "ostschweiz": 901904,
+    "zentralschweiz": 544385,
+    "tessin": 253423
+   },
+   "1974": {
+    "genfersee": 1074740,
+    "mittelland": 1565050,
+    "nordwestschweiz": 883753,
+    "zuerich": 1124225,
+    "ostschweiz": 904957,
+    "zentralschweiz": 547814,
+    "tessin": 255746
+   },
+   "1975": {
+    "genfersee": 1073336,
+    "mittelland": 1552529,
+    "nordwestschweiz": 876617,
+    "zuerich": 1117622,
+    "ostschweiz": 896849,
+    "zentralschweiz": 546193,
+    "tessin": 257832
+   },
+   "1976": {
+    "genfersee": 1071438,
+    "mittelland": 1539614,
+    "nordwestschweiz": 868794,
+    "zuerich": 1109126,
+    "ostschweiz": 891084,
+    "zentralschweiz": 545473,
+    "tessin": 258500
+   },
+   "1977": {
+    "genfersee": 1073214,
+    "mittelland": 1533777,
+    "nordwestschweiz": 866652,
+    "zuerich": 1107266,
+    "ostschweiz": 889907,
+    "zentralschweiz": 547205,
+    "tessin": 260298
+   },
+   "1978": {
+    "genfersee": 1076249,
+    "mittelland": 1531070,
+    "nordwestschweiz": 867467,
+    "zuerich": 1109774,
+    "ostschweiz": 890218,
+    "zentralschweiz": 548384,
+    "tessin": 261994
+   },
+   "1979": {
+    "genfersee": 1081808,
+    "mittelland": 1530553,
+    "nordwestschweiz": 869571,
+    "zuerich": 1115356,
+    "ostschweiz": 892090,
+    "zentralschweiz": 550571,
+    "tessin": 263624
+   },
+   "1980": {
+    "genfersee": 1089697,
+    "mittelland": 1533478,
+    "nordwestschweiz": 873367,
+    "zuerich": 1120815,
+    "ostschweiz": 898028,
+    "zentralschweiz": 554270,
+    "tessin": 265588
+   },
+   "1981": {
+    "genfersee": 1098966,
+    "mittelland": 1539535,
+    "nordwestschweiz": 877553,
+    "zuerich": 1123840,
+    "ostschweiz": 905467,
+    "zentralschweiz": 558795,
+    "tessin": 268748
+   },
+   "1982": {
+    "genfersee": 1109887,
+    "mittelland": 1544342,
+    "nordwestschweiz": 881298,
+    "zuerich": 1127659,
+    "ostschweiz": 911505,
+    "zentralschweiz": 563789,
+    "tessin": 271233
+   },
+   "1983": {
+    "genfersee": 1118085,
+    "mittelland": 1545828,
+    "nordwestschweiz": 883326,
+    "zuerich": 1124690,
+    "ostschweiz": 915661,
+    "zentralschweiz": 568065,
+    "tessin": 272178
+   },
+   "1984": {
+    "genfersee": 1127363,
+    "mittelland": 1549168,
+    "nordwestschweiz": 885588,
+    "zuerich": 1126848,
+    "ostschweiz": 920515,
+    "zentralschweiz": 572886,
+    "tessin": 273528
+   },
+   "1985": {
+    "genfersee": 1135294,
+    "mittelland": 1553519,
+    "nordwestschweiz": 888993,
+    "zuerich": 1128248,
+    "ostschweiz": 925834,
+    "zentralschweiz": 577685,
+    "tessin": 275261
+   },
+   "1986": {
+    "genfersee": 1146436,
+    "mittelland": 1560493,
+    "nordwestschweiz": 892861,
+    "zuerich": 1131484,
+    "ostschweiz": 931704,
+    "zentralschweiz": 583215,
+    "tessin": 277220
+   },
+   "1987": {
+    "genfersee": 1157857,
+    "mittelland": 1567773,
+    "nordwestschweiz": 898196,
+    "zuerich": 1136566,
+    "ostschweiz": 939064,
+    "zentralschweiz": 588696,
+    "tessin": 278647
+   },
+   "1988": {
+    "genfersee": 1175585,
+    "mittelland": 1576324,
+    "nordwestschweiz": 903313,
+    "zuerich": 1141494,
+    "ostschweiz": 947979,
+    "zentralschweiz": 594648,
+    "tessin": 280630
+   },
+   "1989": {
+    "genfersee": 1188697,
+    "mittelland": 1588738,
+    "nordwestschweiz": 909789,
+    "zuerich": 1144899,
+    "ostschweiz": 957931,
+    "zentralschweiz": 600773,
+    "tessin": 283023
+   },
+   "1990": {
+    "genfersee": 1207895,
+    "mittelland": 1606285,
+    "nordwestschweiz": 918179,
+    "zuerich": 1150546,
+    "ostschweiz": 971013,
+    "zentralschweiz": 610050,
+    "tessin": 286725
+   },
+   "1991": {
+    "genfersee": 1226417,
+    "mittelland": 1622455,
+    "nordwestschweiz": 934798,
+    "zuerich": 1151718,
+    "ostschweiz": 992243,
+    "zentralschweiz": 625137,
+    "tessin": 290000
+   },
+   "1992": {
+    "genfersee": 1239307,
+    "mittelland": 1633795,
+    "nordwestschweiz": 941764,
+    "zuerich": 1158077,
+    "ostschweiz": 1005266,
+    "zentralschweiz": 635642,
+    "tessin": 294108
+   },
+   "1993": {
+    "genfersee": 1251055,
+    "mittelland": 1644220,
+    "nordwestschweiz": 951258,
+    "zuerich": 1162083,
+    "ostschweiz": 1017546,
+    "zentralschweiz": 644453,
+    "tessin": 297955
+   },
+   "1994": {
+    "genfersee": 1263139,
+    "mittelland": 1634467,
+    "nordwestschweiz": 971427,
+    "zuerich": 1168567,
+    "ostschweiz": 1027485,
+    "zentralschweiz": 651803,
+    "tessin": 302131
+   },
+   "1995": {
+    "genfersee": 1272434,
+    "mittelland": 1640214,
+    "nordwestschweiz": 976977,
+    "zuerich": 1175457,
+    "ostschweiz": 1033084,
+    "zentralschweiz": 658989,
+    "tessin": 305199
+   },
+   "1996": {
+    "genfersee": 1273374,
+    "mittelland": 1643751,
+    "nordwestschweiz": 980489,
+    "zuerich": 1178848,
+    "ostschweiz": 1036625,
+    "zentralschweiz": 663429,
+    "tessin": 304830
+   },
+   "1997": {
+    "genfersee": 1278174,
+    "mittelland": 1644527,
+    "nordwestschweiz": 982386,
+    "zuerich": 1181614,
+    "ostschweiz": 1036181,
+    "zentralschweiz": 667995,
+    "tessin": 305588
+   },
+   "1998": {
+    "genfersee": 1284981,
+    "mittelland": 1651269,
+    "nordwestschweiz": 983728,
+    "zuerich": 1187609,
+    "ostschweiz": 1038600,
+    "zentralschweiz": 671171,
+    "tessin": 306179
+   },
+   "1999": {
+    "genfersee": 1294974,
+    "mittelland": 1656109,
+    "nordwestschweiz": 987699,
+    "zuerich": 1198569,
+    "ostschweiz": 1041863,
+    "zentralschweiz": 676732,
+    "tessin": 308498
+   },
+   "2000": {
+    "genfersee": 1305284,
+    "mittelland": 1658575,
+    "nordwestschweiz": 992009,
+    "zuerich": 1211647,
+    "ostschweiz": 1043836,
+    "zentralschweiz": 682489,
+    "tessin": 310215
+   },
+   "2001": {
+    "genfersee": 1317017,
+    "mittelland": 1667070,
+    "nordwestschweiz": 997850,
+    "zuerich": 1226931,
+    "ostschweiz": 1045895,
+    "zentralschweiz": 688362,
+    "tessin": 312528
+   },
+   "2002": {
+    "genfersee": 1331131,
+    "mittelland": 1675111,
+    "nordwestschweiz": 1005450,
+    "zuerich": 1241312,
+    "ostschweiz": 1051164,
+    "zentralschweiz": 694429,
+    "tessin": 315256
+   },
+   "2003": {
+    "genfersee": 1348106,
+    "mittelland": 1681531,
+    "nordwestschweiz": 1011729,
+    "zuerich": 1249893,
+    "ostschweiz": 1056524,
+    "zentralschweiz": 699050,
+    "tessin": 317315
+   },
+   "2004": {
+    "genfersee": 1362754,
+    "mittelland": 1690135,
+    "nordwestschweiz": 1017180,
+    "zuerich": 1261810,
+    "ostschweiz": 1059586,
+    "zentralschweiz": 703706,
+    "tessin": 319931
+   },
+   "2005": {
+    "genfersee": 1376306,
+    "mittelland": 1696509,
+    "nordwestschweiz": 1021034,
+    "zuerich": 1272590,
+    "ostschweiz": 1061852,
+    "zentralschweiz": 708561,
+    "tessin": 322276
+   },
+   "2006": {
+    "genfersee": 1389988,
+    "mittelland": 1703966,
+    "nordwestschweiz": 1026801,
+    "zuerich": 1284052,
+    "ostschweiz": 1065253,
+    "zentralschweiz": 713828,
+    "tessin": 324851
+   },
+   "2007": {
+    "genfersee": 1408796,
+    "mittelland": 1715800,
+    "nordwestschweiz": 1035934,
+    "zuerich": 1307567,
+    "ostschweiz": 1073904,
+    "zentralschweiz": 722913,
+    "tessin": 328580
+   },
+   "2008": {
+    "genfersee": 1437592,
+    "mittelland": 1730412,
+    "nordwestschweiz": 1049518,
+    "zuerich": 1332727,
+    "ostschweiz": 1085698,
+    "zentralschweiz": 733173,
+    "tessin": 332736
+   },
+   "2009": {
+    "genfersee": 1462210,
+    "mittelland": 1741923,
+    "nordwestschweiz": 1060753,
+    "zuerich": 1351297,
+    "ostschweiz": 1094202,
+    "zentralschweiz": 739701,
+    "tessin": 335720
+   },
+   "2010": {
+    "genfersee": 1482362,
+    "mittelland": 1752898,
+    "nordwestschweiz": 1071617,
+    "zuerich": 1368822,
+    "ostschweiz": 1101735,
+    "zentralschweiz": 746632,
+    "tessin": 339946
+   },
+   "2011": {
+    "genfersee": 1503500,
+    "mittelland": 1770429,
+    "nordwestschweiz": 1079913,
+    "zuerich": 1392396,
+    "ostschweiz": 1113929,
+    "zentralschweiz": 757552,
+    "tessin": 336943
+   },
+   "2012": {
+    "genfersee": 1519189,
+    "mittelland": 1788791,
+    "nordwestschweiz": 1091302,
+    "zuerich": 1408575,
+    "ostschweiz": 1123672,
+    "zentralschweiz": 765879,
+    "tessin": 341652
+   },
+   "2013": {
+    "genfersee": 1545817,
+    "mittelland": 1808480,
+    "nordwestschweiz": 1104353,
+    "zuerich": 1425538,
+    "ostschweiz": 1134781,
+    "zentralschweiz": 774123,
+    "tessin": 346539
+   },
+   "2014": {
+    "genfersee": 1570594,
+    "mittelland": 1826251,
+    "nordwestschweiz": 1117158,
+    "zuerich": 1446354,
+    "ostschweiz": 1144572,
+    "zentralschweiz": 782374,
+    "tessin": 350363
+   },
+   "2015": {
+    "genfersee": 1593839,
+    "mittelland": 1842251,
+    "nordwestschweiz": 1128723,
+    "zuerich": 1466424,
+    "ostschweiz": 1153485,
+    "zentralschweiz": 790458,
+    "tessin": 351946
+   },
+   "2016": {
+    "genfersee": 1613522,
+    "mittelland": 1859557,
+    "nordwestschweiz": 1142156,
+    "zuerich": 1487969,
+    "ostschweiz": 1162684,
+    "zentralschweiz": 799287,
+    "tessin": 354375
+   },
+   "2017": {
+    "genfersee": 1629841,
+    "mittelland": 1868886,
+    "nordwestschweiz": 1151919,
+    "zuerich": 1504346,
+    "ostschweiz": 1169358,
+    "zentralschweiz": 806071,
+    "tessin": 353709
+   },
+   "2018": {
+    "genfersee": 1642580,
+    "mittelland": 1877154,
+    "nordwestschweiz": 1161105,
+    "zuerich": 1520968,
+    "ostschweiz": 1176321,
+    "zentralschweiz": 813056,
+    "tessin": 353343
+   },
+   "2019": {
+    "genfersee": 1654751,
+    "mittelland": 1886584,
+    "nordwestschweiz": 1171157,
+    "zuerich": 1539275,
+    "ostschweiz": 1183813,
+    "zentralschweiz": 818962,
+    "tessin": 351491
+   },
+   "2020": {
+    "genfersee": 1669608,
+    "mittelland": 1895693,
+    "nordwestschweiz": 1181776,
+    "zuerich": 1553423,
+    "ostschweiz": 1193069,
+    "zentralschweiz": 825745,
+    "tessin": 350986
+   },
+   "2021": {
+    "genfersee": 1685625,
+    "mittelland": 1907491,
+    "nordwestschweiz": 1191939,
+    "zuerich": 1564662,
+    "ostschweiz": 1203715,
+    "zentralschweiz": 833178,
+    "tessin": 352181
+   },
+   "2022": {
+    "genfersee": 1701827,
+    "mittelland": 1918746,
+    "nordwestschweiz": 1202435,
+    "zuerich": 1579967,
+    "ostschweiz": 1217015,
+    "zentralschweiz": 841372,
+    "tessin": 354023
+   },
+   "2023": {
+    "genfersee": 1736124,
+    "mittelland": 1944753,
+    "nordwestschweiz": 1225762,
+    "zuerich": 1605508,
+    "ostschweiz": 1237469,
+    "zentralschweiz": 854922,
+    "tessin": 357720
+   },
+   "2024": {
+    "genfersee": 1757496,
+    "mittelland": 1962040,
+    "nordwestschweiz": 1238515,
+    "zuerich": 1620020,
+    "ostschweiz": 1250159,
+    "zentralschweiz": 863896,
+    "tessin": 358903
+   },
+   "2025": {
+    "genfersee": 1776847,
+    "mittelland": 1974171,
+    "nordwestschweiz": 1251797,
+    "zuerich": 1632918,
+    "ostschweiz": 1260895,
+    "zentralschweiz": 870714,
+    "tessin": 359783
+   }
+  },
+  "annual": {
+   "source": "Bundesamt für Statistik (BFS)",
+   "table": "px-x-0102020000_101",
+   "tableTitle": "Demografische Bilanz nach Kanton",
+   "url": "https://www.pxweb.bfs.admin.ch/pxweb/de/px-x-0102020000_101/-/px-x-0102020000_101.px/"
+  }
+ },
  "councillors": [
   {
    "number": 1,
    "name": "Jonas Furrer",
    "gender": "male",
    "canton": "Zürich",
+   "cantonCode": "ZH",
+   "region": "zuerich",
    "party": "freis.",
    "electionDate": "1848-11-16",
    "leftOfficeDate": "1861-07-25",
@@ -2306,7 +2943,7 @@
    "portrait": {
     "image": "img/1.jpg",
     "source": "https://commons.wikimedia.org/wiki/File:Jonas_Furrer.jpg",
-    "author": "nicht bekannt / unknown",
+    "author": null,
     "license": "Public domain",
     "licenseUrl": null
    }
@@ -2316,6 +2953,8 @@
    "name": "Ulrich Ochsenbein",
    "gender": "male",
    "canton": "Bern",
+   "cantonCode": "BE",
+   "region": "mittelland",
    "party": "freis.",
    "electionDate": "1848-11-16",
    "leftOfficeDate": "1854-12-06",
@@ -2330,7 +2969,7 @@
    "portrait": {
     "image": "img/2.jpg",
     "source": "https://commons.wikimedia.org/wiki/File:Ulrich_Ochsenbein_SNM_DIG-4931_LM-70931_(cropped).jpg",
-    "author": "Unknown author Unknown author",
+    "author": null,
     "license": "Public domain",
     "licenseUrl": null
    }
@@ -2340,6 +2979,8 @@
    "name": "Henri Druey",
    "gender": "male",
    "canton": "Waadt",
+   "cantonCode": "VD",
+   "region": "genfersee",
    "party": "freis.",
    "electionDate": "1848-11-16",
    "leftOfficeDate": "1855-03-29",
@@ -2354,7 +2995,7 @@
    "portrait": {
     "image": "img/3.jpg",
     "source": "https://commons.wikimedia.org/wiki/File:Henri_Druey_1850.jpg",
-    "author": "original - not known, copy - uploader",
+    "author": null,
     "license": "Public domain",
     "licenseUrl": null
    }
@@ -2364,6 +3005,8 @@
    "name": "Josef Munzinger",
    "gender": "male",
    "canton": "Solothurn",
+   "cantonCode": "SO",
+   "region": "mittelland",
    "party": "freis.",
    "electionDate": "1848-11-16",
    "leftOfficeDate": "1855-02-06",
@@ -2378,7 +3021,7 @@
    "portrait": {
     "image": "img/4.jpg",
     "source": "https://commons.wikimedia.org/wiki/File:Josef_Munzinger.jpg",
-    "author": "Unknown author Unknown author",
+    "author": null,
     "license": "Public domain",
     "licenseUrl": null
    }
@@ -2388,6 +3031,8 @@
    "name": "Stefano Franscini",
    "gender": "male",
    "canton": "Tessin",
+   "cantonCode": "TI",
+   "region": "tessin",
    "party": "freis.",
    "electionDate": "1848-11-16",
    "leftOfficeDate": "1857-07-19",
@@ -2412,6 +3057,8 @@
    "name": "Friedrich Frey-Herosé",
    "gender": "male",
    "canton": "Aargau",
+   "cantonCode": "AG",
+   "region": "nordwestschweiz",
    "party": "freis.",
    "electionDate": "1848-11-16",
    "leftOfficeDate": "1866-12-31",
@@ -2436,6 +3083,8 @@
    "name": "Wilhelm Matthias Naeff",
    "gender": "male",
    "canton": "St. Gallen",
+   "cantonCode": "SG",
+   "region": "ostschweiz",
    "party": "freis.",
    "electionDate": "1848-11-16",
    "leftOfficeDate": "1875-12-31",
@@ -2460,6 +3109,8 @@
    "name": "Jakob Stämpfli",
    "gender": "male",
    "canton": "Bern",
+   "cantonCode": "BE",
+   "region": "mittelland",
    "party": "freis.",
    "electionDate": "1854-12-06",
    "leftOfficeDate": "1863-12-31",
@@ -2484,6 +3135,8 @@
    "name": "Constant Fornerod",
    "gender": "male",
    "canton": "Waadt",
+   "cantonCode": "VD",
+   "region": "genfersee",
    "party": "freis.",
    "electionDate": "1855-07-11",
    "leftOfficeDate": "1867-10-31",
@@ -2508,6 +3161,8 @@
    "name": "Josef Martin Knüsel",
    "gender": "male",
    "canton": "Luzern",
+   "cantonCode": "LU",
+   "region": "zentralschweiz",
    "party": "freis.",
    "electionDate": "1855-07-14",
    "leftOfficeDate": "1875-12-31",
@@ -2522,7 +3177,7 @@
    "portrait": {
     "image": "img/10.jpg",
     "source": "https://commons.wikimedia.org/wiki/File:Josef_Martin_Kn%C3%BCsel.jpg",
-    "author": "Unknown author Unknown author",
+    "author": null,
     "license": "Public domain",
     "licenseUrl": null
    }
@@ -2532,6 +3187,8 @@
    "name": "Giovanni Battista Pioda",
    "gender": "male",
    "canton": "Tessin",
+   "cantonCode": "TI",
+   "region": "tessin",
    "party": "freis.",
    "electionDate": "1857-07-30",
    "leftOfficeDate": "1864-01-26",
@@ -2546,7 +3203,7 @@
    "portrait": {
     "image": "img/11.jpg",
     "source": "https://commons.wikimedia.org/wiki/File:Giovanni_Battista_Pioda.jpg",
-    "author": "Unknown author Unknown author",
+    "author": null,
     "license": "Public domain",
     "licenseUrl": null
    }
@@ -2556,6 +3213,8 @@
    "name": "Jakob Dubs",
    "gender": "male",
    "canton": "Zürich",
+   "cantonCode": "ZH",
+   "region": "zuerich",
    "party": "freis.",
    "electionDate": "1861-07-30",
    "leftOfficeDate": "1872-05-28",
@@ -2580,6 +3239,8 @@
    "name": "Karl Schenk",
    "gender": "male",
    "canton": "Bern",
+   "cantonCode": "BE",
+   "region": "mittelland",
    "party": "freis.",
    "electionDate": "1863-12-12",
    "leftOfficeDate": "1895-07-18",
@@ -2604,6 +3265,8 @@
    "name": "Jean-Jacques Challet-Venel",
    "gender": "male",
    "canton": "Genf",
+   "cantonCode": "GE",
+   "region": "genfersee",
    "party": "freis.",
    "electionDate": "1864-07-12",
    "leftOfficeDate": "1872-12-07",
@@ -2618,7 +3281,7 @@
    "portrait": {
     "image": "img/14.jpg",
     "source": "https://commons.wikimedia.org/wiki/File:Jean-Jacques_Challet-Venel.jpg",
-    "author": "Unknown author Unknown author",
+    "author": null,
     "license": "Public domain",
     "licenseUrl": null
    }
@@ -2628,6 +3291,8 @@
    "name": "Emil Welti",
    "gender": "male",
    "canton": "Aargau",
+   "cantonCode": "AG",
+   "region": "nordwestschweiz",
    "party": "freis.",
    "electionDate": "1866-12-08",
    "leftOfficeDate": "1891-12-31",
@@ -2652,6 +3317,8 @@
    "name": "Victor Ruffy",
    "gender": "male",
    "canton": "Waadt",
+   "cantonCode": "VD",
+   "region": "genfersee",
    "party": "freis.",
    "electionDate": "1867-12-06",
    "leftOfficeDate": "1869-12-29",
@@ -2676,6 +3343,8 @@
    "name": "Paul Cérésole",
    "gender": "male",
    "canton": "Waadt",
+   "cantonCode": "VD",
+   "region": "genfersee",
    "party": "freis.",
    "electionDate": "1870-02-01",
    "leftOfficeDate": "1875-12-31",
@@ -2690,7 +3359,7 @@
    "portrait": {
     "image": "img/17.jpg",
     "source": "https://commons.wikimedia.org/wiki/File:Paul_C%C3%A9r%C3%A9sole.jpg",
-    "author": "Unknown author Unknown author",
+    "author": null,
     "license": "Public domain",
     "licenseUrl": null
    }
@@ -2700,6 +3369,8 @@
    "name": "Johann Jakob Scherer",
    "gender": "male",
    "canton": "Zürich",
+   "cantonCode": "ZH",
+   "region": "zuerich",
    "party": "freis.",
    "electionDate": "1872-07-12",
    "leftOfficeDate": "1878-12-23",
@@ -2714,7 +3385,7 @@
    "portrait": {
     "image": "img/18.jpg",
     "source": "https://commons.wikimedia.org/wiki/File:Johann_Jakob_Scherer.jpg",
-    "author": "Unknown author Unknown author",
+    "author": null,
     "license": "Public domain",
     "licenseUrl": null
    }
@@ -2724,6 +3395,8 @@
    "name": "Eugène Borel",
    "gender": "male",
    "canton": "Neuenburg",
+   "cantonCode": "NE",
+   "region": "mittelland",
    "party": "freis.",
    "electionDate": "1872-12-07",
    "leftOfficeDate": "1875-12-31",
@@ -2748,6 +3421,8 @@
    "name": "Joachim Heer",
    "gender": "male",
    "canton": "Glarus",
+   "cantonCode": "GL",
+   "region": "ostschweiz",
    "party": "freis.",
    "electionDate": "1875-12-10",
    "leftOfficeDate": "1878-12-31",
@@ -2762,7 +3437,7 @@
    "portrait": {
     "image": "img/20.jpg",
     "source": "https://commons.wikimedia.org/wiki/File:JoachimHeer.jpg",
-    "author": "Unknown author Unknown author",
+    "author": null,
     "license": "Public domain",
     "licenseUrl": null
    }
@@ -2772,6 +3447,8 @@
    "name": "Fridolin Anderwert",
    "gender": "male",
    "canton": "Thurgau",
+   "cantonCode": "TG",
+   "region": "ostschweiz",
    "party": "freis.",
    "electionDate": "1875-12-10",
    "leftOfficeDate": "1880-12-25",
@@ -2786,7 +3463,7 @@
    "portrait": {
     "image": "img/21.jpg",
     "source": "https://commons.wikimedia.org/wiki/File:Fridolin_Anderwert.jpg",
-    "author": "Unknown author Unknown author",
+    "author": null,
     "license": "Public domain",
     "licenseUrl": null
    }
@@ -2796,6 +3473,8 @@
    "name": "Bernhard Hammer",
    "gender": "male",
    "canton": "Solothurn",
+   "cantonCode": "SO",
+   "region": "mittelland",
    "party": "freis.",
    "electionDate": "1875-12-10",
    "leftOfficeDate": "1890-12-31",
@@ -2820,6 +3499,8 @@
    "name": "Numa Droz",
    "gender": "male",
    "canton": "Neuenburg",
+   "cantonCode": "NE",
+   "region": "mittelland",
    "party": "freis.",
    "electionDate": "1875-12-18",
    "leftOfficeDate": "1892-12-18",
@@ -2844,6 +3525,8 @@
    "name": "Simeon Bavier",
    "gender": "male",
    "canton": "Graubünden",
+   "cantonCode": "GR",
+   "region": "ostschweiz",
    "party": "freis.",
    "electionDate": "1878-12-10",
    "leftOfficeDate": "1883-01-05",
@@ -2858,7 +3541,7 @@
    "portrait": {
     "image": "img/24.jpg",
     "source": "https://commons.wikimedia.org/wiki/File:Simeon.Bavier_(cropped).jpg",
-    "author": "Unknown author Unknown author",
+    "author": null,
     "license": "Public domain",
     "licenseUrl": null
    }
@@ -2868,6 +3551,8 @@
    "name": "Wilhelm Hertenstein",
    "gender": "male",
    "canton": "Zürich",
+   "cantonCode": "ZH",
+   "region": "zuerich",
    "party": "freis.",
    "electionDate": "1879-03-21",
    "leftOfficeDate": "1888-11-27",
@@ -2882,7 +3567,7 @@
    "portrait": {
     "image": "img/25.jpg",
     "source": "https://commons.wikimedia.org/wiki/File:Wilhelm_Hertenstein.jpg",
-    "author": "Unknown author Unknown author",
+    "author": null,
     "license": "Public domain",
     "licenseUrl": null
    }
@@ -2892,6 +3577,8 @@
    "name": "Louis Ruchonnet",
    "gender": "male",
    "canton": "Waadt",
+   "cantonCode": "VD",
+   "region": "genfersee",
    "party": "freis.",
    "electionDate": "1881-03-03",
    "leftOfficeDate": "1893-09-14",
@@ -2916,6 +3603,8 @@
    "name": "Adolf Deucher",
    "gender": "male",
    "canton": "Thurgau",
+   "cantonCode": "TG",
+   "region": "ostschweiz",
    "party": "FDP",
    "electionDate": "1883-04-10",
    "leftOfficeDate": "1912-07-10",
@@ -2930,7 +3619,7 @@
    "portrait": {
     "image": "img/27.jpg",
     "source": "https://commons.wikimedia.org/wiki/File:Adolf_Deucher_1885.jpg",
-    "author": "Unknown author Unknown author",
+    "author": null,
     "license": "Public domain",
     "licenseUrl": null
    }
@@ -2940,6 +3629,8 @@
    "name": "Walter Hauser",
    "gender": "male",
    "canton": "Zürich",
+   "cantonCode": "ZH",
+   "region": "zuerich",
    "party": "FDP",
    "electionDate": "1888-12-13",
    "leftOfficeDate": "1902-10-22",
@@ -2954,7 +3645,7 @@
    "portrait": {
     "image": "img/28.gif",
     "source": "https://commons.wikimedia.org/wiki/File:Hauser.gif",
-    "author": "Unknown author Unknown author",
+    "author": null,
     "license": "Public domain",
     "licenseUrl": null
    }
@@ -2964,6 +3655,8 @@
    "name": "Emil Frey",
    "gender": "male",
    "canton": "Basel-Landschaft",
+   "cantonCode": "BL",
+   "region": "nordwestschweiz",
    "party": "FDP",
    "electionDate": "1890-12-11",
    "leftOfficeDate": "1897-03-11",
@@ -2988,6 +3681,8 @@
    "name": "Josef Zemp",
    "gender": "male",
    "canton": "Luzern",
+   "cantonCode": "LU",
+   "region": "zentralschweiz",
    "party": "kath.-kons.",
    "electionDate": "1891-12-17",
    "leftOfficeDate": "1908-06-17",
@@ -3002,7 +3697,7 @@
    "portrait": {
     "image": "img/30.jpg",
     "source": "https://commons.wikimedia.org/wiki/File:Josef_Zemp.jpg",
-    "author": "Unknown author Unknown author",
+    "author": null,
     "license": "Public domain",
     "licenseUrl": null
    }
@@ -3012,6 +3707,8 @@
    "name": "Adrien Lachenal",
    "gender": "male",
    "canton": "Genf",
+   "cantonCode": "GE",
+   "region": "genfersee",
    "party": "FDP",
    "electionDate": "1892-12-15",
    "leftOfficeDate": "1899-12-31",
@@ -3026,7 +3723,7 @@
    "portrait": {
     "image": "img/31.jpg",
     "source": "https://commons.wikimedia.org/wiki/File:Adrien_Lachenal.jpg",
-    "author": "Unknown author Unknown author",
+    "author": null,
     "license": "Public domain",
     "licenseUrl": null
    }
@@ -3036,6 +3733,8 @@
    "name": "Eugène Ruffy",
    "gender": "male",
    "canton": "Waadt",
+   "cantonCode": "VD",
+   "region": "genfersee",
    "party": "FDP",
    "electionDate": "1893-12-14",
    "leftOfficeDate": "1899-10-31",
@@ -3050,7 +3749,7 @@
    "portrait": {
     "image": "img/32.gif",
     "source": "https://commons.wikimedia.org/wiki/File:Eug%C3%A8ne_Ruffy.gif",
-    "author": "Unknown author Unknown author",
+    "author": null,
     "license": "Public domain",
     "licenseUrl": null
    }
@@ -3060,6 +3759,8 @@
    "name": "Eduard Müller",
    "gender": "male",
    "canton": "Bern",
+   "cantonCode": "BE",
+   "region": "mittelland",
    "party": "FDP",
    "electionDate": "1895-08-16",
    "leftOfficeDate": "1919-11-09",
@@ -3074,7 +3775,7 @@
    "portrait": {
     "image": "img/33.jpg",
     "source": "https://commons.wikimedia.org/wiki/File:Eduard_Mueller.jpg",
-    "author": "Unknown author Unknown author",
+    "author": null,
     "license": "Public domain",
     "licenseUrl": null
    }
@@ -3084,6 +3785,8 @@
    "name": "Ernst Brenner",
    "gender": "male",
    "canton": "Basel-Stadt",
+   "cantonCode": "BS",
+   "region": "nordwestschweiz",
    "party": "FDP",
    "electionDate": "1897-03-25",
    "leftOfficeDate": "1911-03-11",
@@ -3098,7 +3801,7 @@
    "portrait": {
     "image": "img/34.jpg",
     "source": "https://commons.wikimedia.org/wiki/File:Ernst_Brenner.jpg",
-    "author": "Unknown author Unknown author",
+    "author": null,
     "license": "Public domain",
     "licenseUrl": null
    }
@@ -3108,6 +3811,8 @@
    "name": "Robert Comtesse",
    "gender": "male",
    "canton": "Neuenburg",
+   "cantonCode": "NE",
+   "region": "mittelland",
    "party": "FDP",
    "electionDate": "1899-12-14",
    "leftOfficeDate": "1912-03-04",
@@ -3122,7 +3827,7 @@
    "portrait": {
     "image": "img/35.jpg",
     "source": "https://commons.wikimedia.org/wiki/File:Robert_Comtesse.jpg",
-    "author": "Unknown author Unknown author",
+    "author": null,
     "license": "Public domain",
     "licenseUrl": null
    }
@@ -3132,6 +3837,8 @@
    "name": "Marc Ruchet",
    "gender": "male",
    "canton": "Waadt",
+   "cantonCode": "VD",
+   "region": "genfersee",
    "party": "FDP",
    "electionDate": "1899-12-14",
    "leftOfficeDate": "1912-07-09",
@@ -3156,6 +3863,8 @@
    "name": "Ludwig Forrer",
    "gender": "male",
    "canton": "Zürich",
+   "cantonCode": "ZH",
+   "region": "zuerich",
    "party": "FDP",
    "electionDate": "1902-12-11",
    "leftOfficeDate": "1917-12-07",
@@ -3170,7 +3879,7 @@
    "portrait": {
     "image": "img/37.jpg",
     "source": "https://commons.wikimedia.org/wiki/File:Ludwig_Forrer.jpg",
-    "author": "Unknown author Unknown author",
+    "author": null,
     "license": "Public domain",
     "licenseUrl": null
    }
@@ -3180,6 +3889,8 @@
    "name": "Josef Anton Schobinger",
    "gender": "male",
    "canton": "Luzern",
+   "cantonCode": "LU",
+   "region": "zentralschweiz",
    "party": "kath.-kons.",
    "electionDate": "1908-06-17",
    "leftOfficeDate": "1911-11-27",
@@ -3194,7 +3905,7 @@
    "portrait": {
     "image": "img/38.jpg",
     "source": "https://commons.wikimedia.org/wiki/File:ZHB_SoSa_Portrait_220_cropped.jpg",
-    "author": "Unknown Unknown",
+    "author": null,
     "license": "Public domain",
     "licenseUrl": null
    }
@@ -3204,6 +3915,8 @@
    "name": "Arthur Hoffmann",
    "gender": "male",
    "canton": "St. Gallen",
+   "cantonCode": "SG",
+   "region": "ostschweiz",
    "party": "FDP",
    "electionDate": "1911-04-04",
    "leftOfficeDate": "1917-06-19",
@@ -3228,6 +3941,8 @@
    "name": "Giuseppe Motta",
    "gender": "male",
    "canton": "Tessin",
+   "cantonCode": "TI",
+   "region": "tessin",
    "party": "SKVP",
    "electionDate": "1911-12-14",
    "leftOfficeDate": "1940-01-23",
@@ -3252,6 +3967,8 @@
    "name": "Louis Perrier",
    "gender": "male",
    "canton": "Neuenburg",
+   "cantonCode": "NE",
+   "region": "mittelland",
    "party": "FDP",
    "electionDate": "1912-03-12",
    "leftOfficeDate": "1913-05-16",
@@ -3266,7 +3983,7 @@
    "portrait": {
     "image": "img/41.gif",
     "source": "https://commons.wikimedia.org/wiki/File:Louis_Perrier.gif",
-    "author": "Unknown; copyright belongs to the Swiss Confederation.",
+    "author": "Urheber unbekannt, Urheberrecht bei der Schweizerischen Eidgenossenschaft",
     "license": "Copyrighted free use",
     "licenseUrl": null
    }
@@ -3276,6 +3993,8 @@
    "name": "Camille Decoppet",
    "gender": "male",
    "canton": "Waadt",
+   "cantonCode": "VD",
+   "region": "genfersee",
    "party": "FDP",
    "electionDate": "1912-07-17",
    "leftOfficeDate": "1919-11-07",
@@ -3300,6 +4019,8 @@
    "name": "Edmund Schulthess",
    "gender": "male",
    "canton": "Aargau",
+   "cantonCode": "AG",
+   "region": "nordwestschweiz",
    "party": "FDP",
    "electionDate": "1912-07-17",
    "leftOfficeDate": "1935-04-15",
@@ -3314,7 +4035,7 @@
    "portrait": {
     "image": "img/43.gif",
     "source": "https://commons.wikimedia.org/wiki/File:Edmund_Schulthess.gif",
-    "author": "Unknown; copyright belongs to the Swiss Confederation.",
+    "author": "Urheber unbekannt, Urheberrecht bei der Schweizerischen Eidgenossenschaft",
     "license": "Copyrighted free use",
     "licenseUrl": null
    }
@@ -3324,6 +4045,8 @@
    "name": "Felix Calonder",
    "gender": "male",
    "canton": "Graubünden",
+   "cantonCode": "GR",
+   "region": "ostschweiz",
    "party": "FDP",
    "electionDate": "1913-06-12",
    "leftOfficeDate": "1920-02-12",
@@ -3338,7 +4061,7 @@
    "portrait": {
     "image": "img/44.gif",
     "source": "https://commons.wikimedia.org/wiki/File:Felix-Louis_Calonder.gif",
-    "author": "Unknown; copyright belongs to the Swiss Confederation.",
+    "author": "Urheber unbekannt, Urheberrecht bei der Schweizerischen Eidgenossenschaft",
     "license": "Copyrighted free use",
     "licenseUrl": null
    }
@@ -3348,6 +4071,8 @@
    "name": "Gustave Ador",
    "gender": "male",
    "canton": "Genf",
+   "cantonCode": "GE",
+   "region": "genfersee",
    "party": "LP",
    "electionDate": "1917-06-26",
    "leftOfficeDate": "1919-12-31",
@@ -3372,6 +4097,8 @@
    "name": "Robert Haab",
    "gender": "male",
    "canton": "Zürich",
+   "cantonCode": "ZH",
+   "region": "zuerich",
    "party": "FDP",
    "electionDate": "1917-12-13",
    "leftOfficeDate": "1929-12-31",
@@ -3386,7 +4113,7 @@
    "portrait": {
     "image": "img/46.jpg",
     "source": "https://commons.wikimedia.org/wiki/File:Robert_Haab.jpg",
-    "author": "Unknown author Unknown author",
+    "author": null,
     "license": "Public domain",
     "licenseUrl": null
    }
@@ -3396,6 +4123,8 @@
    "name": "Karl Scheurer",
    "gender": "male",
    "canton": "Bern",
+   "cantonCode": "BE",
+   "region": "mittelland",
    "party": "FDP",
    "electionDate": "1919-12-11",
    "leftOfficeDate": "1929-11-14",
@@ -3410,7 +4139,7 @@
    "portrait": {
     "image": "img/47.jpg",
     "source": "https://commons.wikimedia.org/wiki/File:Karl_Scheurer.jpg",
-    "author": "Unknown author Unknown author",
+    "author": null,
     "license": "Public domain",
     "licenseUrl": null
    }
@@ -3420,6 +4149,8 @@
    "name": "Ernest Chuard",
    "gender": "male",
    "canton": "Waadt",
+   "cantonCode": "VD",
+   "region": "genfersee",
    "party": "FDP",
    "electionDate": "1919-12-11",
    "leftOfficeDate": "1928-12-31",
@@ -3434,7 +4165,7 @@
    "portrait": {
     "image": "img/48.gif",
     "source": "https://commons.wikimedia.org/wiki/File:Ernest_Chuard.gif",
-    "author": "Unknown; copyright belongs to the Swiss Confederation.",
+    "author": "Urheber unbekannt, Urheberrecht bei der Schweizerischen Eidgenossenschaft",
     "license": "Copyrighted free use",
     "licenseUrl": null
    }
@@ -3444,6 +4175,8 @@
    "name": "Jean-Marie Musy",
    "gender": "male",
    "canton": "Freiburg",
+   "cantonCode": "FR",
+   "region": "mittelland",
    "party": "SKVP",
    "electionDate": "1919-12-11",
    "leftOfficeDate": "1934-04-30",
@@ -3458,7 +4191,7 @@
    "portrait": {
     "image": "img/49.gif",
     "source": "https://commons.wikimedia.org/wiki/File:Jean-Marie_Musy.gif",
-    "author": "Unknown; copyright belongs to the Swiss Confederation.",
+    "author": "Urheber unbekannt, Urheberrecht bei der Schweizerischen Eidgenossenschaft",
     "license": "Copyrighted free use",
     "licenseUrl": null
    }
@@ -3468,6 +4201,8 @@
    "name": "Heinrich Häberlin",
    "gender": "male",
    "canton": "Thurgau",
+   "cantonCode": "TG",
+   "region": "ostschweiz",
    "party": "FDP",
    "electionDate": "1920-02-12",
    "leftOfficeDate": "1934-03-12",
@@ -3482,7 +4217,7 @@
    "portrait": {
     "image": "img/50.gif",
     "source": "https://commons.wikimedia.org/wiki/File:Heinrich_H%C3%A4berlin.gif",
-    "author": "Unknown; copyright belongs to the Swiss Confederation.",
+    "author": "Urheber unbekannt, Urheberrecht bei der Schweizerischen Eidgenossenschaft",
     "license": "Copyrighted free use",
     "licenseUrl": null
    }
@@ -3492,6 +4227,8 @@
    "name": "Marcel Pilet-Golaz",
    "gender": "male",
    "canton": "Waadt",
+   "cantonCode": "VD",
+   "region": "genfersee",
    "party": "FDP",
    "electionDate": "1928-12-13",
    "leftOfficeDate": "1944-11-07",
@@ -3506,7 +4243,7 @@
    "portrait": {
     "image": "img/51.gif",
     "source": "https://commons.wikimedia.org/wiki/File:Marcel_Pilet-Golaz.gif",
-    "author": "Unknown; copyright belongs to the Swiss Confederation.",
+    "author": "Urheber unbekannt, Urheberrecht bei der Schweizerischen Eidgenossenschaft",
     "license": "Copyrighted free use",
     "licenseUrl": null
    }
@@ -3516,6 +4253,8 @@
    "name": "Rudolf Minger",
    "gender": "male",
    "canton": "Bern",
+   "cantonCode": "BE",
+   "region": "mittelland",
    "party": "BGB",
    "electionDate": "1929-12-12",
    "leftOfficeDate": "1940-12-31",
@@ -3540,6 +4279,8 @@
    "name": "Albert Meyer",
    "gender": "male",
    "canton": "Zürich",
+   "cantonCode": "ZH",
+   "region": "zuerich",
    "party": "FDP",
    "electionDate": "1929-12-12",
    "leftOfficeDate": "1938-12-31",
@@ -3554,7 +4295,7 @@
    "portrait": {
     "image": "img/53.jpg",
     "source": "https://commons.wikimedia.org/wiki/File:Albert_Meyer.jpg",
-    "author": "Unknown author Unknown author",
+    "author": null,
     "license": "Public domain",
     "licenseUrl": null
    }
@@ -3564,6 +4305,8 @@
    "name": "Johannes Baumann",
    "gender": "male",
    "canton": "Appenzell Ausserrhoden",
+   "cantonCode": "AR",
+   "region": "ostschweiz",
    "party": "FDP",
    "electionDate": "1934-03-22",
    "leftOfficeDate": "1940-12-31",
@@ -3578,7 +4321,7 @@
    "portrait": {
     "image": "img/54.gif",
     "source": "https://commons.wikimedia.org/wiki/File:Johannes_Baumann.gif",
-    "author": "Unknown; copyright belongs to the Swiss Confederation.",
+    "author": "Urheber unbekannt, Urheberrecht bei der Schweizerischen Eidgenossenschaft",
     "license": "Copyrighted free use",
     "licenseUrl": null
    }
@@ -3588,6 +4331,8 @@
    "name": "Philipp Etter",
    "gender": "male",
    "canton": "Zug",
+   "cantonCode": "ZG",
+   "region": "zentralschweiz",
    "party": "SKVP",
    "electionDate": "1934-03-28",
    "leftOfficeDate": "1959-11-19",
@@ -3612,6 +4357,8 @@
    "name": "Hermann Obrecht",
    "gender": "male",
    "canton": "Solothurn",
+   "cantonCode": "SO",
+   "region": "mittelland",
    "party": "FDP",
    "electionDate": "1935-04-04",
    "leftOfficeDate": "1940-06-20",
@@ -3626,7 +4373,7 @@
    "portrait": {
     "image": "img/56.gif",
     "source": "https://commons.wikimedia.org/wiki/File:Hermann_Obrecht.gif",
-    "author": "Unknown; copyright belongs to the Swiss Confederation.",
+    "author": "Urheber unbekannt, Urheberrecht bei der Schweizerischen Eidgenossenschaft",
     "license": "Copyrighted free use",
     "licenseUrl": null
    }
@@ -3636,6 +4383,8 @@
    "name": "Ernst Wetter",
    "gender": "male",
    "canton": "Zürich",
+   "cantonCode": "ZH",
+   "region": "zuerich",
    "party": "FDP",
    "electionDate": "1938-12-15",
    "leftOfficeDate": "1943-12-31",
@@ -3650,7 +4399,7 @@
    "portrait": {
     "image": "img/57.gif",
     "source": "https://commons.wikimedia.org/wiki/File:Ernst_Wetter.gif",
-    "author": "Unknown; copyright belongs to the Swiss Confederation.",
+    "author": "Urheber unbekannt, Urheberrecht bei der Schweizerischen Eidgenossenschaft",
     "license": "Copyrighted free use",
     "licenseUrl": null
    }
@@ -3660,6 +4409,8 @@
    "name": "Enrico Celio",
    "gender": "male",
    "canton": "Tessin",
+   "cantonCode": "TI",
+   "region": "tessin",
    "party": "SKVP",
    "electionDate": "1940-02-22",
    "leftOfficeDate": "1950-06-23",
@@ -3674,7 +4425,7 @@
    "portrait": {
     "image": "img/58.gif",
     "source": "https://commons.wikimedia.org/wiki/File:Enrico_Celio.gif",
-    "author": "Unknown; copyright belongs to the Swiss Confederation.",
+    "author": "Urheber unbekannt, Urheberrecht bei der Schweizerischen Eidgenossenschaft",
     "license": "Copyrighted free use",
     "licenseUrl": null
    }
@@ -3684,6 +4435,8 @@
    "name": "Walther Stampfli",
    "gender": "male",
    "canton": "Solothurn",
+   "cantonCode": "SO",
+   "region": "mittelland",
    "party": "FDP",
    "electionDate": "1940-07-18",
    "leftOfficeDate": "1947-11-18",
@@ -3698,7 +4451,7 @@
    "portrait": {
     "image": "img/59.gif",
     "source": "https://commons.wikimedia.org/wiki/File:Walther_Stampfli.gif",
-    "author": "Unknown; copyright belongs to the Swiss Confederation.",
+    "author": "Urheber unbekannt, Urheberrecht bei der Schweizerischen Eidgenossenschaft",
     "license": "Copyrighted free use",
     "licenseUrl": null
    }
@@ -3708,6 +4461,8 @@
    "name": "Eduard von Steiger",
    "gender": "male",
    "canton": "Bern",
+   "cantonCode": "BE",
+   "region": "mittelland",
    "party": "BGB",
    "electionDate": "1940-12-10",
    "leftOfficeDate": "1951-11-09",
@@ -3722,7 +4477,7 @@
    "portrait": {
     "image": "img/60.gif",
     "source": "https://commons.wikimedia.org/wiki/File:Eduard_von_Steiger.gif",
-    "author": "Unknown; copyright belongs to the Swiss Confederation.",
+    "author": "Urheber unbekannt, Urheberrecht bei der Schweizerischen Eidgenossenschaft",
     "license": "Copyrighted free use",
     "licenseUrl": null
    }
@@ -3732,6 +4487,8 @@
    "name": "Karl Kobelt",
    "gender": "male",
    "canton": "St. Gallen",
+   "cantonCode": "SG",
+   "region": "ostschweiz",
    "party": "FDP",
    "electionDate": "1940-12-10",
    "leftOfficeDate": "1954-11-05",
@@ -3746,7 +4503,7 @@
    "portrait": {
     "image": "img/61.gif",
     "source": "https://commons.wikimedia.org/wiki/File:Karl_Kobelt.gif",
-    "author": "Unknown; copyright belongs to the Swiss Confederation.",
+    "author": "Urheber unbekannt, Urheberrecht bei der Schweizerischen Eidgenossenschaft",
     "license": "Copyrighted free use",
     "licenseUrl": null
    }
@@ -3756,6 +4513,8 @@
    "name": "Ernst Nobs",
    "gender": "male",
    "canton": "Zürich",
+   "cantonCode": "ZH",
+   "region": "zuerich",
    "party": "SP",
    "electionDate": "1943-12-15",
    "leftOfficeDate": "1951-12-13",
@@ -3770,7 +4529,7 @@
    "portrait": {
     "image": "img/62.gif",
     "source": "https://commons.wikimedia.org/wiki/File:Ernst_Nobs.gif",
-    "author": "Unknown; copyright belongs to the Swiss Confederation.",
+    "author": "Urheber unbekannt, Urheberrecht bei der Schweizerischen Eidgenossenschaft",
     "license": "Copyrighted free use",
     "licenseUrl": null
    }
@@ -3780,6 +4539,8 @@
    "name": "Max Petitpierre",
    "gender": "male",
    "canton": "Neuenburg",
+   "cantonCode": "NE",
+   "region": "mittelland",
    "party": "FDP",
    "electionDate": "1944-12-14",
    "leftOfficeDate": "1961-06-30",
@@ -3794,7 +4555,7 @@
    "portrait": {
     "image": "img/63.gif",
     "source": "https://commons.wikimedia.org/wiki/File:Max_Petitpierre.gif",
-    "author": "Unknown; copyright belongs to the Swiss Confederation.",
+    "author": "Urheber unbekannt, Urheberrecht bei der Schweizerischen Eidgenossenschaft",
     "license": "Copyrighted free use",
     "licenseUrl": null
    }
@@ -3804,6 +4565,8 @@
    "name": "Rodolphe Rubattel",
    "gender": "male",
    "canton": "Waadt",
+   "cantonCode": "VD",
+   "region": "genfersee",
    "party": "FDP",
    "electionDate": "1947-12-11",
    "leftOfficeDate": "1954-11-01",
@@ -3828,6 +4591,8 @@
    "name": "Josef Escher",
    "gender": "male",
    "canton": "Wallis",
+   "cantonCode": "VS",
+   "region": "genfersee",
    "party": "SKVP",
    "electionDate": "1950-09-14",
    "leftOfficeDate": "1954-11-26",
@@ -3842,7 +4607,7 @@
    "portrait": {
     "image": "img/65.gif",
     "source": "https://commons.wikimedia.org/wiki/File:Josef_Escher.gif",
-    "author": "Unknown; copyright belongs to the Swiss Confederation.",
+    "author": "Urheber unbekannt, Urheberrecht bei der Schweizerischen Eidgenossenschaft",
     "license": "Copyrighted free use",
     "licenseUrl": null
    }
@@ -3852,6 +4617,8 @@
    "name": "Markus Feldmann",
    "gender": "male",
    "canton": "Bern",
+   "cantonCode": "BE",
+   "region": "mittelland",
    "party": "BGB",
    "electionDate": "1951-12-13",
    "leftOfficeDate": "1958-11-03",
@@ -3866,7 +4633,7 @@
    "portrait": {
     "image": "img/66.gif",
     "source": "https://commons.wikimedia.org/wiki/File:Markus_Feldmann.gif",
-    "author": "Unknown; copyright belongs to the Swiss Confederation.",
+    "author": "Urheber unbekannt, Urheberrecht bei der Schweizerischen Eidgenossenschaft",
     "license": "Copyrighted free use",
     "licenseUrl": null
    }
@@ -3876,6 +4643,8 @@
    "name": "Max Weber",
    "gender": "male",
    "canton": "Zürich",
+   "cantonCode": "ZH",
+   "region": "zuerich",
    "party": "SP",
    "electionDate": "1951-12-13",
    "leftOfficeDate": "1953-12-08",
@@ -3890,7 +4659,7 @@
    "portrait": {
     "image": "img/67.gif",
     "source": "https://commons.wikimedia.org/wiki/File:Max_Weber.gif",
-    "author": "Unknown; copyright belongs to the Swiss Confederation.",
+    "author": "Urheber unbekannt, Urheberrecht bei der Schweizerischen Eidgenossenschaft",
     "license": "Copyrighted free use",
     "licenseUrl": null
    }
@@ -3900,6 +4669,8 @@
    "name": "Hans Streuli",
    "gender": "male",
    "canton": "Zürich",
+   "cantonCode": "ZH",
+   "region": "zuerich",
    "party": "FDP",
    "electionDate": "1953-12-22",
    "leftOfficeDate": "1959-11-19",
@@ -3914,7 +4685,7 @@
    "portrait": {
     "image": "img/68.gif",
     "source": "https://commons.wikimedia.org/wiki/File:Hans_Streuli.gif",
-    "author": "Unknown; copyright belongs to the Swiss Confederation.",
+    "author": "Urheber unbekannt, Urheberrecht bei der Schweizerischen Eidgenossenschaft",
     "license": "Copyrighted free use",
     "licenseUrl": null
    }
@@ -3924,6 +4695,8 @@
    "name": "Thomas Holenstein",
    "gender": "male",
    "canton": "St. Gallen",
+   "cantonCode": "SG",
+   "region": "ostschweiz",
    "party": "KCVP",
    "electionDate": "1954-12-16",
    "leftOfficeDate": "1959-11-20",
@@ -3938,7 +4711,7 @@
    "portrait": {
     "image": "img/69.gif",
     "source": "https://commons.wikimedia.org/wiki/File:Thomas_Holenstein.gif",
-    "author": "Unknown; copyright belongs to the Swiss Confederation.",
+    "author": "Urheber unbekannt, Urheberrecht bei der Schweizerischen Eidgenossenschaft",
     "license": "Copyrighted free use",
     "licenseUrl": null
    }
@@ -3948,6 +4721,8 @@
    "name": "Paul Chaudet",
    "gender": "male",
    "canton": "Waadt",
+   "cantonCode": "VD",
+   "region": "genfersee",
    "party": "FDP",
    "electionDate": "1954-12-16",
    "leftOfficeDate": "1966-11-28",
@@ -3962,7 +4737,7 @@
    "portrait": {
     "image": "img/70.gif",
     "source": "https://commons.wikimedia.org/wiki/File:Paul_Chaudet.gif",
-    "author": "Unknown; copyright belongs to the Swiss Confederation.",
+    "author": "Urheber unbekannt, Urheberrecht bei der Schweizerischen Eidgenossenschaft",
     "license": "Copyrighted free use",
     "licenseUrl": null
    }
@@ -3972,6 +4747,8 @@
    "name": "Giuseppe Lepori",
    "gender": "male",
    "canton": "Tessin",
+   "cantonCode": "TI",
+   "region": "tessin",
    "party": "KCVP",
    "electionDate": "1954-12-16",
    "leftOfficeDate": "1959-11-24",
@@ -3986,7 +4763,7 @@
    "portrait": {
     "image": "img/71.gif",
     "source": "https://commons.wikimedia.org/wiki/File:Giuseppe_Lepori.gif",
-    "author": "Unknown; copyright belongs to the Swiss Confederation.",
+    "author": "Urheber unbekannt, Urheberrecht bei der Schweizerischen Eidgenossenschaft",
     "license": "Copyrighted free use",
     "licenseUrl": null
    }
@@ -3996,6 +4773,8 @@
    "name": "Friedrich Traugott Wahlen",
    "gender": "male",
    "canton": "Bern",
+   "cantonCode": "BE",
+   "region": "mittelland",
    "party": "BGB",
    "electionDate": "1958-12-11",
    "leftOfficeDate": "1965-12-31",
@@ -4010,7 +4789,7 @@
    "portrait": {
     "image": "img/72.gif",
     "source": "https://commons.wikimedia.org/wiki/File:Friedrich_Traugott_Wahlen.gif",
-    "author": "Unknown; copyright belongs to the Swiss Confederation.",
+    "author": "Urheber unbekannt, Urheberrecht bei der Schweizerischen Eidgenossenschaft",
     "license": "Copyrighted free use",
     "licenseUrl": null
    }
@@ -4020,6 +4799,8 @@
    "name": "Jean Bourgknecht",
    "gender": "male",
    "canton": "Freiburg",
+   "cantonCode": "FR",
+   "region": "mittelland",
    "party": "KCVP",
    "electionDate": "1959-12-17",
    "leftOfficeDate": "1962-09-03",
@@ -4034,7 +4815,7 @@
    "portrait": {
     "image": "img/73.gif",
     "source": "https://commons.wikimedia.org/wiki/File:Jean_Bourgknecht.gif",
-    "author": "Unknown; copyright belongs to the Swiss Confederation.",
+    "author": "Urheber unbekannt, Urheberrecht bei der Schweizerischen Eidgenossenschaft",
     "license": "Copyrighted free use",
     "licenseUrl": null
    }
@@ -4044,6 +4825,8 @@
    "name": "Willy Spühler",
    "gender": "male",
    "canton": "Zürich",
+   "cantonCode": "ZH",
+   "region": "zuerich",
    "party": "SP",
    "electionDate": "1959-12-17",
    "leftOfficeDate": "1970-01-31",
@@ -4058,7 +4841,7 @@
    "portrait": {
     "image": "img/74.gif",
     "source": "https://commons.wikimedia.org/wiki/File:Willy_Sp%C3%BChler.gif",
-    "author": "Unknown; copyright belongs to the Swiss Confederation.",
+    "author": "Urheber unbekannt, Urheberrecht bei der Schweizerischen Eidgenossenschaft",
     "license": "Copyrighted free use",
     "licenseUrl": null
    }
@@ -4068,6 +4851,8 @@
    "name": "Ludwig von Moos",
    "gender": "male",
    "canton": "Obwalden",
+   "cantonCode": "OW",
+   "region": "zentralschweiz",
    "party": "CVP",
    "electionDate": "1959-12-17",
    "leftOfficeDate": "1971-12-31",
@@ -4082,7 +4867,7 @@
    "portrait": {
     "image": "img/75.gif",
     "source": "https://commons.wikimedia.org/wiki/File:Ludwig_von_Moos.gif",
-    "author": "Unknown; copyright belongs to the Swiss Confederation.",
+    "author": "Urheber unbekannt, Urheberrecht bei der Schweizerischen Eidgenossenschaft",
     "license": "Copyrighted free use",
     "licenseUrl": null
    }
@@ -4092,6 +4877,8 @@
    "name": "Hans-Peter Tschudi",
    "gender": "male",
    "canton": "Basel-Stadt",
+   "cantonCode": "BS",
+   "region": "nordwestschweiz",
    "party": "SP",
    "electionDate": "1959-12-17",
    "leftOfficeDate": "1973-12-31",
@@ -4116,6 +4903,8 @@
    "name": "Hans Schaffner",
    "gender": "male",
    "canton": "Aargau",
+   "cantonCode": "AG",
+   "region": "nordwestschweiz",
    "party": "FDP",
    "electionDate": "1961-06-15",
    "leftOfficeDate": "1969-12-31",
@@ -4130,7 +4919,7 @@
    "portrait": {
     "image": "img/77.gif",
     "source": "https://commons.wikimedia.org/wiki/File:Hans_Schaffner.gif",
-    "author": "Unknown; copyright belongs to the Swiss Confederation.",
+    "author": "Urheber unbekannt, Urheberrecht bei der Schweizerischen Eidgenossenschaft",
     "license": "Copyrighted free use",
     "licenseUrl": null
    }
@@ -4140,6 +4929,8 @@
    "name": "Roger Bonvin",
    "gender": "male",
    "canton": "Wallis",
+   "cantonCode": "VS",
+   "region": "genfersee",
    "party": "CVP",
    "electionDate": "1962-09-27",
    "leftOfficeDate": "1973-12-31",
@@ -4154,7 +4945,7 @@
    "portrait": {
     "image": "img/78.gif",
     "source": "https://commons.wikimedia.org/wiki/File:Roger_Bonvin.gif",
-    "author": "Unknown; copyright belongs to the Swiss Confederation.",
+    "author": "Urheber unbekannt, Urheberrecht bei der Schweizerischen Eidgenossenschaft",
     "license": "Copyrighted free use",
     "licenseUrl": null
    }
@@ -4164,6 +4955,8 @@
    "name": "Rudolf Gnägi",
    "gender": "male",
    "canton": "Bern",
+   "cantonCode": "BE",
+   "region": "mittelland",
    "party": "SVP",
    "electionDate": "1965-12-08",
    "leftOfficeDate": "1979-12-31",
@@ -4188,6 +4981,8 @@
    "name": "Nello Celio",
    "gender": "male",
    "canton": "Tessin",
+   "cantonCode": "TI",
+   "region": "tessin",
    "party": "FDP",
    "electionDate": "1966-12-15",
    "leftOfficeDate": "1973-12-31",
@@ -4212,6 +5007,8 @@
    "name": "Ernst Brugger",
    "gender": "male",
    "canton": "Zürich",
+   "cantonCode": "ZH",
+   "region": "zuerich",
    "party": "FDP",
    "electionDate": "1969-12-10",
    "leftOfficeDate": "1978-01-31",
@@ -4226,7 +5023,7 @@
    "portrait": {
     "image": "img/81.gif",
     "source": "https://commons.wikimedia.org/wiki/File:Ernst_Brugger.gif",
-    "author": "Unknown; copyright belongs to the Swiss Confederation.",
+    "author": "Urheber unbekannt, Urheberrecht bei der Schweizerischen Eidgenossenschaft",
     "license": "Copyrighted free use",
     "licenseUrl": null
    }
@@ -4236,6 +5033,8 @@
    "name": "Pierre Graber",
    "gender": "male",
    "canton": "Neuenburg",
+   "cantonCode": "NE",
+   "region": "mittelland",
    "party": "SP",
    "electionDate": "1969-12-10",
    "leftOfficeDate": "1978-01-31",
@@ -4260,6 +5059,8 @@
    "name": "Kurt Furgler",
    "gender": "male",
    "canton": "St. Gallen",
+   "cantonCode": "SG",
+   "region": "ostschweiz",
    "party": "CVP",
    "electionDate": "1971-12-08",
    "leftOfficeDate": "1986-12-31",
@@ -4284,6 +5085,8 @@
    "name": "Willi Ritschard",
    "gender": "male",
    "canton": "Solothurn",
+   "cantonCode": "SO",
+   "region": "mittelland",
    "party": "SP",
    "electionDate": "1973-12-05",
    "leftOfficeDate": "1983-10-03",
@@ -4308,6 +5111,8 @@
    "name": "Hans Hürlimann",
    "gender": "male",
    "canton": "Zug",
+   "cantonCode": "ZG",
+   "region": "zentralschweiz",
    "party": "CVP",
    "electionDate": "1973-12-05",
    "leftOfficeDate": "1982-12-31",
@@ -4322,7 +5127,7 @@
    "portrait": {
     "image": "img/85.gif",
     "source": "https://commons.wikimedia.org/wiki/File:Hans_H%C3%BCrlimann.gif",
-    "author": "Unknown; copyright belongs to the Swiss Confederation.",
+    "author": "Urheber unbekannt, Urheberrecht bei der Schweizerischen Eidgenossenschaft",
     "license": "Copyrighted free use",
     "licenseUrl": null
    }
@@ -4332,6 +5137,8 @@
    "name": "Georges-André Chevallaz",
    "gender": "male",
    "canton": "Waadt",
+   "cantonCode": "VD",
+   "region": "genfersee",
    "party": "FDP",
    "electionDate": "1973-12-05",
    "leftOfficeDate": "1983-12-31",
@@ -4346,7 +5153,7 @@
    "portrait": {
     "image": "img/86.gif",
     "source": "https://commons.wikimedia.org/wiki/File:Georges-Andr%C3%A9_Chevallaz.gif",
-    "author": "Unknown; copyright belongs to the Swiss Confederation.",
+    "author": "Urheber unbekannt, Urheberrecht bei der Schweizerischen Eidgenossenschaft",
     "license": "Copyrighted free use",
     "licenseUrl": null
    }
@@ -4356,6 +5163,8 @@
    "name": "Fritz Honegger",
    "gender": "male",
    "canton": "Zürich",
+   "cantonCode": "ZH",
+   "region": "zuerich",
    "party": "FDP",
    "electionDate": "1977-12-07",
    "leftOfficeDate": "1982-12-31",
@@ -4370,7 +5179,7 @@
    "portrait": {
     "image": "img/87.gif",
     "source": "https://commons.wikimedia.org/wiki/File:Fritz_Honegger.gif",
-    "author": "Unknown; copyright belongs to the Swiss Confederation.",
+    "author": "Urheber unbekannt, Urheberrecht bei der Schweizerischen Eidgenossenschaft",
     "license": "Copyrighted free use",
     "licenseUrl": null
    }
@@ -4380,6 +5189,8 @@
    "name": "Pierre Aubert",
    "gender": "male",
    "canton": "Neuenburg",
+   "cantonCode": "NE",
+   "region": "mittelland",
    "party": "SP",
    "electionDate": "1977-12-07",
    "leftOfficeDate": "1987-12-31",
@@ -4404,6 +5215,8 @@
    "name": "Leon Schlumpf",
    "gender": "male",
    "canton": "Graubünden",
+   "cantonCode": "GR",
+   "region": "ostschweiz",
    "party": "SVP",
    "electionDate": "1979-12-05",
    "leftOfficeDate": "1987-12-31",
@@ -4418,7 +5231,7 @@
    "portrait": {
     "image": "img/89.gif",
     "source": "https://commons.wikimedia.org/wiki/File:Leon_Schlumpf.gif",
-    "author": "Unknown; copyright belongs to the Swiss Confederation.",
+    "author": "Urheber unbekannt, Urheberrecht bei der Schweizerischen Eidgenossenschaft",
     "license": "Copyrighted free use",
     "licenseUrl": null
    }
@@ -4428,6 +5241,8 @@
    "name": "Alphons Egli",
    "gender": "male",
    "canton": "Luzern",
+   "cantonCode": "LU",
+   "region": "zentralschweiz",
    "party": "CVP",
    "electionDate": "1982-12-08",
    "leftOfficeDate": "1986-12-31",
@@ -4442,7 +5257,7 @@
    "portrait": {
     "image": "img/90.gif",
     "source": "https://commons.wikimedia.org/wiki/File:Alphons_Egli.gif",
-    "author": "Unknown; copyright belongs to the Swiss Confederation.",
+    "author": "Urheber unbekannt, Urheberrecht bei der Schweizerischen Eidgenossenschaft",
     "license": "Copyrighted free use",
     "licenseUrl": null
    }
@@ -4452,6 +5267,8 @@
    "name": "Rudolf Friedrich",
    "gender": "male",
    "canton": "Zürich",
+   "cantonCode": "ZH",
+   "region": "zuerich",
    "party": "FDP",
    "electionDate": "1982-12-08",
    "leftOfficeDate": "1984-10-20",
@@ -4466,7 +5283,7 @@
    "portrait": {
     "image": "img/91.gif",
     "source": "https://commons.wikimedia.org/wiki/File:Rudolf_Friedrich.gif",
-    "author": "Unknown; copyright belongs to the Swiss Confederation.",
+    "author": "Urheber unbekannt, Urheberrecht bei der Schweizerischen Eidgenossenschaft",
     "license": "Copyrighted free use",
     "licenseUrl": null
    }
@@ -4476,6 +5293,8 @@
    "name": "Otto Stich",
    "gender": "male",
    "canton": "Solothurn",
+   "cantonCode": "SO",
+   "region": "mittelland",
    "party": "SP",
    "electionDate": "1983-12-07",
    "leftOfficeDate": "1995-10-31",
@@ -4490,7 +5309,7 @@
    "portrait": {
     "image": "img/92.jpg",
     "source": "https://commons.wikimedia.org/wiki/File:Otto_Stich.jpg",
-    "author": "Unknown author Unknown author",
+    "author": null,
     "license": "Attribution",
     "licenseUrl": null
    }
@@ -4500,6 +5319,8 @@
    "name": "Jean-Pascal Delamuraz",
    "gender": "male",
    "canton": "Waadt",
+   "cantonCode": "VD",
+   "region": "genfersee",
    "party": "FDP",
    "electionDate": "1983-12-07",
    "leftOfficeDate": "1998-03-30",
@@ -4524,6 +5345,8 @@
    "name": "Elisabeth Kopp",
    "gender": "female",
    "canton": "Zürich",
+   "cantonCode": "ZH",
+   "region": "zuerich",
    "party": "FDP",
    "electionDate": "1984-10-02",
    "leftOfficeDate": "1989-01-12",
@@ -4538,7 +5361,7 @@
    "portrait": {
     "image": "img/94.gif",
     "source": "https://commons.wikimedia.org/wiki/File:Elisabeth_Kopp.gif",
-    "author": "Unknown; copyright belongs to the Swiss Confederation.",
+    "author": "Urheber unbekannt, Urheberrecht bei der Schweizerischen Eidgenossenschaft",
     "license": "Copyrighted free use",
     "licenseUrl": null
    }
@@ -4548,6 +5371,8 @@
    "name": "Arnold Koller",
    "gender": "male",
    "canton": "Appenzell Innerrhoden",
+   "cantonCode": "AI",
+   "region": "ostschweiz",
    "party": "CVP",
    "electionDate": "1986-12-10",
    "leftOfficeDate": "1999-01-13",
@@ -4572,6 +5397,8 @@
    "name": "Flavio Cotti",
    "gender": "male",
    "canton": "Tessin",
+   "cantonCode": "TI",
+   "region": "tessin",
    "party": "CVP",
    "electionDate": "1986-12-10",
    "leftOfficeDate": "1999-01-13",
@@ -4596,6 +5423,8 @@
    "name": "René Felber",
    "gender": "male",
    "canton": "Neuenburg",
+   "cantonCode": "NE",
+   "region": "mittelland",
    "party": "SP",
    "electionDate": "1987-12-09",
    "leftOfficeDate": "1993-03-31",
@@ -4620,6 +5449,8 @@
    "name": "Adolf Ogi",
    "gender": "male",
    "canton": "Bern",
+   "cantonCode": "BE",
+   "region": "mittelland",
    "party": "SVP",
    "electionDate": "1987-12-09",
    "leftOfficeDate": "2000-12-31",
@@ -4634,7 +5465,7 @@
    "portrait": {
     "image": "img/98.png",
     "source": "https://commons.wikimedia.org/wiki/File:Adolf_Ogi.png",
-    "author": "Unknown; copyright belongs to the Swiss Confederation.",
+    "author": "Urheber unbekannt, Urheberrecht bei der Schweizerischen Eidgenossenschaft",
     "license": "Copyrighted free use",
     "licenseUrl": null
    }
@@ -4644,6 +5475,8 @@
    "name": "Kaspar Villiger",
    "gender": "male",
    "canton": "Luzern",
+   "cantonCode": "LU",
+   "region": "zentralschweiz",
    "party": "FDP",
    "electionDate": "1989-02-01",
    "leftOfficeDate": "2003-12-31",
@@ -4668,6 +5501,8 @@
    "name": "Ruth Dreifuss",
    "gender": "female",
    "canton": "Genf",
+   "cantonCode": "GE",
+   "region": "genfersee",
    "party": "SP",
    "electionDate": "1993-03-10",
    "leftOfficeDate": "2002-12-31",
@@ -4692,6 +5527,8 @@
    "name": "Moritz Leuenberger",
    "gender": "male",
    "canton": "Zürich",
+   "cantonCode": "ZH",
+   "region": "zuerich",
    "party": "SP",
    "electionDate": "1995-09-27",
    "leftOfficeDate": "2010-11-01",
@@ -4716,6 +5553,8 @@
    "name": "Pascal Couchepin",
    "gender": "male",
    "canton": "Wallis",
+   "cantonCode": "VS",
+   "region": "genfersee",
    "party": "FDP.Die Liberalen",
    "electionDate": "1998-03-11",
    "leftOfficeDate": "2009-10-31",
@@ -4740,6 +5579,8 @@
    "name": "Ruth Metzler-Arnold",
    "gender": "female",
    "canton": "Appenzell Innerrhoden",
+   "cantonCode": "AI",
+   "region": "ostschweiz",
    "party": "CVP",
    "electionDate": "1999-03-11",
    "leftOfficeDate": "2003-12-31",
@@ -4764,6 +5605,8 @@
    "name": "Joseph Deiss",
    "gender": "male",
    "canton": "Freiburg",
+   "cantonCode": "FR",
+   "region": "mittelland",
    "party": "CVP",
    "electionDate": "1999-03-11",
    "leftOfficeDate": "2006-07-31",
@@ -4788,6 +5631,8 @@
    "name": "Samuel Schmid",
    "gender": "male",
    "canton": "Bern",
+   "cantonCode": "BE",
+   "region": "mittelland",
    "party": "SVP / BDP",
    "electionDate": "2000-12-06",
    "leftOfficeDate": "2008-12-31",
@@ -4806,7 +5651,7 @@
    "portrait": {
     "image": "img/105.jpg",
     "source": "https://commons.wikimedia.org/wiki/File:BR-Samuel-Schmid.jpg",
-    "author": "Unknown author Unknown author",
+    "author": null,
     "license": "Attribution",
     "licenseUrl": null
    }
@@ -4816,6 +5661,8 @@
    "name": "Micheline Calmy-Rey",
    "gender": "female",
    "canton": "Genf",
+   "cantonCode": "GE",
+   "region": "genfersee",
    "party": "SP",
    "electionDate": "2002-12-04",
    "leftOfficeDate": "2011-12-31",
@@ -4840,6 +5687,8 @@
    "name": "Christoph Blocher",
    "gender": "male",
    "canton": "Zürich",
+   "cantonCode": "ZH",
+   "region": "zuerich",
    "party": "SVP",
    "electionDate": "2003-12-10",
    "leftOfficeDate": "2007-12-31",
@@ -4864,6 +5713,8 @@
    "name": "Hans-Rudolf Merz",
    "gender": "male",
    "canton": "Appenzell Ausserrhoden",
+   "cantonCode": "AR",
+   "region": "ostschweiz",
    "party": "FDP.Die Liberalen",
    "electionDate": "2003-12-10",
    "leftOfficeDate": "2010-11-01",
@@ -4888,6 +5739,8 @@
    "name": "Doris Leuthard",
    "gender": "female",
    "canton": "Aargau",
+   "cantonCode": "AG",
+   "region": "nordwestschweiz",
    "party": "CVP",
    "electionDate": "2006-06-14",
    "leftOfficeDate": "2018-12-31",
@@ -4912,6 +5765,8 @@
    "name": "Eveline Widmer-Schlumpf",
    "gender": "female",
    "canton": "Graubünden",
+   "cantonCode": "GR",
+   "region": "ostschweiz",
    "party": "SVP / BDP",
    "electionDate": "2007-12-12",
    "leftOfficeDate": "2015-12-31",
@@ -4940,6 +5795,8 @@
    "name": "Ueli Maurer",
    "gender": "male",
    "canton": "Zürich",
+   "cantonCode": "ZH",
+   "region": "zuerich",
    "party": "SVP",
    "electionDate": "2008-12-10",
    "leftOfficeDate": "2022-12-31",
@@ -4964,6 +5821,8 @@
    "name": "Didier Burkhalter",
    "gender": "male",
    "canton": "Neuenburg",
+   "cantonCode": "NE",
+   "region": "mittelland",
    "party": "FDP.Die Liberalen",
    "electionDate": "2009-09-16",
    "leftOfficeDate": "2017-10-31",
@@ -4988,6 +5847,8 @@
    "name": "Simonetta Sommaruga",
    "gender": "female",
    "canton": "Bern",
+   "cantonCode": "BE",
+   "region": "mittelland",
    "party": "SP",
    "electionDate": "2010-09-22",
    "leftOfficeDate": "2022-12-31",
@@ -5012,6 +5873,8 @@
    "name": "Johann Schneider-Ammann",
    "gender": "male",
    "canton": "Bern",
+   "cantonCode": "BE",
+   "region": "mittelland",
    "party": "FDP.Die Liberalen",
    "electionDate": "2010-09-22",
    "leftOfficeDate": "2018-12-31",
@@ -5036,6 +5899,8 @@
    "name": "Alain Berset",
    "gender": "male",
    "canton": "Freiburg",
+   "cantonCode": "FR",
+   "region": "mittelland",
    "party": "SP",
    "electionDate": "2011-12-14",
    "leftOfficeDate": "2023-12-31",
@@ -5060,6 +5925,8 @@
    "name": "Guy Parmelin",
    "gender": "male",
    "canton": "Waadt",
+   "cantonCode": "VD",
+   "region": "genfersee",
    "party": "SVP",
    "electionDate": "2015-12-09",
    "leftOfficeDate": "2026-12-31",
@@ -5084,6 +5951,8 @@
    "name": "Ignazio Cassis",
    "gender": "male",
    "canton": "Tessin",
+   "cantonCode": "TI",
+   "region": "tessin",
    "party": "FDP.Die Liberalen",
    "electionDate": "2017-09-20",
    "leftOfficeDate": null,
@@ -5108,6 +5977,8 @@
    "name": "Viola Amherd",
    "gender": "female",
    "canton": "Wallis",
+   "cantonCode": "VS",
+   "region": "genfersee",
    "party": "Die Mitte",
    "electionDate": "2018-12-05",
    "leftOfficeDate": "2025-03-31",
@@ -5132,6 +6003,8 @@
    "name": "Karin Keller-Sutter",
    "gender": "female",
    "canton": "St. Gallen",
+   "cantonCode": "SG",
+   "region": "ostschweiz",
    "party": "FDP.Die Liberalen",
    "electionDate": "2018-12-05",
    "leftOfficeDate": null,
@@ -5156,6 +6029,8 @@
    "name": "Albert Rösti",
    "gender": "male",
    "canton": "Bern",
+   "cantonCode": "BE",
+   "region": "mittelland",
    "party": "SVP",
    "electionDate": "2022-12-07",
    "leftOfficeDate": null,
@@ -5180,6 +6055,8 @@
    "name": "Elisabeth Baume-Schneider",
    "gender": "female",
    "canton": "Jura",
+   "cantonCode": "JU",
+   "region": "mittelland",
    "party": "SP",
    "electionDate": "2022-12-07",
    "leftOfficeDate": null,
@@ -5204,6 +6081,8 @@
    "name": "Beat Jans",
    "gender": "male",
    "canton": "Basel-Stadt",
+   "cantonCode": "BS",
+   "region": "nordwestschweiz",
    "party": "SP",
    "electionDate": "2023-12-13",
    "leftOfficeDate": null,
@@ -5228,6 +6107,8 @@
    "name": "Martin Pfister",
    "gender": "male",
    "canton": "Zug",
+   "cantonCode": "ZG",
+   "region": "zentralschweiz",
    "party": "Die Mitte",
    "electionDate": "2025-03-12",
    "leftOfficeDate": null,
@@ -5256,7 +6137,16 @@
    "party": "SVP",
    "language": "de",
    "birthDate": "1979-01-13",
-   "canton": "Zug"
+   "canton": "Zug",
+   "cantonCode": "ZG",
+   "region": "zentralschweiz",
+   "portrait": {
+    "image": "img/candidates/thomas-aeschi.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:Thomas_Aeschi_(2023).jpg",
+    "author": "Assemblea Federale Svizzera",
+    "license": "Attribution",
+    "licenseUrl": null
+   }
   },
   {
    "id": 2,
@@ -5265,7 +6155,16 @@
    "party": "SVP",
    "language": "de",
    "birthDate": "1966-08-24",
-   "canton": "Aargau"
+   "canton": "Aargau",
+   "cantonCode": "AG",
+   "region": "nordwestschweiz",
+   "portrait": {
+    "image": "img/candidates/jean-pierre-gallati.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:Jean-Pierre_Gallati_(2019).jpg",
+    "author": "Parliamentary Services",
+    "license": "Attribution",
+    "licenseUrl": null
+   }
   },
   {
    "id": 3,
@@ -5274,7 +6173,16 @@
    "party": "SVP",
    "language": "fr",
    "birthDate": "1962-12-13",
-   "canton": "Bern"
+   "canton": "Bern",
+   "cantonCode": "BE",
+   "region": "mittelland",
+   "portrait": {
+    "image": "img/candidates/pierre-alain-schnegg.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:SCO_SVP_Biel-Bienne_20260126_(70).jpg",
+    "author": "Bricetofly",
+    "license": "CC0",
+    "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en"
+   }
   },
   {
    "id": 4,
@@ -5283,7 +6191,16 @@
    "party": "SVP",
    "language": "fr",
    "birthDate": "1979-03-15",
-   "canton": "Genf"
+   "canton": "Genf",
+   "cantonCode": "GE",
+   "region": "genfersee",
+   "portrait": {
+    "image": "img/candidates/celine-amaudruz.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:C%C3%A9line_Amaudruz_(2019).jpg",
+    "author": "Services du Parlement",
+    "license": "Attribution",
+    "licenseUrl": null
+   }
   },
   {
    "id": 5,
@@ -5292,7 +6209,16 @@
    "party": "SVP",
    "language": "de",
    "birthDate": "1971-02-24",
-   "canton": "Wallis"
+   "canton": "Wallis",
+   "cantonCode": "VS",
+   "region": "genfersee",
+   "portrait": {
+    "image": "img/candidates/franz-ruppen.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:Franz_Ruppen_(2019).jpg",
+    "author": "Services du Parlement",
+    "license": "Attribution",
+    "licenseUrl": null
+   }
   },
   {
    "id": 6,
@@ -5301,7 +6227,16 @@
    "party": "SVP",
    "language": "de",
    "birthDate": "1967-06-20",
-   "canton": "Solothurn"
+   "canton": "Solothurn",
+   "cantonCode": "SO",
+   "region": "mittelland",
+   "portrait": {
+    "image": "img/candidates/remy-wyssmann.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:R%C3%A9my_Wyssmann_(cropped).jpg",
+    "author": "Parliamentary Services",
+    "license": "Attribution",
+    "licenseUrl": null
+   }
   },
   {
    "id": 7,
@@ -5310,7 +6245,16 @@
    "party": "SVP",
    "language": "de",
    "birthDate": "1981-06-03",
-   "canton": "Wallis"
+   "canton": "Wallis",
+   "cantonCode": "VS",
+   "region": "genfersee",
+   "portrait": {
+    "image": "img/candidates/michael-graber.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:Michael_Graber_(2021,_parl.ch).jpg",
+    "author": "Services du Parlement",
+    "license": "Attribution",
+    "licenseUrl": null
+   }
   },
   {
    "id": 8,
@@ -5319,7 +6263,226 @@
    "party": "SVP",
    "language": "it",
    "birthDate": "1974-10-10",
-   "canton": "Tessin"
+   "canton": "Tessin",
+   "cantonCode": "TI",
+   "region": "tessin",
+   "portrait": {
+    "image": "img/candidates/marco-chiesa.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:Marco_Chiesa_(2018,_cropped).jpg",
+    "author": "Services du Parlement",
+    "license": "Attribution",
+    "licenseUrl": null
+   }
   }
- ]
+ ],
+ "flags": {
+  "ZH": {
+   "canton": "Zürich",
+   "image": "img/flags/ZH.svg",
+   "source": "https://commons.wikimedia.org/wiki/File:Flag_of_Canton_of_Z%C3%BCrich.svg",
+   "license": "Public domain",
+   "licenseUrl": null,
+   "author": null
+  },
+  "BE": {
+   "canton": "Bern",
+   "image": "img/flags/BE.svg",
+   "source": "https://commons.wikimedia.org/wiki/File:Flag_of_Canton_of_Bern.svg",
+   "license": "Public domain",
+   "licenseUrl": null,
+   "author": "Paul Boesch"
+  },
+  "LU": {
+   "canton": "Luzern",
+   "image": "img/flags/LU.svg",
+   "source": "https://commons.wikimedia.org/wiki/File:CHE_Luzern_Flag.svg",
+   "license": "Public domain",
+   "licenseUrl": null,
+   "author": "Cantone Ticino"
+  },
+  "UR": {
+   "canton": "Uri",
+   "image": "img/flags/UR.svg",
+   "source": "https://commons.wikimedia.org/wiki/File:Flag_of_Canton_of_Uri.svg",
+   "license": "Public domain",
+   "licenseUrl": null,
+   "author": null
+  },
+  "SZ": {
+   "canton": "Schwyz",
+   "image": "img/flags/SZ.svg",
+   "source": "https://commons.wikimedia.org/wiki/File:Flag_of_Canton_of_Schwyz.svg",
+   "license": "Public domain",
+   "licenseUrl": null,
+   "author": null
+  },
+  "OW": {
+   "canton": "Obwalden",
+   "image": "img/flags/OW.svg",
+   "source": "https://commons.wikimedia.org/wiki/File:Flag_of_Canton_of_Obwalden.svg",
+   "license": "Public domain",
+   "licenseUrl": null,
+   "author": "Rudolf Münger"
+  },
+  "NW": {
+   "canton": "Nidwalden",
+   "image": "img/flags/NW.svg",
+   "source": "https://commons.wikimedia.org/wiki/File:Flag_of_Canton_of_Nidwalden.svg",
+   "license": "Public domain",
+   "licenseUrl": null,
+   "author": null
+  },
+  "GL": {
+   "canton": "Glarus",
+   "image": "img/flags/GL.svg",
+   "source": "https://commons.wikimedia.org/wiki/File:Flag_of_Canton_of_Glarus.svg",
+   "license": "Public domain",
+   "licenseUrl": null,
+   "author": null
+  },
+  "ZG": {
+   "canton": "Zug",
+   "image": "img/flags/ZG.svg",
+   "source": "https://commons.wikimedia.org/wiki/File:Flag_of_Canton_of_Zug.svg",
+   "license": "Public domain",
+   "licenseUrl": null,
+   "author": null
+  },
+  "FR": {
+   "canton": "Freiburg",
+   "image": "img/flags/FR.svg",
+   "source": "https://commons.wikimedia.org/wiki/File:Flag_of_Canton_of_Fribourg.svg",
+   "license": "Public domain",
+   "licenseUrl": null,
+   "author": null
+  },
+  "SO": {
+   "canton": "Solothurn",
+   "image": "img/flags/SO.svg",
+   "source": "https://commons.wikimedia.org/wiki/File:Flag_of_Canton_of_Solothurn.svg",
+   "license": "Public domain",
+   "licenseUrl": null,
+   "author": null
+  },
+  "BS": {
+   "canton": "Basel-Stadt",
+   "image": "img/flags/BS.svg",
+   "source": "https://commons.wikimedia.org/wiki/File:Flag_of_Canton_of_Basel.svg",
+   "license": "Public domain",
+   "licenseUrl": null,
+   "author": "Edi Hauri"
+  },
+  "BL": {
+   "canton": "Basel-Landschaft",
+   "image": "img/flags/BL.svg",
+   "source": "https://commons.wikimedia.org/wiki/File:CHE_Basel-Landschaft_Flag.svg",
+   "license": "Public domain",
+   "licenseUrl": null,
+   "author": "Otto Plattner, Vektorgrafik: SpinnerLaserzthe2nd"
+  },
+  "SH": {
+   "canton": "Schaffhausen",
+   "image": "img/flags/SH.svg",
+   "source": "https://commons.wikimedia.org/wiki/File:Flag_of_Canton_of_Schaffhausen.svg",
+   "license": "Public domain",
+   "licenseUrl": null,
+   "author": null
+  },
+  "AR": {
+   "canton": "Appenzell Ausserrhoden",
+   "image": "img/flags/AR.svg",
+   "source": "https://commons.wikimedia.org/wiki/File:Flag_of_Canton_of_Appenzell_Ausserrhoden.svg",
+   "license": "Public domain",
+   "licenseUrl": null,
+   "author": null
+  },
+  "AI": {
+   "canton": "Appenzell Innerrhoden",
+   "image": "img/flags/AI.svg",
+   "source": "https://commons.wikimedia.org/wiki/File:Flag_of_Canton_of_Appenzell_Innerrhoden.svg",
+   "license": "Public domain",
+   "licenseUrl": null,
+   "author": null
+  },
+  "SG": {
+   "canton": "St. Gallen",
+   "image": "img/flags/SG.svg",
+   "source": "https://commons.wikimedia.org/wiki/File:Flag_of_Canton_of_Sankt_Gallen_2011.svg",
+   "license": "Public domain",
+   "licenseUrl": null,
+   "author": null
+  },
+  "GR": {
+   "canton": "Graubünden",
+   "image": "img/flags/GR.svg",
+   "source": "https://commons.wikimedia.org/wiki/File:Flag_of_Canton_of_Graub%C3%BCnden.svg",
+   "license": "Public domain",
+   "licenseUrl": null,
+   "author": null
+  },
+  "AG": {
+   "canton": "Aargau",
+   "image": "img/flags/AG.svg",
+   "source": "https://commons.wikimedia.org/wiki/File:Flag_of_Canton_of_Aargau.svg",
+   "license": "Public domain",
+   "licenseUrl": null,
+   "author": null
+  },
+  "TG": {
+   "canton": "Thurgau",
+   "image": "img/flags/TG.svg",
+   "source": "https://commons.wikimedia.org/wiki/File:Flag_of_Canton_of_Thurgau.svg",
+   "license": "Public domain",
+   "licenseUrl": null,
+   "author": null
+  },
+  "TI": {
+   "canton": "Tessin",
+   "image": "img/flags/TI.svg",
+   "source": "https://commons.wikimedia.org/wiki/File:Flag_of_Canton_of_Ticino.svg",
+   "license": "Public domain",
+   "licenseUrl": null,
+   "author": null
+  },
+  "VD": {
+   "canton": "Waadt",
+   "image": "img/flags/VD.svg",
+   "source": "https://commons.wikimedia.org/wiki/File:CHE_Vaud_Flag.svg",
+   "license": "Public domain",
+   "licenseUrl": null,
+   "author": "Vektorgrafik: SpinnerLaserzthe2nd"
+  },
+  "VS": {
+   "canton": "Wallis",
+   "image": "img/flags/VS.svg",
+   "source": "https://commons.wikimedia.org/wiki/File:CHE_Valais_Flag.svg",
+   "license": "Public domain",
+   "licenseUrl": null,
+   "author": "Vektorgrafik: SpinnerLaserzthe2nd"
+  },
+  "NE": {
+   "canton": "Neuenburg",
+   "image": "img/flags/NE.svg",
+   "source": "https://commons.wikimedia.org/wiki/File:Flag_of_Canton_of_Neuch%C3%A2tel.svg",
+   "license": "Public domain",
+   "licenseUrl": null,
+   "author": null
+  },
+  "GE": {
+   "canton": "Genf",
+   "image": "img/flags/GE.svg",
+   "source": "https://commons.wikimedia.org/wiki/File:CHE_Canton_de_Gen%C3%A8ve_Flag.svg",
+   "license": "Public domain",
+   "licenseUrl": null,
+   "author": "Émile Demole, Vektorgrafik: République et Canton de Genève"
+  },
+  "JU": {
+   "canton": "Jura",
+   "image": "img/flags/JU.svg",
+   "source": "https://commons.wikimedia.org/wiki/File:Flag_of_Canton_of_Jura.svg",
+   "license": "Public domain",
+   "licenseUrl": null,
+   "author": null
+  }
+ }
 }

@@ -16,12 +16,13 @@
  * nothing without their consent. The events are listed in the README.
  */
 
-import { t, fmt, getLanguage } from "./i18n.js";
+import { t, fmt, fillText } from "./i18n.js";
 import { overlap, toShares } from "./metrics.js";
 import { buildVersions } from "./council.js";
 import { buildComparisons, ageOn, partyOn } from "./comparisons.js";
 import { drawStepChart } from "./chart.js";
-import { setupAnalytics, track, trackOnce } from "./analytics.js";
+import { setupAnalytics, track } from "./analytics.js";
+import { loadContent } from "./content.js";
 
 const state = {
   index: 0, // which version is shown (0 = 1848)
@@ -32,7 +33,7 @@ const state = {
   //   data/candidates.csv) or "best" (a profile that maximises the score)
   replacements: {},
   editing: null, // number of the member whose replacement is being edited
-  view: "current", // comparison view: "current" (selected Council) or "history"
+  historyFocus: null, // line pinned in the history chart ("overall", "gender", …)
 };
 let base; // set in main()
 
@@ -86,7 +87,7 @@ function seatParams(number) {
   return { ...councilParams(), councillor: m.name };
 }
 
-/** The profile of a new person: how it was made, and its four properties. */
+/** The profile of a new person: how it was made, and its five properties. */
 function profileParams(choice) {
   const group = base.ageGroups.find((g) => choice.age >= g.min && (g.max === null || choice.age <= g.max));
   return {
@@ -96,6 +97,7 @@ function profileParams(choice) {
     language: choice.language,
     age: choice.age,
     age_group: group?.key ?? "",
+    region: choice.region,
     ...(choice.name && { candidate: choice.name }),
   };
 }
@@ -163,11 +165,8 @@ function computeBase(data, today) {
     comparisons,
     versions,
     currentIndex,
-    councillors: data.councillors, // for the picture credits
     candidates: data.candidates ?? [], // people for "Aus Liste wählen"
     ageGroups: data.age.groups,
-    sources: [data.gender, data.language, data.language.other, data.party],
-    generated: data.generated,
   };
 }
 
@@ -177,6 +176,7 @@ function computeBase(data, today) {
  * age on the day the version is measured.
  */
 function newMember(m, choice, day) {
+  const person = choice.personId ? base.candidates.find((p) => p.id === choice.personId) : null;
   return {
     ...m,
     isNew: true,
@@ -185,10 +185,13 @@ function newMember(m, choice, day) {
     name: choice.name ?? t(choice.gender === "female" ? "newFemale" : "newMale"),
     gender: choice.gender,
     language: choice.language,
+    region: choice.region,
+    cantonCode: choice.cantonCode ?? null, // known for a person from the list only
+    canton: person?.canton ?? null,
     parties: choice.party ? [{ party: choice.party, from: null }] : m.parties,
     age: choice.age,
     birthDate: `${String(Number(day.slice(0, 4)) - choice.age).padStart(4, "0")}${day.slice(4)}`,
-    portrait: null,
+    portrait: person?.portrait ?? null,
   };
 }
 
@@ -224,14 +227,11 @@ function periodLabel(c, isCurrent) {
 
 // Setup: build the page once -----------------------------------------------------
 
-/** Fill every element that has a data-i18n="key" attribute. */
+/** Page title, description and every element with a data-i18n="key" attribute. */
 function setupStaticText() {
-  document.documentElement.lang = getLanguage();
   document.title = t("pageTitle");
   document.querySelector('meta[name="description"]').content = t("pageDescription");
-  for (const node of document.querySelectorAll("[data-i18n]")) {
-    node.textContent = t(node.dataset.i18n);
-  }
+  fillText();
 }
 
 /**
@@ -273,13 +273,18 @@ function setupNavigator() {
   head.hidden = false;
   panel.hidden = false;
 
-  // Show the score in the panel head only while the big number is off
-  // screen. The negative top margin excludes the area covered by the head
-  // when it sticks to the top.
-  new IntersectionObserver(
-    ([entry]) => head.classList.toggle("show-score", !entry.isIntersecting),
-    { rootMargin: `-${head.offsetHeight}px 0px 0px 0px` }
-  ).observe($("score-value"));
+  // Show the score in the panel head only once the big number has scrolled
+  // past, under the stuck head (not while reading the intro above it).
+  // Checked on every scroll (two position reads, cheap), so it is also
+  // right after a jump (reload, link) that skips over the number.
+  const score = $("score-value");
+  const check = () => {
+    const past = score.getBoundingClientRect().bottom <= head.getBoundingClientRect().bottom;
+    head.classList.toggle("show-score", past);
+  };
+  addEventListener("scroll", check, { passive: true });
+  addEventListener("resize", check);
+  check();
 }
 
 /**
@@ -323,64 +328,6 @@ function setupTicks(last) {
 }
 
 /**
- * "Was bedeutet das?" next to the overall score: an explanation that opens
- * on hover or keyboard focus, and stays open after a click or tap (until
- * clicked again, Escape, or a click elsewhere).
- */
-function setupInfo() {
-  const head = document.querySelector(".score-head");
-  const button = $("info-button");
-  const box = $("info-box");
-  // Icon-only button: its name comes from the label (and a tooltip on hover)
-  button.setAttribute("aria-label", t("infoButton"));
-  button.title = t("infoButton");
-
-  const example = el("div", "info-example");
-  example.id = "info-example";
-  box.replaceChildren(
-    el("p", "info-title", t("infoButton")),
-    el("p", null, t("infoWhat")),
-    example, // filled in by updateComparisons()
-    el("p", null, t("infoOverall")),
-    el("p", "info-method", t("infoMethod"))
-  );
-
-  let pinned = false;
-  const show = (open) => {
-    box.hidden = !open;
-    button.setAttribute("aria-expanded", String(open));
-  };
-  const close = () => {
-    pinned = false;
-    show(false);
-  };
-
-  button.addEventListener("click", () => {
-    pinned = !pinned;
-    show(pinned);
-    if (pinned) track("open_info", { method: "click" });
-  });
-  head.addEventListener("mouseenter", () => {
-    show(true);
-    trackOnce("open_info", { method: "hover" }); // hovering is frequent: once per visit
-  });
-  head.addEventListener("mouseleave", () => pinned || show(false));
-  button.addEventListener("focus", () => show(true));
-  head.addEventListener("focusout", (e) => {
-    if (!pinned && !head.contains(e.relatedTarget)) show(false);
-  });
-  document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape" && !box.hidden) {
-      close();
-      button.focus();
-    }
-  });
-  document.addEventListener("click", (e) => {
-    if (!box.hidden && !head.contains(e.target)) close();
-  });
-}
-
-/**
  * One section per comparison: title and score, change, note (no data),
  * legend and two aligned 100 % bars (Council vs population). Built once;
  * update() fills them in.
@@ -415,47 +362,49 @@ function barRow(key) {
   return row;
 }
 
-function setupFooter() {
-  // One line per BFS table, linking to the table
-  const items = base.sources.map((source) => {
-    const li = el("li");
-    const link = el("a", null, t("sourceBfs", source.tableTitle, source.table));
-    link.href = source.url;
-    link.rel = "noopener";
-    li.append(link);
-    return li;
-  });
-  $("sources-bfs").replaceWith(...items);
-  $("data-generated").textContent = t("dataGenerated", fmt.date(base.generated));
-  setupCredits();
+/** Show the shared tooltip above the point (x, y), `pad` px away, inside the viewport. */
+function placeTooltip(tip, x, y, pad = 12) {
+  tip.hidden = false;
+  const { width, height } = tip.getBoundingClientRect();
+  const left = Math.min(Math.max(pad, x - width / 2), window.innerWidth - width - pad);
+  const top = y - height - pad < pad ? y + pad * 2 : y - height - pad;
+  tip.style.left = `${left}px`;
+  tip.style.top = `${top}px`;
 }
 
 /**
- * Picture credits: author and licence of every portrait (required by
- * several of the licences), in a collapsed list in the footer.
+ * The canton's name above a flag (cards of the Council and of the
+ * candidates): on mouse hover, and on touch screens when the flag is
+ * tapped (gone with the next tap or scroll). Uses the bars' tooltip.
  */
-function setupCredits() {
-  const people = base.councillors.filter((c) => c.portrait);
-  const items = people.map((c) => {
-    const p = c.portrait;
-    const li = el("li");
-    const file = el("a", null, c.name);
-    file.href = p.source;
-    file.rel = "noopener";
-    li.append(file, document.createTextNode(`: ${p.author || t("creditAuthorUnknown")}, `));
-    if (p.licenseUrl) {
-      const license = el("a", null, p.license);
-      license.href = p.licenseUrl;
-      license.rel = "noopener";
-      li.append(license);
-    } else {
-      li.append(document.createTextNode(p.license || "–"));
-    }
-    return li;
+function setupFlagLabels() {
+  const tip = $("tooltip");
+  let shown = null;
+  const show = (flag) => {
+    shown = flag;
+    tip.classList.add("is-compact");
+    tip.replaceChildren(el("span", "tooltip-label", flag.dataset.canton));
+    const r = flag.getBoundingClientRect();
+    placeTooltip(tip, r.left + r.width / 2, r.top, 6);
+  };
+  const hide = () => {
+    if (!shown) return;
+    shown = null;
+    tip.hidden = true;
+  };
+  document.addEventListener("pointerover", (e) => {
+    const flag = e.target.closest?.(".flag[data-canton]");
+    if (flag && e.pointerType === "mouse") show(flag);
   });
-  $("credits-list").replaceChildren(...items);
-  $("credits").hidden = people.length === 0;
-  $("credits").addEventListener("toggle", () => $("credits").open && track("open_credits"));
+  document.addEventListener("pointerout", (e) => {
+    if (e.target.closest?.(".flag[data-canton]") && e.pointerType === "mouse") hide();
+  });
+  document.addEventListener("pointerdown", (e) => {
+    const flag = e.target.closest?.(".flag[data-canton]");
+    if (flag && e.pointerType !== "mouse") show(flag);
+    else hide();
+  });
+  window.addEventListener("scroll", hide, { passive: true });
 }
 
 /** One shared tooltip for all bar segments; works on hover and keyboard focus. */
@@ -463,6 +412,7 @@ function setupTooltip() {
   const tip = $("tooltip");
 
   function show(seg, x, y) {
+    tip.classList.remove("is-compact"); // set by the flags' label
     tip.replaceChildren(
       el("strong", null, seg.dataset.value),
       el("span", null, seg.dataset.label),
@@ -483,14 +433,7 @@ function setupTooltip() {
       tip.append(list);
       if (breakdown.note) tip.append(el("span", "tooltip-detail", breakdown.note));
     }
-    tip.hidden = false;
-    // Keep the tooltip inside the viewport.
-    const pad = 12;
-    const { width, height } = tip.getBoundingClientRect();
-    const left = Math.min(Math.max(pad, x - width / 2), window.innerWidth - width - pad);
-    const top = y - height - pad < pad ? y + pad * 2 : y - height - pad;
-    tip.style.left = `${left}px`;
-    tip.style.top = `${top}px`;
+    placeTooltip(tip, x, y);
   }
   const hide = () => (tip.hidden = true);
 
@@ -512,8 +455,24 @@ function setupTooltip() {
 
 // Update: runs on start and whenever `state` changes ---------------------------------
 
+/**
+ * Title of the navigator: the exact dates the version was in office,
+ * "1. Apr. 2025 – heute", "1. Nov. 2017 – 31. Dez. 2018"; within one year
+ * the year is given once: "1. Jan. – 12. Feb. 1920".
+ */
+function councilDates(v) {
+  const c = v.version;
+  // A date never breaks across lines (non-breaking spaces)
+  const nbsp = (text) => text.replaceAll(" ", "\u00a0");
+  const date = (iso) => nbsp(fmt.dateShort(iso));
+  if (v.isCurrent) return t("councilPeriodCurrent", date(c.start));
+  if (c.start === c.end) return date(c.start);
+  const sameYear = c.start.slice(0, 4) === c.end.slice(0, 4);
+  return t("councilPeriod", sameYear ? nbsp(fmt.dayMonthShort(c.start)) : date(c.start), date(c.end));
+}
+
 function updateNavigator(v) {
-  const label = periodLabel(v.version, v.isCurrent);
+  const label = councilDates(v);
   $("nav-period").textContent = label;
   const range = $("nav-range");
   range.value = state.index;
@@ -540,9 +499,35 @@ function portrait(m) {
   return img;
 }
 
+/**
+ * The canton's flag (img/flags/ZH.svg, scripts/fetch_flags.py), shown
+ * instead of its code. Its name ("Zürich") appears in a label on hover
+ * (setupFlagLabels); screen readers read the alt text "Kanton Zürich".
+ */
+function cantonFlag(code, canton) {
+  const img = el("img", "flag");
+  img.src = `img/flags/${code}.svg`;
+  img.alt = t("cantonFlag", canton ?? code);
+  img.dataset.canton = canton ?? code;
+  img.decoding = "async";
+  img.addEventListener("error", () => img.replaceWith(code)); // fallback: "ZH"
+  return img;
+}
+
+/**
+ * "[flag] SVP": canton (flag) and party of a card. A person put together
+ * by the user has no canton, only a Grossregion: "Genferseeregion · SVP".
+ */
+function metaLine(tag, className, partyText, m) {
+  const line = el(tag, className);
+  if (m.cantonCode) line.append(cantonFlag(m.cantonCode, m.canton), partyText);
+  else line.append(`${base.comparisons.find((c) => c.key === "region").choiceLabel(m.region)} · ${partyText}`);
+  return line;
+}
+
 /** A small text button that triggers an action on a member's card. */
-function cardButton(action, number, text) {
-  const button = el("button", "link-button", text);
+function cardButton(action, number, text, className = "link-button") {
+  const button = el("button", className, text);
   button.type = "button";
   button.dataset.action = action;
   button.dataset.number = number;
@@ -550,24 +535,46 @@ function cardButton(action, number, text) {
 }
 
 /**
- * One card per member: portrait, name, "party · language", and a button to
- * replace them. A person created by the user shows their chosen profile.
+ * The member's party on `day`, as named at the time and shortened
+ * ("FDP.Die Liberalen" -> "FDP"; "SVP / BDP" -> the one that applied).
  */
-function memberCard(m) {
+function partyName(m, day) {
+  const names = m.party.split(" / ");
+  const i = m.parties.findLastIndex((p) => !p.from || p.from <= day);
+  return t("partyName", names[Math.max(i, 0)] ?? names[0]);
+}
+
+/**
+ * Only a member of today's Council who has announced their resignation
+ * can be replaced ("Ersetzen"): in data/all_federal_councillors.csv they
+ * have a left_office_date in the future. Once that day has passed, they
+ * are no longer in today's Council.
+ */
+function canReplace(m, v) {
+  return v.isCurrent && !m.isNew && Boolean(m.leftOfficeDate) && m.leftOfficeDate > base.today;
+}
+
+/**
+ * One card per member: portrait, name, "party · canton" (the canton's
+ * flag), and for a member who is leaving a button to replace them. A
+ * person created by the user shows their party and canton (from the list,
+ * with their portrait) or Grossregion (put together, or the best profile).
+ */
+function memberCard(m, v) {
+  const day = v.version.day;
   const li = el("li", m.isNew ? "member is-new" : "member");
   const body = el("div", "member-body");
   const actions = el("p", "member-actions");
-  const language = base.comparisons.find((c) => c.key === "language");
 
   if (m.isNew) {
     const avatar = m.fromList
-      ? initialsAvatar(m)
+      ? portrait(m)
       : el("span", `avatar avatar-${m.gender} avatar-new`, t("newShort"));
     avatar.setAttribute("aria-hidden", "true");
     const party = base.comparisons.find((c) => c.key === "party");
     body.append(
       el("p", "member-name", m.name),
-      el("p", "member-meta", `${party.choiceLabel(m.parties[0].party)} · ${language.choiceLabel(m.language)}`),
+      metaLine("p", "member-meta", party.choiceLabel(m.parties[0].party), m),
       el("p", "member-meta", t("insteadOf", m.replaces.name))
     );
     actions.append(
@@ -578,37 +585,22 @@ function memberCard(m) {
   } else {
     body.append(
       el("p", "member-name", m.name),
-      el("p", "member-meta", `${m.party} · ${language.choiceLabel(m.language)}`)
+      metaLine("p", "member-meta", partyName(m, day), m)
     );
-    actions.append(cardButton("replace", m.number, t("replaceButton")));
+    // A member who is leaving: highlighted, with a clear button
+    if (canReplace(m, v)) {
+      li.classList.add("is-leaving");
+      actions.append(cardButton("replace", m.number, t("replaceButton"), "button button-small"));
+    }
     li.append(portrait(m), body);
   }
-  body.append(actions);
+  if (actions.children.length) body.append(actions);
   return li;
 }
 
 /** The members of the shown version, by seniority. */
 function updateCouncil(v) {
-  const c = v.version;
-  $("council-subtitle").textContent = v.isCurrent
-    ? t("councilSince", fmt.date(c.start))
-    : c.start === c.end
-      ? t("councilOneDay", fmt.date(c.start))
-      : t("councilFromTo", fmt.date(c.start), fmt.date(c.end));
-
-  $("council-list").replaceChildren(...v.members.map(memberCard));
-
-  // Below the cards: an invitation to try it, or what has been changed
-  const foot = $("panel-foot");
-  const replaced = v.members.filter((m) => m.isNew).length;
-  if (replaced) {
-    const reset = el("button", "link-button", t("resetAll"));
-    reset.type = "button";
-    reset.dataset.action = "reset";
-    foot.replaceChildren(el("span", null, t("replacedCount", replaced)), reset);
-  } else {
-    foot.replaceChildren(el("span", null, t("replaceHint")));
-  }
+  $("council-list").replaceChildren(...v.members.map((m) => memberCard(m, v)));
 
   // Safety net: if today has an empty seat, the CSV may be out of date
   // (e.g. a successor is missing). Shown with the latest version.
@@ -648,7 +640,7 @@ function updateBarRow(row, cmp, name, shares, detailFor, breakdownFor = () => nu
     seg.hidden = shares[c] === 0;
     seg.style.flexGrow = shares[c];
     seg.dataset.value = fmt.pct(shares[c]);
-    seg.dataset.label = `${cmp.label(c)} · ${name}`;
+    seg.dataset.label = `${cmp.longLabel?.(c) ?? cmp.label(c)} · ${name}`;
     seg.dataset.detail = detailFor(c);
     seg.setAttribute("aria-label", `${seg.dataset.label}: ${seg.dataset.value} ${seg.dataset.detail}`);
     breakdowns.set(seg, breakdownFor(c));
@@ -692,12 +684,13 @@ function updateLegend(list, cmp, categories) {
 /**
  * Animate numbers from their current value to a new one (0..1). Each
  * counter keeps its own state, so several numbers can move at once.
+ * `digits`: decimals shown ("73 %" with 0, "78.3 %" with 1).
  */
-function counter(...nodes) {
+function counter(nodes, digits = 1) {
   let shown = null; // the value currently displayed (mid-animation too)
   let frame = 0;
   const paint = (value) => {
-    for (const n of nodes) n.textContent = value === null ? "–" : fmt.pct(value);
+    for (const n of nodes) n.textContent = value === null ? "–" : fmt.pct(value, digits);
   };
   return (to) => {
     cancelAnimationFrame(frame);
@@ -726,41 +719,21 @@ const counters = {}; // created on first use: "overall", "gender", …
 
 function updateComparisons(v) {
   // Overall score
-  counters.overall ??= counter($("score-value"), $("nav-score"));
+  // The big overall score in whole percent (also in the navigator)
+  counters.overall ??= counter([$("score-value"), $("nav-score")], 0);
   counters.overall(v.overall);
   const included = v.results.filter((r) => r.available).map((r) =>
     base.comparisons.find((c) => c.key === r.key).title
   );
   $("score-caption").textContent = t("overallCaption", included);
 
-  // Worked example in "Was bedeutet das?": gender of the Council shown
   const period = periodLabel(v.version, v.isCurrent);
-  const gender = v.results.find((r) => r.key === "gender");
-  const genderCmp = base.comparisons.find((c) => c.key === "gender");
-  const example = el("ul", "info-rows");
-  for (const c of gender.categories) {
-    example.append(
-      el("li", null, t(
-        "infoExampleRow",
-        genderCmp.label(c),
-        fmt.pct(gender.p[c]),
-        fmt.pct(gender.q[c]),
-        fmt.pct(Math.min(gender.p[c], gender.q[c]))
-      ))
-    );
-  }
-  example.append(el("li", "info-sum", t("infoExampleSum", fmt.pct(gender.score))));
-  $("info-example").replaceChildren(
-    el("p", null, t("infoExampleTitle", t(v.isModified ? "compareCouncilModified" : "compareCouncil", period), gender.pop.label)),
-    example
-  );
-
   // One section per comparison
   const councilName = t(v.isModified ? "compareCouncilModified" : "compareCouncil", period);
   for (const [k, r] of v.results.entries()) {
     const cmp = base.comparisons[k];
     const section = document.querySelector(`.comparison[data-key="${cmp.key}"]`);
-    counters[cmp.key] ??= counter(section.querySelector(".comparison-score"));
+    counters[cmp.key] ??= counter([section.querySelector(".comparison-score")]);
     counters[cmp.key](r.available ? r.score : null);
     section.querySelector(".comparison-note").textContent = r.available ? "" : cmp.noData();
     section.classList.toggle("is-unavailable", !r.available);
@@ -793,35 +766,19 @@ function updateComparisons(v) {
   }
 
   // Screen readers: announce the final result once (not every animation frame)
-  $("score-status").textContent = `${t("overallLabel")}: ${v.overall === null ? "–" : fmt.pct(v.overall)}`;
+  $("score-status").textContent = `${t("scoreTitle")}: ${v.overall === null ? "–" : fmt.pct(v.overall, 0)}`;
 }
 
 // History: all scores over time --------------------------------------------------
 
 let history; // periods and series for the chart, built once in setupHistory()
-
-/** The two views of the comparison section: selected Council, or history. */
-function setupViews() {
-  const group = $("view-switch");
-  group.setAttribute("aria-label", t("viewSwitchLabel"));
-  for (const button of group.querySelectorAll("button")) {
-    button.addEventListener("click", () => {
-      state.view = button.dataset.view;
-      for (const b of group.querySelectorAll("button")) {
-        b.setAttribute("aria-pressed", String(b === button));
-      }
-      $("view-current").hidden = state.view !== "current";
-      $("view-history").hidden = state.view !== "history";
-      renderHistory();
-      track("switch_view", { view: state.view });
-    });
-  }
-}
+let historyChart; // the drawn chart: historyChart.highlight(key)
+let historyPreview = null; // line under the mouse in the legend
 
 /**
  * Build the data of the history chart (the real Councils, without the
- * user's replacements), its legend and the table. The chart itself is
- * drawn by renderHistory().
+ * user's replacements) and its legend. The chart itself is drawn by
+ * renderHistory().
  */
 function setupHistory() {
   const versions = base.versions;
@@ -831,55 +788,57 @@ function setupHistory() {
     end: i < versions.length - 1 ? Date.parse(versions[i + 1].start) : endOfToday,
   }));
 
-  // One line per comparison, plus the overall score (black, on top)
-  const colors = { gender: "var(--blue)", party: "var(--orange)", language: "var(--aqua)", age: "var(--amber)" };
+  // One line per comparison, plus the overall score (black, strong, on top)
+  const colors = {
+    gender: "var(--blue)",
+    party: "var(--orange)",
+    language: "var(--aqua)",
+    age: "var(--amber)",
+    region: "var(--blue-dark)", // all pairs of line colours checked for colour-blind separation
+  };
   const lines = [
-    { label: t("historyOverall"), color: "var(--ink)", width: 3, values: versions.map((v) => v.overall) },
+    { key: "overall", label: t("historyOverall"), color: "var(--ink)", primary: true, values: versions.map((v) => v.overall) },
     ...base.comparisons.map((cmp, k) => ({
+      key: cmp.key,
       label: cmp.title,
       color: colors[cmp.key],
-      width: 2,
       values: versions.map((v) => (v.results[k].available ? v.results[k].score : null)),
     })),
   ];
   // Drawn bottom to top: the tooltip lists them top to bottom (overall first)
   history = { periods, series: [...lines].reverse() };
 
-  // Legend: a short line in each series' colour
-  $("history-legend").replaceChildren(
+  // Legend: one button per line. Hovering it with the mouse previews that
+  // line in the chart; clicking (tapping) keeps it emphasized until it is
+  // clicked again.
+  const legend = $("history-legend");
+  legend.setAttribute("aria-label", t("historyLegendLabel"));
+  legend.replaceChildren(
     ...lines.map((s) => {
-      const li = el("li");
+      const button = el("button", "legend-button");
+      button.type = "button";
+      button.dataset.series = s.key;
+      button.setAttribute("aria-pressed", "false");
       const key = el("span", "key-line");
-      key.style.background = s.color;
-      if (s.width > 2) key.classList.add("key-line-strong");
-      li.append(key, document.createTextNode(s.label));
+      key.style.setProperty("--series-color", s.color);
+      if (s.primary) key.classList.add("key-line-strong");
+      button.append(key, document.createTextNode(s.label));
+      button.addEventListener("pointerenter", (e) => {
+        if (e.pointerType === "mouse") previewHistory(s.key);
+      });
+      button.addEventListener("pointerleave", (e) => {
+        if (e.pointerType === "mouse") previewHistory(null);
+      });
+      button.addEventListener("click", () => {
+        state.historyFocus = state.historyFocus === s.key ? null : s.key;
+        highlightHistory();
+        track("history_focus", { series: s.key, action: state.historyFocus ? "pin" : "unpin" });
+      });
+      const li = el("li");
+      li.append(button);
       return li;
     })
   );
-
-  // Table: every Council, newest first
-  const head = el("tr");
-  for (const text of [t("historyColPeriod"), ...lines.map((s) => s.label)]) {
-    const th = el("th", null, text);
-    th.scope = "col";
-    head.append(th);
-  }
-  const rows = versions
-    .map((v, i) => {
-      const tr = el("tr");
-      const th = el("th", null, periodLabel(v, i === base.currentIndex));
-      th.scope = "row";
-      tr.append(th, ...lines.map((s) => el("td", null, s.values[i] === null ? "–" : fmt.pct(s.values[i]))));
-      return tr;
-    })
-    .reverse();
-  const thead = el("thead");
-  thead.append(head);
-  const tbody = el("tbody");
-  tbody.append(...rows);
-  $("history-table").replaceChildren(thead, tbody);
-  const details = $("history-table").closest("details");
-  details.addEventListener("toggle", () => details.open && track("open_table"));
 
   // Redraw when the available width changes (window resized, phone rotated)
   let frame = 0;
@@ -889,23 +848,46 @@ function setupHistory() {
   }).observe($("history-chart"));
 }
 
-/** Draw the history chart (only while it is visible). */
+/** Draw the history chart (redrawn on every update; it is small). */
 function renderHistory() {
-  if (state.view !== "history" || !history) return;
-  drawStepChart($("history-chart"), {
+  if (!history) return;
+  historyChart = drawStepChart($("history-chart"), {
     ...history,
     selected: state.index,
+    focus: historyPreview ?? state.historyFocus,
     describe: (i) => t("compareCouncil", periodLabel(base.versions[i], i === base.currentIndex)),
     format: (v) => fmt.pct(v),
     onSelect: (i) => goTo(i, "chart"),
     label: t("historyChartLabel"),
   });
+  highlightHistory();
+}
+
+/** The legend entry under the mouse previews its line (null: back to the pinned one). */
+function previewHistory(key) {
+  historyPreview = key;
+  highlightHistory();
+}
+
+/**
+ * Emphasize one line in the history chart: the legend entry under the
+ * mouse, else the pinned one, else none (then the chart emphasizes the line
+ * closest to the pointer). The legend shows the same: the pinned entry is
+ * pressed, the others are muted while a line is emphasized.
+ */
+function highlightHistory() {
+  const key = historyPreview ?? state.historyFocus;
+  historyChart?.highlight(key);
+  for (const button of $("history-legend").querySelectorAll("button")) {
+    button.setAttribute("aria-pressed", String(button.dataset.series === state.historyFocus));
+    button.classList.toggle("is-muted", key !== null && button.dataset.series !== key);
+  }
 }
 
 // Replacing a member ------------------------------------------------------------
 
 /**
- * Buttons on the cards and below them: replace, edit, undo, reset all.
+ * Buttons on the cards: replace, edit, undo.
  * One listener for the whole panel, since the cards are rebuilt often.
  */
 function setupReplacements() {
@@ -924,12 +906,6 @@ function setupReplacements() {
         track("replace_undo", seatParams(number));
         delete changes[number];
         if (state.editing === number) closeEditor({ refocus: false });
-        update();
-        break;
-      case "reset":
-        track("replace_reset", { ...councilParams(), count: Object.keys(changes).length });
-        state.replacements[state.index] = {};
-        closeEditor({ refocus: false });
         update();
         break;
     }
@@ -955,6 +931,7 @@ function openEditor(number) {
     party: party.choices(c.day) ? partyOn(m, c.day) : null,
     language: m.language,
     age: ageOn(m.birthDate, c.day),
+    region: m.region,
   };
   state.editing = number;
   renderEditor();
@@ -987,7 +964,7 @@ function closeEditor({ refocus = true } = {}) {
   if (refocus) document.querySelector(`#council-list button[data-number="${number}"]`)?.focus();
 }
 
-/** One group of options (gender, party, language) as radio "chips". */
+/** One group of options (gender, party, language, Grossregion) as radio "chips". */
 function chipField(cmp, choice, day) {
   const fieldset = el("fieldset", "editor-field");
   fieldset.append(el("legend", null, cmp.title));
@@ -1063,6 +1040,7 @@ function makeCustom(choice) {
   choice.mode = "custom";
   delete choice.name;
   delete choice.personId;
+  delete choice.cantonCode;
   delete choice.variant;
   for (const button of $("editor").querySelectorAll(".mode-button")) {
     button.setAttribute("aria-pressed", String(button.dataset.mode === "custom"));
@@ -1091,15 +1069,10 @@ function modeSwitch(choice) {
 function setMode(mode) {
   const choice = currentChoice();
   if (mode === "best") {
-    // First click: the first best profile; every further click: the next one
-    const again = choice.mode === "best";
-    applyBest(choice, again ? choice.variant + 1 : 0);
-    track(again ? "best_next" : "replace_mode", {
-      mode,
-      variant: choice.variant + 1,
-      variants: choice.variants,
-      ...profileParams(choice),
-    });
+    // The first of the best profiles; the others are shown next to it
+    if (choice.mode === "best") return;
+    applyBest(choice, 0);
+    track("replace_mode", { mode, variant: 1, variants: choice.variants, ...profileParams(choice) });
   } else if (mode === "custom") {
     makeCustom(choice);
   } else {
@@ -1112,7 +1085,8 @@ function setMode(mode) {
 }
 
 /**
- * Every profile for this seat (gender × party × language × age group) that
+ * Every profile for this seat (gender × party × language × age group ×
+ * Grossregion) that
  * gives the highest overall score, with the other members as they are
  * (including the user's other replacements). Ages: the middle of each group.
  */
@@ -1134,17 +1108,18 @@ function bestProfiles() {
   for (const gender of byKey.gender.choices(day))
     for (const party of parties)
       for (const language of byKey.language.choices(day))
-        for (const age of ages) {
-          const profile = { gender, party, language, age };
-          const members = [...others, newMember(seat, profile, day)];
-          const score = average(base.comparisons.map((cmp) => evaluate(cmp, members, day)));
-          if (score > best + 1e-9) {
-            best = score;
-            profiles = [profile];
-          } else if (Math.abs(score - best) <= 1e-9) {
-            profiles.push(profile);
+        for (const age of ages)
+          for (const region of byKey.region.choices(day)) {
+            const profile = { gender, party, language, age, region };
+            const members = [...others, newMember(seat, profile, day)];
+            const score = average(base.comparisons.map((cmp) => evaluate(cmp, members, day)));
+            if (score > best + 1e-9) {
+              best = score;
+              profiles = [profile];
+            } else if (Math.abs(score - best) <= 1e-9) {
+              profiles.push(profile);
+            }
           }
-        }
   return profiles;
 }
 
@@ -1153,23 +1128,11 @@ function applyBest(choice, variant) {
   const k = variant % profiles.length;
   delete choice.name;
   delete choice.personId;
+  delete choice.cantonCode;
   Object.assign(choice, profiles[k], { mode: "best", variant: k, variants: profiles.length });
 }
 
-/** "Frau · GRÜNE · Andere Sprache · 29 Jahre" */
-function profileText(choice) {
-  const byKey = Object.fromEntries(base.comparisons.map((cmp) => [cmp.key, cmp]));
-  return [
-    byKey.gender.choiceLabel(choice.gender),
-    choice.party && byKey.party.choiceLabel(choice.party),
-    byKey.language.choiceLabel(choice.language),
-    t("ageYears", choice.age),
-  ]
-    .filter(Boolean)
-    .join(" · ");
-}
-
-/** Mode "Selbst zusammenstellen": the four fields. */
+/** Mode "Selbst zusammenstellen": the five fields. */
 function customPanel(choice, day) {
   const fields = el("div", "editor-fields");
   for (const cmp of base.comparisons) {
@@ -1178,7 +1141,11 @@ function customPanel(choice, day) {
   return fields;
 }
 
-/** Mode "Aus Liste wählen": the people from data/candidates.csv. */
+/**
+ * Mode "Offizielle Kandidierende": the people from data/candidates.csv, as
+ * cards like the Council's (portrait, name, party · flag). The whole card
+ * is the radio button.
+ */
 function listPanel(choice, day) {
   const panel = el("div", "editor-fields");
   if (!base.candidates.length) {
@@ -1192,12 +1159,11 @@ function listPanel(choice, day) {
     return panel;
   }
   const party = base.comparisons.find((cmp) => cmp.key === "party");
-  const language = base.comparisons.find((cmp) => cmp.key === "language");
   const hasParties = Boolean(party.choices(day));
 
   const fieldset = el("fieldset", "editor-field");
   fieldset.append(el("legend", "visually-hidden", t("mode_list")));
-  const list = el("div", "person-list");
+  const list = el("div", "person-grid");
   for (const person of people) {
     const age = ageOn(person.birthDate, day);
     const row = el("label", "person");
@@ -1214,18 +1180,22 @@ function listPanel(choice, day) {
         gender: person.gender,
         party: hasParties ? person.party : null,
         language: person.language,
+        region: person.region,
+        cantonCode: person.cantonCode,
         age,
       });
       delete choice.variant;
       update();
       track("candidate_select", { candidate: person.name, party: person.party });
     });
+    const card = el("span", "person-card");
     const text = el("span", "person-text");
     text.append(
       el("span", "person-name", person.name),
-      el("span", "person-meta", `${party.choiceLabel(person.party)} · ${language.choiceLabel(person.language)}`)
+      metaLine("span", "person-meta", party.choiceLabel(person.party), person)
     );
-    row.append(input, text);
+    card.append(portrait(person), text);
+    row.append(input, card);
     list.append(row);
   }
   fieldset.append(list);
@@ -1233,22 +1203,51 @@ function listPanel(choice, day) {
   return panel;
 }
 
-/** Mode "Bestmögliche Person": the current best profile and its number. */
+/**
+ * Mode "Bestmögliche Person": every profile that raises the overall score
+ * the most, as cards in a grid like the candidates'. Choosing a card makes
+ * it the new member.
+ */
 function bestPanel(choice) {
   const panel = el("div", "editor-fields");
-  panel.append(el("p", "editor-note", t("bestIntro")));
-  const profile = el("div", "best-profile");
-  profile.append(
-    el("p", "best-variant", t("bestVariant", choice.variant + 1, choice.variants)),
-    el("p", "best-text", profileText(choice))
-  );
-  panel.append(profile);
-  if (choice.variants > 1) {
-    const next = el("button", "link-button", t("bestNext"));
-    next.type = "button";
-    next.addEventListener("click", () => setMode("best"));
-    panel.append(next);
-  }
+  const profiles = bestProfiles();
+  panel.append(el("p", "editor-note", t("bestIntro", profiles.length)));
+  const byKey = Object.fromEntries(base.comparisons.map((cmp) => [cmp.key, cmp]));
+
+  const fieldset = el("fieldset", "editor-field");
+  fieldset.append(el("legend", "visually-hidden", t("mode_best")));
+  const grid = el("div", "person-grid");
+  profiles.forEach((profile, k) => {
+    const row = el("label", "person");
+    const input = el("input");
+    input.type = "radio";
+    input.name = "editor-best";
+    input.value = k;
+    input.checked = choice.variant === k;
+    input.addEventListener("change", () => {
+      applyBest(choice, k);
+      update();
+      track("best_select", { variant: k + 1, variants: profiles.length, ...profileParams(choice) });
+    });
+    const avatar = el("span", `avatar avatar-${profile.gender} avatar-new`, t("newShort"));
+    avatar.setAttribute("aria-hidden", "true");
+    const text = el("span", "person-text");
+    text.append(
+      // "Frau, 52 Jahre" / "Genferseeregion · SVP · Französisch"
+      el("span", "person-name", t("bestName", byKey.gender.choiceLabel(profile.gender), profile.age)),
+      el("span", "person-meta", [
+        byKey.region.choiceLabel(profile.region),
+        profile.party && byKey.party.choiceLabel(profile.party),
+        profile.language === "other" ? t("languageName_otherSingular") : byKey.language.longLabel(profile.language),
+      ].filter(Boolean).join(" · "))
+    );
+    const card = el("span", "person-card");
+    card.append(avatar, text);
+    row.append(input, card);
+    grid.append(row);
+  });
+  fieldset.append(grid);
+  panel.append(fieldset);
   return panel;
 }
 
@@ -1333,6 +1332,7 @@ function showError(key, err) {
 async function main() {
   setupStaticText();
   setupAnalytics(); // consent banner; Google Analytics only after consent
+  loadContent(); // longer texts (Markdown), loaded alongside the data
 
   let data;
   try {
@@ -1347,12 +1347,10 @@ async function main() {
     state.index = base.currentIndex >= 0 ? base.currentIndex : base.versions.length - 1;
     setupNavigator();
     setupComparisons();
-    setupViews();
     setupHistory();
-    setupInfo();
     setupReplacements();
-    setupFooter();
     setupTooltip();
+    setupFlagLabels();
     update();
   } catch (err) {
     return showError("renderError", err); // e.g. old cached files mixed with new ones

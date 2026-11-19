@@ -9,11 +9,17 @@
   Cache-Control: no-cache
 /datenschutz*
   Cache-Control: no-cache
+/quellen*
+  Cache-Control: no-cache
+/kontakt*
+  Cache-Control: no-cache
 /js/*
   Cache-Control: no-cache
 /css/*
   Cache-Control: no-cache
 /data/*
+  Cache-Control: no-cache
+/content/*
   Cache-Control: no-cache
 
 # Fonts and portraits rarely change: keep them for a while.
