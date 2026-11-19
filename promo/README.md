@@ -1,25 +1,29 @@
-# LinkedIn video: "Wer ersetzt Guy Parmelin?"
+# LinkedIn video: "Wie gut bildet der Bundesrat die Bevölkerung ab?"
 
-A self-playing animation (about 26 seconds) to record as a video for
-LinkedIn. It is **not part of the website**: this folder is not published.
+A self-playing animation (10 seconds, loops seamlessly) to record as a
+video for LinkedIn. It is **not part of the website**: this folder is not
+published.
 
 What it shows:
 
-1. **0–4.6 s:** the question "Wer ersetzt Guy Parmelin?" and today's
-   Gesamtübereinstimmung.
-2. **4.6–16.4 s:** the official candidates one by one, with the
-   Gesamtübereinstimmung if they replaced him (a bar to the left of the line
-   "heute" means lower, to the right higher); then sorted.
-3. **16.4–21.6 s:** the best possible person, as "Bestmögliche Person" on
-   the website.
-4. **From 21.6 s:** the end card with bundesrat.fyi, a note that this is not a
-   voting recommendation, and the photo credits.
+| Time | |
+|---|---|
+| always | "bundesrat.fyi", the title "Wie gut bildet der Bundesrat die Bevölkerung ab?", and at the bottom the photo credits and "keine Wahlempfehlung" |
+| 0.3 s | the box "Gesamtübereinstimmung": today's value |
+| 1.8 s | Thomas Aeschi's box appears below; the value changes to the Gesamtübereinstimmung with him instead of Guy Parmelin, with the change in percentage points |
+| 4.0 s | the same for Céline Amaudruz |
+| 6.2 s | the same for Marco Chiesa |
+| 8.8–9.6 s | everything but the title fades out |
+| 10 s | the same picture as at 0 s: the video can play in a loop without a visible jump |
+
+The three people and their order are set in `promo/video.js` (`PEOPLE`,
+names as in `data/candidates.csv`; `STEPS`: when each box appears).
 
 The numbers are calculated from `site/data/data.json` with the website's own
 code (`site/js/comparisons.js`, `council.js`, `metrics.js`). They were checked
-against the website's editor (all candidates and the best person match).
-The leaving member and the candidates come from the data, so the video
-updates itself when the data changes.
+against the website's editor (all candidates match).
+The leaving member and the candidates' details come from the data, so the
+video updates itself when the data changes.
 
 ## Open it
 
@@ -34,11 +38,11 @@ Then open <http://localhost:8000/promo/video.html> in Chrome.
 
 | Key | Action |
 |---|---|
-| Space | play / pause |
+| Space | play / pause (plays in a loop) |
 | R | back to the start (paused) |
 | ← → | one second back / forward |
 
-URL parameters: `?t=12.5` shows that moment, `?play` starts at once,
+URL parameters: `?t=4.5` shows that moment, `?play` starts at once,
 `?today=2026-11-19` calculates for that day (default: today).
 
 ## Record it (macOS, no extra software)
@@ -52,11 +56,13 @@ LinkedIn recommends for the feed.
 2. Press **Cmd + Shift + 5**, choose **"Record Selected Portion"**, and
    drag the frame exactly around the grey area (it snaps to nothing, so
    zoom in on the corners; a few pixels of dark border can be cut later).
-3. Click **Record**, then press **Space** on the page. Stop the recording
-   (stop button in the menu bar) once the end card has been shown for about
-   three seconds.
-4. Open the file in **QuickTime Player**: Edit → Trim to cut the start
-   and the end. File → Export As → 1080p.
+3. Click **Record**, then press **Space** on the page. Let it play once
+   (10 seconds) or a few times, then stop the recording (stop button in
+   the menu bar).
+4. Open the file in **QuickTime Player**: Edit → Trim. Start where the
+   "Gesamtübereinstimmung" box begins to appear, and end after one or more
+   full rounds, just before the box appears again (in between, only the
+   title is visible). File → Export As → 1080p.
 5. Upload the file directly to LinkedIn (not as a YouTube link).
 
 If the recording stutters, close other apps and try again; or render it
@@ -65,6 +71,6 @@ Puppeteer and ffmpeg).
 
 ## Photo credits
 
-The end card names the photographers of the portraits shown (most need
-attribution: "Parlamentsdienste", "Schweizerische Bundeskanzlei"). Keep
-the end card in the video, or name them in the post.
+The line at the bottom names the photographers of the portraits shown
+(the Parlamentsdienste; the licence asks for attribution). Keep it in the
+video, or name them in the post.

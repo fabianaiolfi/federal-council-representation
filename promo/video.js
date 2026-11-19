@@ -1,7 +1,7 @@
 /**
- * video.js — a self-playing animation (about 26 seconds) for a LinkedIn
- * video: who replaces Guy Parmelin, and how each official candidate would
- * change the Gesamtübereinstimmung.
+ * video.js — a self-playing animation (10 seconds, loops seamlessly) for a
+ * LinkedIn video: how the Gesamtübereinstimmung would change if Guy
+ * Parmelin were replaced by one of three official candidates.
  *
  * The numbers are calculated from site/data/data.json with the website's
  * own building blocks (the five comparisons, the versions of the Council,
@@ -10,9 +10,11 @@
  * them.
  *
  * Everything on screen is a function of the time t (seconds): render(t).
- * Keys: Space plays / pauses, R goes back to the start, ← → step by one
- * second. URL parameters: ?t=12.5 shows that moment, ?play starts at once,
- * ?today=2026-11-19 calculates for that day (default: today).
+ * The first and the last frame are the same (only the title), so the
+ * video can play in a loop. Keys: Space plays / pauses, R goes back to the
+ * start, ← → step by one second. URL parameters: ?t=4.5 shows that moment,
+ * ?play starts at once, ?today=2026-11-19 calculates for that day
+ * (default: today).
  */
 
 import { buildComparisons, ageOn } from "../site/js/comparisons.js";
@@ -21,7 +23,13 @@ import { overlap, toShares } from "../site/js/metrics.js";
 import { t as text, fmt } from "../site/js/i18n.js";
 
 const SITE = "../site/";
-const DURATION = 26.5;
+const DURATION = 10;
+
+/** The candidates shown, in this order (names as in data/candidates.csv) */
+const PEOPLE = ["Thomas Aeschi", "Céline Amaudruz", "Marco Chiesa"];
+
+/** When each candidate's box appears (seconds) */
+const STEPS = [1.8, 4.0, 6.2];
 
 // --- The numbers (as in site/js/app.js) -------------------------------------------
 
@@ -42,40 +50,25 @@ function average(results) {
 
 /**
  * Today's Council, the member who is leaving (left_office_date in the
- * future), the overall score with each official candidate in their seat,
- * and the best possible profiles (as "Bestmögliche Person" on the site).
+ * future), and the overall score with each chosen candidate in that seat.
  */
 function calculate(data, day) {
   const comparisons = buildComparisons(data);
-  const byKey = Object.fromEntries(comparisons.map((cmp) => [cmp.key, cmp]));
   const council = buildVersions(data.councillors).find((c) => c.start <= day && (!c.end || c.end >= day));
   const seat = council.members.find((m) => m.leftOfficeDate && m.leftOfficeDate > day);
   const others = council.members.filter((m) => m !== seat);
   const score = (members) => average(comparisons.map((cmp) => evaluate(cmp, members, day)));
   // The new member keeps the seat; gender, party, language, age and region change
-  const withPerson = (p) =>
-    score([...others, { ...seat, ...p, parties: [{ party: p.party, from: null }] }]);
+  const withPerson = (p) => score([...others, { ...seat, ...p, parties: [{ party: p.party, from: null }] }]);
 
-  const candidates = data.candidates
-    .filter((p) => ageOn(p.birthDate, day) >= 18)
-    .map((p) => ({ ...p, overall: withPerson(p) }));
-
-  // Best possible person: every combination, ages in the middle of their group
-  const ages = data.age.groups.map((g) => (g.max === null ? g.min + 5 : Math.round((g.min + g.max) / 2)));
-  let best = { overall: -Infinity, profiles: [] };
-  for (const gender of byKey.gender.choices(day))
-    for (const party of byKey.party.choices(day))
-      for (const language of byKey.language.choices(day))
-        for (const age of ages)
-          for (const region of byKey.region.choices(day)) {
-            const birthDate = `${Number(day.slice(0, 4)) - age}${day.slice(4)}`;
-            const profile = { gender, party, language, age, region, birthDate };
-            const overall = withPerson(profile);
-            if (overall > best.overall + 1e-9) best = { overall, profiles: [profile] };
-            else if (Math.abs(overall - best.overall) <= 1e-9) best.profiles.push(profile);
-          }
-
-  return { day, byKey, seat, today: score(council.members), candidates, best };
+  const people = PEOPLE.map((name) => {
+    const p = data.candidates.find((c) => c.name === name);
+    if (!p) throw new Error(`${name} is not in data/candidates.csv`);
+    if (ageOn(p.birthDate, day) < 18) throw new Error(`${name} is under 18 on ${day}`);
+    return { ...p, overall: withPerson(p) };
+  });
+  const party = comparisons.find((cmp) => cmp.key === "party");
+  return { seat, today: score(council.members), people, partyLabel: (p) => party.choiceLabel(p) };
 }
 
 // --- Small helpers ---------------------------------------------------------------
@@ -100,7 +93,7 @@ function show(node, p, dy = 14) {
   node.style.transform = `translateY(${(1 - e) * dy}px)`;
 }
 
-/** "+1.3" / "−0.4" / "±0.0" percentage points */
+/** "+0.9" / "−5.8" / "±0.0" percentage points */
 function points(share) {
   const pp = share * 100;
   if (Math.abs(pp) < 0.05) return `±${fmt.dec(0)}`;
@@ -114,14 +107,14 @@ function flag(code, canton) {
   return img;
 }
 
-function portrait(p, className = "portrait") {
-  const img = el("img", className);
+function portrait(p) {
+  const img = el("img", "portrait");
   img.src = SITE + p.portrait.image;
   img.alt = "";
   return img;
 }
 
-/** "Bundeskanzlei; Parlamentsdienste; Bricetofly (CC0)": who took the photos */
+/** "Parlamentsdienste; Bricetofly (CC0)": who took the photos shown */
 function credits(people) {
   const authors = [];
   for (const p of people) {
@@ -133,199 +126,77 @@ function credits(people) {
     const label = p.portrait?.license === "CC0" ? `${author} (CC0)` : author;
     if (!authors.includes(label)) authors.push(label);
   }
-  return `Fotos via Wikimedia Commons: ${authors.join("; ")}. Porträt Pierre Alain Schnegg zugeschnitten. Kantonsfahnen gemeinfrei.`;
+  return `Fotos: ${authors.join("; ")}, via Wikimedia Commons · Gemessen wird nur die deskriptive Repräsentation, keine Wahlempfehlung.`;
 }
 
-// --- The scenes ----------------------------------------------------------------------
+// --- The video -----------------------------------------------------------------------
 
 /** Builds the DOM once and returns render(t) */
 function build(stage, m) {
-  const { byKey, seat, candidates, best } = m;
-  const partyLabel = (party) => byKey.party.choiceLabel(party);
-  const scenes = [];
-  const scene = (className = "") => {
-    const node = el("div", `scene ${className}`);
-    stage.append(node);
-    scenes.push(node);
-    return node;
-  };
+  const { seat, today, people, partyLabel } = m;
 
-  // 1. The question and today's score (0 – 4.6 s)
-  const s1 = scene();
-  const s1eyebrow = el("p", "eyebrow", "bundesrat.fyi");
-  const s1title = el("h1", "title", `Wer ersetzt ${seat.name}?`);
-  const leaving = el("div", "box leaving");
-  const leavingPerson = el("div", "person");
-  const leavingText = el("div");
-  const leavingMeta = el("p", "meta");
-  leavingMeta.append(flag(seat.cantonCode, seat.canton), partyLabel(seat.parties.at(-1).party));
-  leavingText.append(
-    el("p", "name", seat.name),
-    leavingMeta,
-    el("p", "meta", `Tritt am ${fmt.date(seat.leftOfficeDate)} zurück`)
+  // Always there (first and last frame): address, title, credits
+  const top = el("div", "top");
+  top.append(
+    el("p", "eyebrow", "bundesrat.fyi"),
+    el("h1", "title", "Wie gut bildet der Bundesrat die Bevölkerung ab?")
   );
-  leavingPerson.append(portrait(seat), leavingText);
-  leaving.append(leavingPerson);
+
+  // The Gesamtübereinstimmung: today, then with each candidate
   const scoreBox = el("div", "box score-box");
-  const scoreValue = el("p", "score-value", fmt.pct(0));
-  scoreBox.append(
-    el("p", "score-label", "Gesamtübereinstimmung des Bundesrats mit der Bevölkerung heute"),
-    scoreValue,
-    el("p", "score-caption", "Durchschnitt aus Geschlecht, Partei, Sprache, Alter und Herkunft nach Grossregion")
-  );
-  s1.append(s1eyebrow, s1title, leaving, scoreBox);
+  const context = el("p", "score-context", "Heute");
+  const value = el("p", "score-value");
+  const change = el("p", "score-change");
+  scoreBox.append(el("p", "score-label", "Gesamtübereinstimmung"), context, value, change);
 
-  // 2. The candidates, one row each (4.6 – 16.4 s)
-  const s2 = scene();
-  const s2title = el("h2", "title title-small", "Und mit den offiziellen Kandidierenden?");
-  const s2sub = el("p", "subline", `Gesamtübereinstimmung, wenn sie ${seat.name} ersetzen`);
-  const ranking = el("div", "box ranking");
-  const head = el("div", "ranking-head");
-  head.append(el("span"), el("span"), el("span", "head-ref", `heute ${fmt.pct(m.today)}`), el("span", "head-value", "neu"));
-  const rows = el("div", "rows");
-  const ROW = 54;
-  rows.style.height = `${candidates.length * ROW}px`;
-  const maxChange = Math.max(...candidates.map((p) => Math.abs(p.overall - m.today)), 0.001);
-  const order = [...candidates].sort((a, b) => b.overall - a.overall);
-  const rowNodes = candidates.map((p, i) => {
-    const row = el("div", "row");
-    const who = el("div");
+  // One box per candidate, below
+  const list = el("div", "people");
+  const boxes = people.map((p) => {
+    const box = el("div", "box candidate");
+    const who = el("div", "who");
     const meta = el("p", "meta");
     meta.append(flag(p.cantonCode, p.canton), partyLabel(p.party));
     who.append(el("p", "name", p.name), meta);
-    const change = el("div", "change");
-    const bar = el("div", "change-bar");
-    change.append(el("div", "reference"), bar);
-    const value = el("div", "value");
-    const valueNumber = el("strong");
-    const valueDelta = el("span");
-    value.append(valueNumber, valueDelta);
-    row.append(portrait(p), who, change, value);
-    rows.append(row);
-    return { row, bar, valueNumber, valueDelta, p, from: i, to: order.indexOf(p) };
+    const result = el("div", "result");
+    result.append(el("strong", null, fmt.pct(p.overall)), el("span", null, points(p.overall - today)));
+    box.append(portrait(p), who, result);
+    list.append(box);
+    return box;
   });
-  ranking.append(head, rows);
-  s2.append(s2title, s2sub, ranking);
 
-  // 3. The best possible person (16.4 – 21.6 s)
-  const s3 = scene();
-  const profile = best.profiles[0];
-  const top = order[0];
-  const s3title = el("h2", "title title-small", "Und die bestmögliche Person?");
-  const s3sub = el(
-    "p",
-    "subline",
-    "Die Website probiert alle Kombinationen aus Geschlecht, Partei, Sprache, Alter und Grossregion aus."
-  );
-  const bestBox = el("div", "box best");
-  const bestPerson = el("div", "person");
-  const avatar = el("span", "avatar", text("newShort").toUpperCase());
-  avatar.style.background = `var(--${profile.gender})`;
-  const bestText = el("div");
-  bestText.append(
-    el("p", "name", `${text(profile.gender === "female" ? "femaleSingular" : "maleSingular")}, ${profile.age} Jahre`),
-    el("p", "meta", [
-      byKey.region.choiceLabel(profile.region),
-      partyLabel(profile.party),
-      profile.language === "other" ? text("languageName_otherSingular") : text(`languageName_${profile.language}`),
-    ].join(" · "))
-  );
-  bestPerson.append(avatar, bestText);
-  const bestValue = el("p", "best-value", fmt.pct(m.today));
-  const bestDelta = el("p", "best-delta", `${points(best.overall - m.today)} Prozentpunkte gegenüber heute`);
-  const bestCompare = el(
-    "p",
-    "best-compare",
-    `Zum Vergleich, die höchste offizielle Kandidatur: ${top.name}, ${fmt.pct(top.overall)}`
-  );
-  bestBox.append(bestPerson, bestValue, bestDelta, bestCompare);
-  const s3note = el(
-    "p",
-    "note",
-    best.profiles.length > 1
-      ? `Eine von ${best.profiles.length} gleich guten Varianten. Mit nur sieben Sitzen sind 100 % fast nie erreichbar.`
-      : "Mit nur sieben Sitzen sind 100 % fast nie erreichbar."
-  );
-  s3.append(s3title, s3sub, bestBox, s3note);
-
-  // 4. End card (from 21.6 s)
-  const s4 = scene("end");
-  const s4title = el("h2", "title title-small", "Wie gut bildet der Bundesrat die Bevölkerung ab?");
-  const url = el("p", "box url", "bundesrat.fyi");
-  const s4sub = el(
-    "p",
-    "subline",
-    "Alle Zusammensetzungen seit 1848 vergleichen und Mitglieder selbst ersetzen."
-  );
-  const disclaimer = el(
-    "p",
-    "disclaimer",
-    "Gemessen wird nur die deskriptive Repräsentation: Geschlecht, Partei, Sprache, Alter und Herkunft nach Grossregion. Keine Wahlempfehlung."
-  );
-  const credit = el("p", "credits", credits([seat, ...candidates]));
-  s4.append(s4title, url, s4sub, disclaimer, credit);
-
-  // --- The timeline ---
-  const windows = [
-    [0, 4.6],
-    [4.6, 16.4],
-    [16.4, 21.6],
-    [21.6, Infinity],
-  ];
+  const credit = el("p", "credits", credits(people));
+  stage.append(top, scoreBox, list, credit);
 
   return function render(t) {
-    // Scenes cross-fade (0.4 s)
-    scenes.forEach((node, i) => {
-      const [a, b] = windows[i];
-      const fadeIn = i === 0 ? 1 : seg(t, a, a + 0.4);
-      const fadeOut = b === Infinity ? 0 : seg(t, b - 0.4, b); // the end card stays
-      const o = Math.min(fadeIn, 1 - fadeOut);
-      node.style.opacity = o;
-      node.style.visibility = o > 0 ? "visible" : "hidden";
+    // Everything but the title fades out at the end, back to the first frame
+    const out = 1 - easeInOut(seg(t, 8.8, 9.6));
+
+    show(scoreBox, seg(t, 0.3, 0.9));
+    scoreBox.style.opacity = Number(scoreBox.style.opacity) * out;
+
+    // The current step: -1 = today, 0..2 = with that candidate
+    let step = -1;
+    STEPS.forEach((start, i) => {
+      if (t >= start) step = i;
     });
+    const from = step <= 0 ? today : people[step - 1].overall;
+    const to = step < 0 ? today : people[step].overall;
+    const move = step < 0 ? 1 : easeInOut(seg(t, STEPS[step] + 0.2, STEPS[step] + 1.0));
+    value.textContent = fmt.pct(from + (to - from) * move);
+    context.textContent = step < 0 ? "Heute" : `Mit ${people[step].name} statt ${seat.name}`;
+    change.textContent = step < 0 ? "" : `${points(people[step].overall - today)} Prozentpunkte gegenüber heute`;
+    show(change, step < 0 ? 0 : seg(t, STEPS[step] + 0.6, STEPS[step] + 1.0), 6);
+    if (step >= 0) show(context, seg(t, STEPS[step], STEPS[step] + 0.35), 6);
+    else show(context, 1, 0);
 
-    // 1
-    show(s1eyebrow, seg(t, 0, 0.4));
-    show(s1title, seg(t, 0.1, 0.7), 20);
-    show(leaving, seg(t, 0.8, 1.3));
-    show(scoreBox, seg(t, 1.4, 1.9));
-    scoreValue.textContent = fmt.pct(m.today * easeOut(seg(t, 1.6, 2.8)));
-
-    // 2
-    show(s2title, seg(t, 4.7, 5.2), 20);
-    show(s2sub, seg(t, 4.9, 5.4));
-    show(ranking, seg(t, 5.2, 5.6));
-    const sort = easeInOut(seg(t, 13.0, 14.3));
-    for (const r of rowNodes) {
-      const start = 5.7 + 0.85 * r.from;
-      const p = seg(t, start, start + 0.35);
-      const grow = easeOut(seg(t, start + 0.25, start + 1.05));
-      const y = (r.from + (r.to - r.from) * sort) * ROW;
-      r.row.style.opacity = easeOut(p);
-      r.row.style.transform = `translate(${(1 - easeOut(p)) * 18}px, ${y}px)`;
-      const change = r.p.overall - m.today;
-      const width = (Math.abs(change) / maxChange) * 56 * grow;
-      r.bar.style.width = `${width}px`;
-      r.bar.style.left = change >= 0 ? "50%" : `calc(50% - ${width}px)`;
-      r.valueNumber.textContent = fmt.pct(m.today + change * grow);
-      r.valueDelta.textContent = points(change * grow);
-    }
-
-    // 3
-    show(s3title, seg(t, 16.5, 17.0), 20);
-    show(s3sub, seg(t, 16.7, 17.2));
-    show(bestBox, seg(t, 17.3, 17.8));
-    bestValue.textContent = fmt.pct(m.today + (best.overall - m.today) * easeOut(seg(t, 17.7, 18.9)));
-    show(bestDelta, seg(t, 18.6, 19.0), 8);
-    show(bestCompare, seg(t, 19.3, 19.8), 8);
-    show(s3note, seg(t, 19.9, 20.4), 8);
-
-    // 4
-    show(s4title, seg(t, 21.7, 22.2), 20);
-    show(url, seg(t, 22.2, 22.8), 20);
-    show(s4sub, seg(t, 22.9, 23.4));
-    show(disclaimer, seg(t, 23.4, 23.9));
-    show(credit, seg(t, 23.6, 24.1), 0);
+    // Candidate boxes: appear one after another; the current one is
+    // outlined in black, the earlier ones recede
+    boxes.forEach((box, i) => {
+      show(box, seg(t, STEPS[i], STEPS[i] + 0.45), 18);
+      const active = i === step;
+      box.classList.toggle("is-active", active);
+      box.style.opacity = Number(box.style.opacity) * (active ? 1 : 0.5) * out;
+    });
   };
 }
 
@@ -347,8 +218,8 @@ async function main() {
   const clock = document.getElementById("clock");
 
   function frame(now) {
-    if (playing && last !== null) time = Math.min(DURATION, time + (now - last) / 1000);
-    if (time >= DURATION) playing = false;
+    // Plays in a loop: the last frame is the same as the first
+    if (playing && last !== null) time = (time + (now - last) / 1000) % DURATION;
     last = now;
     render(time);
     clock.textContent = `${time.toFixed(1)} s / ${DURATION} s${playing ? "" : " (Pause)"}`;
@@ -359,7 +230,6 @@ async function main() {
   document.addEventListener("keydown", (e) => {
     if (e.key === " ") {
       e.preventDefault();
-      if (!playing && time >= DURATION) time = 0;
       playing = !playing;
     } else if (e.key === "r" || e.key === "R") {
       time = 0;

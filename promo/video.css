@@ -28,9 +28,6 @@
   --ink-2: #52514e;
   --ink-3: #6f6e69;
   --line: #e6e5e0;
-  --leaving: #fde9e8;
-  --female: #eb6834;
-  --male: #2a78d6;
 }
 
 * {
@@ -55,8 +52,7 @@ body {
 }
 
 p,
-h1,
-h2 {
+h1 {
   margin: 0;
 }
 
@@ -66,6 +62,7 @@ h2 {
   width: 540px;
   height: 675px;
   overflow: hidden;
+  padding: 36px 32px;
   background: var(--canvas);
 }
 
@@ -78,13 +75,12 @@ h2 {
   color: #fff;
 }
 
-/* A scene fills the stage; its parts fade and move in (video.js) */
-.scene {
-  position: absolute;
-  inset: 0;
-  padding: 36px 32px;
+.box {
+  background: var(--bg);
+  border: 1px solid var(--ink);
 }
 
+/* Address and title: the same in every frame */
 .eyebrow {
   font-size: 12px;
   font-weight: 600;
@@ -95,55 +91,85 @@ h2 {
 
 .title {
   margin-top: 14px;
-  font-size: 40px;
+  font-size: 34px;
+  text-wrap: balance;
   line-height: 1.08;
   letter-spacing: -0.025em;
   font-weight: 700;
 }
 
-.title-small {
-  font-size: 28px;
-  line-height: 1.15;
+/* The Gesamtübereinstimmung */
+.score-box {
+  margin-top: 22px;
+  padding: 20px 20px 18px;
 }
 
-.subline {
-  margin-top: 10px;
+.score-label {
   font-size: 15px;
-  line-height: 1.4;
+  font-weight: 600;
+}
+
+.score-context {
+  margin-top: 4px;
+  font-size: 14px;
   color: var(--ink-2);
 }
 
-.box {
-  background: var(--bg);
-  border: 1px solid var(--ink);
+.score-value {
+  margin-top: 8px;
+  font-size: 78px;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  font-variant-numeric: tabular-nums;
 }
 
-/* A person: portrait (3:4), name, flag and party */
-.person {
-  display: flex;
-  gap: 16px;
+.score-change {
+  margin-top: 8px;
+  min-height: 1.3em; /* the box keeps its height while the line is empty */
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+/* The candidates */
+.people {
+  display: grid;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.candidate {
+  display: grid;
+  grid-template-columns: 36px minmax(0, 1fr) auto;
+  gap: 14px;
   align-items: center;
+  padding: 12px 16px;
+  border-color: var(--line);
+}
+
+.candidate.is-active {
+  border-color: var(--ink);
 }
 
 .portrait {
-  flex: none;
   display: block;
-  width: 54px;
-  height: 72px;
+  width: 36px;
+  height: 48px;
   object-fit: cover;
   object-position: center 20%;
   background: var(--line);
 }
 
 .name {
-  font-size: 20px;
+  font-size: 16px;
   font-weight: 650;
   line-height: 1.2;
 }
 
 .meta {
-  margin-top: 4px;
-  font-size: 15px;
+  margin-top: 3px;
+  font-size: 13px;
   color: var(--ink-2);
 }
 
@@ -156,218 +182,27 @@ h2 {
   box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.15);
 }
 
-/* Scene 1: the member who is leaving, and today's score */
-.leaving {
-  margin-top: 28px;
-  padding: 18px;
-  background: var(--leaving);
-}
-
-.score-box {
-  margin-top: 16px;
-  padding: 22px 20px 24px;
-}
-
-.score-label {
-  font-size: 15px;
-  font-weight: 600;
-}
-
-.score-value {
-  margin-top: 6px;
-  font-size: 92px;
-  font-weight: 700;
-  line-height: 1;
-  letter-spacing: -0.04em;
-  font-variant-numeric: tabular-nums;
-}
-
-.score-caption {
-  margin-top: 10px;
-  font-size: 13px;
-  color: var(--ink-3);
-}
-
-/* Scene 2: one row per candidate */
-.ranking {
-  position: relative;
-  margin-top: 22px;
-}
-
-/* Column labels, in the same grid as the rows */
-.ranking-head {
-  display: grid;
-  grid-template-columns: 30px minmax(0, 1fr) 120px 74px;
-  gap: 12px;
-  align-items: end;
-  height: 34px;
-  padding: 0 14px 8px;
-  border-bottom: 1px solid var(--line);
-  font-size: 12px;
-  color: var(--ink-3);
-}
-
-.head-ref {
-  text-align: center;
-  white-space: nowrap;
-}
-
-.head-value {
-  text-align: right;
-}
-
-.rows {
-  position: relative;
-}
-
-.row {
-  position: absolute;
-  left: 0;
-  right: 0;
-  height: 54px;
-  display: grid;
-  grid-template-columns: 30px minmax(0, 1fr) 120px 74px;
-  align-items: center;
-  gap: 12px;
-  padding: 0 14px;
-  border-bottom: 1px solid var(--line);
-}
-
-.row .portrait {
-  width: 30px;
-  height: 40px;
-}
-
-.row .name {
-  font-size: 15px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.row .meta {
-  margin-top: 2px;
-  font-size: 12px;
-}
-
-/* Change against today: a bar from the line "heute" to the left (lower)
-   or the right (higher) */
-.change {
-  position: relative;
-  height: 14px;
-}
-
-.change-bar {
-  position: absolute;
-  top: 0;
-  height: 14px;
-  background: var(--ink);
-}
-
-/* The line "heute", through all rows */
-.reference {
-  position: absolute;
-  top: -20px;
-  bottom: -20px;
-  left: 50%;
-  width: 1px;
-  background: var(--ink-3);
-}
-
-.value {
+.result {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-.value strong {
+.result strong {
   display: block;
-  font-size: 16px;
+  font-size: 18px;
 }
 
-.value span {
-  font-size: 12px;
-  color: var(--ink-2);
-}
-
-/* Scene 3: the best possible person */
-.best {
-  margin-top: 26px;
-  padding: 20px;
-}
-
-.avatar {
-  flex: none;
-  display: grid;
-  place-items: center;
-  width: 54px;
-  height: 54px;
-  color: #fff;
+.result span {
   font-size: 13px;
-  font-weight: 700;
-  letter-spacing: 0.04em;
-}
-
-.best-value {
-  margin-top: 18px;
-  font-size: 72px;
-  font-weight: 700;
-  line-height: 1;
-  letter-spacing: -0.04em;
-  font-variant-numeric: tabular-nums;
-}
-
-.best-delta {
-  margin-top: 8px;
-  font-size: 16px;
-  font-weight: 600;
-}
-
-.best-compare {
-  margin-top: 18px;
-  padding-top: 14px;
-  border-top: 1px solid var(--line);
-  font-size: 15px;
   color: var(--ink-2);
 }
 
-.note {
-  margin-top: 16px;
-  font-size: 14px;
-  line-height: 1.45;
-  color: var(--ink-2);
-}
-
-/* Scene 4: end card */
-.end {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.url {
-  margin-top: 26px;
-  padding: 18px 22px;
-  font-size: 50px;
-  font-weight: 700;
-  letter-spacing: -0.03em;
-}
-
-.end .subline {
-  margin-top: 16px;
-}
-
-.disclaimer {
-  margin-top: 26px;
-  font-size: 14px;
-  line-height: 1.45;
-  color: var(--ink-2);
-}
-
+/* Photo credits and the note: the same in every frame */
 .credits {
   position: absolute;
   left: 32px;
   right: 32px;
-  bottom: 24px;
+  bottom: 20px;
   font-size: 10.5px;
   line-height: 1.4;
   color: var(--ink-3);
