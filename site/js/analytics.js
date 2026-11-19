@@ -93,8 +93,15 @@ function decide(value) {
   const before = storedConsent();
   storeConsent(value);
   closeBanner();
-  if (value === "granted") load();
-  else if (before === "granted" || loaded) withdraw();
+  if (value === "granted") {
+    load();
+    // Counts the clicks on "Akzeptieren" (also when consent is given again
+    // via "Cookie-Einstellungen"). A click on "Ablehnen" can't be counted
+    // here: after it, nothing may be sent to Google.
+    track("consent_accept");
+    // Lets the page send what has already happened (app.js: sections in view)
+    window.dispatchEvent(new Event("analytics-consent"));
+  } else if (before === "granted" || loaded) withdraw();
 }
 
 // --- Banner -------------------------------------------------------------------
