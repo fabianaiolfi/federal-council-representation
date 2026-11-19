@@ -475,8 +475,23 @@ published by GitHub Actions (`.github/workflows/deploy.yml`):
 
 | Branch | Site |
 |---|---|
-| `beta` | https://beta.federal-council-representation.pages.dev |
-| `main` | https://federal-council-representation.pages.dev |
+| `beta` | https://beta.bundesrat.fyi (also https://beta.federal-council-representation.pages.dev) |
+| `main` | https://bundesrat.fyi (also https://federal-council-representation.pages.dev) |
+
+The beta site is kept out of search engines: the pipeline adds the header
+`X-Robots-Tag: noindex` to every page of every branch except `main`.
+
+### Domain
+
+`bundesrat.fyi` is registered at Hover; its DNS is run by Cloudflare (the
+nameservers at Hover point to Cloudflare, which is needed for a domain
+without "www" in front). In the Cloudflare Pages project
+`federal-council-representation` → Custom domains:
+
+- `bundesrat.fyi`: the production site (branch `main`)
+- `beta.bundesrat.fyi`: the beta site. Its DNS record is a CNAME to
+  `beta.federal-council-representation.pages.dev` (the address of the
+  branch `beta`), not to the project's main address.
 
 Work on `beta`, push, and look at the beta site. When it is good, merge
 `beta` into `main` (pull request); the public site follows.
