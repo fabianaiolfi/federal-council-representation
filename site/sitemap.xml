@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- The addresses search engines should list (the same as the canonical
+     links of the pages). Not the beta site or *.pages.dev. -->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://bundesrat.fyi/</loc></url>
+  <url><loc>https://bundesrat.fyi/quellen</loc></url>
+  <url><loc>https://bundesrat.fyi/kontakt</loc></url>
+  <url><loc>https://bundesrat.fyi/datenschutz</loc></url>
+</urlset>

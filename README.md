@@ -443,6 +443,7 @@ site/                           the web app (static files; this folder is publis
   kontakt.html                  contact
   404.html                      "Seite nicht gefunden" (any unknown address)
   robots.txt                    search engines may list the public site
+  sitemap.xml                   the four addresses to list
   favicon.svg (.ico, apple-touch-icon.png)  icon in the browser tab
   _headers                      browser caching rules (Cloudflare Pages)
   css/style.css                 all styling (design tokens at the top)
@@ -492,6 +493,14 @@ published by GitHub Actions (`.github/workflows/deploy.yml`):
 - Every page names its official address with
   `<link rel="canonical" href="https://bundesrat.fyi/…">` (without `.html`,
   as Cloudflare serves the pages).
+- `site/sitemap.xml` lists the four real addresses (`/`, `/quellen`,
+  `/kontakt`, `/datenschutz`); `robots.txt` points to it. In Google Search
+  Console, submit `https://bundesrat.fyi/sitemap.xml` under "Sitemaps".
+- Links between the pages use the address **without `.html`**
+  (`/quellen`): Cloudflare redirects `/quellen.html` to `/quellen`, and
+  search engines report links to a redirecting address as "Page with
+  redirect". `check_site.py` fails on such a link. The local server
+  (`scripts/serve.py`) serves `/quellen` from `quellen.html` too.
 - `site/robots.txt` allows everything. It deliberately blocks nothing: a
   page blocked there can't be read, so its `noindex` would never be seen.
 - `site/404.html` is shown, with the status 404, for every address that

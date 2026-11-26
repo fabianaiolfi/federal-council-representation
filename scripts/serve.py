@@ -23,6 +23,13 @@ SITE = Path(__file__).resolve().parent.parent / "site"
 
 
 class NoCacheHandler(http.server.SimpleHTTPRequestHandler):
+    def translate_path(self, path):
+        """Like Cloudflare Pages: "/quellen" is served from quellen.html."""
+        local = super().translate_path(path)
+        if not Path(local).exists() and Path(local + ".html").is_file():
+            return local + ".html"
+        return local
+
     def end_headers(self):
         self.send_header("Cache-Control", "no-cache")
         super().end_headers()
