@@ -81,24 +81,33 @@ PARLIAMENT_FILES = {
     "Ständerat": ROOT / "data" / "SR_Mitglieder_2026_DE.xlsx",
 }
 PARLIAMENT_WIKIDATA_PATH = ROOT / "data" / "wikidata_parliament.json"
-# PartyName in the parlament.ch files -> the party names of the BFS election
-# statistics (data.json "party"). The small cantonal parties are counted as
-# the BFS does: Basel's LDP with the FDP, BastA! (Basel) and the Alternative
-# - die Grünen (Zug) with the Greens.
+# Party of a member of parliament, as the party names of the BFS election
+# statistics (data.json "party"). The six large parties by their PartyName;
+# a member of a small party counts as the party of their parliamentary group
+# (ParlGroupName), e.g. EDU and Lega with the SVP group as SVP, EVP with the
+# Mitte group as Mitte. A member without a group ("Fraktionslos") keeps their
+# own party, if the BFS statistics name it (SMALL_PARTIES).
 PARLIAMENT_PARTIES = {
     "Schweizerische Volkspartei": "SVP",
     "Sozialdemokratische Partei der Schweiz": "SP",
     "Die Mitte": "Mitte",
     "FDP.Die Liberalen": "FDP",
-    "Liberal-Demokratische Partei": "FDP",
     "GRÜNE Schweiz": "GRÜNE",
-    "Grüne (Basels starke Alternative)": "GRÜNE",
-    "Alternative-die Grünen Kanton Zug": "GRÜNE",
     "Grünliberale Partei": "GLP",
+}
+PARLIAMENT_GROUPS = {
+    "Fraktion der Schweizerischen Volkspartei": "SVP",
+    "Sozialdemokratische Fraktion": "SP",
+    "Die Mitte-Fraktion. Die Mitte. EVP.": "Mitte",
+    "FDP-Liberale Fraktion": "FDP",
+    "Grüne Fraktion": "GRÜNE",
+    "Grünliberale Fraktion": "GLP",
+}
+SMALL_PARTIES = {
+    "Mouvement Citoyens Genevois": "MCG (MCR)",
     "Evangelische Volkspartei der Schweiz": "EVP",
     "Eidgenössisch-Demokratische Union": "EDU",
     "Lega dei Ticinesi": "Lega",
-    "Mouvement Citoyens Genevois": "MCG (MCR)",
 }
 OUT_PATH = ROOT / "site" / "data" / "data.json"
 
@@ -191,8 +200,6 @@ CANTONS = {
 CANTON_ALIASES = {
     "Berne": "BE", "Fribourg": "FR", "Genève": "GE", "Neuchâtel": "NE", "Valais": "VS",
     "Vaud": "VD", "Ticino": "TI", "Grigioni": "GR", "Grischun": "GR", "St.Gallen": "SG",
-    # as written by parlament.ch
-    "Appenzell A.-Rh.": "AR", "Appenzell I.-Rh.": "AI",
 }
 # The seven Grossregionen of the BFS (https://www.bfs.admin.ch/asset/de/5933503),
 # in the BFS order.
@@ -606,6 +613,11 @@ def load_candidates() -> list[dict]:
                 "cantonCode": code,
                 "region": REGION_OF[code],
             })
+    # Chamber, for those who are members of parliament (same name and birth date)
+    chambers = {(f"{r['FirstName']} {r['LastName']}", dmy_to_iso(r["DateOfBirth"])): r["chamber"]
+                for r in parliament_rows()}
+    for c in candidates:
+        c["chamber"] = chambers.get((c["name"], c["birthDate"]))
     # Portraits (scripts/fetch_wikidata.py)
     wikidata = (json.loads(CANDIDATE_WIKIDATA_PATH.read_text(encoding="utf-8"))
                 if CANDIDATE_WIKIDATA_PATH.exists() else {})
@@ -655,12 +667,25 @@ def parliament_key(row: dict) -> str:
     return f"{row['FirstName']} {row['LastName']}|{dmy_to_iso(row['DateOfBirth'])}"
 
 
+def parliament_party(row: dict) -> tuple[str | None, str]:
+    """
+    (party for the comparison, party shown) of a member of parliament: a
+    large party by its name; a small party as its parliamentary group, shown
+    by its own abbreviation ("EDU"); without a group, its own BFS name.
+    """
+    if row["PartyName"] in PARLIAMENT_PARTIES:
+        party = PARLIAMENT_PARTIES[row["PartyName"]]
+        return party, party
+    party = PARLIAMENT_GROUPS.get(row["ParlGroupName"]) or SMALL_PARTIES.get(row["PartyName"])
+    return party, row["PartyAbbreviation"] or row["PartyName"]
+
+
 def load_parliamentarians() -> list[dict]:
     """
     The members of parliament offered in "Passende Parlamentarier:innen".
-    Gender, party (as in the BFS statistics), language (the canton's
-    majority language), Grossregion and birth date; unknown values stop
-    the script with a message.
+    Gender, party (as in the BFS statistics; see parliament_party), language
+    (the canton's majority language), Grossregion and birth date; unknown
+    values stop the script with a message.
     """
     wikidata = (json.loads(PARLIAMENT_WIKIDATA_PATH.read_text(encoding="utf-8"))
                 if PARLIAMENT_WIKIDATA_PATH.exists() else {})
@@ -668,20 +693,22 @@ def load_parliamentarians() -> list[dict]:
     for row in sorted(parliament_rows(), key=lambda r: (r["chamber"], r["LastName"], r["FirstName"])):
         name = f"{row['FirstName']} {row['LastName']}"
         gender = {"f": "female", "m": "male"}.get(row["GenderAsString"])
-        party = PARLIAMENT_PARTIES.get(row["PartyName"])
-        code = canton_code(row["CantonName"])
-        if not gender or not party or not code or not row["DateOfBirth"]:
+        party, party_shown = parliament_party(row)
+        code = row["CantonAbbreviation"]
+        if not gender or not party or code not in CANTONS or not row["DateOfBirth"]:
             sys.exit(f"{name} ({row['chamber']}): unknown gender, party, canton or birth date "
-                     f"({row['GenderAsString']}, {row['PartyName']}, {row['CantonName']}, {row['DateOfBirth']}). "
-                     "New party: add it to PARLIAMENT_PARTIES.")
+                     f"({row['GenderAsString']}, {row['PartyName']} / {row['ParlGroupName']}, "
+                     f"{row['CantonAbbreviation']}, {row['DateOfBirth']}). "
+                     "New party or group: add it to PARLIAMENT_PARTIES / PARLIAMENT_GROUPS.")
         member = {
             "id": f"p{len(members) + 1}",
             "name": name,
             "gender": gender,
             "party": party,
-            "language": CANTON_LANGUAGE.get(row["CantonName"], "de"),
+            "partyLabel": party_shown,
+            "language": CANTON_LANGUAGE.get(CANTONS[code], "de"),
             "birthDate": dmy_to_iso(row["DateOfBirth"]),
-            "canton": CANTONS[code],  # "Appenzell Ausserrhoden", not "Appenzell A.-Rh."
+            "canton": CANTONS[code],
             "cantonCode": code,
             "region": REGION_OF[code],
             "chamber": row["chamber"],

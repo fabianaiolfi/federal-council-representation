@@ -45,23 +45,35 @@ the seven members, one box per comparison and the history chart.
      least 1 % in that period's National Council election), language and
      age yourself. Starts with the replaced member's profile.
    - **Offizielle Kandidierende:** pick a person from
-     `data/candidates.csv` (see "Official candidates" below), shown as
-     cards like the Council's (portrait, name, flag and party) in a grid that
-     grows with the number of people (no scrolling inside the box). Their
-     age is calculated for the version shown; only people who would have
-     been 18 or older are offered. The new member's card shows their portrait.
-   - **Passende Parlamentarier:innen:** the nine members of the National
-     Council and the Council of States with whom the overall score would be
-     highest in this seat (the other members as they are, including other
-     replacements; equal scores in alphabetical order), as cards like the
-     official candidates', with a third line for the chamber
-     ("Nationalrätin", "Ständerat"). See "Members of parliament" below.
+     `data/candidates.csv` (see "Official candidates" below). Their age is
+     calculated for the version shown; only people who would have been 18
+     or older are offered. The new member's card shows their portrait.
+   - **Passende Parlamentarier:innen:** all members of the National Council
+     and the Council of States still in office (see "Members of parliament"
+     below).
+
+     Both are a table: Name (with a small portrait) | Kanton (flag) |
+     Partei | Änderung Gesamtübereinstimmung (percentage points against
+     the real Council, with the other members as they are, including other
+     replacements). For members of parliament, and candidates who sit in
+     parliament, the gendered chamber follows the name, not bold ("Léonore
+     Porchet Nationalrätin").
    - **Bestmögliche Person:** the app tries every combination of gender,
      party, language, age group and Grossregion for this seat (with the other members as
      they are) and shows every profile with the highest overall score as
-     cards in the same kind of grid ("Frau, 52 Jahre" / "Genferseeregion ·
-     SVP · Französisch"); the first is chosen, another card replaces it.
-     Ages are the middle of the age group.
+     a table like the others: Profil ("Frau, 29 Jahre", with a "Neu"
+     square) | Grossregion | Partei | Sprache | Änderung. The first is
+     chosen, another row replaces it. Ages are the middle of the age group.
+
+   All three tables work the same way (`choiceTable` in `app.js`): sorted by
+   the change, highest first (equal changes in alphabetical order); the
+   header "Änderung Gesamtübereinstimmung" switches to lowest first and
+   back. A click anywhere on a row chooses it (each row has a radio button
+   for the keyboard). Ten rows per page, with ‹ "Seite 1 von 25" › below
+   (no scrolling inside the editor); the table opens on the page of the
+   chosen row. Portraits load only for the rows on the current page. On
+   phones a table has two columns, the name and the change; the other
+   columns move into a line under the name.
 
    The modes share one profile: after picking a person or a best profile,
    "Selbst zusammenstellen" shows it and lets you adjust it. Every change
@@ -238,18 +250,25 @@ The members of both chambers come from two Excel files exported from
 |---|---|---|
 | Current members | `Active` | only `1`; the files have one row per mandate, sometimes repeated, so each person is kept once (200 + 46) |
 | Gender | `GenderAsString` | `f` / `m` |
-| Party | `PartyName` | mapped to the party names of the BFS election statistics (`PARLIAMENT_PARTIES`); Basel's LDP counts as FDP, BastA! and Zug's Alternative – die Grünen as GRÜNE. A new party name stops the script with a message. |
-| Language | `CantonName` | the canton's majority language (French in FR, GE, JU, NE, VD, VS; Italian in TI; else German). Bilingual cantons get one language. |
-| Grossregion, flag | `CantonName` | via the canton code |
+| Party | `PartyName`, `ParlGroupName` | the six large parties by their name (`PARLIAMENT_PARTIES`); a member of a small party counts as the party of their parliamentary group (`PARLIAMENT_GROUPS`: EDU, Lega, MCG with the SVP group as SVP, EVP as Mitte, BastA! and Zug's Alternative – die Grünen as GRÜNE, Basel's LDP as FDP). The table still shows their own party (`PartyAbbreviation`). A member without a group keeps their own party if the BFS statistics name it (`SMALL_PARTIES`; Mauro Poggia, MCG). A new party or group stops the script with a message. |
+| Language | `CantonAbbreviation` | the canton's majority language (French in FR, GE, JU, NE, VD, VS; Italian in TI; else German). Bilingual cantons get one language. |
+| Grossregion, flag | `CantonAbbreviation` | the canton code as it is (AR, AI, …) |
 | Age | `DateOfBirth` | on the day the Council is measured |
 | Still in office | `DateLeaving` | a member who has left by then is not offered |
 
+The official candidates who sit in parliament (same name and birth date)
+get their chamber from these files too.
+
 Portraits come from Wikidata (`fetch_wikidata.py`, `fetch_parliament_portraits`):
 everyone who has held a seat in either chamber is asked; a member is the person
-with the same birth date whose name contains the member's last name. Saved as
+with the same birth date whose name contains the member's last name, or else the
+only person with exactly the member's name (Wikidata's birth date sometimes
+differs from parlament.ch: Christine Badertscher, Nicole Barandun, Jacqueline de
+Quattro, Franziska Ryser). Saved as
 `site/img/parliament/<name>.jpg`, credits in `data/wikidata_parliament.json`
-and on the Quellen page. Members without a portrait (5 of 246 in November 2026)
-get their initials.
+and on the Quellen page. They appear on the new member's card once a member is
+chosen. In November 2026 only Roberta Soldati has none (no photo on Wikidata or
+Wikimedia Commons) and gets her initials.
 
 To update: replace the two Excel files with a new export (keep the names or
 change `PARLIAMENT_FILES`), then run `python3 scripts/fetch_wikidata.py` and
@@ -615,7 +634,9 @@ banner and sends nothing. On beta, events also appear in the DebugView
 | `replace_open` / `replace_edit` | "Ersetzen" / "Bearbeiten" on a card | `councillor`, `council_start` |
 | `replace_mode` | one of the three modes chosen | `mode` (custom, list, best); for best also the profile |
 | `best_select` | another of several best profiles chosen (card) | `variant`, `variants`, profile |
-| `parliamentarian_select` | a member of parliament picked in "Passende Parlamentarier:innen" | `parliamentarian`, `party`, `chamber`, `rank` (1–9) |
+| `parliamentarian_select` | a member of parliament picked in "Passende Parlamentarier:innen" | `parliamentarian`, `party`, `chamber`, `rank` (position in the table) |
+| `table_page` | another page of a table in the editor | `mode` (list, parliament, best), `page` |
+| `table_sort` | the change column sorted the other way | `mode`, `order` (ascending, descending) |
 | `replace_field` | gender, party, language, age or Grossregion changed | `field`, `choice` (age: when the slider is let go) |
 | `candidate_select` | a person picked from the list | `candidate`, `party` |
 | `replace_done` | editor closed ("Fertig" or Escape) | `method`, `councillor`, `council_start`, profile, `score_change` |
@@ -637,8 +658,8 @@ visitors who clicked "Akzeptieren"; all its numbers are about them.
 1. Custom dimensions (scope Event; name = event parameter): `candidate`,
    `party`, `gender`, `language`, `age_group`, `region`, `mode`, `field`,
    `choice`, `method`, `councillor`, `council_start`, `series`, `action`,
-   `text`, `section`, `parliamentarian`, `chamber`. Custom metrics:
-   `score_change`, `age`, `variant`, `variants`, `rank`. They are filled from the day they are created, not before.
+   `text`, `section`, `parliamentarian`, `chamber`, `order`. Custom
+   metrics: `score_change`, `age`, `variant`, `variants`, `rank`, `page`. They are filled from the day they are created, not before.
 2. Admin → Data streams → the stream → Enhanced measurement: page views,
    scrolls and outbound clicks on; form interactions off (the editor's
    choices would be counted as forms); site search and video off.

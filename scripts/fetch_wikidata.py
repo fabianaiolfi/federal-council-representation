@@ -248,7 +248,9 @@ def fetch_parliament_portraits() -> None:
     """
     Portraits of the current members of parliament. Everyone who has held
     a seat in either chamber is asked from Wikidata; a member is the person
-    with the same birth date whose name contains the member's last name.
+    with the same birth date whose name contains the member's last name, or
+    else the only person with exactly the member's name (Wikidata's birth
+    date sometimes differs from parlament.ch, e.g. day and month swapped).
     Saved as site/img/parliament/<name>.jpg, credits in
     data/wikidata_parliament.json (keyed by "First Last|YYYY-MM-DD").
     """
@@ -260,8 +262,9 @@ def fetch_parliament_portraits() -> None:
     query = f"""
         SELECT ?person ?personLabel (MIN(?born) AS ?birth) (MIN(?img) AS ?image) WHERE {{
           VALUES ?position {{ wd:{NATIONAL_COUNCIL} wd:{COUNCIL_OF_STATES} }}
-          ?person p:P39/ps:P39 ?position ; wdt:P569 ?born .
-          FILTER(YEAR(?born) > 1930)
+          ?person p:P39/ps:P39 ?position .
+          OPTIONAL {{ ?person wdt:P569 ?born }}
+          FILTER(!BOUND(?born) || YEAR(?born) > 1930)
           OPTIONAL {{ ?person wdt:P18 ?img }}
           SERVICE wikibase:label {{ bd:serviceParam wikibase:language "de,fr,it,en". }}
         }}
@@ -269,8 +272,10 @@ def fetch_parliament_portraits() -> None:
     """
     data = json.loads(get(WIKIDATA_SPARQL, {"query": query, "format": "json"}))
     by_birth: dict[str, list[dict]] = {}
+    by_name: dict[str, list[dict]] = {}
     for row in data["results"]["bindings"]:
-        by_birth.setdefault(row["birth"]["value"][:10], []).append(row)
+        by_birth.setdefault(row.get("birth", {}).get("value", "")[:10], []).append(row)
+        by_name.setdefault(normalise(row["personLabel"]["value"]), []).append(row)
 
     chosen, missing = {}, []
     for row in rows:
@@ -278,6 +283,10 @@ def fetch_parliament_portraits() -> None:
         # "Binder-Keller" -> "binder", "de Quattro" -> "quattro"
         last = normalise(re.split(r"[- ]", row["LastName"])[-1 if " " in row["LastName"] else 0])
         people = [p for p in by_birth.get(key.split("|")[1], []) if last in normalise(p["personLabel"]["value"])]
+        if not people:
+            # Birth date differs on Wikidata: the only person with exactly this name
+            same_name = by_name.get(normalise(key.split("|")[0]), [])
+            people = same_name if len(same_name) == 1 else []
         person = next((p for p in people if "image" in p), None)
         if person:
             chosen[key] = {

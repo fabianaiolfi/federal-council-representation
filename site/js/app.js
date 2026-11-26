@@ -194,6 +194,7 @@ function newMember(m, choice, day) {
     region: choice.region,
     cantonCode: choice.cantonCode ?? null, // known for a person from the list only
     canton: person?.canton ?? null,
+    partyLabel: person?.partyLabel ?? null, // a member of parliament's own party ("EDU")
     parties: choice.party ? [{ party: choice.party, from: null }] : m.parties,
     age: choice.age,
     birthDate: `${String(Number(day.slice(0, 4)) - choice.age).padStart(4, "0")}${day.slice(4)}`,
@@ -494,11 +495,17 @@ function initialsAvatar(m) {
   return avatar;
 }
 
-/** Portrait photo, falling back to the initials if the image can't load. */
-function portrait(m) {
+/**
+ * Portrait photo, falling back to the initials if the image can't load.
+ * `deferred`: the address is kept in data-src until the photo is shown
+ * (choiceTable sets it for the rows on the current page), so a table with
+ * 246 rows downloads only the photos of the rows shown.
+ */
+function portrait(m, { deferred = false } = {}) {
   if (!m.portrait) return initialsAvatar(m);
   const img = el("img", "portrait");
-  img.src = m.portrait.image;
+  if (deferred) img.dataset.src = m.portrait.image;
+  else img.src = m.portrait.image;
   img.alt = ""; // decorative: the name is right next to it
   img.decoding = "async";
   img.addEventListener("error", () => img.replaceWith(initialsAvatar(m)));
@@ -580,7 +587,7 @@ function memberCard(m, v) {
     const party = base.comparisons.find((c) => c.key === "party");
     body.append(
       el("p", "member-name", m.name),
-      metaLine("p", "member-meta", party.choiceLabel(m.parties[0].party), m),
+      metaLine("p", "member-meta", m.partyLabel ?? party.choiceLabel(m.parties[0].party), m),
       el("p", "member-meta", t("insteadOf", m.replaces.name))
     );
     actions.append(
@@ -1150,9 +1157,216 @@ function customPanel(choice, day) {
 }
 
 /**
+ * The overall score with `choice` in the seat being replaced (the other
+ * members as they are, including the user's other replacements), as the
+ * change against the real Council.
+ */
+function seatChange(choice, day) {
+  const c = base.versions[state.index];
+  const changes = state.replacements[state.index] ?? {};
+  const seat = c.members.find((m) => m.number === state.editing);
+  const members = c.members.map((m) =>
+    m === seat ? newMember(m, choice, day) : changes[m.number] ? newMember(m, changes[m.number], day) : m
+  );
+  return average(base.comparisons.map((cmp) => evaluate(cmp, members, day))) - c.overall;
+}
+
+/** The profile of a named person (official candidate or member of parliament) in the seat. */
+function personChoice(person, day, hasParties, mode, idKey) {
+  return {
+    mode,
+    [idKey]: person.id,
+    name: person.name,
+    gender: person.gender,
+    party: hasParties ? person.party : null,
+    language: person.language,
+    region: person.region,
+    cantonCode: person.cantonCode,
+    age: ageOn(person.birthDate, day),
+  };
+}
+
+/** Rows per page in the tables of the editor */
+const TABLE_PAGE = 10;
+
+/**
+ * A table to choose from in the editor (official candidates, members of
+ * parliament, best profiles). Each row: a small picture and the name, the
+ * `columns` in between, and the change in the overall score. Sorted by the
+ * change, highest first; the header of that column switches the order. A
+ * click anywhere on a row chooses it (each row has a radio button for the
+ * keyboard). Long tables are split into pages of `TABLE_PAGE` rows.
+ *
+ *   columns: [{ label, className }]             the columns in between
+ *   rows:    [{ id, name, suffix, picture, cells, meta, change, choose }]
+ *            suffix (optional): shown after the name, not bold ("Nationalrätin")
+ *            cells: one per column; meta: the same as one line under the
+ *            name (phones show only name and change); choose(rank): the
+ *            row was chosen
+ */
+function choiceTable({ label, group, mode, nameLabel, columns, rows, selectedId }) {
+  const fieldset = el("fieldset", "editor-field");
+  fieldset.append(el("legend", "visually-hidden", label));
+
+  // Header: name, the columns, the change (a button that sorts)
+  const headRow = el("tr");
+  const th = (text, className) => {
+    const cell = el("th", className, text);
+    cell.scope = "col";
+    headRow.append(cell);
+    return cell;
+  };
+  th(nameLabel, "col-name");
+  for (const col of columns) th(col.label, col.className);
+  const changeHead = th(undefined, "col-change");
+  const sort = el("button", "sort-button");
+  sort.type = "button";
+  sort.append(el("span", null, t("tableChange")));
+  sort.insertAdjacentHTML(
+    "beforeend",
+    '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M6 13l6 6 6-6"/></svg>'
+  );
+  changeHead.append(sort);
+  const head = el("thead");
+  head.append(headRow);
+
+  // One row per choice (built once; sorting and paging only move and hide them)
+  const body = el("tbody");
+  const items = rows.map((row) => {
+    const tr = el("tr");
+    const input = el("input", "row-input");
+    input.type = "radio";
+    input.name = group;
+    input.value = row.id;
+    input.checked = row.id === selectedId;
+    input.addEventListener("change", () => row.choose(order.indexOf(item) + 1));
+    const text = el("span", "row-text");
+    const meta = el("span", "row-meta");
+    meta.setAttribute("aria-hidden", "true"); // the columns say the same
+    meta.append(...row.meta);
+    const title = el("span", "row-title", row.name);
+    if (row.suffix) title.append(" ", el("span", "row-suffix", row.suffix));
+    text.append(title, meta);
+    const name = el("label", "row-name");
+    name.append(input, row.picture, text);
+    const nameCell = el("td", "col-name");
+    nameCell.append(name);
+    tr.append(nameCell);
+    columns.forEach((col, i) => {
+      const cell = el("td", col.className);
+      cell.append(row.cells[i]);
+      tr.append(cell);
+    });
+    tr.append(el("td", "col-change", signedPoints(row.change)));
+    // The whole row chooses (the name cell is a label already)
+    tr.addEventListener("click", (e) => {
+      if (!e.target.closest("label")) input.click();
+    });
+    const item = { row, tr };
+    return item;
+  });
+
+  let descending = true;
+  let order = [];
+  let page = 0;
+  const pages = Math.ceil(items.length / TABLE_PAGE);
+
+  // Pages: ‹ Seite 2 von 25 › (only for more than one page)
+  const pager = el("nav", "pager");
+  pager.setAttribute("aria-label", t("tablePages"));
+  const arrow = (path, labelKey) => {
+    const button = el("button", "nav-btn pager-btn");
+    button.type = "button";
+    button.setAttribute("aria-label", t(labelKey));
+    button.insertAdjacentHTML("beforeend", `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="${path}"/></svg>`);
+    return button;
+  };
+  const prev = arrow("M15 5l-7 7 7 7", "tablePrev");
+  const next = arrow("M9 5l7 7-7 7", "tableNext");
+  const status = el("span", "pager-status");
+  status.setAttribute("aria-live", "polite");
+  pager.append(prev, status, next);
+
+  function render() {
+    order = [...items].sort((a, b) =>
+      (descending ? b.row.change - a.row.change : a.row.change - b.row.change) ||
+      a.row.name.localeCompare(b.row.name)
+    );
+    body.replaceChildren(...order.map((item) => item.tr));
+    order.forEach((item, i) => {
+      item.tr.hidden = Math.floor(i / TABLE_PAGE) !== page;
+      // Photos load once their row is shown
+      if (!item.tr.hidden) {
+        for (const img of item.tr.querySelectorAll("img[data-src]")) {
+          img.src = img.dataset.src;
+          delete img.dataset.src;
+        }
+      }
+    });
+    status.textContent = t("tablePage", page + 1, pages);
+    prev.disabled = page === 0;
+    next.disabled = page === pages - 1;
+    changeHead.setAttribute("aria-sort", descending ? "descending" : "ascending");
+    sort.classList.toggle("is-ascending", !descending);
+    sort.setAttribute("aria-label", t(descending ? "tableSortAscending" : "tableSortDescending"));
+  }
+
+  // Start on the page with the chosen row
+  descending = true;
+  order = [...items].sort((a, b) => b.row.change - a.row.change || a.row.name.localeCompare(b.row.name));
+  const chosen = order.findIndex((item) => item.row.id === selectedId);
+  page = chosen > 0 ? Math.floor(chosen / TABLE_PAGE) : 0;
+
+  sort.addEventListener("click", () => {
+    descending = !descending;
+    page = 0;
+    render();
+    track("table_sort", { mode, order: descending ? "descending" : "ascending" });
+  });
+  const turn = (step) => {
+    page = Math.min(pages - 1, Math.max(0, page + step));
+    render();
+    track("table_page", { mode, page: page + 1 });
+  };
+  prev.addEventListener("click", () => turn(-1));
+  next.addEventListener("click", () => turn(1));
+
+  const table = el("table", "people-table");
+  table.append(head, body);
+  fieldset.append(table);
+  if (pages > 1) fieldset.append(pager);
+  render();
+  return fieldset;
+}
+
+/**
+ * The columns and row of a named person: Kanton (flag) | Partei. The
+ * chamber, for members of parliament, follows the name ("Léonore Porchet
+ * Nationalrätin").
+ */
+function personRow(person, choice, day, onChoose) {
+  const party = base.comparisons.find((cmp) => cmp.key === "party");
+  const partyName = person.partyLabel ?? party.choiceLabel(person.party);
+  return {
+    id: person.id,
+    name: person.name,
+    suffix: person.chamber ? t("chamberMember", person.chamber, person.gender) : null,
+    picture: portrait(person, { deferred: true }), // loaded once its row is shown
+    cells: [cantonFlag(person.cantonCode, person.canton), partyName],
+    meta: [cantonFlag(person.cantonCode, person.canton), partyName], // phones: under the name
+    change: seatChange(choice, day),
+    choose: (rank) => onChoose(choice, person, rank),
+  };
+}
+
+const PERSON_COLUMNS = () => [
+  { label: t("tableCanton"), className: "col-flag" },
+  { label: t("tableParty"), className: "col-party" },
+];
+
+/**
  * Mode "Offizielle Kandidierende": the people from data/candidates.csv, as
- * cards like the Council's (portrait, name, party · flag). The whole card
- * is the radio button.
+ * a table sorted by the change in the overall score.
  */
 function listPanel(choice, day) {
   const panel = el("div", "editor-fields");
@@ -1166,195 +1380,122 @@ function listPanel(choice, day) {
     panel.append(el("p", "editor-note", t("listNoneEligible")));
     return panel;
   }
-  const party = base.comparisons.find((cmp) => cmp.key === "party");
-  const hasParties = Boolean(party.choices(day));
-
-  const fieldset = el("fieldset", "editor-field");
-  fieldset.append(el("legend", "visually-hidden", t("mode_list")));
-  const list = el("div", "person-grid");
-  for (const person of people) {
-    const age = ageOn(person.birthDate, day);
-    const row = el("label", "person");
-    const input = el("input");
-    input.type = "radio";
-    input.name = "editor-person";
-    input.value = person.id;
-    input.checked = choice.personId === person.id;
-    input.addEventListener("change", () => {
-      Object.assign(choice, {
-        mode: "list",
-        personId: person.id,
-        name: person.name,
-        gender: person.gender,
-        party: hasParties ? person.party : null,
-        language: person.language,
-        region: person.region,
-        cantonCode: person.cantonCode,
-        age,
-      });
-      delete choice.parliamentarianId;
-      delete choice.variant;
-      update();
-      track("candidate_select", { candidate: person.name, party: person.party });
-    });
-    const card = el("span", "person-card");
-    const text = el("span", "person-text");
-    text.append(
-      el("span", "person-name", person.name),
-      metaLine("span", "person-meta", party.choiceLabel(person.party), person)
-    );
-    card.append(portrait(person), text);
-    row.append(input, card);
-    list.append(row);
-  }
-  fieldset.append(list);
-  panel.append(fieldset);
+  const hasParties = Boolean(base.comparisons.find((cmp) => cmp.key === "party").choices(day));
+  const onChoose = (profile, person) => {
+    Object.assign(choice, profile);
+    delete choice.parliamentarianId;
+    delete choice.variant;
+    update();
+    track("candidate_select", { candidate: person.name, party: person.party });
+  };
+  panel.append(
+    choiceTable({
+      label: t("mode_list"),
+      group: "editor-person",
+      mode: "list",
+      nameLabel: t("tableName"),
+      columns: PERSON_COLUMNS(),
+      rows: people.map((p) => personRow(p, personChoice(p, day, hasParties, "list", "personId"), day, onChoose)),
+      selectedId: choice.personId,
+    })
+  );
   return panel;
 }
 
-/** How many members of parliament "Passende Parlamentarier:innen" shows */
-const PARLIAMENT_SHOWN = 9;
-
-/** The profile of a member of parliament in the seat being replaced. */
-function parliamentChoice(person, day, hasParties) {
-  return {
-    mode: "parliament",
-    parliamentarianId: person.id,
-    name: person.name,
-    gender: person.gender,
-    party: hasParties ? person.party : null,
-    language: person.language,
-    region: person.region,
-    cantonCode: person.cantonCode,
-    age: ageOn(person.birthDate, day),
-  };
-}
-
 /**
- * The members of parliament with whom the overall score would be highest
- * in this seat (the other members as they are, including the user's other
- * replacements), best first; equal scores in alphabetical order. Only
- * members still in office on that day.
- */
-function parliamentRanking(day) {
-  const c = base.versions[state.index];
-  const changes = state.replacements[state.index] ?? {};
-  const seat = c.members.find((m) => m.number === state.editing);
-  const others = c.members.filter((m) => m !== seat).map((m) =>
-    changes[m.number] ? newMember(m, changes[m.number], day) : m
-  );
-  const hasParties = Boolean(base.comparisons.find((cmp) => cmp.key === "party").choices(day));
-  return base.parliamentarians
-    .filter((p) => (!p.leftOfficeDate || p.leftOfficeDate > day) && ageOn(p.birthDate, day) >= 18)
-    .map((person) => {
-      const choice = parliamentChoice(person, day, hasParties);
-      const members = [...others, newMember(seat, choice, day)];
-      const overall = average(base.comparisons.map((cmp) => evaluate(cmp, members, day)));
-      return { person, choice, overall };
-    })
-    .sort((a, b) => b.overall - a.overall || a.person.name.localeCompare(b.person.name))
-    .slice(0, PARLIAMENT_SHOWN);
-}
-
-/**
- * Mode "Passende Parlamentarier:innen": the nine members of the National
- * Council and the Council of States with whom the overall score would be
- * highest, as cards like the official candidates' (portrait, name, canton
- * and party, chamber).
+ * Mode "Passende Parlamentarier:innen": every member of the National
+ * Council and the Council of States still in office, as a table sorted by
+ * the change in the overall score (the best fits first), in pages.
  */
 function parliamentPanel(choice, day) {
   const panel = el("div", "editor-fields");
-  const ranking = parliamentRanking(day);
-  if (!ranking.length) {
+  const people = base.parliamentarians.filter(
+    (p) => (!p.leftOfficeDate || p.leftOfficeDate > day) && ageOn(p.birthDate, day) >= 18
+  );
+  if (!people.length) {
     panel.append(el("p", "editor-note", t("parliamentEmpty")));
     return panel;
   }
-  panel.append(el("p", "editor-note", t("parliamentIntro", ranking.length)));
-  const party = base.comparisons.find((cmp) => cmp.key === "party");
-
-  const fieldset = el("fieldset", "editor-field");
-  fieldset.append(el("legend", "visually-hidden", t("mode_parliament")));
-  const grid = el("div", "person-grid");
-  ranking.forEach(({ person, choice: profile }, rank) => {
-    const row = el("label", "person");
-    const input = el("input");
-    input.type = "radio";
-    input.name = "editor-parliamentarian";
-    input.value = person.id;
-    input.checked = choice.parliamentarianId === person.id;
-    input.addEventListener("change", () => {
-      Object.assign(choice, profile);
-      delete choice.personId;
-      delete choice.variant;
-      update();
-      track("parliamentarian_select", {
-        parliamentarian: person.name,
-        party: person.party,
-        chamber: person.chamber,
-        rank: rank + 1,
-      });
+  panel.append(el("p", "editor-note", t("parliamentIntro", people.length)));
+  const hasParties = Boolean(base.comparisons.find((cmp) => cmp.key === "party").choices(day));
+  const onChoose = (profile, person, rank) => {
+    Object.assign(choice, profile);
+    delete choice.personId;
+    delete choice.variant;
+    update();
+    track("parliamentarian_select", {
+      parliamentarian: person.name,
+      party: person.partyLabel,
+      chamber: person.chamber,
+      rank,
     });
-    const card = el("span", "person-card");
-    const text = el("span", "person-text");
-    text.append(
-      el("span", "person-name", person.name),
-      metaLine("span", "person-meta", party.choiceLabel(person.party), person),
-      el("span", "person-meta", t("chamberMember", person.chamber, person.gender))
-    );
-    card.append(portrait(person), text);
-    row.append(input, card);
-    grid.append(row);
-  });
-  fieldset.append(grid);
-  panel.append(fieldset);
+  };
+  panel.append(
+    choiceTable({
+      label: t("mode_parliament"),
+      group: "editor-parliamentarian",
+      mode: "parliament",
+      nameLabel: t("tableName"),
+      columns: PERSON_COLUMNS(),
+      rows: people.map((p) =>
+        personRow(p, personChoice(p, day, hasParties, "parliament", "parliamentarianId"), day, onChoose)
+      ),
+      selectedId: choice.parliamentarianId,
+    })
+  );
   return panel;
 }
 
 /**
  * Mode "Bestmögliche Person": every profile that raises the overall score
- * the most, as cards in a grid like the candidates'. Choosing a card makes
- * it the new member.
+ * the most, as a table like the others: Profil ("Frau, 29 Jahre") |
+ * Grossregion | Partei | Sprache | Änderung. Choosing a row makes it the
+ * new member.
  */
 function bestPanel(choice) {
   const panel = el("div", "editor-fields");
+  const day = base.versions[state.index].day;
   const profiles = bestProfiles();
   panel.append(el("p", "editor-note", t("bestIntro", profiles.length)));
   const byKey = Object.fromEntries(base.comparisons.map((cmp) => [cmp.key, cmp]));
+  const change = seatChange(profiles[0], day); // the same for all of them
 
-  const fieldset = el("fieldset", "editor-field");
-  fieldset.append(el("legend", "visually-hidden", t("mode_best")));
-  const grid = el("div", "person-grid");
-  profiles.forEach((profile, k) => {
-    const row = el("label", "person");
-    const input = el("input");
-    input.type = "radio";
-    input.name = "editor-best";
-    input.value = k;
-    input.checked = choice.variant === k;
-    input.addEventListener("change", () => {
-      applyBest(choice, k);
-      update();
-      track("best_select", { variant: k + 1, variants: profiles.length, ...profileParams(choice) });
-    });
+  const rows = profiles.map((profile, k) => {
+    const region = byKey.region.choiceLabel(profile.region);
+    const party = profile.party ? byKey.party.choiceLabel(profile.party) : "–";
+    const language =
+      profile.language === "other" ? t("languageName_otherSingular") : byKey.language.longLabel(profile.language);
     const avatar = el("span", `avatar avatar-${profile.gender} avatar-new`, t("newShort"));
     avatar.setAttribute("aria-hidden", "true");
-    const text = el("span", "person-text");
-    text.append(
-      // "Frau, 52 Jahre" / "Genferseeregion · SVP · Französisch"
-      el("span", "person-name", t("bestName", byKey.gender.choiceLabel(profile.gender), profile.age)),
-      el("span", "person-meta", [
-        byKey.region.choiceLabel(profile.region),
-        profile.party && byKey.party.choiceLabel(profile.party),
-        profile.language === "other" ? t("languageName_otherSingular") : byKey.language.longLabel(profile.language),
-      ].filter(Boolean).join(" · "))
-    );
-    const card = el("span", "person-card");
-    card.append(avatar, text);
-    row.append(input, card);
-    grid.append(row);
+    return {
+      id: String(k),
+      name: t("bestName", byKey.gender.choiceLabel(profile.gender), profile.age), // "Frau, 29 Jahre"
+      picture: avatar,
+      cells: [region, party, language],
+      meta: [[region, party, language].join(" · ")],
+      change,
+      choose: () => {
+        applyBest(choice, k);
+        update();
+        track("best_select", { variant: k + 1, variants: profiles.length, ...profileParams(choice) });
+      },
+    };
   });
-  fieldset.append(grid);
-  panel.append(fieldset);
+  panel.append(
+    choiceTable({
+      label: t("mode_best"),
+      group: "editor-best",
+      mode: "best",
+      nameLabel: t("tableProfile"),
+      columns: [
+        { label: t("tableRegion"), className: "col-text" },
+        { label: t("tableParty"), className: "col-party" },
+        { label: t("tableLanguage"), className: "col-text" },
+      ],
+      rows,
+      selectedId: String(choice.variant),
+    })
+  );
   return panel;
 }
 

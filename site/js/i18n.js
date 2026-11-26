@@ -59,7 +59,7 @@ const strings = {
     mode_parliament: "Passende Parlamentarier:innen",
     mode_best: "Bestmögliche Person",
     parliamentIntro: (n) =>
-      `Die ${n === 9 ? "neun" : n} Mitglieder des National- und Ständerats, mit denen die Gesamtübereinstimmung am höchsten wäre.`,
+      `Alle ${n} Mitglieder des National- und Ständerats, sortiert danach, wie stark sie die Gesamtübereinstimmung verändern würden.`,
     parliamentEmpty: "Keine Mitglieder des Parlaments erfasst.",
     // The chamber on a card: "Nationalrätin", "Ständerat"
     chamberMember: (chamber, gender) =>
@@ -67,6 +67,20 @@ const strings = {
         Nationalrat: gender === "female" ? "Nationalrätin" : "Nationalrat",
         Ständerat: gender === "female" ? "Ständerätin" : "Ständerat",
       })[chamber] ?? chamber,
+    // The table of official candidates and members of parliament
+    tableName: "Name",
+    tableCanton: "Kanton",
+    tableParty: "Partei",
+    tableChange: "Änderung Gesamt\u00adübereinstimmung", // soft hyphen: may break after "Gesamt"
+    tableProfile: "Profil",
+    tableRegion: "Grossregion",
+    tableLanguage: "Sprache",
+    tableSortAscending: "Änderung Gesamtübereinstimmung: tiefste zuerst anzeigen",
+    tableSortDescending: "Änderung Gesamtübereinstimmung: höchste zuerst anzeigen",
+    tablePages: "Seiten der Tabelle",
+    tablePrev: "Vorherige Seite",
+    tableNext: "Nächste Seite",
+    tablePage: (page, pages) => `Seite ${page} von ${pages}`,
     listEmpty: "Noch keine offiziellen Kandidierenden erfasst.",
     listNoneEligible:
       "Keine der offiziellen Kandidierenden war zu dieser Zeit mindestens 18 Jahre alt.",

@@ -429,12 +429,6 @@ h2 {
   box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.15);
 }
 
-/* On a candidate's card the flag lies above the invisible radio button,
-   so it can be hovered (a click still chooses the person) */
-.person .flag {
-  position: relative;
-}
-
 /* Panel head: period, dates, buttons, slider. Sticks to the top of the
    screen while scrolling through the whole page. */
 .panel-head {
@@ -960,70 +954,211 @@ h2 {
   justify-self: start;
 }
 
-/* "Offizielle Kandidierende": one card per person, in a grid like the
-   Council's (hairlines between the cards, no scrolling inside the box) */
-.person-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(min(100%, 15rem), 1fr));
-  border-top: 1px solid var(--line);
-  border-left: 1px solid var(--line);
+/* The tables of the editor ("Offizielle Kandidierende", "Passende
+   Parlamentarier:innen", "Bestmögliche Person"), sorted by the change in
+   the overall score. A click anywhere on a row chooses it; the chosen row
+   is grey with a black bar on the left. */
+.people-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9375rem;
 }
 
-.person {
-  position: relative;
-  display: block;
-  cursor: pointer;
+.people-table th {
+  padding: 0 0.6rem 0.5rem;
+  border-bottom: 1px solid var(--ink);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  line-height: 1.25;
+  color: var(--ink-2);
+  text-align: left;
+  vertical-align: bottom;
 }
 
-/* The radio button covers the whole card (invisible) */
-.person input {
-  position: absolute;
-  inset: 0;
-  margin: 0;
-  opacity: 0;
-  cursor: pointer;
-}
-
-.person-card {
-  display: flex;
-  gap: 0.875rem;
-  align-items: flex-start;
-  height: 100%;
-  padding: 0.875rem 1rem;
-  border-right: 1px solid var(--line);
+.people-table td {
+  padding: 0.55rem 0.6rem;
   border-bottom: 1px solid var(--line);
+  vertical-align: middle;
 }
 
-.person-text {
-  display: grid;
-  gap: 0.2rem;
-  min-width: 0;
+.people-table tbody tr {
+  cursor: pointer;
 }
 
-.person:hover .person-card {
+.people-table tbody tr:hover {
   background: var(--wash);
 }
 
-/* The person chosen: grey, with a black bar on the left */
-.person input:checked + .person-card {
+.people-table tbody tr:has(input:checked) {
   background: var(--wash);
   box-shadow: inset 3px 0 0 var(--ink);
 }
 
-.person input:focus-visible + .person-card {
+.people-table tbody tr:has(input:focus-visible) {
   outline: 2px solid var(--ink);
   outline-offset: -2px;
 }
 
-.person-name {
-  font-weight: 600;
-  line-height: 1.3;
+/* Name with a small picture on its left. The radio button is invisible;
+   the whole row is the target. */
+.row-name {
+  position: relative; /* keeps the hidden radio button in its row */
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  cursor: pointer;
 }
 
-.person-meta {
+.row-text {
+  display: grid;
+  min-width: 0;
+}
+
+.row-title {
+  font-weight: 600;
+}
+
+/* After the name, not bold: the chamber ("Nationalrätin") */
+.row-suffix {
+  font-weight: 400;
+}
+
+/* Portrait (3:4) or initials / "Neu", small */
+.people-table .portrait,
+.people-table .avatar {
+  flex: none;
+  width: 1.5rem;
+  height: 2rem;
+}
+
+.people-table .avatar {
+  font-size: 0.5rem;
+  letter-spacing: 0.02em;
+}
+
+.row-input {
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+  margin: 0;
+}
+
+.people-table .col-flag {
+  width: 1%;
+  white-space: nowrap;
+  text-align: center;
+}
+
+.people-table .col-flag .flag {
+  margin-right: 0;
+}
+
+.people-table .col-party,
+.people-table .col-text {
+  white-space: nowrap;
+}
+
+/* The change: right-aligned, so the digits line up */
+.people-table .col-change {
+  width: 1%;
+  text-align: right;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums; /* only here: Inter's tabular hyphen looks odd in names */
+}
+
+.people-table th.col-change {
+  min-width: 7.5rem;
+  white-space: normal;
+  hyphens: manual;
+}
+
+.people-table td.col-change {
+  font-weight: 600;
+}
+
+/* The header of the change column sorts the table (arrow: highest first,
+   turned around: lowest first) */
+.sort-button {
+  display: inline-flex;
+  align-items: flex-end;
+  gap: 0.25rem;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  color: inherit;
+  text-align: right;
+  cursor: pointer;
+}
+
+.sort-button:hover {
+  color: var(--ink);
+}
+
+.sort-button svg {
+  flex: none;
+  width: 0.875rem;
+  height: 0.875rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.2;
+  stroke-linecap: square;
+  transition: transform 0.15s;
+}
+
+.sort-button.is-ascending svg {
+  transform: rotate(180deg);
+}
+
+/* Pages: ‹ Seite 2 von 25 › */
+.pager {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 0.75rem;
+}
+
+.pager-btn {
+  width: 2.25rem;
+  height: 2.25rem;
+}
+
+.pager-status {
+  min-width: 7.5rem;
+  text-align: center;
   font-size: 0.875rem;
   color: var(--ink-2);
-  line-height: 1.45;
+  font-variant-numeric: tabular-nums;
+}
+
+/* The second line under the name: only on phones */
+.row-meta {
+  display: none;
+  margin-top: 0.1rem;
+  font-size: 0.8125rem;
+  color: var(--ink-2);
+}
+
+/* Phones: two columns (Name, Änderung); canton, party and chamber under
+   the name, so the table never gets wider than the screen */
+@media (max-width: 36rem) {
+  .people-table .col-flag,
+  .people-table .col-party,
+  .people-table .col-text {
+    display: none;
+  }
+
+  .row-meta {
+    display: block;
+  }
+
+  .people-table td,
+  .people-table th {
+    padding-inline: 0.5rem;
+  }
 }
 
 /* Options as "chips": radio buttons styled as small toggles */
