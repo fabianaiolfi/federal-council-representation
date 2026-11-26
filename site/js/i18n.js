@@ -81,6 +81,10 @@ const strings = {
     tablePrev: "Vorherige Seite",
     tableNext: "Nächste Seite",
     tablePage: (page, pages) => `Seite ${page} von ${pages}`,
+    tableSearch: "Suchen",
+    tableSearchLabel: "Name suchen",
+    tableSearchClear: "Suche löschen",
+    tableNoMatch: "Kein Name gefunden.",
     listEmpty: "Noch keine offiziellen Kandidierenden erfasst.",
     listNoneEligible:
       "Keine der offiziellen Kandidierenden war zu dieser Zeit mindestens 18 Jahre alt.",

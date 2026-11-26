@@ -1189,6 +1189,9 @@ function personChoice(person, day, hasParties, mode, idKey) {
 /** Rows per page in the tables of the editor */
 const TABLE_PAGE = 10;
 
+/** "Barandún" -> "barandun": for comparing names when searching */
+const searchable = (text) => text.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+
 /**
  * A table to choose from in the editor (official candidates, members of
  * parliament, best profiles). Each row: a small picture and the name, the
@@ -1200,11 +1203,13 @@ const TABLE_PAGE = 10;
  *   columns: [{ label, className }]             the columns in between
  *   rows:    [{ id, name, suffix, picture, cells, meta, change, choose }]
  *            suffix (optional): shown after the name, not bold ("Nationalrätin")
+ *   search:  the name header is a search field ("Suchen") that filters the
+ *            rows by name as you type (capitals and accents don't matter)
  *            cells: one per column; meta: the same as one line under the
  *            name (phones show only name and change); choose(rank): the
  *            row was chosen
  */
-function choiceTable({ label, group, mode, nameLabel, columns, rows, selectedId }) {
+function choiceTable({ label, group, mode, nameLabel, columns, rows, selectedId, search = false }) {
   const fieldset = el("fieldset", "editor-field");
   fieldset.append(el("legend", "visually-hidden", label));
 
@@ -1216,7 +1221,46 @@ function choiceTable({ label, group, mode, nameLabel, columns, rows, selectedId 
     headRow.append(cell);
     return cell;
   };
-  th(nameLabel, "col-name");
+  const nameHead = th(search ? undefined : nameLabel, "col-name");
+  let query = "";
+  if (search) {
+    // "🔍 Suchen" instead of "Name": filters the rows as you type
+    const field = el("label", "table-search");
+    field.insertAdjacentHTML(
+      "beforeend",
+      '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6"/><path d="M15 15l5 5"/></svg>'
+    );
+    const input = el("input");
+    input.type = "search";
+    input.placeholder = t("tableSearch");
+    input.setAttribute("aria-label", t("tableSearchLabel"));
+    input.autocomplete = "off";
+    input.spellcheck = false;
+    // A black × clears the field; shown whenever it has text (the
+    // browser's own × only shows on hover and can't be styled reliably)
+    const clear = el("button", "search-clear");
+    clear.type = "button";
+    clear.hidden = true;
+    clear.setAttribute("aria-label", t("tableSearchClear"));
+    clear.insertAdjacentHTML(
+      "beforeend",
+      '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>'
+    );
+    input.addEventListener("input", () => {
+      query = searchable(input.value.trim());
+      clear.hidden = input.value === "";
+      page = 0;
+      render();
+      if (query) trackOnce("table_search", { mode }); // once per page view; never what was typed
+    });
+    clear.addEventListener("click", () => {
+      input.value = "";
+      input.dispatchEvent(new Event("input"));
+      input.focus();
+    });
+    field.append(input, clear);
+    nameHead.append(field);
+  }
   for (const col of columns) th(col.label, col.className);
   const changeHead = th(undefined, "col-change");
   const sort = el("button", "sort-button");
@@ -1267,9 +1311,15 @@ function choiceTable({ label, group, mode, nameLabel, columns, rows, selectedId 
   });
 
   let descending = true;
-  let order = [];
+  let order = []; // every row, sorted
   let page = 0;
-  const pages = Math.ceil(items.length / TABLE_PAGE);
+  let pages = Math.ceil(items.length / TABLE_PAGE);
+
+  // Shown when a search finds nobody
+  const empty = el("tr", "table-empty");
+  const emptyCell = el("td");
+  emptyCell.colSpan = columns.length + 2;
+  empty.append(emptyCell);
 
   // Pages: ‹ Seite 2 von 25 › (only for more than one page)
   const pager = el("nav", "pager");
@@ -1292,8 +1342,14 @@ function choiceTable({ label, group, mode, nameLabel, columns, rows, selectedId 
       (descending ? b.row.change - a.row.change : a.row.change - b.row.change) ||
       a.row.name.localeCompare(b.row.name)
     );
-    body.replaceChildren(...order.map((item) => item.tr));
-    order.forEach((item, i) => {
+    // A search keeps the rows whose name contains it; pages count only those
+    const matches = query ? order.filter((item) => searchable(item.row.name).includes(query)) : order;
+    pages = Math.max(1, Math.ceil(matches.length / TABLE_PAGE));
+    page = Math.min(page, pages - 1);
+    emptyCell.textContent = t("tableNoMatch");
+    body.replaceChildren(...order.map((item) => item.tr), ...(matches.length ? [] : [empty]));
+    for (const item of order) item.tr.hidden = true;
+    matches.forEach((item, i) => {
       item.tr.hidden = Math.floor(i / TABLE_PAGE) !== page;
       // Photos load once their row is shown
       if (!item.tr.hidden) {
@@ -1306,6 +1362,7 @@ function choiceTable({ label, group, mode, nameLabel, columns, rows, selectedId 
     status.textContent = t("tablePage", page + 1, pages);
     prev.disabled = page === 0;
     next.disabled = page === pages - 1;
+    pager.hidden = pages <= 1;
     changeHead.setAttribute("aria-sort", descending ? "descending" : "ascending");
     sort.classList.toggle("is-ascending", !descending);
     sort.setAttribute("aria-label", t(descending ? "tableSortAscending" : "tableSortDescending"));
@@ -1333,8 +1390,7 @@ function choiceTable({ label, group, mode, nameLabel, columns, rows, selectedId 
 
   const table = el("table", "people-table");
   table.append(head, body);
-  fieldset.append(table);
-  if (pages > 1) fieldset.append(pager);
+  fieldset.append(table, pager);
   render();
   return fieldset;
 }
@@ -1441,6 +1497,7 @@ function parliamentPanel(choice, day) {
         personRow(p, personChoice(p, day, hasParties, "parliament", "parliamentarianId"), day, onChoose)
       ),
       selectedId: choice.parliamentarianId,
+      search: true, // "Suchen" instead of "Name"
     })
   );
   return panel;

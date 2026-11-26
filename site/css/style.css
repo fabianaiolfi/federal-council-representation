@@ -1113,6 +1113,95 @@ h2 {
   transform: rotate(180deg);
 }
 
+/* Search in the name header ("Suchen", Passende Parlamentarier:innen):
+   a magnifier, the field and, once there is text, a black × to clear it */
+.table-search {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  max-width: 14rem;
+  color: var(--ink-2);
+  cursor: text;
+}
+
+.table-search:focus-within {
+  color: var(--ink);
+}
+
+.table-search svg {
+  flex: none;
+  width: 1rem;
+  height: 1rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: square;
+}
+
+.table-search input {
+  width: 100%;
+  min-width: 0;
+  padding: 0.2rem 0;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  font: inherit;
+  font-weight: 400;
+  color: var(--ink);
+  outline: none;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.table-search input::placeholder {
+  color: var(--ink-2);
+  opacity: 1;
+}
+
+/* No × of the browser's own: the one below is always visible with text */
+.table-search input::-webkit-search-cancel-button {
+  display: none;
+  -webkit-appearance: none;
+}
+
+.search-clear {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  margin: -0.25rem 0; /* a larger target without making the header taller */
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--ink);
+  cursor: pointer;
+}
+
+.search-clear[hidden] {
+  display: none;
+}
+
+.search-clear svg {
+  width: 0.875rem;
+  height: 0.875rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.4;
+  stroke-linecap: square;
+}
+
+/* No match: one row with the message */
+.people-table .table-empty td {
+  padding-block: 1rem;
+  color: var(--ink-2);
+  cursor: default;
+}
+
+.people-table tbody tr.table-empty:hover {
+  background: none;
+}
+
 /* Pages: ‹ Seite 2 von 25 › */
 .pager {
   display: flex;

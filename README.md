@@ -57,7 +57,9 @@ the seven members, one box per comparison and the history chart.
      the real Council, with the other members as they are, including other
      replacements). For members of parliament, and candidates who sit in
      parliament, the gendered chamber follows the name, not bold ("Léonore
-     Porchet Nationalrätin").
+     Porchet Nationalrätin"). In the members' table, the name header is a
+     search field ("Suchen"): it filters the rows by name as you type,
+     ignoring capitals and accents; the pages then count only the matches.
    - **Bestmögliche Person:** the app tries every combination of gender,
      party, language, age group and Grossregion for this seat (with the other members as
      they are) and shows every profile with the highest overall score as
@@ -637,6 +639,7 @@ banner and sends nothing. On beta, events also appear in the DebugView
 | `parliamentarian_select` | a member of parliament picked in "Passende Parlamentarier:innen" | `parliamentarian`, `party`, `chamber`, `rank` (position in the table) |
 | `table_page` | another page of a table in the editor | `mode` (list, parliament, best), `page` |
 | `table_sort` | the change column sorted the other way | `mode`, `order` (ascending, descending) |
+| `table_search` | something typed into "Suchen" (once per page view; what was typed is never sent) | `mode` |
 | `replace_field` | gender, party, language, age or Grossregion changed | `field`, `choice` (age: when the slider is let go) |
 | `candidate_select` | a person picked from the list | `candidate`, `party` |
 | `replace_done` | editor closed ("Fertig" or Escape) | `method`, `councillor`, `council_start`, profile, `score_change` |
