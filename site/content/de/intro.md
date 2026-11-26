@@ -38,6 +38,6 @@ Der Bundesrat wird in fünf Kategorien mit der Bevölkerung verglichen:
 - Partei: Nach der Konkordanz teilen sich die grossen Parteien den Bundesrat nach ihrer Stärke. Verglichen wird deshalb nicht mit der ganzen Bevölkerung, sondern mit den Wähler:innenanteilen bei den Nationalratswahlen.
 - Geschlecht und Alter: Dies sind zwei grundlegende Merkmale, die für alle sichtbar sind und für die das BFS Zahlen bis ins 19. Jahrhundert hat. Beim Alter zählen Erwachsene ab 18 Jahren, die in drei Gruppen unterteilt sind (18–39, 40–64 und ab 65).
 
-Die Gesamtübereinstimmung ergibt sich aus dem Durchschnitt dieser fünf Kategorien. Für die frühen Jahre fehlen einzelne Zahlen. Wahlresultate der Parteien gibt es erst seit 1919, davor zählen nur vier Kategorien. Sprachdaten gibt es seit 1910. Für die Jahre davor werden die Zahlen von 1910 verwendet (siehe [Quellen](quellen.html)).
+Die Gesamtübereinstimmung ergibt sich aus dem Durchschnitt dieser fünf Kategorien. Für die frühen Jahre fehlen einzelne Zahlen. Wahlresultate der Parteien gibt es erst seit 1919, davor zählen nur vier Kategorien. Sprachdaten gibt es seit 1910. Für die Jahre davor werden die Zahlen von 1910 verwendet (siehe [Quellen](/quellen)).
 
 Die Auswahl der Vergleichskategorien ist nicht abschliessend. Denkbar wären auch Kategorien wie Religion, sexuelle Orientierung, Bildung oder Beruf. Für viele aktuelle sowie ehemalige Mitglieder des Bundesrats fehlen dazu aber verlässliche Angaben.

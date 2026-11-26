@@ -83,8 +83,16 @@ def check_references() -> None:
         target = (SITE / ref.lstrip("/") if ref.startswith("/") else source.parent / ref).resolve()
         if target.is_dir():
             target /= "index.html"  # a link to "./" opens the folder's index.html
+        elif not target.exists() and target.with_name(target.name + ".html").is_file():
+            target = target.with_name(target.name + ".html")  # "/quellen" is quellen.html
         if not target.is_file():
             problems.append(f"{source.relative_to(ROOT)}: '{ref}' not found")
+    # Links between the pages use the clean address: Cloudflare redirects
+    # "/quellen.html" to "/quellen", and search engines report such links
+    # as "Page with redirect"
+    for page in [*SITE.glob("*.html"), *SITE.glob("content/*/*.md")]:
+        for ref in re.findall(r'(?:href="|\]\()(/?[\w-]+\.html)(?:"|\))', page.read_text(encoding="utf-8")):
+            problems.append(f"{page.relative_to(ROOT)}: link to '{ref}': use the address without .html")
 
 
 def check_javascript() -> None:

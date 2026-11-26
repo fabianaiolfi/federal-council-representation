@@ -5,3 +5,5 @@
 # can't be read, so its "noindex" would never be seen.
 User-agent: *
 Allow: /
+
+Sitemap: https://bundesrat.fyi/sitemap.xml
