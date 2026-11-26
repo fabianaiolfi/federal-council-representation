@@ -56,7 +56,17 @@ const strings = {
     modeLabel: "Wie möchten Sie ersetzen?",
     mode_custom: "Selbst zusammenstellen",
     mode_list: "Offizielle Kandidierende",
+    mode_parliament: "Passende Parlamentarier:innen",
     mode_best: "Bestmögliche Person",
+    parliamentIntro: (n) =>
+      `Die ${n === 9 ? "neun" : n} Mitglieder des National- und Ständerats, mit denen die Gesamtübereinstimmung am höchsten wäre.`,
+    parliamentEmpty: "Keine Mitglieder des Parlaments erfasst.",
+    // The chamber on a card: "Nationalrätin", "Ständerat"
+    chamberMember: (chamber, gender) =>
+      ({
+        Nationalrat: gender === "female" ? "Nationalrätin" : "Nationalrat",
+        Ständerat: gender === "female" ? "Ständerätin" : "Ständerat",
+      })[chamber] ?? chamber,
     listEmpty: "Noch keine offiziellen Kandidierenden erfasst.",
     listNoneEligible:
       "Keine der offiziellen Kandidierenden war zu dieser Zeit mindestens 18 Jahre alt.",
@@ -157,12 +167,16 @@ const strings = {
     sourceCouncilLink: "Liste aller Bundesrätinnen und Bundesräte (admin.ch)",
     sourceCouncilAfter: "; Geburtsdaten und Sprachen: Wikidata",
     sourcePortraits: "Porträts und Kantonsfahnen: Wikimedia Commons (Bildnachweise unten)",
+    // "Parlamentsmitglieder: Parlamentsdienste, [Mitglieder des …] (www.parlament.ch)"
+    sourceParliament: (source) => `Parlamentsmitglieder: ${source}, `,
+    sourceParliamentAfter: (files) => ` (www.parlament.ch; ${files})`,
     dataGenerated: (date) => `Daten aufbereitet am ${date}`,
     creditsTitle: "Bildnachweise",
     creditsIntro:
       "Urheber und Lizenz jedes Bildes. Ein Klick auf den Namen öffnet die Bildseite auf Wikimedia Commons.",
     creditsCouncillors: "Mitglieder des Bundesrats",
     creditsCandidates: "Offizielle Kandidierende",
+    creditsParliament: "Mitglieder des National- und Ständerats",
     creditsFlags: "Kantonsfahnen",
     creditAuthorUnknown: "Urheber unbekannt",
 

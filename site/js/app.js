@@ -165,7 +165,8 @@ function computeBase(data, today) {
     comparisons,
     versions,
     currentIndex,
-    candidates: data.candidates ?? [], // people for "Aus Liste wählen"
+    candidates: data.candidates ?? [], // people for "Offizielle Kandidierende"
+    parliamentarians: data.parliament?.members ?? [], // "Passende Parlamentarier:innen"
     ageGroups: data.age.groups,
   };
 }
@@ -176,7 +177,12 @@ function computeBase(data, today) {
  * age on the day the version is measured.
  */
 function newMember(m, choice, day) {
-  const person = choice.personId ? base.candidates.find((p) => p.id === choice.personId) : null;
+  // A named person: an official candidate or a member of parliament
+  const person = choice.personId
+    ? base.candidates.find((p) => p.id === choice.personId)
+    : choice.parliamentarianId
+      ? base.parliamentarians.find((p) => p.id === choice.parliamentarianId)
+      : null;
   return {
     ...m,
     isNew: true,
@@ -1040,6 +1046,7 @@ function makeCustom(choice) {
   choice.mode = "custom";
   delete choice.name;
   delete choice.personId;
+  delete choice.parliamentarianId;
   delete choice.cantonCode;
   delete choice.variant;
   for (const button of $("editor").querySelectorAll(".mode-button")) {
@@ -1048,14 +1055,14 @@ function makeCustom(choice) {
 }
 
 /**
- * The three ways to replace a member. Clicking "Bestmögliche Person" again
- * shows the next of the equally good profiles.
+ * The four ways to replace a member: put a person together, an official
+ * candidate, a member of parliament, or the best possible profile.
  */
 function modeSwitch(choice) {
   const group = el("div", "modes");
   group.setAttribute("role", "group");
   group.setAttribute("aria-label", t("modeLabel"));
-  for (const mode of ["custom", "list", "best"]) {
+  for (const mode of ["custom", "list", "parliament", "best"]) {
     const button = el("button", "mode-button", t(`mode_${mode}`));
     button.type = "button";
     button.dataset.mode = mode;
@@ -1076,7 +1083,7 @@ function setMode(mode) {
   } else if (mode === "custom") {
     makeCustom(choice);
   } else {
-    choice.mode = "list"; // the profile stays until a person is picked
+    choice.mode = mode; // "list" or "parliament": the profile stays until a person is picked
   }
   if (mode !== "best") track("replace_mode", { mode });
   renderEditor();
@@ -1128,6 +1135,7 @@ function applyBest(choice, variant) {
   const k = variant % profiles.length;
   delete choice.name;
   delete choice.personId;
+  delete choice.parliamentarianId;
   delete choice.cantonCode;
   Object.assign(choice, profiles[k], { mode: "best", variant: k, variants: profiles.length });
 }
@@ -1184,6 +1192,7 @@ function listPanel(choice, day) {
         cantonCode: person.cantonCode,
         age,
       });
+      delete choice.parliamentarianId;
       delete choice.variant;
       update();
       track("candidate_select", { candidate: person.name, party: person.party });
@@ -1199,6 +1208,104 @@ function listPanel(choice, day) {
     list.append(row);
   }
   fieldset.append(list);
+  panel.append(fieldset);
+  return panel;
+}
+
+/** How many members of parliament "Passende Parlamentarier:innen" shows */
+const PARLIAMENT_SHOWN = 9;
+
+/** The profile of a member of parliament in the seat being replaced. */
+function parliamentChoice(person, day, hasParties) {
+  return {
+    mode: "parliament",
+    parliamentarianId: person.id,
+    name: person.name,
+    gender: person.gender,
+    party: hasParties ? person.party : null,
+    language: person.language,
+    region: person.region,
+    cantonCode: person.cantonCode,
+    age: ageOn(person.birthDate, day),
+  };
+}
+
+/**
+ * The members of parliament with whom the overall score would be highest
+ * in this seat (the other members as they are, including the user's other
+ * replacements), best first; equal scores in alphabetical order. Only
+ * members still in office on that day.
+ */
+function parliamentRanking(day) {
+  const c = base.versions[state.index];
+  const changes = state.replacements[state.index] ?? {};
+  const seat = c.members.find((m) => m.number === state.editing);
+  const others = c.members.filter((m) => m !== seat).map((m) =>
+    changes[m.number] ? newMember(m, changes[m.number], day) : m
+  );
+  const hasParties = Boolean(base.comparisons.find((cmp) => cmp.key === "party").choices(day));
+  return base.parliamentarians
+    .filter((p) => (!p.leftOfficeDate || p.leftOfficeDate > day) && ageOn(p.birthDate, day) >= 18)
+    .map((person) => {
+      const choice = parliamentChoice(person, day, hasParties);
+      const members = [...others, newMember(seat, choice, day)];
+      const overall = average(base.comparisons.map((cmp) => evaluate(cmp, members, day)));
+      return { person, choice, overall };
+    })
+    .sort((a, b) => b.overall - a.overall || a.person.name.localeCompare(b.person.name))
+    .slice(0, PARLIAMENT_SHOWN);
+}
+
+/**
+ * Mode "Passende Parlamentarier:innen": the nine members of the National
+ * Council and the Council of States with whom the overall score would be
+ * highest, as cards like the official candidates' (portrait, name, canton
+ * and party, chamber).
+ */
+function parliamentPanel(choice, day) {
+  const panel = el("div", "editor-fields");
+  const ranking = parliamentRanking(day);
+  if (!ranking.length) {
+    panel.append(el("p", "editor-note", t("parliamentEmpty")));
+    return panel;
+  }
+  panel.append(el("p", "editor-note", t("parliamentIntro", ranking.length)));
+  const party = base.comparisons.find((cmp) => cmp.key === "party");
+
+  const fieldset = el("fieldset", "editor-field");
+  fieldset.append(el("legend", "visually-hidden", t("mode_parliament")));
+  const grid = el("div", "person-grid");
+  ranking.forEach(({ person, choice: profile }, rank) => {
+    const row = el("label", "person");
+    const input = el("input");
+    input.type = "radio";
+    input.name = "editor-parliamentarian";
+    input.value = person.id;
+    input.checked = choice.parliamentarianId === person.id;
+    input.addEventListener("change", () => {
+      Object.assign(choice, profile);
+      delete choice.personId;
+      delete choice.variant;
+      update();
+      track("parliamentarian_select", {
+        parliamentarian: person.name,
+        party: person.party,
+        chamber: person.chamber,
+        rank: rank + 1,
+      });
+    });
+    const card = el("span", "person-card");
+    const text = el("span", "person-text");
+    text.append(
+      el("span", "person-name", person.name),
+      metaLine("span", "person-meta", party.choiceLabel(person.party), person),
+      el("span", "person-meta", t("chamberMember", person.chamber, person.gender))
+    );
+    card.append(portrait(person), text);
+    row.append(input, card);
+    grid.append(row);
+  });
+  fieldset.append(grid);
   panel.append(fieldset);
   return panel;
 }
@@ -1262,6 +1369,7 @@ function renderEditor() {
 
   const panel =
     choice.mode === "list" ? listPanel(choice, c.day)
+    : choice.mode === "parliament" ? parliamentPanel(choice, c.day)
     : choice.mode === "best" ? bestPanel(choice)
     : customPanel(choice, c.day);
 

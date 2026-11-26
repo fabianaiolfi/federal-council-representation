@@ -6275,6 +6275,4902 @@
    }
   }
  ],
+ "parliament": {
+  "source": "Parlamentsdienste",
+  "title": "Mitglieder des Nationalrats und des Ständerats",
+  "files": [
+   "NR_Mitglieder_2026_DE.xlsx",
+   "SR_Mitglieder_2026_DE.xlsx"
+  ],
+  "url": "https://www.parlament.ch",
+  "members": [
+   {
+    "id": "p1",
+    "name": "Jean-Luc Addor",
+    "gender": "male",
+    "party": "SVP",
+    "language": "fr",
+    "birthDate": "1964-04-22",
+    "canton": "Wallis",
+    "cantonCode": "VS",
+    "region": "genfersee",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": "2027-02-28",
+    "portrait": {
+     "image": "img/parliament/jean-luc-addor.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Jean-Luc_Addor_(2023).jpg",
+     "author": "Parliamentary Services",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p2",
+    "name": "Cyril Aellen",
+    "gender": "male",
+    "party": "FDP",
+    "language": "fr",
+    "birthDate": "1972-02-29",
+    "canton": "Genf",
+    "cantonCode": "GE",
+    "region": "genfersee",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/cyril-aellen.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Cyril_Aellen_(2023).jpg",
+     "author": "Parliamentary Services",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p3",
+    "name": "Thomas Aeschi",
+    "gender": "male",
+    "party": "SVP",
+    "language": "de",
+    "birthDate": "1979-01-13",
+    "canton": "Zug",
+    "cantonCode": "ZG",
+    "region": "zentralschweiz",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/thomas-aeschi.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Thomas_Aeschi_(2023).jpg",
+     "author": "Assemblea Federale Svizzera",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p4",
+    "name": "Islam Alijaj",
+    "gender": "male",
+    "party": "SP",
+    "language": "de",
+    "birthDate": "1986-06-18",
+    "canton": "Zürich",
+    "cantonCode": "ZH",
+    "region": "zuerich",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/islam-alijaj.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Islam_Alijaj_(2023).jpg",
+     "author": "Parliamentary Services",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p5",
+    "name": "Céline Amaudruz",
+    "gender": "female",
+    "party": "SVP",
+    "language": "fr",
+    "birthDate": "1979-03-15",
+    "canton": "Genf",
+    "cantonCode": "GE",
+    "region": "genfersee",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/celine-amaudruz.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:C%C3%A9line_Amaudruz_(2019).jpg",
+     "author": "Services du Parlement",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p6",
+    "name": "Emmanuel Amoos",
+    "gender": "male",
+    "party": "SP",
+    "language": "fr",
+    "birthDate": "1980-07-31",
+    "canton": "Wallis",
+    "cantonCode": "VS",
+    "region": "genfersee",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/emmanuel-amoos.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Emmanuel_Amoos_(2023).jpg",
+     "author": "Parliamentary Services",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p7",
+    "name": "Gerhard Andrey",
+    "gender": "male",
+    "party": "GRÜNE",
+    "language": "fr",
+    "birthDate": "1976-01-21",
+    "canton": "Freiburg",
+    "cantonCode": "FR",
+    "region": "mittelland",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/gerhard-andrey.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Gerhard_Andrey_(2021).jpg",
+     "author": "Services du Parlement",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p8",
+    "name": "Sibel Arslan",
+    "gender": "female",
+    "party": "GRÜNE",
+    "language": "de",
+    "birthDate": "1980-06-23",
+    "canton": "Basel-Stadt",
+    "cantonCode": "BS",
+    "region": "nordwestschweiz",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/sibel-arslan.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Sibel_Arslan_(2023).jpg",
+     "author": "Parliamentary Services",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p9",
+    "name": "Christine Badertscher",
+    "gender": "female",
+    "party": "GRÜNE",
+    "language": "de",
+    "birthDate": "1982-01-11",
+    "canton": "Bern",
+    "cantonCode": "BE",
+    "region": "mittelland",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null
+   },
+   {
+    "id": "p10",
+    "name": "Jacqueline Badran",
+    "gender": "female",
+    "party": "SP",
+    "language": "de",
+    "birthDate": "1961-11-12",
+    "canton": "Zürich",
+    "cantonCode": "ZH",
+    "region": "zuerich",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/jacqueline-badran.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Jacqueline_Badran_(2018,_cropped).jpg",
+     "author": "Services du Parlement",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p11",
+    "name": "Maya Bally",
+    "gender": "female",
+    "party": "Mitte",
+    "language": "de",
+    "birthDate": "1961-07-16",
+    "canton": "Aargau",
+    "cantonCode": "AG",
+    "region": "nordwestschweiz",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/maya-bally.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Maya_Bally_(2023).jpg",
+     "author": "Assemblea Federale Svizzera",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p12",
+    "name": "Bettina Balmer",
+    "gender": "female",
+    "party": "FDP",
+    "language": "de",
+    "birthDate": "1966-04-19",
+    "canton": "Zürich",
+    "cantonCode": "ZH",
+    "region": "zuerich",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/bettina-balmer.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Bettina_Balmer_(2023).jpg",
+     "author": "Assemblea Federale Svizzera",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p13",
+    "name": "Nicole Barandun",
+    "gender": "female",
+    "party": "Mitte",
+    "language": "de",
+    "birthDate": "1968-04-25",
+    "canton": "Zürich",
+    "cantonCode": "ZH",
+    "region": "zuerich",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null
+   },
+   {
+    "id": "p14",
+    "name": "Kilian Baumann",
+    "gender": "male",
+    "party": "GRÜNE",
+    "language": "de",
+    "birthDate": "1980-12-14",
+    "canton": "Bern",
+    "cantonCode": "BE",
+    "region": "mittelland",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/kilian-baumann.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Kilian_Baumann_(2023).jpg",
+     "author": "Parliamentary Services",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p15",
+    "name": "Samuel Bendahan",
+    "gender": "male",
+    "party": "SP",
+    "language": "fr",
+    "birthDate": "1980-06-11",
+    "canton": "Waadt",
+    "cantonCode": "VD",
+    "region": "genfersee",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/samuel-bendahan.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Samuel_Bendahan_(2019).jpg",
+     "author": "Services du Parlement",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p16",
+    "name": "Rudi Berli",
+    "gender": "male",
+    "party": "GRÜNE",
+    "language": "fr",
+    "birthDate": "1963-01-26",
+    "canton": "Genf",
+    "cantonCode": "GE",
+    "region": "genfersee",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/rudi-berli.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Rudi_Berli_(parl.ch).jpg",
+     "author": "Parliamentary Services",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p17",
+    "name": "Kathrin Bertschy",
+    "gender": "female",
+    "party": "GLP",
+    "language": "de",
+    "birthDate": "1979-07-02",
+    "canton": "Bern",
+    "cantonCode": "BE",
+    "region": "mittelland",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/kathrin-bertschy.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Kathrin_Bertschy_(2019).jpg",
+     "author": "Services du Parlement",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p18",
+    "name": "Edgar Bischof",
+    "gender": "male",
+    "party": "SVP",
+    "language": "de",
+    "birthDate": "1968-02-04",
+    "canton": "Appenzell Ausserrhoden",
+    "cantonCode": "AR",
+    "region": "ostschweiz",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/edgar-bischof.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Edgar_Bischof_(2026).jpg",
+     "author": "Parliamentary Services",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p19",
+    "name": "Dominik Blunschy",
+    "gender": "male",
+    "party": "Mitte",
+    "language": "de",
+    "birthDate": "1987-10-27",
+    "canton": "Schwyz",
+    "cantonCode": "SZ",
+    "region": "zentralschweiz",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/dominik-blunschy.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Dominik_Blunschy_(2023).jpg",
+     "author": "Parliamentary Services",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p20",
+    "name": "Thomas Bläsi",
+    "gender": "male",
+    "party": "SVP",
+    "language": "fr",
+    "birthDate": "1971-04-17",
+    "canton": "Genf",
+    "cantonCode": "GE",
+    "region": "genfersee",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/thomas-blasi.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Thomas_Bl%C3%A4si_(2023).jpg",
+     "author": "Parliamentary Services",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p21",
+    "name": "Philipp Matthias Bregy",
+    "gender": "male",
+    "party": "Mitte",
+    "language": "fr",
+    "birthDate": "1978-07-07",
+    "canton": "Wallis",
+    "cantonCode": "VS",
+    "region": "genfersee",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/philipp-matthias-bregy.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Philipp_Matthias_Bregy_(2019).jpg",
+     "author": "Services du Parlement",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p22",
+    "name": "Florence Brenzikofer",
+    "gender": "female",
+    "party": "GRÜNE",
+    "language": "de",
+    "birthDate": "1975-04-15",
+    "canton": "Basel-Landschaft",
+    "cantonCode": "BL",
+    "region": "nordwestschweiz",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/florence-brenzikofer.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Florence_Brenzikofer_(2019).jpg",
+     "author": "Parliamentary Services",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p23",
+    "name": "Simona Brizzi",
+    "gender": "female",
+    "party": "SP",
+    "language": "de",
+    "birthDate": "1973-11-16",
+    "canton": "Aargau",
+    "cantonCode": "AG",
+    "region": "nordwestschweiz",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/simona-brizzi.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Simona_Brizzi.jpg",
+     "author": "Parliamentary Services",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p24",
+    "name": "Michaël Buffat",
+    "gender": "male",
+    "party": "SVP",
+    "language": "fr",
+    "birthDate": "1979-09-27",
+    "canton": "Waadt",
+    "cantonCode": "VD",
+    "region": "genfersee",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/michael-buffat.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Micha%C3%ABl_Buffat_(2019).jpg",
+     "author": "Services du Parlement",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p25",
+    "name": "Arbër Bullakaj",
+    "gender": "male",
+    "party": "SP",
+    "language": "de",
+    "birthDate": "1986-04-05",
+    "canton": "St. Gallen",
+    "cantonCode": "SG",
+    "region": "ostschweiz",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/arber-bullakaj.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Arb%C3%ABr_Bullakaj.jpg",
+     "author": "Parliamentary Services",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p26",
+    "name": "Christine Bulliard-Marbach",
+    "gender": "female",
+    "party": "Mitte",
+    "language": "fr",
+    "birthDate": "1959-10-13",
+    "canton": "Freiburg",
+    "cantonCode": "FR",
+    "region": "mittelland",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/christine-bulliard-marbach.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Christine_Bulliard-Marbach_(2019).jpg",
+     "author": "Services du Parlement",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p27",
+    "name": "Thomas Burgherr",
+    "gender": "male",
+    "party": "SVP",
+    "language": "de",
+    "birthDate": "1962-08-01",
+    "canton": "Aargau",
+    "cantonCode": "AG",
+    "region": "nordwestschweiz",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/thomas-burgherr.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Thomas_Burgherr_(2019).jpg",
+     "author": "Parliamentary Services",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p28",
+    "name": "Martin Bäumle",
+    "gender": "male",
+    "party": "GLP",
+    "language": "de",
+    "birthDate": "1964-06-03",
+    "canton": "Zürich",
+    "cantonCode": "ZH",
+    "region": "zuerich",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/martin-baumle.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Martin_B%C3%A4umle_(2019).jpg",
+     "author": "Services du Parlement, 3003 Berne",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p29",
+    "name": "Roland Rino Büchel",
+    "gender": "male",
+    "party": "SVP",
+    "language": "de",
+    "birthDate": "1965-10-08",
+    "canton": "St. Gallen",
+    "cantonCode": "SG",
+    "region": "ostschweiz",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/roland-rino-buchel.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Roland_Rino_B%C3%BCchel_(2023).jpg",
+     "author": "Parliamentary Services",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p30",
+    "name": "Manfred Bühler",
+    "gender": "male",
+    "party": "SVP",
+    "language": "de",
+    "birthDate": "1979-04-10",
+    "canton": "Bern",
+    "cantonCode": "BE",
+    "region": "mittelland",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/manfred-buhler.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Manfred_B%C3%BChler_(2023).jpg",
+     "author": "Parliamentary Services",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p31",
+    "name": "Roman Bürgi",
+    "gender": "male",
+    "party": "SVP",
+    "language": "de",
+    "birthDate": "1969-01-10",
+    "canton": "Schwyz",
+    "cantonCode": "SZ",
+    "region": "zentralschweiz",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/roman-burgi.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Roman_B%C3%BCrgi.jpg",
+     "author": "Parliamentary Services",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p32",
+    "name": "Yvonne Bürgin",
+    "gender": "female",
+    "party": "Mitte",
+    "language": "de",
+    "birthDate": "1970-08-27",
+    "canton": "Zürich",
+    "cantonCode": "ZH",
+    "region": "zuerich",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/yvonne-burgin.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Yvonne_B%C3%BCrgin_(2023)2.jpg",
+     "author": "Parliamentary Services",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p33",
+    "name": "Didier Calame",
+    "gender": "male",
+    "party": "SVP",
+    "language": "fr",
+    "birthDate": "1972-11-07",
+    "canton": "Neuenburg",
+    "cantonCode": "NE",
+    "region": "mittelland",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/didier-calame.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Didier_Calame_(2023).jpg",
+     "author": "Parliamentary Services",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p34",
+    "name": "Hasan Candan",
+    "gender": "male",
+    "party": "SP",
+    "language": "de",
+    "birthDate": "1985-02-24",
+    "canton": "Luzern",
+    "cantonCode": "LU",
+    "region": "zentralschweiz",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/hasan-candan.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Hasan_Candan_portrait.jpg",
+     "author": "Parliamentary Services",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p35",
+    "name": "Martin Candinas",
+    "gender": "male",
+    "party": "Mitte",
+    "language": "de",
+    "birthDate": "1980-08-20",
+    "canton": "Graubünden",
+    "cantonCode": "GR",
+    "region": "ostschweiz",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/martin-candinas.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Martin_Candinas_(2019,_cropped).jpg",
+     "author": "Parliamentary Services",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p36",
+    "name": "Isabelle Chappuis",
+    "gender": "female",
+    "party": "Mitte",
+    "language": "fr",
+    "birthDate": "1971-03-17",
+    "canton": "Waadt",
+    "cantonCode": "VD",
+    "region": "genfersee",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/isabelle-chappuis.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Isabelle_Chappuis_(2021).jpg",
+     "author": "Parliamentary Services",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p37",
+    "name": "Clarence Chollet",
+    "gender": "female",
+    "party": "GRÜNE",
+    "language": "fr",
+    "birthDate": "1984-06-08",
+    "canton": "Neuenburg",
+    "cantonCode": "NE",
+    "region": "mittelland",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/clarence-chollet.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Clarence_Chollet.jpg",
+     "author": "Parliamentary Services",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p38",
+    "name": "Katja Christ",
+    "gender": "female",
+    "party": "GLP",
+    "language": "de",
+    "birthDate": "1972-08-01",
+    "canton": "Basel-Stadt",
+    "cantonCode": "BS",
+    "region": "nordwestschweiz",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/katja-christ.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Katja_Christ_(2019).jpg",
+     "author": "Parliamentary Services",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p39",
+    "name": "Christophe Clivaz",
+    "gender": "male",
+    "party": "GRÜNE",
+    "language": "fr",
+    "birthDate": "1969-01-07",
+    "canton": "Wallis",
+    "cantonCode": "VS",
+    "region": "genfersee",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/christophe-clivaz.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Christophe_Clivaz_(2019).jpg",
+     "author": "Services du Parlement",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p40",
+    "name": "Damien Cottier",
+    "gender": "male",
+    "party": "FDP",
+    "language": "fr",
+    "birthDate": "1975-04-03",
+    "canton": "Neuenburg",
+    "cantonCode": "NE",
+    "region": "mittelland",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/damien-cottier.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Damien_Cottier_(2019).jpg",
+     "author": "Services du Parlement",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p41",
+    "name": "Brigitte Crottaz",
+    "gender": "female",
+    "party": "SP",
+    "language": "fr",
+    "birthDate": "1957-10-06",
+    "canton": "Waadt",
+    "cantonCode": "VD",
+    "region": "genfersee",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/brigitte-crottaz.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Brigitte_Crottaz_(2023).jpg",
+     "author": "Parliamentary Services",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p42",
+    "name": "Christian Dandrès",
+    "gender": "male",
+    "party": "SP",
+    "language": "fr",
+    "birthDate": "1981-02-13",
+    "canton": "Genf",
+    "cantonCode": "GE",
+    "region": "genfersee",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/christian-dandres.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Christian_Dandr%C3%A8s_(2019).jpg",
+     "author": "Services du Parlement",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p43",
+    "name": "Linda De Ventura",
+    "gender": "female",
+    "party": "SP",
+    "language": "de",
+    "birthDate": "1986-05-28",
+    "canton": "Schaffhausen",
+    "cantonCode": "SH",
+    "region": "ostschweiz",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/linda-de-ventura.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Linda_De_Ventura.jpg",
+     "author": "Parliamentary Services",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p44",
+    "name": "Marcel Dettling",
+    "gender": "male",
+    "party": "SVP",
+    "language": "de",
+    "birthDate": "1981-02-01",
+    "canton": "Schwyz",
+    "cantonCode": "SZ",
+    "region": "zentralschweiz",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/marcel-dettling.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Marcel_Dettling_(2019).jpg",
+     "author": "Parliamentary Services",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p45",
+    "name": "Loïc Dobler",
+    "gender": "male",
+    "party": "SP",
+    "language": "fr",
+    "birthDate": "1987-09-07",
+    "canton": "Jura",
+    "cantonCode": "JU",
+    "region": "mittelland",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/loic-dobler.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Lo%C3%AFc_Dobler_(2026).jpg",
+     "author": "Parliamentary Services",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p46",
+    "name": "Marcel Dobler",
+    "gender": "male",
+    "party": "FDP",
+    "language": "de",
+    "birthDate": "1980-08-29",
+    "canton": "St. Gallen",
+    "cantonCode": "SG",
+    "region": "ostschweiz",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/marcel-dobler.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Marcel_Dobler_(2023).jpg",
+     "author": "Parliamentary Services",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p47",
+    "name": "Martine Docourt",
+    "gender": "female",
+    "party": "SP",
+    "language": "fr",
+    "birthDate": "1979-06-08",
+    "canton": "Neuenburg",
+    "cantonCode": "NE",
+    "region": "mittelland",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/martine-docourt.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Martine_Docourt_(2023).jpg",
+     "author": "Parliamentary Services",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p48",
+    "name": "Regina Durrer",
+    "gender": "female",
+    "party": "Mitte",
+    "language": "de",
+    "birthDate": "1971-08-17",
+    "canton": "Nidwalden",
+    "cantonCode": "NW",
+    "region": "zentralschweiz",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/regina-durrer.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Regina_Durrer-Knobel_(2023).jpg",
+     "author": "Parliamentary Services",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p49",
+    "name": "Michèle Dünki-Bättig",
+    "gender": "female",
+    "party": "SP",
+    "language": "de",
+    "birthDate": "1989-08-22",
+    "canton": "Zürich",
+    "cantonCode": "ZH",
+    "region": "zuerich",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/michele-dunki-battig.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Mich%C3%A8le_D%C3%BCnki-B%C3%A4ttig_(2026).jpg",
+     "author": "Parliamentary Services",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p50",
+    "name": "Mike Egger",
+    "gender": "male",
+    "party": "SVP",
+    "language": "de",
+    "birthDate": "1992-08-02",
+    "canton": "St. Gallen",
+    "cantonCode": "SG",
+    "region": "ostschweiz",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/mike-egger.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Mike_Egger_(2019).jpg",
+     "author": "Parliamentary Services",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p51",
+    "name": "Alex Farinelli",
+    "gender": "male",
+    "party": "FDP",
+    "language": "it",
+    "birthDate": "1981-12-16",
+    "canton": "Tessin",
+    "cantonCode": "TI",
+    "region": "tessin",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/alex-farinelli.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Alex_Farinelli_(2019).jpg",
+     "author": "Services du Parlement",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p52",
+    "name": "Laurence Fehlmann Rielle",
+    "gender": "female",
+    "party": "SP",
+    "language": "fr",
+    "birthDate": "1955-09-11",
+    "canton": "Genf",
+    "cantonCode": "GE",
+    "region": "genfersee",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/laurence-fehlmann-rielle.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Laurence_Fehlmann_Rielle_(2019).jpg",
+     "author": "Services du Parlement",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p53",
+    "name": "Nina Fehr Düsel",
+    "gender": "female",
+    "party": "SVP",
+    "language": "de",
+    "birthDate": "1980-11-27",
+    "canton": "Zürich",
+    "cantonCode": "ZH",
+    "region": "zuerich",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/nina-fehr-dusel.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Nina_Fehr_D%C3%BCsel.jpg",
+     "author": "Assemblea Federale Svizzera",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p54",
+    "name": "Olivier Feller",
+    "gender": "male",
+    "party": "FDP",
+    "language": "fr",
+    "birthDate": "1974-08-30",
+    "canton": "Waadt",
+    "cantonCode": "VD",
+    "region": "genfersee",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/olivier-feller.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Olivier_Feller_(2019).jpg",
+     "author": "Services du Parlement",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p55",
+    "name": "Benjamin Fischer",
+    "gender": "male",
+    "party": "SVP",
+    "language": "de",
+    "birthDate": "1991-08-16",
+    "canton": "Zürich",
+    "cantonCode": "ZH",
+    "region": "zuerich",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/benjamin-fischer.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Benjamin_Fischer_(2023).jpg",
+     "author": "Assemblea Federale Svizzera",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p56",
+    "name": "Giorgio Fonio",
+    "gender": "male",
+    "party": "Mitte",
+    "language": "it",
+    "birthDate": "1984-07-01",
+    "canton": "Tessin",
+    "cantonCode": "TI",
+    "region": "tessin",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/giorgio-fonio.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Giorgio_Fonio_(2023).jpg",
+     "author": "Parliamentary Services",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p57",
+    "name": "Sylvain Freymond",
+    "gender": "male",
+    "party": "SVP",
+    "language": "fr",
+    "birthDate": "1984-03-29",
+    "canton": "Waadt",
+    "cantonCode": "VD",
+    "region": "genfersee",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/sylvain-freymond.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Sylvain_Freymond.jpg",
+     "author": "Parliamentary Services",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p58",
+    "name": "Tamara Funiciello",
+    "gender": "female",
+    "party": "SP",
+    "language": "de",
+    "birthDate": "1990-03-20",
+    "canton": "Bern",
+    "cantonCode": "BE",
+    "region": "mittelland",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/tamara-funiciello.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Tamara_Funiciello_(2019).jpg",
+     "author": "Parliamentary Services",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p59",
+    "name": "Andreas Gafner",
+    "gender": "male",
+    "party": "EDU",
+    "language": "de",
+    "birthDate": "1971-03-31",
+    "canton": "Bern",
+    "cantonCode": "BE",
+    "region": "mittelland",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/andreas-gafner.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Andreas_Gafner_(2019).jpg",
+     "author": "Services du Parlement",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p60",
+    "name": "Benoît Gaillard",
+    "gender": "male",
+    "party": "SP",
+    "language": "fr",
+    "birthDate": "1985-08-17",
+    "canton": "Waadt",
+    "cantonCode": "VD",
+    "region": "genfersee",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/benoit-gaillard.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Beno%C3%AEt_Gaillard.jpg",
+     "author": "Parliamentary Services",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p61",
+    "name": "Laura Gantenbein",
+    "gender": "female",
+    "party": "GRÜNE",
+    "language": "de",
+    "birthDate": "1989-05-11",
+    "canton": "Solothurn",
+    "cantonCode": "SO",
+    "region": "mittelland",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/laura-gantenbein.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Laura_Gantenbein_(2026).jpg",
+     "author": "Parliamentary Services",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p62",
+    "name": "Walter Gartmann",
+    "gender": "male",
+    "party": "SVP",
+    "language": "de",
+    "birthDate": "1969-01-07",
+    "canton": "St. Gallen",
+    "cantonCode": "SG",
+    "region": "ostschweiz",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/walter-gartmann.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Walter_Gartmann_portrait.jpg",
+     "author": "Parliamentary Services",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p63",
+    "name": "Anna Giacometti",
+    "gender": "female",
+    "party": "FDP",
+    "language": "de",
+    "birthDate": "1961-09-08",
+    "canton": "Graubünden",
+    "cantonCode": "GR",
+    "region": "ostschweiz",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": "2026-11-29",
+    "portrait": {
+     "image": "img/parliament/anna-giacometti.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Anna_Giacometti_(2023).jpg",
+     "author": "Parliamentary Services",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p64",
+    "name": "Simone Gianini",
+    "gender": "male",
+    "party": "FDP",
+    "language": "it",
+    "birthDate": "1976-02-13",
+    "canton": "Tessin",
+    "cantonCode": "TI",
+    "region": "tessin",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/simone-gianini.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Simone_Gianini_(2023).jpg",
+     "author": "Parliamentary Services",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p65",
+    "name": "Benjamin Giezendanner",
+    "gender": "male",
+    "party": "SVP",
+    "language": "de",
+    "birthDate": "1982-04-22",
+    "canton": "Aargau",
+    "cantonCode": "AG",
+    "region": "nordwestschweiz",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/benjamin-giezendanner.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Benjamin_Giezendanner_(2019).jpg",
+     "author": "Parliamentary Services",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p66",
+    "name": "Andreas Glarner",
+    "gender": "male",
+    "party": "SVP",
+    "language": "de",
+    "birthDate": "1962-10-09",
+    "canton": "Aargau",
+    "cantonCode": "AG",
+    "region": "nordwestschweiz",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": "2026-12-31",
+    "portrait": {
+     "image": "img/parliament/andreas-glarner.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Andreas_Glarner_2019.jpg",
+     "author": "Services du parlement",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p67",
+    "name": "Christian Glur",
+    "gender": "male",
+    "party": "SVP",
+    "language": "de",
+    "birthDate": "1975-10-21",
+    "canton": "Aargau",
+    "cantonCode": "AG",
+    "region": "nordwestschweiz",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/christian-glur.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Christian_Glur_(2024).jpg",
+     "author": "Parliamentary Services",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p68",
+    "name": "Nadine Gobet",
+    "gender": "female",
+    "party": "FDP",
+    "language": "fr",
+    "birthDate": "1969-11-18",
+    "canton": "Freiburg",
+    "cantonCode": "FR",
+    "region": "mittelland",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/nadine-gobet.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Nadine_Gobet_portrait.jpg",
+     "author": "Parliamentary Services",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p69",
+    "name": "Roger Golay",
+    "gender": "male",
+    "party": "MCG (MCR)",
+    "language": "fr",
+    "birthDate": "1959-09-23",
+    "canton": "Genf",
+    "cantonCode": "GE",
+    "region": "genfersee",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/roger-golay.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Portrait_de_Roger_Golay.jpg",
+     "author": null,
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p70",
+    "name": "Michael Graber",
+    "gender": "male",
+    "party": "SVP",
+    "language": "fr",
+    "birthDate": "1981-06-03",
+    "canton": "Wallis",
+    "cantonCode": "VS",
+    "region": "genfersee",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/michael-graber.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Michael_Graber_(2021,_parl.ch).jpg",
+     "author": "Services du Parlement",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p71",
+    "name": "Corina Gredig",
+    "gender": "female",
+    "party": "GLP",
+    "language": "de",
+    "birthDate": "1987-09-08",
+    "canton": "Zürich",
+    "cantonCode": "ZH",
+    "region": "zuerich",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/corina-gredig.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Corina_Gredig.jpg",
+     "author": "Services du parlement",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p72",
+    "name": "Jürg Grossen",
+    "gender": "male",
+    "party": "GLP",
+    "language": "de",
+    "birthDate": "1969-08-24",
+    "canton": "Bern",
+    "cantonCode": "BE",
+    "region": "mittelland",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/jurg-grossen.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:J%C3%BCrg_Grossen_2019.jpg",
+     "author": "Services du parlement",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p73",
+    "name": "Franz Grüter",
+    "gender": "male",
+    "party": "SVP",
+    "language": "de",
+    "birthDate": "1963-07-29",
+    "canton": "Luzern",
+    "cantonCode": "LU",
+    "region": "zentralschweiz",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/franz-gruter.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Franz_Gr%C3%BCter_(2023).jpg",
+     "author": "Parliamentary Services",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p74",
+    "name": "Niklaus-Samuel Gugger",
+    "gender": "male",
+    "party": "EVP",
+    "language": "de",
+    "birthDate": "1970-05-01",
+    "canton": "Zürich",
+    "cantonCode": "ZH",
+    "region": "zuerich",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/niklaus-samuel-gugger.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Nik_Gugger_(2021).jpg",
+     "author": "Parliamentary Services",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p75",
+    "name": "Lars Guggisberg",
+    "gender": "male",
+    "party": "SVP",
+    "language": "de",
+    "birthDate": "1977-07-19",
+    "canton": "Bern",
+    "cantonCode": "BE",
+    "region": "mittelland",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/lars-guggisberg.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Lars_Guggisberg.jpg",
+     "author": "Services du parlement",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p76",
+    "name": "Diana Gutjahr",
+    "gender": "female",
+    "party": "SVP",
+    "language": "de",
+    "birthDate": "1984-01-13",
+    "canton": "Thurgau",
+    "cantonCode": "TG",
+    "region": "ostschweiz",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/diana-gutjahr.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Diane_Gutjhar.jpg",
+     "author": "Services du parlement",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p77",
+    "name": "Barbara Gysi",
+    "gender": "female",
+    "party": "SP",
+    "language": "de",
+    "birthDate": "1964-05-14",
+    "canton": "St. Gallen",
+    "cantonCode": "SG",
+    "region": "ostschweiz",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/barbara-gysi.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Barbara_Gysi.jpg",
+     "author": "Services du parlement",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p78",
+    "name": "Greta Gysin",
+    "gender": "female",
+    "party": "GRÜNE",
+    "language": "it",
+    "birthDate": "1983-10-06",
+    "canton": "Tessin",
+    "cantonCode": "TI",
+    "region": "tessin",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/greta-gysin.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Greta_Gysin.jpg",
+     "author": null,
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p79",
+    "name": "Michael Götte",
+    "gender": "male",
+    "party": "SVP",
+    "language": "de",
+    "birthDate": "1979-06-16",
+    "canton": "St. Gallen",
+    "cantonCode": "SG",
+    "region": "ostschweiz",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/michael-gotte.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Michael_G%C3%B6tte_(2023_2).jpg",
+     "author": "Parliamentary Services",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p80",
+    "name": "Martin Haab",
+    "gender": "male",
+    "party": "SVP",
+    "language": "de",
+    "birthDate": "1962-05-03",
+    "canton": "Zürich",
+    "cantonCode": "ZH",
+    "region": "zuerich",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/martin-haab.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Martin_Haab.jpg",
+     "author": "Services du parlement",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p81",
+    "name": "Stefanie Heimgartner",
+    "gender": "female",
+    "party": "SVP",
+    "language": "de",
+    "birthDate": "1987-04-25",
+    "canton": "Aargau",
+    "cantonCode": "AG",
+    "region": "nordwestschweiz",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/stefanie-heimgartner.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Stefanie_Heimgartner.jpg",
+     "author": "Services du parlement",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p82",
+    "name": "Erich Hess",
+    "gender": "male",
+    "party": "SVP",
+    "language": "de",
+    "birthDate": "1981-03-25",
+    "canton": "Bern",
+    "cantonCode": "BE",
+    "region": "mittelland",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/erich-hess.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Erich_Hess_(2023).jpg",
+     "author": "Parliamentary Services",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p83",
+    "name": "Lorenz Hess",
+    "gender": "male",
+    "party": "Mitte",
+    "language": "de",
+    "birthDate": "1961-06-28",
+    "canton": "Bern",
+    "cantonCode": "BE",
+    "region": "mittelland",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/lorenz-hess.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Lorenz_Hess_(2023).jpg",
+     "author": "Parliamentary Services",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p84",
+    "name": "Alois Huber",
+    "gender": "male",
+    "party": "SVP",
+    "language": "de",
+    "birthDate": "1962-11-21",
+    "canton": "Aargau",
+    "cantonCode": "AG",
+    "region": "nordwestschweiz",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/alois-huber.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Alois_Huber_(2023).jpg",
+     "author": "Parliamentary Services",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p85",
+    "name": "Roman Hug",
+    "gender": "male",
+    "party": "SVP",
+    "language": "de",
+    "birthDate": "1980-12-07",
+    "canton": "Graubünden",
+    "cantonCode": "GR",
+    "region": "ostschweiz",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/roman-hug.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Roman_Hug_portrait.jpg",
+     "author": "Parliamentary Services",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p86",
+    "name": "Thomas Hurter",
+    "gender": "male",
+    "party": "SVP",
+    "language": "de",
+    "birthDate": "1963-11-01",
+    "canton": "Schaffhausen",
+    "cantonCode": "SH",
+    "region": "ostschweiz",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/thomas-hurter.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Thomas_Hurter_(2023).jpg",
+     "author": "Parliamentary Services",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p87",
+    "name": "Patrick Hässig",
+    "gender": "male",
+    "party": "GLP",
+    "language": "de",
+    "birthDate": "1979-02-01",
+    "canton": "Zürich",
+    "cantonCode": "ZH",
+    "region": "zuerich",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/patrick-hassig.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Patrick_H%C3%A4ssig_(2023)_(cropped).jpg",
+     "author": "Assemblea Federale Svizzera",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p88",
+    "name": "Martin Hübscher",
+    "gender": "male",
+    "party": "SVP",
+    "language": "de",
+    "birthDate": "1969-03-15",
+    "canton": "Zürich",
+    "cantonCode": "ZH",
+    "region": "zuerich",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/martin-hubscher.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Martin_H%C3%BCbscher.jpg",
+     "author": "Assemblea Federale Svizzera",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p89",
+    "name": "Christian Imark",
+    "gender": "male",
+    "party": "SVP",
+    "language": "de",
+    "birthDate": "1982-01-29",
+    "canton": "Solothurn",
+    "cantonCode": "SO",
+    "region": "mittelland",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/christian-imark.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Christian_Imark.jpg",
+     "author": "Services du parlement",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p90",
+    "name": "Jessica Jaccoud",
+    "gender": "female",
+    "party": "SP",
+    "language": "fr",
+    "birthDate": "1983-08-16",
+    "canton": "Waadt",
+    "cantonCode": "VD",
+    "region": "genfersee",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/jessica-jaccoud.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Jessica_Jaccoud.jpg",
+     "author": "Parliamentary Services",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p91",
+    "name": "Matthias Samuel Jauslin",
+    "gender": "male",
+    "party": "FDP",
+    "language": "de",
+    "birthDate": "1962-04-20",
+    "canton": "Aargau",
+    "cantonCode": "AG",
+    "region": "nordwestschweiz",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/matthias-samuel-jauslin.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Matthias_Jauslin_(2023).jpg",
+     "author": "Parliamentary Services",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p92",
+    "name": "Marc Jost",
+    "gender": "male",
+    "party": "EVP",
+    "language": "de",
+    "birthDate": "1974-02-06",
+    "canton": "Bern",
+    "cantonCode": "BE",
+    "region": "mittelland",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/marc-jost.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Marc_Jost_(2023).jpg",
+     "author": "Parliamentary Services",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p93",
+    "name": "Sidney Kamerzin",
+    "gender": "male",
+    "party": "Mitte",
+    "language": "fr",
+    "birthDate": "1975-03-19",
+    "canton": "Wallis",
+    "cantonCode": "VS",
+    "region": "genfersee",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/sidney-kamerzin.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Sidney_Kamerzin_(2019).jpg",
+     "author": "Services du Parlement",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p94",
+    "name": "Pius Kaufmann",
+    "gender": "male",
+    "party": "Mitte",
+    "language": "de",
+    "birthDate": "1971-01-24",
+    "canton": "Luzern",
+    "cantonCode": "LU",
+    "region": "zentralschweiz",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/pius-kaufmann.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Pius_Kaufmann_portrait.jpg",
+     "author": "Parliamentary Services",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p95",
+    "name": "Delphine Klopfenstein Broggini",
+    "gender": "female",
+    "party": "GRÜNE",
+    "language": "fr",
+    "birthDate": "1976-06-09",
+    "canton": "Genf",
+    "cantonCode": "GE",
+    "region": "genfersee",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/delphine-klopfenstein-broggini.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Delphine_Klopfenstein_Broggini_(2023).jpg",
+     "author": "Parliamentary Services",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p96",
+    "name": "Thomas Knutti",
+    "gender": "male",
+    "party": "SVP",
+    "language": "de",
+    "birthDate": "1973-03-15",
+    "canton": "Bern",
+    "cantonCode": "BE",
+    "region": "mittelland",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/thomas-knutti.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Thomas_Knutti_%C3%A0_la_tribune_CN.jpg",
+     "author": "Parliamentary Services",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p97",
+    "name": "Nicolas Kolly",
+    "gender": "male",
+    "party": "SVP",
+    "language": "fr",
+    "birthDate": "1986-03-13",
+    "canton": "Freiburg",
+    "cantonCode": "FR",
+    "region": "mittelland",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/nicolas-kolly.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Nicolas_Kolly_(2023).jpg",
+     "author": "Parliamentary Services",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p98",
+    "name": "Philipp Kutter",
+    "gender": "male",
+    "party": "Mitte",
+    "language": "de",
+    "birthDate": "1975-08-31",
+    "canton": "Zürich",
+    "cantonCode": "ZH",
+    "region": "zuerich",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/philipp-kutter.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Philipp_Kutter_2019.jpg",
+     "author": "Services du parlement",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p99",
+    "name": "Irène Kälin",
+    "gender": "female",
+    "party": "GRÜNE",
+    "language": "de",
+    "birthDate": "1987-02-06",
+    "canton": "Aargau",
+    "cantonCode": "AG",
+    "region": "nordwestschweiz",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/irene-kalin.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Ir%C3%A8ne_K%C3%A4lin_(2019).jpg",
+     "author": "Services du Parlement",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p100",
+    "name": "Miriam Locher",
+    "gender": "female",
+    "party": "SP",
+    "language": "de",
+    "birthDate": "1982-07-06",
+    "canton": "Basel-Landschaft",
+    "cantonCode": "BL",
+    "region": "nordwestschweiz",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/miriam-locher.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Miriam_Locher.jpg",
+     "author": "Parliamentary Services",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p101",
+    "name": "Christian Lohr",
+    "gender": "male",
+    "party": "Mitte",
+    "language": "de",
+    "birthDate": "1962-04-05",
+    "canton": "Thurgau",
+    "cantonCode": "TG",
+    "region": "ostschweiz",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/christian-lohr.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Christian_Lohr_(2019).jpg",
+     "author": "Services du Parlement",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p102",
+    "name": "Raphaël Mahaim",
+    "gender": "male",
+    "party": "GRÜNE",
+    "language": "fr",
+    "birthDate": "1983-12-31",
+    "canton": "Waadt",
+    "cantonCode": "VD",
+    "region": "genfersee",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/raphael-mahaim.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Rapha%C3%ABl_Mahaim_(2023).jpg",
+     "author": "Parliamentary Services",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p103",
+    "name": "Vincent Maitre",
+    "gender": "male",
+    "party": "Mitte",
+    "language": "fr",
+    "birthDate": "1981-01-12",
+    "canton": "Genf",
+    "cantonCode": "GE",
+    "region": "genfersee",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/vincent-maitre.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Vincent_Maitre_(2019).jpg",
+     "author": "Services du Parlement",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p104",
+    "name": "Min Li Marti",
+    "gender": "female",
+    "party": "SP",
+    "language": "de",
+    "birthDate": "1974-06-01",
+    "canton": "Zürich",
+    "cantonCode": "ZH",
+    "region": "zuerich",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/min-li-marti.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Min_Li_Marti_(2023).jpg",
+     "author": "Parliamentary Services",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p105",
+    "name": "Samira Marti",
+    "gender": "female",
+    "party": "SP",
+    "language": "de",
+    "birthDate": "1994-01-23",
+    "canton": "Basel-Landschaft",
+    "cantonCode": "BL",
+    "region": "nordwestschweiz",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/samira-marti.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Samira_Marti_(2023).jpg",
+     "author": "Parliamentary Services",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p106",
+    "name": "Magdalena Martullo-Blocher",
+    "gender": "female",
+    "party": "SVP",
+    "language": "de",
+    "birthDate": "1969-08-13",
+    "canton": "Graubünden",
+    "cantonCode": "GR",
+    "region": "ostschweiz",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/magdalena-martullo-blocher.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Magdalena_Martullo-Blocher_(2023).jpg",
+     "author": "Parliamentary Services",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p107",
+    "name": "Nadine Masshardt",
+    "gender": "female",
+    "party": "SP",
+    "language": "de",
+    "birthDate": "1984-10-04",
+    "canton": "Bern",
+    "cantonCode": "BE",
+    "region": "mittelland",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/nadine-masshardt.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Nadine_Masshardt_2019.jpg",
+     "author": "Services du parlement",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p108",
+    "name": "Thomas Matter",
+    "gender": "male",
+    "party": "SVP",
+    "language": "de",
+    "birthDate": "1966-03-23",
+    "canton": "Zürich",
+    "cantonCode": "ZH",
+    "region": "zuerich",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/thomas-matter.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Thomas_Matter.jpg",
+     "author": "Services du parlement",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p109",
+    "name": "Andreas Meier",
+    "gender": "male",
+    "party": "Mitte",
+    "language": "de",
+    "birthDate": "1962-02-11",
+    "canton": "Aargau",
+    "cantonCode": "AG",
+    "region": "nordwestschweiz",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/andreas-meier.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Andreas_Meier,_2023.jpg",
+     "author": "Services du Parlement",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p110",
+    "name": "Mattea Meyer",
+    "gender": "female",
+    "party": "SP",
+    "language": "de",
+    "birthDate": "1987-11-09",
+    "canton": "Zürich",
+    "cantonCode": "ZH",
+    "region": "zuerich",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/mattea-meyer.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Mattea_Meyer_(2023).jpg",
+     "author": "Assemblea Federale Svizzera",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p111",
+    "name": "Sophie Michaud Gigon",
+    "gender": "female",
+    "party": "GRÜNE",
+    "language": "fr",
+    "birthDate": "1975-01-20",
+    "canton": "Waadt",
+    "cantonCode": "VD",
+    "region": "genfersee",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/sophie-michaud-gigon.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Sophie_Michaud_Gigon_(2019).jpg",
+     "author": "Services du Parlement",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p112",
+    "name": "Simon Michel",
+    "gender": "male",
+    "party": "FDP",
+    "language": "de",
+    "birthDate": "1977-01-19",
+    "canton": "Solothurn",
+    "cantonCode": "SO",
+    "region": "mittelland",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/simon-michel.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Simon_Michel_(2023).jpg",
+     "author": "Parliamentary Services",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p113",
+    "name": "Fabian Molina",
+    "gender": "male",
+    "party": "SP",
+    "language": "de",
+    "birthDate": "1990-07-08",
+    "canton": "Zürich",
+    "cantonCode": "ZH",
+    "region": "zuerich",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/fabian-molina.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Fabian_Molina_(2023).jpg",
+     "author": "Parliamentary Services / STF, ALESSANDRO DELLA VALLE",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p114",
+    "name": "Leo Müller",
+    "gender": "male",
+    "party": "Mitte",
+    "language": "de",
+    "birthDate": "1958-07-04",
+    "canton": "Luzern",
+    "cantonCode": "LU",
+    "region": "zentralschweiz",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/leo-muller.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Leo_M%C3%BCller_(2021).jpg",
+     "author": "Parliamentary Services",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p115",
+    "name": "Stefan Müller-Altermatt",
+    "gender": "male",
+    "party": "Mitte",
+    "language": "de",
+    "birthDate": "1976-06-17",
+    "canton": "Solothurn",
+    "cantonCode": "SO",
+    "region": "mittelland",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/stefan-muller-altermatt.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Stefan_M%C3%BCller-Altermatt_(2019).jpg",
+     "author": "Services du Parlement",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p116",
+    "name": "Philippe Nantermod",
+    "gender": "male",
+    "party": "FDP",
+    "language": "fr",
+    "birthDate": "1984-03-27",
+    "canton": "Wallis",
+    "cantonCode": "VS",
+    "region": "genfersee",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/philippe-nantermod.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Philippe_Nantermod_2_(2019).jpg",
+     "author": "Services du Parlement",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p117",
+    "name": "Reto Nause",
+    "gender": "male",
+    "party": "Mitte",
+    "language": "de",
+    "birthDate": "1971-06-17",
+    "canton": "Bern",
+    "cantonCode": "BE",
+    "region": "mittelland",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/reto-nause.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Reto_Nause_(2023).jpg",
+     "author": "Parliamentary Services",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p118",
+    "name": "Jacques Nicolet",
+    "gender": "male",
+    "party": "SVP",
+    "language": "fr",
+    "birthDate": "1965-10-24",
+    "canton": "Waadt",
+    "cantonCode": "VD",
+    "region": "genfersee",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/jacques-nicolet.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Jacques_Nicolet,_2023.jpg",
+     "author": "Parliamentary Services",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p119",
+    "name": "Nicolò Paganini",
+    "gender": "male",
+    "party": "Mitte",
+    "language": "de",
+    "birthDate": "1966-06-08",
+    "canton": "St. Gallen",
+    "cantonCode": "SG",
+    "region": "ostschweiz",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/nicolo-paganini.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Nicolo_Paganini_(2019).jpg",
+     "author": "Services du Parlement",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p120",
+    "name": "Pierre-André Page",
+    "gender": "male",
+    "party": "SVP",
+    "language": "fr",
+    "birthDate": "1960-04-19",
+    "canton": "Freiburg",
+    "cantonCode": "FR",
+    "region": "mittelland",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/pierre-andre-page.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Pierre-Andr%C3%A9_Page_(2023).jpg",
+     "author": "Parliamentary Services",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p121",
+    "name": "Yvan Pahud",
+    "gender": "male",
+    "party": "SVP",
+    "language": "fr",
+    "birthDate": "1980-03-09",
+    "canton": "Waadt",
+    "cantonCode": "VD",
+    "region": "genfersee",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/yvan-pahud.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Yvan_Pahud_(parl.ch,_cropped).jpg",
+     "author": "Parliamentary Services",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p122",
+    "name": "Paolo Pamini",
+    "gender": "male",
+    "party": "SVP",
+    "language": "it",
+    "birthDate": "1977-10-03",
+    "canton": "Tessin",
+    "cantonCode": "TI",
+    "region": "tessin",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/paolo-pamini.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Paolo_Pamini_(parl.ch).jpg",
+     "author": "Parliamentary Services",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p123",
+    "name": "Gerhard Pfister",
+    "gender": "male",
+    "party": "Mitte",
+    "language": "de",
+    "birthDate": "1962-10-01",
+    "canton": "Zug",
+    "cantonCode": "ZG",
+    "region": "zentralschweiz",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/gerhard-pfister.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Gerhard_Pfister_2019.jpg",
+     "author": "Parliamentary Services",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p124",
+    "name": "Valérie Piller Carrard",
+    "gender": "female",
+    "party": "SP",
+    "language": "fr",
+    "birthDate": "1978-09-09",
+    "canton": "Freiburg",
+    "cantonCode": "FR",
+    "region": "mittelland",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/valerie-piller-carrard.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Val%C3%A9rie_Piller_Carrard_(2019).jpg",
+     "author": "Services du Parlement",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p125",
+    "name": "Léonore Porchet",
+    "gender": "female",
+    "party": "GRÜNE",
+    "language": "fr",
+    "birthDate": "1989-07-09",
+    "canton": "Waadt",
+    "cantonCode": "VD",
+    "region": "genfersee",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/leonore-porchet.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:L%C3%A9onore_Porchet_(2023).jpg",
+     "author": "Parliamentary Services",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p126",
+    "name": "Barbara Portmann",
+    "gender": "female",
+    "party": "GLP",
+    "language": "de",
+    "birthDate": "1975-01-02",
+    "canton": "Aargau",
+    "cantonCode": "AG",
+    "region": "nordwestschweiz",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/barbara-portmann.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Barbara_Portmann_(parl.ch).jpg",
+     "author": "Parliamentary Services",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p127",
+    "name": "Hans-Peter Portmann",
+    "gender": "male",
+    "party": "FDP",
+    "language": "de",
+    "birthDate": "1963-02-22",
+    "canton": "Zürich",
+    "cantonCode": "ZH",
+    "region": "zuerich",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/hans-peter-portmann.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Hans-Peter_Portmann_(2019).jpg",
+     "author": "Services du Parlement",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p128",
+    "name": "Katharina Prelicz-Huber",
+    "gender": "female",
+    "party": "GRÜNE",
+    "language": "de",
+    "birthDate": "1959-10-12",
+    "canton": "Zürich",
+    "cantonCode": "ZH",
+    "region": "zuerich",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/katharina-prelicz-huber.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Katharina_Prelicz_(2020).jpg",
+     "author": "Parlament",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p129",
+    "name": "Jon Pult",
+    "gender": "male",
+    "party": "SP",
+    "language": "de",
+    "birthDate": "1984-10-12",
+    "canton": "Graubünden",
+    "cantonCode": "GR",
+    "region": "ostschweiz",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/jon-pult.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Jon_Pult_(2019).jpg",
+     "author": "Services du Parlement",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p130",
+    "name": "Lorenzo Quadri",
+    "gender": "male",
+    "party": "Lega",
+    "language": "it",
+    "birthDate": "1974-11-05",
+    "canton": "Tessin",
+    "cantonCode": "TI",
+    "region": "tessin",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/lorenzo-quadri.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Lorenzo_Quadri_(2019).jpg",
+     "author": "Parliamentary Services",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p131",
+    "name": "Thomas Rechsteiner",
+    "gender": "male",
+    "party": "Mitte",
+    "language": "de",
+    "birthDate": "1971-11-14",
+    "canton": "Appenzell Innerrhoden",
+    "cantonCode": "AI",
+    "region": "ostschweiz",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/thomas-rechsteiner.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Thomas_Rechsteiner_(2019).jpg",
+     "author": "Services du Parlement",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p132",
+    "name": "Lukas Reimann",
+    "gender": "male",
+    "party": "SVP",
+    "language": "de",
+    "birthDate": "1982-09-18",
+    "canton": "St. Gallen",
+    "cantonCode": "SG",
+    "region": "ostschweiz",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": "2026-12-31",
+    "portrait": {
+     "image": "img/parliament/lukas-reimann.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Lukas_Reimann_(2023).jpg",
+     "author": "Parliamentary Services",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p133",
+    "name": "Estelle Revaz",
+    "gender": "female",
+    "party": "SP",
+    "language": "fr",
+    "birthDate": "1989-07-12",
+    "canton": "Genf",
+    "cantonCode": "GE",
+    "region": "genfersee",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/estelle-revaz.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Estelle_Revaz.jpg",
+     "author": "Parliamentary Services",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p134",
+    "name": "Katja Riem",
+    "gender": "female",
+    "party": "SVP",
+    "language": "de",
+    "birthDate": "1996-12-26",
+    "canton": "Bern",
+    "cantonCode": "BE",
+    "region": "mittelland",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/katja-riem.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Katja_Riem_portrait.jpg",
+     "author": "Parliamentary Services",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p135",
+    "name": "Christoph Riner",
+    "gender": "male",
+    "party": "SVP",
+    "language": "de",
+    "birthDate": "1977-06-12",
+    "canton": "Aargau",
+    "cantonCode": "AG",
+    "region": "nordwestschweiz",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/christoph-riner.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Christoph_Riner_portrait_(cropped).jpg",
+     "author": "Parliamentary Services",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p136",
+    "name": "Maja Riniker",
+    "gender": "female",
+    "party": "FDP",
+    "language": "de",
+    "birthDate": "1978-05-23",
+    "canton": "Aargau",
+    "cantonCode": "AG",
+    "region": "nordwestschweiz",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": "2026-12-03",
+    "portrait": {
+     "image": "img/parliament/maja-riniker.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Maja_Riniker_(2023).jpg",
+     "author": "Parliamentary Services",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p137",
+    "name": "Markus Ritter",
+    "gender": "male",
+    "party": "Mitte",
+    "language": "de",
+    "birthDate": "1967-04-19",
+    "canton": "St. Gallen",
+    "cantonCode": "SG",
+    "region": "ostschweiz",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/markus-ritter.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Markus_Ritter_(2023).jpg",
+     "author": "Parliamentary Services",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p138",
+    "name": "Benjamin Roduit",
+    "gender": "male",
+    "party": "Mitte",
+    "language": "fr",
+    "birthDate": "1962-11-22",
+    "canton": "Wallis",
+    "cantonCode": "VS",
+    "region": "genfersee",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/benjamin-roduit.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Benjamin_Roduit_(2019).jpg",
+     "author": "Services du Parlement",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p139",
+    "name": "Anna Rosenwasser",
+    "gender": "female",
+    "party": "SP",
+    "language": "de",
+    "birthDate": "1990-05-01",
+    "canton": "Zürich",
+    "cantonCode": "ZH",
+    "region": "zuerich",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/anna-rosenwasser.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Anna_Rosenwasser_(2023).jpg",
+     "author": "Parliamentary Services",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p140",
+    "name": "David Roth",
+    "gender": "male",
+    "party": "SP",
+    "language": "de",
+    "birthDate": "1985-05-19",
+    "canton": "Luzern",
+    "cantonCode": "LU",
+    "region": "zentralschweiz",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/david-roth.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:DavidRoth_2023.jpg",
+     "author": "Services du Parlement",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p141",
+    "name": "Marie-France Roth Pasquier",
+    "gender": "female",
+    "party": "Mitte",
+    "language": "fr",
+    "birthDate": "1968-04-25",
+    "canton": "Freiburg",
+    "cantonCode": "FR",
+    "region": "mittelland",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/marie-france-roth-pasquier.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Marie-France_Roth_Pasquier_(2023).jpg",
+     "author": "Parliamentary Services",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p142",
+    "name": "Daniel Ruch",
+    "gender": "male",
+    "party": "FDP",
+    "language": "fr",
+    "birthDate": "1963-03-20",
+    "canton": "Waadt",
+    "cantonCode": "VD",
+    "region": "genfersee",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/daniel-ruch.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Daniel_Ruch_(2022).jpg",
+     "author": "Services du Parlement",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p143",
+    "name": "Farah Rumy",
+    "gender": "female",
+    "party": "SP",
+    "language": "de",
+    "birthDate": "1991-12-28",
+    "canton": "Solothurn",
+    "cantonCode": "SO",
+    "region": "mittelland",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/farah-rumy.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Farah_Rumy_(2023).jpg",
+     "author": "Parliamentary Services",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p144",
+    "name": "Gregor Rutz",
+    "gender": "male",
+    "party": "SVP",
+    "language": "de",
+    "birthDate": "1972-10-12",
+    "canton": "Zürich",
+    "cantonCode": "ZH",
+    "region": "zuerich",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/gregor-rutz.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Gregor_Rutz_2012.jpg",
+     "author": "Services du parlement",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p145",
+    "name": "Franziska Ryser",
+    "gender": "female",
+    "party": "GRÜNE",
+    "language": "de",
+    "birthDate": "1991-10-22",
+    "canton": "St. Gallen",
+    "cantonCode": "SG",
+    "region": "ostschweiz",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null
+   },
+   {
+    "id": "p146",
+    "name": "Monika Rüegger",
+    "gender": "female",
+    "party": "SVP",
+    "language": "de",
+    "birthDate": "1968-03-25",
+    "canton": "Obwalden",
+    "cantonCode": "OW",
+    "region": "zentralschweiz",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/monika-ruegger.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Monika_R%C3%BCegger-Hurschler.jpg",
+     "author": "Services du parlement",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p147",
+    "name": "Hans Jörg Rüegsegger",
+    "gender": "male",
+    "party": "SVP",
+    "language": "de",
+    "birthDate": "1970-08-02",
+    "canton": "Bern",
+    "cantonCode": "BE",
+    "region": "mittelland",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/hans-jorg-ruegsegger.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Hans_J%C3%B6rg_R%C3%BCegsegger_(2023).jpg",
+     "author": "Parliamentary Services",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p148",
+    "name": "Regine Sauter",
+    "gender": "female",
+    "party": "FDP",
+    "language": "de",
+    "birthDate": "1966-04-16",
+    "canton": "Zürich",
+    "cantonCode": "ZH",
+    "region": "zuerich",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/regine-sauter.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Regine_Sauter_(2019).jpg",
+     "author": "Services du Parlement",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p149",
+    "name": "Barbara Schaffner",
+    "gender": "female",
+    "party": "GLP",
+    "language": "de",
+    "birthDate": "1968-07-28",
+    "canton": "Zürich",
+    "cantonCode": "ZH",
+    "region": "zuerich",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/barbara-schaffner.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Barbara_Schaffner_(2019).jpg",
+     "author": "Services du Parlement",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p150",
+    "name": "Peter Schilliger",
+    "gender": "male",
+    "party": "FDP",
+    "language": "de",
+    "birthDate": "1959-06-01",
+    "canton": "Luzern",
+    "cantonCode": "LU",
+    "region": "zentralschweiz",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/peter-schilliger.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Peter_Schilliger_(2023).jpg",
+     "author": "Parliamentary Services",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p151",
+    "name": "Marionna Schlatter",
+    "gender": "female",
+    "party": "GRÜNE",
+    "language": "de",
+    "birthDate": "1980-11-14",
+    "canton": "Zürich",
+    "cantonCode": "ZH",
+    "region": "zuerich",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/marionna-schlatter.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Marionna_Schlatter_(2019).jpg",
+     "author": "Services du Parlement",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p152",
+    "name": "Nina Schläfli",
+    "gender": "female",
+    "party": "SP",
+    "language": "de",
+    "birthDate": "1990-01-01",
+    "canton": "Thurgau",
+    "cantonCode": "TG",
+    "region": "ostschweiz",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/nina-schlafli.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Nina_Schl%C3%A4fli.jpg",
+     "author": "Parliamentary Services",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p153",
+    "name": "Therese Schläpfer",
+    "gender": "female",
+    "party": "SVP",
+    "language": "de",
+    "birthDate": "1959-04-14",
+    "canton": "Zürich",
+    "cantonCode": "ZH",
+    "region": "zuerich",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/therese-schlapfer.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Therese_Schl%C3%A4pfer_(2023).jpg",
+     "author": "Parliamentary Services",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p154",
+    "name": "Anna-Béatrice Schmaltz",
+    "gender": "female",
+    "party": "GRÜNE",
+    "language": "de",
+    "birthDate": "1992-07-17",
+    "canton": "Zürich",
+    "cantonCode": "ZH",
+    "region": "zuerich",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/anna-beatrice-schmaltz.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Anna-B%C3%A9atrice_Schmaltz_(2026).jpg",
+     "author": "Parliamentary Services",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p155",
+    "name": "Ueli Schmezer",
+    "gender": "male",
+    "party": "SP",
+    "language": "de",
+    "birthDate": "1961-07-22",
+    "canton": "Bern",
+    "cantonCode": "BE",
+    "region": "mittelland",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/ueli-schmezer.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Ueli_Schmezer_(parl.ch).jpg",
+     "author": "Parliamentary Services",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p156",
+    "name": "Pascal Schmid",
+    "gender": "male",
+    "party": "SVP",
+    "language": "de",
+    "birthDate": "1976-09-22",
+    "canton": "Thurgau",
+    "cantonCode": "TG",
+    "region": "ostschweiz",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/pascal-schmid.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Pascal_Schmid_(2023).jpg",
+     "author": "Parliamentary Services",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p157",
+    "name": "Daniela Schneeberger",
+    "gender": "female",
+    "party": "FDP",
+    "language": "de",
+    "birthDate": "1967-09-19",
+    "canton": "Basel-Landschaft",
+    "cantonCode": "BL",
+    "region": "nordwestschweiz",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/daniela-schneeberger.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Daniela_Schneeberger_(2019).jpg",
+     "author": "Services du Parlement",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p158",
+    "name": "Meret Schneider",
+    "gender": "female",
+    "party": "GRÜNE",
+    "language": "de",
+    "birthDate": "1992-08-22",
+    "canton": "Zürich",
+    "cantonCode": "ZH",
+    "region": "zuerich",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/meret-schneider.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Meret_Schneider_(2019).jpg",
+     "author": "Services du Parlement",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p159",
+    "name": "Elisabeth Schneider-Schneiter",
+    "gender": "female",
+    "party": "Mitte",
+    "language": "de",
+    "birthDate": "1964-02-19",
+    "canton": "Basel-Landschaft",
+    "cantonCode": "BL",
+    "region": "nordwestschweiz",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/elisabeth-schneider-schneiter.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Elisabeth_Schneider-Schneiter_2020.jpg",
+     "author": "Services du parlement",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p160",
+    "name": "Markus Schnyder",
+    "gender": "male",
+    "party": "SVP",
+    "language": "de",
+    "birthDate": "1988-12-04",
+    "canton": "Glarus",
+    "cantonCode": "GL",
+    "region": "ostschweiz",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/markus-schnyder.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Markus_Schnyder_(2023).jpg",
+     "author": "Parliamentary Services",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p161",
+    "name": "Priska Seiler Graf",
+    "gender": "female",
+    "party": "SP",
+    "language": "de",
+    "birthDate": "1968-08-29",
+    "canton": "Zürich",
+    "cantonCode": "ZH",
+    "region": "zuerich",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/priska-seiler-graf.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Priska_Seiler_Graf_(2019).jpg",
+     "author": "Parliamentary Services",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p162",
+    "name": "Andri Silberschmidt",
+    "gender": "male",
+    "party": "FDP",
+    "language": "de",
+    "birthDate": "1994-02-26",
+    "canton": "Zürich",
+    "cantonCode": "ZH",
+    "region": "zuerich",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/andri-silberschmidt.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Andri_Silberschmidt_(2023).jpg",
+     "author": "Parliamentary Services",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p163",
+    "name": "Roberta Soldati",
+    "gender": "female",
+    "party": "SVP",
+    "language": "it",
+    "birthDate": "1969-09-10",
+    "canton": "Tessin",
+    "cantonCode": "TI",
+    "region": "tessin",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null
+   },
+   {
+    "id": "p164",
+    "name": "Sandra Sollberger",
+    "gender": "female",
+    "party": "SVP",
+    "language": "de",
+    "birthDate": "1973-10-27",
+    "canton": "Basel-Landschaft",
+    "cantonCode": "BL",
+    "region": "nordwestschweiz",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/sandra-sollberger.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Sandra_Sollberger_2018.jpg",
+     "author": "Sollberger Simeon",
+     "license": "CC BY-SA 4.0",
+     "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+    }
+   },
+   {
+    "id": "p165",
+    "name": "Daniel Sormanni",
+    "gender": "male",
+    "party": "MCG (MCR)",
+    "language": "fr",
+    "birthDate": "1950-04-15",
+    "canton": "Genf",
+    "cantonCode": "GE",
+    "region": "genfersee",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/daniel-sormanni.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Daniel_Sormanni.jpg",
+     "author": "Parliamentary Services",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p166",
+    "name": "Simon Stadler",
+    "gender": "male",
+    "party": "Mitte",
+    "language": "de",
+    "birthDate": "1988-05-02",
+    "canton": "Uri",
+    "cantonCode": "UR",
+    "region": "zentralschweiz",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/simon-stadler.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Simon_Stadler.jpg",
+     "author": "Parliamentary Services",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p167",
+    "name": "Barbara Steinemann",
+    "gender": "female",
+    "party": "SVP",
+    "language": "de",
+    "birthDate": "1976-06-18",
+    "canton": "Zürich",
+    "cantonCode": "ZH",
+    "region": "zuerich",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/barbara-steinemann.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Barbara_Steinemann_(2019,_cropped).jpg",
+     "author": "Services du Parlement",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p168",
+    "name": "Thomas Stettler",
+    "gender": "male",
+    "party": "SVP",
+    "language": "fr",
+    "birthDate": "1969-10-28",
+    "canton": "Jura",
+    "cantonCode": "JU",
+    "region": "mittelland",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/thomas-stettler.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Thomas_Stettler_portrait_(cropped).jpg",
+     "author": "Parliamentary Services",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p169",
+    "name": "Bruno Storni",
+    "gender": "male",
+    "party": "SP",
+    "language": "it",
+    "birthDate": "1954-08-17",
+    "canton": "Tessin",
+    "cantonCode": "TI",
+    "region": "tessin",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/bruno-storni.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Bruno_Storni_(2019).jpg",
+     "author": "Parliamentary Services",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p170",
+    "name": "Manuel Strupler",
+    "gender": "male",
+    "party": "SVP",
+    "language": "de",
+    "birthDate": "1980-04-12",
+    "canton": "Thurgau",
+    "cantonCode": "TG",
+    "region": "ostschweiz",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/manuel-strupler.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Manuel_Strupler.jpg",
+     "author": "Services du parlement",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p171",
+    "name": "Fabienne Stämpfli",
+    "gender": "female",
+    "party": "GLP",
+    "language": "de",
+    "birthDate": "1992-03-13",
+    "canton": "Bern",
+    "cantonCode": "BE",
+    "region": "mittelland",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/fabienne-stampfli.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Fabienne_St%C3%A4mpfli_(parl.ch).jpg",
+     "author": "Parliamentary Services",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p172",
+    "name": "Gabriela Suter",
+    "gender": "female",
+    "party": "SP",
+    "language": "de",
+    "birthDate": "1972-12-12",
+    "canton": "Aargau",
+    "cantonCode": "AG",
+    "region": "nordwestschweiz",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/gabriela-suter.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Gabriela_Suter_(2019).jpg",
+     "author": "Parliamentary Services",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p173",
+    "name": "Vroni Thalmann-Bieri",
+    "gender": "female",
+    "party": "SVP",
+    "language": "de",
+    "birthDate": "1969-03-28",
+    "canton": "Luzern",
+    "cantonCode": "LU",
+    "region": "zentralschweiz",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/vroni-thalmann-bieri.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Vroni_Thalmann-Bieri_portrait.jpg",
+     "author": "Parliamentary Services",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p174",
+    "name": "Heinz Theiler",
+    "gender": "male",
+    "party": "FDP",
+    "language": "de",
+    "birthDate": "1970-11-12",
+    "canton": "Schwyz",
+    "cantonCode": "SZ",
+    "region": "zentralschweiz",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/heinz-theiler.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Heinz_Theiler_(2023).jpg",
+     "author": "Parliamentary Services",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p175",
+    "name": "Jean Tschopp",
+    "gender": "male",
+    "party": "SP",
+    "language": "fr",
+    "birthDate": "1982-01-12",
+    "canton": "Waadt",
+    "cantonCode": "VD",
+    "region": "genfersee",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/jean-tschopp.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Jean_Tschopp_(2023).jpg",
+     "author": "Parliamentary Services",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p176",
+    "name": "Mauro Tuena",
+    "gender": "male",
+    "party": "SVP",
+    "language": "de",
+    "birthDate": "1972-01-25",
+    "canton": "Zürich",
+    "cantonCode": "ZH",
+    "region": "zuerich",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/mauro-tuena.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Mauro_Tuena_(2023).jpg",
+     "author": "Assemblea Federale Svizzera",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p177",
+    "name": "Brenda Tuosto",
+    "gender": "female",
+    "party": "SP",
+    "language": "fr",
+    "birthDate": "1989-01-06",
+    "canton": "Waadt",
+    "cantonCode": "VD",
+    "region": "genfersee",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/brenda-tuosto.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Brenda_Tuosto_(2023).jpg",
+     "author": "Parliamentary Services",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p178",
+    "name": "Michael Töngi",
+    "gender": "male",
+    "party": "GRÜNE",
+    "language": "de",
+    "birthDate": "1967-03-16",
+    "canton": "Luzern",
+    "cantonCode": "LU",
+    "region": "zentralschweiz",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/michael-tongi.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Michael_T%C3%B6ngi_(2023).jpg",
+     "author": "Parliamentary Services",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p179",
+    "name": "Nadja Umbricht Pieren",
+    "gender": "female",
+    "party": "SVP",
+    "language": "de",
+    "birthDate": "1980-02-14",
+    "canton": "Bern",
+    "cantonCode": "BE",
+    "region": "mittelland",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/nadja-umbricht-pieren.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Nadja_Pieren_parlament.ch_2781.jpg",
+     "author": null,
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p180",
+    "name": "Kris Vietze",
+    "gender": "female",
+    "party": "FDP",
+    "language": "de",
+    "birthDate": "1968-05-27",
+    "canton": "Thurgau",
+    "cantonCode": "TG",
+    "region": "ostschweiz",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/kris-vietze.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Kris_Vietze_(2023).jpg",
+     "author": "Parliamentary Services",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p181",
+    "name": "Susanne Vincenz-Stauffacher",
+    "gender": "female",
+    "party": "FDP",
+    "language": "de",
+    "birthDate": "1967-01-21",
+    "canton": "St. Gallen",
+    "cantonCode": "SG",
+    "region": "ostschweiz",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/susanne-vincenz-stauffacher.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Susanne_Vincenz-Stauffacher_(2023).jpg",
+     "author": "Parliamentary Services",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p182",
+    "name": "Erich Vontobel",
+    "gender": "male",
+    "party": "EDU",
+    "language": "de",
+    "birthDate": "1959-03-05",
+    "canton": "Zürich",
+    "cantonCode": "ZH",
+    "region": "zuerich",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/erich-vontobel.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Erich_Vontobel.jpg",
+     "author": "Parliamentary Services",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p183",
+    "name": "Bruno Walliser",
+    "gender": "male",
+    "party": "SVP",
+    "language": "de",
+    "birthDate": "1966-04-11",
+    "canton": "Zürich",
+    "cantonCode": "ZH",
+    "region": "zuerich",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/bruno-walliser.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Bruno_Walliser_1.jpg",
+     "author": "Assemblea Federale Svizzera",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p184",
+    "name": "Beat Walti",
+    "gender": "male",
+    "party": "FDP",
+    "language": "de",
+    "birthDate": "1968-11-22",
+    "canton": "Zürich",
+    "cantonCode": "ZH",
+    "region": "zuerich",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/beat-walti.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Beat_Walti_(2019).jpg",
+     "author": "Services du Parlement",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p185",
+    "name": "Ernst Wandfluh",
+    "gender": "male",
+    "party": "SVP",
+    "language": "de",
+    "birthDate": "1976-11-25",
+    "canton": "Bern",
+    "cantonCode": "BE",
+    "region": "mittelland",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/ernst-wandfluh.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Ernst_Wandfluh_(2023).jpg",
+     "author": "Parliamentary Services",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p186",
+    "name": "Christian Wasserfallen",
+    "gender": "male",
+    "party": "FDP",
+    "language": "de",
+    "birthDate": "1981-06-30",
+    "canton": "Bern",
+    "cantonCode": "BE",
+    "region": "mittelland",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/christian-wasserfallen.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Christian_Wasserfallen_(2023).jpg",
+     "author": "Parliamentary Services",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p187",
+    "name": "Céline Weber",
+    "gender": "female",
+    "party": "GLP",
+    "language": "fr",
+    "birthDate": "1974-08-22",
+    "canton": "Waadt",
+    "cantonCode": "VD",
+    "region": "genfersee",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/celine-weber.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:C%C3%A9line_Weber_Koppenburg_(2023).jpg",
+     "author": "Parliamentary Services",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p188",
+    "name": "Laurent Wehrli",
+    "gender": "male",
+    "party": "FDP",
+    "language": "fr",
+    "birthDate": "1965-06-04",
+    "canton": "Waadt",
+    "cantonCode": "VD",
+    "region": "genfersee",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/laurent-wehrli.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Laurent_Wehrli_(2023).jpg",
+     "author": "Parliamentary Services",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p189",
+    "name": "Manuela Weichelt",
+    "gender": "female",
+    "party": "GRÜNE",
+    "language": "de",
+    "birthDate": "1967-07-21",
+    "canton": "Zug",
+    "cantonCode": "ZG",
+    "region": "zentralschweiz",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/manuela-weichelt.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Manuela_Weichelt-Picard_(2023).jpg",
+     "author": "Parliamentary Services",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p190",
+    "name": "Cédric Wermuth",
+    "gender": "male",
+    "party": "SP",
+    "language": "de",
+    "birthDate": "1986-02-19",
+    "canton": "Aargau",
+    "cantonCode": "AG",
+    "region": "nordwestschweiz",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/cedric-wermuth.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:C%C3%A9dric_Wermuth_2019.jpg",
+     "author": "Services du parlement",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p191",
+    "name": "Priska Wismer-Felder",
+    "gender": "female",
+    "party": "Mitte",
+    "language": "de",
+    "birthDate": "1970-10-02",
+    "canton": "Luzern",
+    "cantonCode": "LU",
+    "region": "zentralschweiz",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/priska-wismer-felder.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Priska_Wismer-Felder_(2023).jpg",
+     "author": "Parliamentary Services",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p192",
+    "name": "Sarah Wyss",
+    "gender": "female",
+    "party": "SP",
+    "language": "de",
+    "birthDate": "1988-08-03",
+    "canton": "Basel-Stadt",
+    "cantonCode": "BS",
+    "region": "nordwestschweiz",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/sarah-wyss.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Sarah_Wyss_(2021).jpg",
+     "author": "Services du Parlement",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p193",
+    "name": "Rémy Wyssmann",
+    "gender": "male",
+    "party": "SVP",
+    "language": "de",
+    "birthDate": "1967-06-20",
+    "canton": "Solothurn",
+    "cantonCode": "SO",
+    "region": "mittelland",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/remy-wyssmann.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:R%C3%A9my_Wyssmann_(cropped).jpg",
+     "author": "Parliamentary Services",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p194",
+    "name": "Andrea Zryd",
+    "gender": "female",
+    "party": "SP",
+    "language": "de",
+    "birthDate": "1975-10-24",
+    "canton": "Bern",
+    "cantonCode": "BE",
+    "region": "mittelland",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/andrea-zryd.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Andrea_Zryd_portrait_(cropped).jpg",
+     "author": "Parliamentary Services",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p195",
+    "name": "Ursula Zybach",
+    "gender": "female",
+    "party": "SP",
+    "language": "de",
+    "birthDate": "1967-08-29",
+    "canton": "Bern",
+    "cantonCode": "BE",
+    "region": "mittelland",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/ursula-zybach.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Ursula_Zybach_portrait.jpg",
+     "author": "Parliamentary Services",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p196",
+    "name": "Thomas de Courten",
+    "gender": "male",
+    "party": "SVP",
+    "language": "de",
+    "birthDate": "1966-07-29",
+    "canton": "Basel-Landschaft",
+    "cantonCode": "BL",
+    "region": "nordwestschweiz",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/thomas-de-courten.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Thomas_de_Courten_(2019).jpg",
+     "author": "Parliamentary Services",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p197",
+    "name": "Andrea de Meuron",
+    "gender": "female",
+    "party": "GRÜNE",
+    "language": "de",
+    "birthDate": "1973-10-02",
+    "canton": "Bern",
+    "cantonCode": "BE",
+    "region": "mittelland",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/andrea-de-meuron.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Andrea_de_Meuron_(parl.ch).jpg",
+     "author": "Parliamentary Services",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p198",
+    "name": "Simone de Montmollin",
+    "gender": "female",
+    "party": "FDP",
+    "language": "fr",
+    "birthDate": "1968-07-20",
+    "canton": "Genf",
+    "cantonCode": "GE",
+    "region": "genfersee",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/simone-de-montmollin.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Simone_de_Montmollin_(2019).jpg",
+     "author": "Services du Parlement",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p199",
+    "name": "Jacqueline de Quattro",
+    "gender": "female",
+    "party": "FDP",
+    "language": "fr",
+    "birthDate": "1960-06-24",
+    "canton": "Waadt",
+    "cantonCode": "VD",
+    "region": "genfersee",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null
+   },
+   {
+    "id": "p200",
+    "name": "Patricia von Falkenstein",
+    "gender": "female",
+    "party": "FDP",
+    "language": "de",
+    "birthDate": "1961-04-11",
+    "canton": "Basel-Stadt",
+    "cantonCode": "BS",
+    "region": "nordwestschweiz",
+    "chamber": "Nationalrat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/patricia-von-falkenstein.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Patricia_von_Falkenstein_(2021).jpg",
+     "author": "Parliamentary Services",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p201",
+    "name": "Marianne Binder-Keller",
+    "gender": "female",
+    "party": "Mitte",
+    "language": "de",
+    "birthDate": "1958-06-15",
+    "canton": "Aargau",
+    "cantonCode": "AG",
+    "region": "nordwestschweiz",
+    "chamber": "Ständerat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/marianne-binder-keller.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Marianne_Binder-Keller_(2019).jpg",
+     "author": "Parliamentary Services",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p202",
+    "name": "Pirmin Bischof",
+    "gender": "male",
+    "party": "Mitte",
+    "language": "de",
+    "birthDate": "1959-02-24",
+    "canton": "Solothurn",
+    "cantonCode": "SO",
+    "region": "mittelland",
+    "chamber": "Ständerat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/pirmin-bischof.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Pirmin_Bischof_(2019).jpg",
+     "author": "Services du Parlement",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p203",
+    "name": "Pascal Broulis",
+    "gender": "male",
+    "party": "FDP",
+    "language": "fr",
+    "birthDate": "1965-04-03",
+    "canton": "Waadt",
+    "cantonCode": "VD",
+    "region": "genfersee",
+    "chamber": "Ständerat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/pascal-broulis.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Broulis.jpg",
+     "author": "Genfer01",
+     "license": "CC BY-SA 3.0",
+     "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+    }
+   },
+   {
+    "id": "p204",
+    "name": "Severin Brüngger",
+    "gender": "male",
+    "party": "FDP",
+    "language": "de",
+    "birthDate": "1978-04-18",
+    "canton": "Schaffhausen",
+    "cantonCode": "SH",
+    "region": "ostschweiz",
+    "chamber": "Ständerat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/severin-brungger.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Severin_Br%C3%BCngger_(parl.ch).jpg",
+     "author": "Parliamentary Services",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p205",
+    "name": "Thierry Burkart",
+    "gender": "male",
+    "party": "FDP",
+    "language": "de",
+    "birthDate": "1975-08-21",
+    "canton": "Aargau",
+    "cantonCode": "AG",
+    "region": "nordwestschweiz",
+    "chamber": "Ständerat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/thierry-burkart.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Thierry_Burkart_(2018).jpg",
+     "author": "Services du Parlement",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p206",
+    "name": "Andrea Caroni",
+    "gender": "male",
+    "party": "FDP",
+    "language": "de",
+    "birthDate": "1980-04-19",
+    "canton": "Appenzell Ausserrhoden",
+    "cantonCode": "AR",
+    "region": "ostschweiz",
+    "chamber": "Ständerat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/andrea-caroni.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Andrea_Caroni_(2023).jpg",
+     "author": "Parliamentary Services",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p207",
+    "name": "Isabelle Chassot",
+    "gender": "female",
+    "party": "Mitte",
+    "language": "fr",
+    "birthDate": "1965-03-28",
+    "canton": "Freiburg",
+    "cantonCode": "FR",
+    "region": "mittelland",
+    "chamber": "Ständerat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/isabelle-chassot.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Isabelle_Chassot_(parl.ch).jpg",
+     "author": "Services du Parlement",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p208",
+    "name": "Marco Chiesa",
+    "gender": "male",
+    "party": "SVP",
+    "language": "it",
+    "birthDate": "1974-10-10",
+    "canton": "Tessin",
+    "cantonCode": "TI",
+    "region": "tessin",
+    "chamber": "Ständerat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/marco-chiesa.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Marco_Chiesa_(2018,_cropped).jpg",
+     "author": "Services du Parlement",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p209",
+    "name": "Mathilde Crevoisier Crelier",
+    "gender": "female",
+    "party": "SP",
+    "language": "fr",
+    "birthDate": "1980-01-05",
+    "canton": "Jura",
+    "cantonCode": "JU",
+    "region": "mittelland",
+    "chamber": "Ständerat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/mathilde-crevoisier-crelier.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Mathilde_Crevoisier_(2023).jpg",
+     "author": "Parliamentary Services",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p210",
+    "name": "Josef Dittli",
+    "gender": "male",
+    "party": "FDP",
+    "language": "de",
+    "birthDate": "1957-04-11",
+    "canton": "Uri",
+    "cantonCode": "UR",
+    "region": "zentralschweiz",
+    "chamber": "Ständerat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/josef-dittli.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Josef_Dittli_(2019).jpg",
+     "author": "Services du Parlement",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p211",
+    "name": "Stefan Engler",
+    "gender": "male",
+    "party": "Mitte",
+    "language": "de",
+    "birthDate": "1960-05-30",
+    "canton": "Graubünden",
+    "cantonCode": "GR",
+    "region": "ostschweiz",
+    "chamber": "Ständerat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/stefan-engler.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Stefan_Engler.jpg",
+     "author": "Parliamentary Services",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p212",
+    "name": "Erich Ettlin",
+    "gender": "male",
+    "party": "Mitte",
+    "language": "de",
+    "birthDate": "1962-05-30",
+    "canton": "Obwalden",
+    "cantonCode": "OW",
+    "region": "zentralschweiz",
+    "chamber": "Ständerat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/erich-ettlin.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Erich_Ettlin_(2019).jpg",
+     "author": "Services du Parlement",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p213",
+    "name": "Fabien Fivaz",
+    "gender": "male",
+    "party": "GRÜNE",
+    "language": "fr",
+    "birthDate": "1978-02-25",
+    "canton": "Neuenburg",
+    "cantonCode": "NE",
+    "region": "mittelland",
+    "chamber": "Ständerat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/fabien-fivaz.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Fabien_Fivaz_(2023).jpg",
+     "author": "Parliamentary Services",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p214",
+    "name": "Esther Friedli",
+    "gender": "female",
+    "party": "SVP",
+    "language": "de",
+    "birthDate": "1977-06-04",
+    "canton": "St. Gallen",
+    "cantonCode": "SG",
+    "region": "ostschweiz",
+    "chamber": "Ständerat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/esther-friedli.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Esther_Friedli_(2019).jpg",
+     "author": "Parliamentary Services",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p215",
+    "name": "Daniel Fässler",
+    "gender": "male",
+    "party": "Mitte",
+    "language": "de",
+    "birthDate": "1960-08-22",
+    "canton": "Appenzell Innerrhoden",
+    "cantonCode": "AI",
+    "region": "ostschweiz",
+    "chamber": "Ständerat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/daniel-fassler.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Daniel_F%C3%A4ssler_(2019).jpg",
+     "author": "Services du Parlement",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p216",
+    "name": "Johanna Gapany",
+    "gender": "female",
+    "party": "FDP",
+    "language": "fr",
+    "birthDate": "1988-07-25",
+    "canton": "Freiburg",
+    "cantonCode": "FR",
+    "region": "mittelland",
+    "chamber": "Ständerat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/johanna-gapany.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Johanna_Gapany_(2019).jpg",
+     "author": "Services du Parlement",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p217",
+    "name": "Hannes Germann",
+    "gender": "male",
+    "party": "SVP",
+    "language": "de",
+    "birthDate": "1956-07-01",
+    "canton": "Schaffhausen",
+    "cantonCode": "SH",
+    "region": "ostschweiz",
+    "chamber": "Ständerat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/hannes-germann.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Hannes_Germann_(2019).jpg",
+     "author": "Services du Parlement",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p218",
+    "name": "Andrea Gmür-Schönenberger",
+    "gender": "female",
+    "party": "Mitte",
+    "language": "de",
+    "birthDate": "1964-07-17",
+    "canton": "Luzern",
+    "cantonCode": "LU",
+    "region": "zentralschweiz",
+    "chamber": "Ständerat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/andrea-gmur-schonenberger.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Andrea_Gm%C3%BCr-Sch%C3%B6nenberger_(2019).jpg",
+     "author": "Services du Parlement",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p219",
+    "name": "Maya Graf",
+    "gender": "female",
+    "party": "GRÜNE",
+    "language": "de",
+    "birthDate": "1962-02-28",
+    "canton": "Basel-Landschaft",
+    "cantonCode": "BL",
+    "region": "nordwestschweiz",
+    "chamber": "Ständerat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/maya-graf.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Maya_Graf_(2020,_cropped).jpg",
+     "author": null,
+     "license": "CC BY-SA 4.0",
+     "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+    }
+   },
+   {
+    "id": "p220",
+    "name": "Petra Gössi",
+    "gender": "female",
+    "party": "FDP",
+    "language": "de",
+    "birthDate": "1976-01-12",
+    "canton": "Schwyz",
+    "cantonCode": "SZ",
+    "region": "zentralschweiz",
+    "chamber": "Ständerat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/petra-gossi.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Petra_G%C3%B6ssi_(2019).jpg",
+     "author": "Services du Parlement",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p221",
+    "name": "Peter Hegglin",
+    "gender": "male",
+    "party": "Mitte",
+    "language": "de",
+    "birthDate": "1960-12-25",
+    "canton": "Zug",
+    "cantonCode": "ZG",
+    "region": "zentralschweiz",
+    "chamber": "Ständerat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/peter-hegglin.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Peter_Hegglin_(2019).jpg",
+     "author": "Services du Parlement",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p222",
+    "name": "Eva Herzog",
+    "gender": "female",
+    "party": "SP",
+    "language": "de",
+    "birthDate": "1961-12-25",
+    "canton": "Basel-Stadt",
+    "cantonCode": "BS",
+    "region": "nordwestschweiz",
+    "chamber": "Ständerat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/eva-herzog.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Eva_Herzog_(2019).jpg",
+     "author": "Services du Parlement",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p223",
+    "name": "Baptiste Hurni",
+    "gender": "male",
+    "party": "SP",
+    "language": "fr",
+    "birthDate": "1986-04-04",
+    "canton": "Neuenburg",
+    "cantonCode": "NE",
+    "region": "mittelland",
+    "chamber": "Ständerat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/baptiste-hurni.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Baptiste_Hurni_(2019).jpg",
+     "author": "Services du Parlement",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p224",
+    "name": "Brigitte Häberli-Koller",
+    "gender": "female",
+    "party": "Mitte",
+    "language": "de",
+    "birthDate": "1958-08-23",
+    "canton": "Thurgau",
+    "cantonCode": "TG",
+    "region": "ostschweiz",
+    "chamber": "Ständerat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/brigitte-haberli-koller.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Brigitte_H%C3%A4berli-Koller_(cropped,_St%C3%A4nderatspr%C3%A4sidentin).jpg",
+     "author": "Parlamentsdienste",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p225",
+    "name": "Daniel Jositsch",
+    "gender": "male",
+    "party": "SP",
+    "language": "de",
+    "birthDate": "1965-03-25",
+    "canton": "Zürich",
+    "cantonCode": "ZH",
+    "region": "zuerich",
+    "chamber": "Ständerat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/daniel-jositsch.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Daniel_Jositsch_(2015,_cropped).jpg",
+     "author": "Services du Parlement",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p226",
+    "name": "Charles Juillard",
+    "gender": "male",
+    "party": "Mitte",
+    "language": "fr",
+    "birthDate": "1962-12-17",
+    "canton": "Jura",
+    "cantonCode": "JU",
+    "region": "mittelland",
+    "chamber": "Ständerat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/charles-juillard.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Charles_Juillard_(2019).jpg",
+     "author": "Services du Parlement",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p227",
+    "name": "Pierre-Yves Maillard",
+    "gender": "male",
+    "party": "SP",
+    "language": "fr",
+    "birthDate": "1968-03-16",
+    "canton": "Waadt",
+    "cantonCode": "VD",
+    "region": "genfersee",
+    "chamber": "Ständerat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/pierre-yves-maillard.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Pierre-Yves_Maillard_(2019).jpg",
+     "author": "Services du Parlement",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p228",
+    "name": "Marianne Maret",
+    "gender": "female",
+    "party": "Mitte",
+    "language": "fr",
+    "birthDate": "1958-06-15",
+    "canton": "Wallis",
+    "cantonCode": "VS",
+    "region": "genfersee",
+    "chamber": "Ständerat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/marianne-maret.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Marianne_Maret_(2021).jpg",
+     "author": "Parliamentary Services",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p229",
+    "name": "Matthias Michel",
+    "gender": "male",
+    "party": "FDP",
+    "language": "de",
+    "birthDate": "1963-03-20",
+    "canton": "Zug",
+    "cantonCode": "ZG",
+    "region": "zentralschweiz",
+    "chamber": "Ständerat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/matthias-michel.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Matthias_Michel_(2019).jpg",
+     "author": "Services du Parlement",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p230",
+    "name": "Tiana Angelina Moser",
+    "gender": "female",
+    "party": "GLP",
+    "language": "de",
+    "birthDate": "1979-04-06",
+    "canton": "Zürich",
+    "cantonCode": "ZH",
+    "region": "zuerich",
+    "chamber": "Ständerat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/tiana-angelina-moser.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Tiana_Angelina_Moser_(2019).jpg",
+     "author": "Marzili58",
+     "license": "CC BY-SA 4.0",
+     "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+    }
+   },
+   {
+    "id": "p231",
+    "name": "Benjamin Mühlemann",
+    "gender": "male",
+    "party": "FDP",
+    "language": "de",
+    "birthDate": "1979-02-01",
+    "canton": "Glarus",
+    "cantonCode": "GL",
+    "region": "ostschweiz",
+    "chamber": "Ständerat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/benjamin-muhlemann.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Benjamin_M%C3%BChlemann_(2023).jpg",
+     "author": "Parliamentary Services",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p232",
+    "name": "Damian Müller",
+    "gender": "male",
+    "party": "FDP",
+    "language": "de",
+    "birthDate": "1984-10-25",
+    "canton": "Luzern",
+    "cantonCode": "LU",
+    "region": "zentralschweiz",
+    "chamber": "Ständerat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/damian-muller.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Damian_M%C3%BCller_(2019,_cropped).jpg",
+     "author": "Services du Parlement",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p233",
+    "name": "Mauro Poggia",
+    "gender": "male",
+    "party": "MCG (MCR)",
+    "language": "fr",
+    "birthDate": "1959-04-25",
+    "canton": "Genf",
+    "cantonCode": "GE",
+    "region": "genfersee",
+    "chamber": "Ständerat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/mauro-poggia.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Mauro_Poggia.jpg",
+     "author": null,
+     "license": "CC BY-SA 4.0",
+     "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+    }
+   },
+   {
+    "id": "p234",
+    "name": "Fabio Regazzi",
+    "gender": "male",
+    "party": "Mitte",
+    "language": "it",
+    "birthDate": "1962-06-22",
+    "canton": "Tessin",
+    "cantonCode": "TI",
+    "region": "tessin",
+    "chamber": "Ständerat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/fabio-regazzi.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Fabio_Regazzi_(2019).jpg",
+     "author": "Services du Parlement",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p235",
+    "name": "Beat Rieder",
+    "gender": "male",
+    "party": "Mitte",
+    "language": "fr",
+    "birthDate": "1963-02-12",
+    "canton": "Wallis",
+    "cantonCode": "VS",
+    "region": "genfersee",
+    "chamber": "Ständerat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/beat-rieder.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Beat_Rieder_(2023).jpg",
+     "author": "Parliamentary Services",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p236",
+    "name": "Franziska Roth",
+    "gender": "female",
+    "party": "SP",
+    "language": "de",
+    "birthDate": "1966-04-17",
+    "canton": "Solothurn",
+    "cantonCode": "SO",
+    "region": "mittelland",
+    "chamber": "Ständerat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/franziska-roth.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Franziska_Roth_(2019).jpg",
+     "author": "Services du Parlement",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p237",
+    "name": "Werner Salzmann",
+    "gender": "male",
+    "party": "SVP",
+    "language": "de",
+    "birthDate": "1962-11-05",
+    "canton": "Bern",
+    "cantonCode": "BE",
+    "region": "mittelland",
+    "chamber": "Ständerat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/werner-salzmann.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Werner_Salzmann_(2019).jpg",
+     "author": "Services du Parlement",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p238",
+    "name": "Martin Schmid",
+    "gender": "male",
+    "party": "FDP",
+    "language": "de",
+    "birthDate": "1969-05-24",
+    "canton": "Graubünden",
+    "cantonCode": "GR",
+    "region": "ostschweiz",
+    "chamber": "Ständerat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/martin-schmid.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Martin_Schmid_(2019).jpg",
+     "author": "Services du Parlement",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p239",
+    "name": "Pirmin Schwander",
+    "gender": "male",
+    "party": "SVP",
+    "language": "de",
+    "birthDate": "1961-12-28",
+    "canton": "Schwyz",
+    "cantonCode": "SZ",
+    "region": "zentralschweiz",
+    "chamber": "Ständerat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/pirmin-schwander.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Pirmin_Schwander_(2016,_cropped).jpg",
+     "author": "Services du parlement",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p240",
+    "name": "Carlo Sommaruga",
+    "gender": "male",
+    "party": "SP",
+    "language": "fr",
+    "birthDate": "1959-07-08",
+    "canton": "Genf",
+    "cantonCode": "GE",
+    "region": "genfersee",
+    "chamber": "Ständerat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/carlo-sommaruga.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Carlo_Sommaruga_(2019).jpg",
+     "author": "Services du Parlement",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p241",
+    "name": "Jakob Stark",
+    "gender": "male",
+    "party": "SVP",
+    "language": "de",
+    "birthDate": "1958-09-08",
+    "canton": "Thurgau",
+    "cantonCode": "TG",
+    "region": "ostschweiz",
+    "chamber": "Ständerat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/jakob-stark.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Jakob_Stark_(2023).jpg",
+     "author": "Parliamentary Services",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p242",
+    "name": "Flavia Wasserfallen",
+    "gender": "female",
+    "party": "SP",
+    "language": "de",
+    "birthDate": "1979-02-07",
+    "canton": "Bern",
+    "cantonCode": "BE",
+    "region": "mittelland",
+    "chamber": "Ständerat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/flavia-wasserfallen.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Flavia_Wasserfallen_(2019).jpg",
+     "author": "Services du parlement",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p243",
+    "name": "Hans Wicki",
+    "gender": "male",
+    "party": "FDP",
+    "language": "de",
+    "birthDate": "1964-02-18",
+    "canton": "Nidwalden",
+    "cantonCode": "NW",
+    "region": "zentralschweiz",
+    "chamber": "Ständerat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/hans-wicki.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Hans_Wicki_(2019).jpg",
+     "author": "Services du Parlement",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p244",
+    "name": "Benedikt Würth",
+    "gender": "male",
+    "party": "Mitte",
+    "language": "de",
+    "birthDate": "1968-01-20",
+    "canton": "St. Gallen",
+    "cantonCode": "SG",
+    "region": "ostschweiz",
+    "chamber": "Ständerat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/benedikt-wurth.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Benedikt_W%C3%BCrth.jpg",
+     "author": null,
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p245",
+    "name": "Heidi Z'graggen",
+    "gender": "female",
+    "party": "Mitte",
+    "language": "de",
+    "birthDate": "1966-02-01",
+    "canton": "Uri",
+    "cantonCode": "UR",
+    "region": "zentralschweiz",
+    "chamber": "Ständerat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/heidi-z-graggen.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Heidi_Z%27graggen_(2019).jpg",
+     "author": "Services du Parlement",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   },
+   {
+    "id": "p246",
+    "name": "Mathias Zopfi",
+    "gender": "male",
+    "party": "GRÜNE",
+    "language": "de",
+    "birthDate": "1983-12-14",
+    "canton": "Glarus",
+    "cantonCode": "GL",
+    "region": "ostschweiz",
+    "chamber": "Ständerat",
+    "leftOfficeDate": null,
+    "portrait": {
+     "image": "img/parliament/mathias-zopfi.jpg",
+     "source": "https://commons.wikimedia.org/wiki/File:Mathias_Zopfi.jpg",
+     "author": "Alessandro della Valle",
+     "license": "Attribution",
+     "licenseUrl": null
+    }
+   }
+  ]
+ },
  "flags": {
   "ZH": {
    "canton": "Zürich",

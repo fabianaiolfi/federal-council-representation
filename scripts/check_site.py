@@ -46,14 +46,17 @@ def check_data() -> None:
         problems.append("site/data/data.json: councillors are out of date. Run scripts/build_data.py.")
     if data["candidates"] != build_data.load_candidates():
         problems.append("site/data/data.json: people list is out of date. Run scripts/build_data.py.")
+    if data.get("parliament") != build_data.load_parliament():
+        problems.append("site/data/data.json: members of parliament are out of date. Run scripts/build_data.py.")
     if data.get("flags") != build_data.load_flags():
         problems.append("site/data/data.json: canton flags are out of date. Run scripts/build_data.py.")
-    for c in data["councillors"] + data["candidates"]:
+    people = data["councillors"] + data["candidates"] + data.get("parliament", {}).get("members", [])
+    for c in people:
         image = c.get("portrait", {}).get("image")
         if image and not (SITE / image).is_file():
             problems.append(f"Portrait of {c['name']} missing: site/{image}")
     # Every card shows its canton's flag (img/flags/<code>.svg, scripts/fetch_flags.py)
-    for code in sorted({c["cantonCode"] for c in data["councillors"] + data["candidates"]}):
+    for code in sorted({c["cantonCode"] for c in people}):
         if not (SITE / "img" / "flags" / f"{code}.svg").is_file():
             problems.append(f"Flag of canton {code} missing: site/img/flags/{code}.svg (run scripts/fetch_flags.py)")
 

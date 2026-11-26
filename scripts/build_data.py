@@ -18,6 +18,13 @@ Sources:
    (de/fr/it/rm/other, or Deutsch, Französisch, …), birth_date (YYYY-MM-DD,
    or just YYYY), canton (optional).
 
+   data/NR_Mitglieder_2026_DE.xlsx and data/SR_Mitglieder_2026_DE.xlsx
+   (optional): the members of the National Council and the Council of
+   States, exported from www.parlament.ch ("Passende Parlamentarier:innen").
+   Used: GenderAsString, PartyName, CantonName (language: the canton's
+   majority language), DateOfBirth; only current members (Active = 1).
+   Portraits: data/wikidata_parliament.json (scripts/fetch_wikidata.py).
+
 3. Federal Statistical Office (FSO / BFS), the population side of every
    comparison. Each comparison uses the population of the time:
    - Gender and age: STAT-TAB PxWeb table px-x-0102030000_101
@@ -68,6 +75,31 @@ WIKIDATA_PATH = ROOT / "data" / "wikidata.json"
 CANDIDATES_PATH = ROOT / "data" / "candidates.csv"
 CANDIDATE_WIKIDATA_PATH = ROOT / "data" / "wikidata_candidates.json"
 FLAGS_PATH = ROOT / "data" / "flags.json"
+# Members of parliament, as exported from www.parlament.ch (one file per chamber)
+PARLIAMENT_FILES = {
+    "Nationalrat": ROOT / "data" / "NR_Mitglieder_2026_DE.xlsx",
+    "Ständerat": ROOT / "data" / "SR_Mitglieder_2026_DE.xlsx",
+}
+PARLIAMENT_WIKIDATA_PATH = ROOT / "data" / "wikidata_parliament.json"
+# PartyName in the parlament.ch files -> the party names of the BFS election
+# statistics (data.json "party"). The small cantonal parties are counted as
+# the BFS does: Basel's LDP with the FDP, BastA! (Basel) and the Alternative
+# - die Grünen (Zug) with the Greens.
+PARLIAMENT_PARTIES = {
+    "Schweizerische Volkspartei": "SVP",
+    "Sozialdemokratische Partei der Schweiz": "SP",
+    "Die Mitte": "Mitte",
+    "FDP.Die Liberalen": "FDP",
+    "Liberal-Demokratische Partei": "FDP",
+    "GRÜNE Schweiz": "GRÜNE",
+    "Grüne (Basels starke Alternative)": "GRÜNE",
+    "Alternative-die Grünen Kanton Zug": "GRÜNE",
+    "Grünliberale Partei": "GLP",
+    "Evangelische Volkspartei der Schweiz": "EVP",
+    "Eidgenössisch-Demokratische Union": "EDU",
+    "Lega dei Ticinesi": "Lega",
+    "Mouvement Citoyens Genevois": "MCG (MCR)",
+}
 OUT_PATH = ROOT / "site" / "data" / "data.json"
 
 USER_AGENT = (
@@ -159,6 +191,8 @@ CANTONS = {
 CANTON_ALIASES = {
     "Berne": "BE", "Fribourg": "FR", "Genève": "GE", "Neuchâtel": "NE", "Valais": "VS",
     "Vaud": "VD", "Ticino": "TI", "Grigioni": "GR", "Grischun": "GR", "St.Gallen": "SG",
+    # as written by parlament.ch
+    "Appenzell A.-Rh.": "AR", "Appenzell I.-Rh.": "AI",
 }
 # The seven Grossregionen of the BFS (https://www.bfs.admin.ch/asset/de/5933503),
 # in the BFS order.
@@ -583,6 +617,95 @@ def load_candidates() -> list[dict]:
     return candidates
 
 
+def parliament_rows() -> list[dict]:
+    """
+    The current members of both chambers (Active = 1), one row each: the
+    files have one row per mandate, sometimes repeated. Empty if the files
+    are missing.
+    """
+    members = []
+    for chamber, path in PARLIAMENT_FILES.items():
+        if not path.exists():
+            continue
+        rows = xlsx_rows(path.read_bytes())
+        header = rows[0]
+        seen = set()
+        for values in rows[1:]:
+            row = {k: (v or "").strip() if isinstance(v, str) else v for k, v in zip(header, values)}
+            if row.get("Active") != "1":
+                continue
+            key = (row["FirstName"], row["LastName"], row["DateOfBirth"])
+            if key in seen:
+                continue
+            seen.add(key)
+            members.append({"chamber": chamber, **row})
+    return members
+
+
+def dmy_to_iso(date: str | None) -> str | None:
+    """'22.04.1964' -> '1964-04-22'"""
+    if not date:
+        return None
+    day, month, year = date.split(".")
+    return f"{year}-{month}-{day}"
+
+
+def parliament_key(row: dict) -> str:
+    """'Jean-Luc Addor|1964-04-22': the key of a member in wikidata_parliament.json"""
+    return f"{row['FirstName']} {row['LastName']}|{dmy_to_iso(row['DateOfBirth'])}"
+
+
+def load_parliamentarians() -> list[dict]:
+    """
+    The members of parliament offered in "Passende Parlamentarier:innen".
+    Gender, party (as in the BFS statistics), language (the canton's
+    majority language), Grossregion and birth date; unknown values stop
+    the script with a message.
+    """
+    wikidata = (json.loads(PARLIAMENT_WIKIDATA_PATH.read_text(encoding="utf-8"))
+                if PARLIAMENT_WIKIDATA_PATH.exists() else {})
+    members = []
+    for row in sorted(parliament_rows(), key=lambda r: (r["chamber"], r["LastName"], r["FirstName"])):
+        name = f"{row['FirstName']} {row['LastName']}"
+        gender = {"f": "female", "m": "male"}.get(row["GenderAsString"])
+        party = PARLIAMENT_PARTIES.get(row["PartyName"])
+        code = canton_code(row["CantonName"])
+        if not gender or not party or not code or not row["DateOfBirth"]:
+            sys.exit(f"{name} ({row['chamber']}): unknown gender, party, canton or birth date "
+                     f"({row['GenderAsString']}, {row['PartyName']}, {row['CantonName']}, {row['DateOfBirth']}). "
+                     "New party: add it to PARLIAMENT_PARTIES.")
+        member = {
+            "id": f"p{len(members) + 1}",
+            "name": name,
+            "gender": gender,
+            "party": party,
+            "language": CANTON_LANGUAGE.get(row["CantonName"], "de"),
+            "birthDate": dmy_to_iso(row["DateOfBirth"]),
+            "canton": CANTONS[code],  # "Appenzell Ausserrhoden", not "Appenzell A.-Rh."
+            "cantonCode": code,
+            "region": REGION_OF[code],
+            "chamber": row["chamber"],
+            "leftOfficeDate": dmy_to_iso(row["DateLeaving"]),
+        }
+        p = wikidata.get(parliament_key(row), {}).get("portrait")
+        if p:
+            member["portrait"] = {k: p[k] for k in ("image", "source", "author", "license", "licenseUrl")}
+            member["portrait"]["author"] = tidy_author(p["author"])
+        members.append(member)
+    return members
+
+
+def load_parliament() -> dict:
+    """The members of parliament, with the source (for the Quellen page)."""
+    return {
+        "source": "Parlamentsdienste",
+        "title": "Mitglieder des Nationalrats und des Ständerats",
+        "files": [path.name for path in PARLIAMENT_FILES.values() if path.exists()],
+        "url": "https://www.parlament.ch",
+        "members": load_parliamentarians(),
+    }
+
+
 def load_flags() -> dict:
     """Canton flags (scripts/fetch_flags.py): source and licence, for the Quellen page."""
     if not FLAGS_PATH.exists():
@@ -869,6 +992,7 @@ def main() -> None:
         "region": region,
         "councillors": councillors,
         "candidates": candidates,
+        "parliament": load_parliament(),
         "flags": load_flags(),
     }
     OUT_PATH.parent.mkdir(parents=True, exist_ok=True)

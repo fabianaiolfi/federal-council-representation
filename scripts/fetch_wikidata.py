@@ -18,6 +18,9 @@ Steps:
 5. The same for the portraits of the people in data/candidates.csv
    ("Offizielle Kandidierende"): site/img/candidates/<name>.jpg and
    data/wikidata_candidates.json.
+6. The same for the current members of parliament (the parlament.ch files,
+   "Passende Parlamentarier:innen"): site/img/parliament/<name>.jpg and
+   data/wikidata_parliament.json.
 
 The images are stored in this repository (not loaded from Wikimedia when
 someone visits the page): faster, works offline, and visitors' browsers
@@ -235,6 +238,84 @@ def fetch_candidate_portraits() -> None:
         print("No portrait found for:", ", ".join(missing))
 
 
+# --- Members of parliament: portraits -----------------------------------------------
+
+NATIONAL_COUNCIL = "Q18510612"  # Wikidata: member of the Swiss National Council
+COUNCIL_OF_STATES = "Q18510613"  # Wikidata: member of the Swiss Council of States
+
+
+def fetch_parliament_portraits() -> None:
+    """
+    Portraits of the current members of parliament. Everyone who has held
+    a seat in either chamber is asked from Wikidata; a member is the person
+    with the same birth date whose name contains the member's last name.
+    Saved as site/img/parliament/<name>.jpg, credits in
+    data/wikidata_parliament.json (keyed by "First Last|YYYY-MM-DD").
+    """
+    from build_data import parliament_key, parliament_rows  # same folder
+
+    rows = parliament_rows()
+    if not rows:
+        return
+    query = f"""
+        SELECT ?person ?personLabel (MIN(?born) AS ?birth) (MIN(?img) AS ?image) WHERE {{
+          VALUES ?position {{ wd:{NATIONAL_COUNCIL} wd:{COUNCIL_OF_STATES} }}
+          ?person p:P39/ps:P39 ?position ; wdt:P569 ?born .
+          FILTER(YEAR(?born) > 1930)
+          OPTIONAL {{ ?person wdt:P18 ?img }}
+          SERVICE wikibase:label {{ bd:serviceParam wikibase:language "de,fr,it,en". }}
+        }}
+        GROUP BY ?person ?personLabel
+    """
+    data = json.loads(get(WIKIDATA_SPARQL, {"query": query, "format": "json"}))
+    by_birth: dict[str, list[dict]] = {}
+    for row in data["results"]["bindings"]:
+        by_birth.setdefault(row["birth"]["value"][:10], []).append(row)
+
+    chosen, missing = {}, []
+    for row in rows:
+        key = parliament_key(row)
+        # "Binder-Keller" -> "binder", "de Quattro" -> "quattro"
+        last = normalise(re.split(r"[- ]", row["LastName"])[-1 if " " in row["LastName"] else 0])
+        people = [p for p in by_birth.get(key.split("|")[1], []) if last in normalise(p["personLabel"]["value"])]
+        person = next((p for p in people if "image" in p), None)
+        if person:
+            chosen[key] = {
+                "wikidata": person["person"]["value"].rsplit("/", 1)[1],
+                "file": urllib.parse.unquote(person["image"]["value"].rsplit("/", 1)[1]),
+            }
+        else:
+            missing.append(key.split("|")[0])
+
+    info = commons_info(sorted({c["file"] for c in chosen.values()}))
+    out_dir = IMG_DIR / "parliament"
+    out_dir.mkdir(parents=True, exist_ok=True)
+    result = {}
+    for key, c in sorted(chosen.items()):
+        meta = info.get(c["file"])
+        if not meta:
+            missing.append(key.split("|")[0])
+            continue
+        ext = Path(urllib.parse.urlparse(meta["thumb"]).path).suffix.lower() or ".jpg"
+        path = out_dir / f"{slug(key.split('|')[0])}{ext}"
+        if not path.exists():  # rerunning only downloads what is new
+            path.write_bytes(get(meta["thumb"]))
+            time.sleep(0.5)
+        result[key] = {
+            "wikidata": c["wikidata"],
+            "portrait": {
+                "image": f"img/parliament/{path.name}",
+                "file": c["file"],
+                **{k: meta[k] for k in ("source", "author", "license", "licenseUrl")},
+            },
+        }
+    out = ROOT / "data" / "wikidata_parliament.json"
+    out.write_text(json.dumps(result, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    print(f"Parliament: {len(result)} of {len(rows)} portraits in {out_dir.relative_to(ROOT)}/, credits in {out.relative_to(ROOT)}")
+    if missing:
+        print("No portrait found for:", ", ".join(sorted(missing)))
+
+
 # --- main ------------------------------------------------------------------------------
 
 def main() -> None:
@@ -294,6 +375,7 @@ def main() -> None:
     if no_portrait:
         print("No portrait on Wikidata for numbers:", ", ".join(map(str, no_portrait)))
     fetch_candidate_portraits()
+    fetch_parliament_portraits()
     print("Now run: python3 scripts/build_data.py")
 
 

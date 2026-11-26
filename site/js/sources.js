@@ -41,7 +41,17 @@ function renderSources(data) {
   // The list of councillors is based on the official list of the Confederation
   const council = el("li", null, t("sourceCouncilBefore"));
   council.append(link(t("sourceCouncilLink"), COUNCIL_LIST_URL), t("sourceCouncilAfter"));
-  items.push(council, el("li", null, t("sourcePortraits")));
+  items.push(council);
+  // Members of parliament: the Excel files from www.parlament.ch
+  if (data.parliament) {
+    const parliament = el("li", null, t("sourceParliament", data.parliament.source));
+    parliament.append(
+      link(data.parliament.title, data.parliament.url),
+      t("sourceParliamentAfter", data.parliament.files.join(", "))
+    );
+    items.push(parliament);
+  }
+  items.push(el("li", null, t("sourcePortraits")));
   $("sources-list").replaceChildren(...items);
   $("data-generated").textContent = t("dataGenerated", fmt.date(data.generated));
 }
@@ -54,11 +64,12 @@ function creditItem(name, p) {
   return li;
 }
 
-/** Picture credits in three groups: councillors, candidates, canton flags. */
+/** Picture credits in groups: councillors, candidates, members of parliament, canton flags. */
 function renderCredits(data) {
   const groups = [
     [t("creditsCouncillors"), data.councillors.filter((c) => c.portrait).map((c) => creditItem(c.name, c.portrait))],
     [t("creditsCandidates"), (data.candidates ?? []).filter((c) => c.portrait).map((c) => creditItem(c.name, c.portrait))],
+    [t("creditsParliament"), (data.parliament?.members ?? []).filter((c) => c.portrait).map((c) => creditItem(c.name, c.portrait))],
     [t("creditsFlags"), Object.values(data.flags ?? {}).map((f) => creditItem(t("cantonFlag", f.canton), f))],
   ];
   $("credits").replaceChildren(
